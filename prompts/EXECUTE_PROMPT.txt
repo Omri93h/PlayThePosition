@@ -11,12 +11,24 @@ Requirements:
 - Do not add extra features.
 - Do not move to the next feature automatically.
 - Do not implement future plans.
+- Do not commit automatically.
+- Do not delete files without explicit approval.
+
+Before final output, perform a strict self-review:
+1. Scope violations
+2. Unnecessary files
+3. Repo hygiene issues
+4. Deleted or risky changes
+5. Missing or weak tests
+6. Accessibility basics if UI changed
+7. Whether safe to commit
 
 At the end, output exactly:
 1. What changed
 2. Files changed
-3. Tests added or updated
-4. Commands/checks run
-5. Remaining risks or notes
-6. Suggested next feature
-7. Whether current_focus.md should be updated, and to what
+3. Commands/checks run and results
+4. Self-review result
+5. Repo hygiene notes
+6. git status --short
+7. Suggested commit message
+8. Suggested next feature

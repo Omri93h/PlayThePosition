@@ -72,10 +72,16 @@ Preferred initial stack:
 After every executed feature, provide:
 1. What changed
 2. Files changed
-3. Tests added or updated
-4. Checks run
-5. Risks / notes
-6. Suggested next feature
+3. Commands/checks run and results
+4. Self-review result
+5. Repo hygiene notes
+6. `git status --short`
+7. Suggested commit message
+8. Suggested next feature
+
+Before returning, perform a strict self-review for scope violations, unnecessary files, repo hygiene issues, deleted or risky changes, missing or weak tests, accessibility basics when UI changed, and whether the work is safe to commit.
+
+Do not commit automatically. Do not delete files without explicit approval. Do not move to the next feature automatically.
 
 ## Out-of-scope until MVP completion
 - User accounts

@@ -4,10 +4,10 @@ Current Block:
 BLOCK 01 — Upload Flow
 
 Current Feature:
-1.1 Upload screen UI
+1.2 Upload UI states
 
 Current Step:
-Build static upload screen UI only.
+Add frontend-only upload UI states.
 
 Rules:
 - Work only on the current feature.
