@@ -1,17 +1,32 @@
 import { useState } from "react";
 
-import { StaticBoard } from "./StaticBoard";
-import type { BoardMoveAttempt } from "./StaticBoard";
+import { STATIC_ANALYSIS_FEN, StaticBoard } from "./StaticBoard";
+import type { BoardMoveAttempt, BoardOrientation } from "./StaticBoard";
 
 function formatMoveAttempt({ piece, sourceSquare, targetSquare }: BoardMoveAttempt) {
   return `${piece} ${sourceSquare} to ${targetSquare ?? "off board"}`;
 }
 
 export function AnalysisShell({ fen }: { fen?: string }) {
+  const initialFen = fen ?? STATIC_ANALYSIS_FEN;
+  const [currentFen, setCurrentFen] = useState(initialFen);
+  const [orientation, setOrientation] = useState<BoardOrientation>("white");
   const [lastInteraction, setLastInteraction] = useState<string | null>(null);
 
   function handleMoveAttempt(move: BoardMoveAttempt) {
     setLastInteraction(formatMoveAttempt(move));
+  }
+
+  function handleReset() {
+    setCurrentFen(initialFen);
+    setOrientation("white");
+    setLastInteraction(null);
+  }
+
+  function handleFlip() {
+    setOrientation((currentOrientation) =>
+      currentOrientation === "white" ? "black" : "white",
+    );
   }
 
   return (
@@ -46,7 +61,12 @@ export function AnalysisShell({ fen }: { fen?: string }) {
         </div>
 
         <div className="flex flex-1 items-center justify-center p-5">
-          <StaticBoard fen={fen} isInteractive onMoveAttempt={handleMoveAttempt} />
+          <StaticBoard
+            fen={currentFen}
+            orientation={orientation}
+            isInteractive
+            onMoveAttempt={handleMoveAttempt}
+          />
         </div>
 
         <div
@@ -59,12 +79,20 @@ export function AnalysisShell({ fen }: { fen?: string }) {
               : "Board interaction ready."}
           </span>
           <div className="flex flex-wrap gap-2">
-            <span className="rounded-lg border border-neutral-700 px-4 py-2 text-sm font-semibold text-neutral-200">
-              Board action
-            </span>
-            <span className="rounded-lg border border-emerald-300/60 px-4 py-2 text-sm font-semibold text-emerald-200">
-              Position action
-            </span>
+            <button
+              type="button"
+              onClick={handleReset}
+              className="rounded-lg border border-neutral-700 px-4 py-2 text-sm font-semibold text-neutral-200 transition hover:border-neutral-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald-300"
+            >
+              Reset
+            </button>
+            <button
+              type="button"
+              onClick={handleFlip}
+              className="rounded-lg border border-emerald-300/60 px-4 py-2 text-sm font-semibold text-emerald-200 transition hover:border-emerald-200 hover:text-emerald-100 focus:outline-none focus:ring-2 focus:ring-emerald-300"
+            >
+              Flip
+            </button>
           </div>
         </div>
       </div>
@@ -72,8 +100,8 @@ export function AnalysisShell({ fen }: { fen?: string }) {
       <aside className="rounded-lg border border-neutral-800 bg-neutral-900/60 p-5 shadow-xl shadow-neutral-950/40">
         <h2 className="text-lg font-semibold text-white">Position details</h2>
         <p className="mt-3 text-sm leading-6 text-neutral-300">
-          Read-only board loaded from the current FEN. Board state arrives in later
-          features.
+          Read-only board loaded from the current FEN. Moves stay non-mutating until
+          edit mode arrives.
         </p>
       </aside>
     </section>

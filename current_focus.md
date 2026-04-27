@@ -4,10 +4,10 @@ Current Block:
 BLOCK 02 — Analysis Board
 
 Current Feature:
-2.4 Board interactions
+2.5 Board state management
 
 Current Step:
-Add minimal board interaction callback foundation only.
+Add local FEN state, reset, and flip behavior.
 
 Rules:
 - Work only on the current feature.

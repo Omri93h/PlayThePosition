@@ -10,12 +10,16 @@ export type BoardMoveAttempt = {
   targetSquare: string | null;
 };
 
+export type BoardOrientation = "white" | "black";
+
 export function StaticBoard({
   fen = STATIC_ANALYSIS_FEN,
+  orientation = "white",
   isInteractive = false,
   onMoveAttempt,
 }: {
   fen?: string;
+  orientation?: BoardOrientation;
   isInteractive?: boolean;
   onMoveAttempt?: (move: BoardMoveAttempt) => void;
 }) {
@@ -39,6 +43,7 @@ export function StaticBoard({
       className="aspect-square w-full max-w-[34rem] rounded-lg border border-emerald-300/30 bg-neutral-950 p-2 shadow-inner shadow-emerald-950"
       data-fen={fen}
       data-interactive={isInteractive}
+      data-orientation={orientation}
       data-testid="static-board"
     >
       <div className="h-full w-full overflow-hidden rounded-lg">
@@ -46,6 +51,7 @@ export function StaticBoard({
           options={{
             id: "static-analysis-board",
             position: fen,
+            boardOrientation: orientation,
             allowDragging: isInteractive,
             allowDrawingArrows: false,
             showAnimations: false,

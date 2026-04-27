@@ -7,6 +7,7 @@ vi.mock("react-chessboard", () => ({
   }: {
     options: {
       allowDragging?: boolean;
+      boardOrientation?: "white" | "black";
       onPieceDrop?: (args: {
         piece: { isSparePiece: boolean; pieceType: string; position: string };
         sourceSquare: string;
@@ -18,6 +19,7 @@ vi.mock("react-chessboard", () => ({
     <button
       type="button"
       data-interactive={String(options.allowDragging)}
+      data-orientation={options.boardOrientation}
       data-position={options.position}
       data-testid="mock-chessboard"
       onClick={() =>
@@ -78,6 +80,10 @@ describe("App", () => {
       "data-interactive",
       "true",
     );
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-orientation",
+      "white",
+    );
     expect(screen.getByTestId("mock-chessboard")).toHaveAttribute(
       "data-interactive",
       "true",
@@ -92,6 +98,37 @@ describe("App", () => {
     fireEvent.click(screen.getByTestId("mock-chessboard"));
 
     expect(screen.getByText("Last interaction: wP e2 to e4.")).toBeInTheDocument();
+  });
+
+  it("flips board orientation and resets session state", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-orientation",
+      "white",
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Flip" }));
+
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-orientation",
+      "black",
+    );
+
+    fireEvent.click(screen.getByTestId("mock-chessboard"));
+    fireEvent.click(screen.getByRole("button", { name: "Reset" }));
+
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      STATIC_ANALYSIS_FEN,
+    );
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-orientation",
+      "white",
+    );
+    expect(screen.getByText("Board interaction ready.")).toBeInTheDocument();
   });
 
   it("updates drag presentation without uploading", () => {
@@ -140,6 +177,10 @@ describe("App", () => {
       await screen.findByRole("heading", { name: "Position workspace" }),
     ).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute("data-fen", uploadedFen);
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-orientation",
+      "white",
+    );
 
     expect(fetchMock).toHaveBeenCalledWith(
       "http://127.0.0.1:8000/upload",
