@@ -1,0 +1,42 @@
+You are onboarding into this repository.
+
+Read and understand the project before writing any code.
+
+Do NOT implement anything.
+Do NOT change files.
+
+Start by reading:
+- AGENTS.md
+- current_focus.md
+- docs/product/PRODUCT_VISION.md
+- docs/product/MVP_SCOPE.md
+- docs/product/BLOCKS_INDEX.md
+- docs/product/FEATURE_INDEX.md
+- docs/product/FUTURE_PLANS.md
+- the relevant current block file under docs/blocks/
+- prompts/*
+
+Then inspect the folder structure:
+- apps/web
+- services/api
+- packages/contracts
+- tests/e2e
+- tooling/scripts
+
+Output exactly:
+1. Product summary
+2. MVP scope
+3. What is explicitly out of scope for now
+4. Block roadmap summary
+5. Current block and feature
+6. Development workflow
+7. Repo structure summary
+8. Agent rules summary
+9. What should be done next
+10. Any inconsistencies or missing files you found
+
+Rules:
+- Do not write code.
+- Do not change files.
+- Do not skip the listed files.
+- Be concise but complete.

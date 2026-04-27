@@ -1,0 +1,20 @@
+Review the implementation like a strict senior engineer.
+
+Scope:
+- Review only the current feature from current_focus.md.
+- Do not suggest unrelated future work.
+
+Output exactly:
+1. Pass/fail verdict
+2. Correctness issues
+3. Missing tests
+4. Architecture/file-structure issues
+5. UX/API concerns if relevant
+6. Security/performance concerns if relevant
+7. Required fixes before moving on
+8. Optional improvements to defer
+
+Rules:
+- Be blunt and specific.
+- Do not rewrite the whole implementation unless necessary.
+- Prefer minimal fixes.

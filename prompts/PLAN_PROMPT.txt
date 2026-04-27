@@ -1,0 +1,26 @@
+Read:
+- AGENTS.md
+- current_focus.md
+- docs/product/MVP_SCOPE.md
+- docs/product/BLOCKS_INDEX.md
+- docs/product/FEATURE_INDEX.md
+- the relevant docs/blocks/BLOCK_XX_*.md file for the current block
+
+Create a plan for the current feature only.
+
+Output exactly:
+1. Current block
+2. Current feature
+3. Goal
+4. Files to create or edit
+5. Tests to add or update
+6. Commands/checks to run
+7. Risks or assumptions
+8. Minimal safe scope
+
+Rules:
+- Do not implement.
+- Do not change files.
+- Do not expand beyond the current feature.
+- Do not work on future blocks.
+- Keep the plan short and actionable.

@@ -1,0 +1,22 @@
+Implement ONLY the current feature from current_focus.md according to the approved plan.
+
+Requirements:
+- Follow AGENTS.md.
+- Keep scope tight.
+- Follow the repository structure.
+- Keep files small and organized.
+- Reuse existing code before creating new files.
+- Add or update relevant tests.
+- Run relevant checks and fix failures.
+- Do not add extra features.
+- Do not move to the next feature automatically.
+- Do not implement future plans.
+
+At the end, output exactly:
+1. What changed
+2. Files changed
+3. Tests added or updated
+4. Commands/checks run
+5. Remaining risks or notes
+6. Suggested next feature
+7. Whether current_focus.md should be updated, and to what

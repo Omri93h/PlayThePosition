@@ -1,0 +1,15 @@
+Based on current_focus.md, FEATURE_INDEX.md, and the current block file:
+
+Suggest the next smallest feature only if the current feature is complete and tests/checks pass.
+
+Output exactly:
+1. Completed feature
+2. Evidence it is complete
+3. Next feature
+4. Why it is next
+5. Proposed current_focus.md update
+
+Rules:
+- Do not skip features.
+- Do not jump blocks.
+- Do not implement anything.
