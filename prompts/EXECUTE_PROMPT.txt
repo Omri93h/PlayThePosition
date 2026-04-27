@@ -13,6 +13,7 @@ Requirements:
 - Do not implement future plans.
 - Do not commit automatically.
 - Do not delete files without explicit approval.
+- Be concise: do not print full files, long logs, or repeated summaries. Summarize command output unless a failure needs debugging.
 
 Before final output, perform a strict self-review:
 1. Scope violations
