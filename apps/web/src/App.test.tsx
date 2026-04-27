@@ -24,9 +24,9 @@ vi.mock("react-chessboard", () => ({
       data-testid="mock-chessboard"
       onClick={() =>
         options.onPieceDrop?.({
-          piece: { isSparePiece: false, pieceType: "wP", position: "e2" },
-          sourceSquare: "e2",
-          targetSquare: "e4",
+          piece: { isSparePiece: false, pieceType: "wP", position: "c4" },
+          sourceSquare: "c4",
+          targetSquare: "e5",
         })
       }
     >
@@ -37,6 +37,9 @@ vi.mock("react-chessboard", () => ({
 
 import { App } from "./App";
 import { STATIC_ANALYSIS_FEN } from "./components/StaticBoard";
+
+const MOVED_STATIC_FEN =
+  "r2q1rk1/pp2bppp/2npbn2/2pNP3/4P3/2N2Q2/PP2BPPP/R1B2RK1 w - - 0 10";
 
 describe("App", () => {
   afterEach(() => {
@@ -123,13 +126,38 @@ describe("App", () => {
     );
   });
 
-  it("wires board interaction attempts to the analysis status", () => {
+  it("keeps board interaction attempts non-mutating outside edit mode", () => {
     render(<App />);
 
     fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
     fireEvent.click(screen.getByTestId("mock-chessboard"));
 
-    expect(screen.getByText("Last interaction: wP e2 to e4.")).toBeInTheDocument();
+    expect(screen.getByText("Last interaction: wP c4 to e5.")).toBeInTheDocument();
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      STATIC_ANALYSIS_FEN,
+    );
+  });
+
+  it("moves pieces freely while edit mode is active", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
+    fireEvent.click(screen.getByTestId("mock-chessboard"));
+
+    expect(screen.getByText("Last interaction: wP c4 to e5.")).toBeInTheDocument();
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      MOVED_STATIC_FEN,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Reset" }));
+
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      STATIC_ANALYSIS_FEN,
+    );
   });
 
   it("flips board orientation and resets session state", () => {

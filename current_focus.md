@@ -4,13 +4,13 @@ Current Block:
 BLOCK 03 — Edit Mode
 
 Current Feature:
-3.1 Edit mode toggle
+3.2 Free piece movement
 
 Current Step:
-Add edit mode toggle foundation only.
+Allow free piece movement only while edit mode is active.
 
 Rules:
 - Work only on the current feature.
 - Do not jump ahead.
-- Do not build UI, API endpoints, detection, sharing, or edit mode yet.
+- Do not build API endpoints, detection, sharing, or future edit features yet.
 - Finish relevant setup/tests before moving on.

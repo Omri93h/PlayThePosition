@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { movePieceInFen } from "../utils/fen";
 import { STATIC_ANALYSIS_FEN, StaticBoard } from "./StaticBoard";
 import type { BoardMoveAttempt, BoardOrientation } from "./StaticBoard";
 
@@ -16,6 +17,23 @@ export function AnalysisShell({ fen }: { fen?: string }) {
 
   function handleMoveAttempt(move: BoardMoveAttempt) {
     setLastInteraction(formatMoveAttempt(move));
+
+    const targetSquare = move.targetSquare;
+
+    if (!isEditMode || !targetSquare) {
+      return false;
+    }
+
+    setCurrentFen((fenToUpdate) =>
+      movePieceInFen({
+        fen: fenToUpdate,
+        piece: move.piece,
+        sourceSquare: move.sourceSquare,
+        targetSquare,
+      }),
+    );
+
+    return true;
   }
 
   function handleReset() {
@@ -118,8 +136,8 @@ export function AnalysisShell({ fen }: { fen?: string }) {
           {isEditMode ? "Edit mode active." : "Edit mode inactive."}
         </p>
         <p className="mt-3 text-sm leading-6 text-neutral-300">
-          Read-only board loaded from the current FEN. Moves stay non-mutating until
-          edit mode arrives.
+          Board loaded from the current FEN. Piece drops update the position only while
+          edit mode is active.
         </p>
       </aside>
     </section>

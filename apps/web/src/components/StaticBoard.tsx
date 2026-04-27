@@ -23,20 +23,20 @@ export function StaticBoard({
   orientation?: BoardOrientation;
   isEditMode?: boolean;
   isInteractive?: boolean;
-  onMoveAttempt?: (move: BoardMoveAttempt) => void;
+  onMoveAttempt?: (move: BoardMoveAttempt) => boolean | void;
 }) {
   function handlePieceDrop({
     piece,
     sourceSquare,
     targetSquare,
   }: PieceDropHandlerArgs) {
-    onMoveAttempt?.({
-      piece: piece.pieceType,
-      sourceSquare,
-      targetSquare,
-    });
-
-    return false;
+    return (
+      onMoveAttempt?.({
+        piece: piece.pieceType,
+        sourceSquare,
+        targetSquare,
+      }) ?? false
+    );
   }
 
   return (
