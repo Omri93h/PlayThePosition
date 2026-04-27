@@ -4,10 +4,10 @@ Current Block:
 BLOCK 01 — Upload Flow
 
 Current Feature:
-1.2 Upload UI states
+1.3 Upload API endpoint
 
 Current Step:
-Add frontend-only upload UI states.
+Add backend upload endpoint with placeholder FEN response only.
 
 Rules:
 - Work only on the current feature.
