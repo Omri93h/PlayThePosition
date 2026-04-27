@@ -1,5 +1,9 @@
 import { Chessboard } from "react-chessboard";
-import type { PieceDropHandlerArgs, PieceHandlerArgs } from "react-chessboard";
+import type {
+  PieceDropHandlerArgs,
+  PieceHandlerArgs,
+  SquareHandlerArgs,
+} from "react-chessboard";
 
 export const STATIC_ANALYSIS_FEN =
   "r2q1rk1/pp2bppp/2npbn2/2pNp3/2P1P3/2N2Q2/PP2BPPP/R1B2RK1 w - - 0 10";
@@ -15,6 +19,10 @@ export type BoardRemoveAttempt = {
   square: string;
 };
 
+export type BoardSquareSelection = {
+  square: string;
+};
+
 export type BoardOrientation = "white" | "black";
 
 export function StaticBoard({
@@ -25,6 +33,7 @@ export function StaticBoard({
   isRemoveMode = false,
   onMoveAttempt,
   onRemoveAttempt,
+  onSquareSelect,
 }: {
   fen?: string;
   orientation?: BoardOrientation;
@@ -33,6 +42,7 @@ export function StaticBoard({
   isRemoveMode?: boolean;
   onMoveAttempt?: (move: BoardMoveAttempt) => boolean | void;
   onRemoveAttempt?: (attempt: BoardRemoveAttempt) => void;
+  onSquareSelect?: (selection: BoardSquareSelection) => void;
 }) {
   function handlePieceDrop({
     piece,
@@ -57,6 +67,10 @@ export function StaticBoard({
       piece: piece.pieceType,
       square,
     });
+  }
+
+  function handleSquareClick({ square }: SquareHandlerArgs) {
+    onSquareSelect?.({ square });
   }
 
   return (
@@ -85,6 +99,7 @@ export function StaticBoard({
             showAnimations: false,
             onPieceClick: isInteractive ? handlePieceClick : undefined,
             onPieceDrop: isInteractive ? handlePieceDrop : undefined,
+            onSquareClick: isInteractive ? handleSquareClick : undefined,
             boardStyle: {
               borderRadius: "0.5rem",
               width: "100%",

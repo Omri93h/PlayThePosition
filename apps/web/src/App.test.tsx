@@ -18,6 +18,10 @@ vi.mock("react-chessboard", () => ({
         sourceSquare: string;
         targetSquare: string | null;
       }) => boolean;
+      onSquareClick?: (args: {
+        piece: { pieceType: string } | null;
+        square: string;
+      }) => void;
       position?: string;
     };
   }) => (
@@ -51,6 +55,25 @@ vi.mock("react-chessboard", () => ({
       >
         Mock piece
       </button>
+      <button
+        type="button"
+        data-testid="mock-empty-square"
+        onClick={() => options.onSquareClick?.({ piece: null, square: "d4" })}
+      >
+        Mock empty square
+      </button>
+      <button
+        type="button"
+        data-testid="mock-occupied-square"
+        onClick={() =>
+          options.onSquareClick?.({
+            piece: { pieceType: "wP" },
+            square: "c4",
+          })
+        }
+      >
+        Mock occupied square
+      </button>
     </>
   ),
 }));
@@ -62,6 +85,10 @@ const MOVED_STATIC_FEN =
   "r2q1rk1/pp2bppp/2npbn2/2pNP3/4P3/2N2Q2/PP2BPPP/R1B2RK1 w - - 0 10";
 const REMOVED_STATIC_FEN =
   "r2q1rk1/pp2bppp/2npbn2/2pNp3/4P3/2N2Q2/PP2BPPP/R1B2RK1 w - - 0 10";
+const ADDED_STATIC_FEN =
+  "r2q1rk1/pp2bppp/2npbn2/2pNp3/2PQP3/2N2Q2/PP2BPPP/R1B2RK1 w - - 0 10";
+const REPLACED_STATIC_FEN =
+  "r2q1rk1/pp2bppp/2npbn2/2pNp3/2q1P3/2N2Q2/PP2BPPP/R1B2RK1 w - - 0 10";
 
 describe("App", () => {
   afterEach(() => {
@@ -131,9 +158,11 @@ describe("App", () => {
 
     const editModeToggle = screen.getByRole("button", { name: "Edit mode" });
     const removePieceToggle = screen.getByRole("button", { name: "Remove piece" });
+    const addWhiteQueenButton = screen.getByRole("button", { name: "wQ" });
 
     expect(editModeToggle).toHaveAttribute("aria-pressed", "false");
     expect(removePieceToggle).toBeDisabled();
+    expect(addWhiteQueenButton).toBeDisabled();
     expect(screen.getByText("Edit mode inactive.")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-edit-mode",
@@ -144,6 +173,7 @@ describe("App", () => {
 
     expect(editModeToggle).toHaveAttribute("aria-pressed", "true");
     expect(removePieceToggle).toBeEnabled();
+    expect(addWhiteQueenButton).toBeEnabled();
     expect(screen.getByText("Edit mode active.")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-edit-mode",
@@ -152,6 +182,58 @@ describe("App", () => {
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
       STATIC_ANALYSIS_FEN,
+    );
+  });
+
+  it("keeps add-piece controls non-mutating outside edit mode", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    fireEvent.click(screen.getByTestId("mock-empty-square"));
+
+    expect(screen.getByText("No piece selected.")).toBeInTheDocument();
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      STATIC_ANALYSIS_FEN,
+    );
+  });
+
+  it("adds selected pieces while edit mode is active", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
+    fireEvent.click(screen.getByRole("button", { name: "wQ" }));
+    fireEvent.click(screen.getByTestId("mock-empty-square"));
+
+    expect(screen.getByText("Selected piece: wQ.")).toBeInTheDocument();
+    expect(screen.getByText("Last interaction: Place wQ on d4.")).toBeInTheDocument();
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      ADDED_STATIC_FEN,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Reset" }));
+
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      STATIC_ANALYSIS_FEN,
+    );
+    expect(screen.getByText("No piece selected.")).toBeInTheDocument();
+  });
+
+  it("replaces occupied squares when adding a selected piece", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
+    fireEvent.click(screen.getByRole("button", { name: "bQ" }));
+    fireEvent.click(screen.getByTestId("mock-occupied-square"));
+
+    expect(screen.getByText("Last interaction: Place bQ on c4.")).toBeInTheDocument();
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      REPLACED_STATIC_FEN,
     );
   });
 

@@ -1,12 +1,28 @@
 import { useState } from "react";
 
-import { movePieceInFen, removePieceFromFen } from "../utils/fen";
+import { movePieceInFen, placePieceInFen, removePieceFromFen } from "../utils/fen";
 import { STATIC_ANALYSIS_FEN, StaticBoard } from "./StaticBoard";
 import type {
   BoardMoveAttempt,
   BoardOrientation,
   BoardRemoveAttempt,
+  BoardSquareSelection,
 } from "./StaticBoard";
+
+const pieceOptions = [
+  "wP",
+  "wN",
+  "wB",
+  "wR",
+  "wQ",
+  "wK",
+  "bP",
+  "bN",
+  "bB",
+  "bR",
+  "bQ",
+  "bK",
+];
 
 function formatMoveAttempt({ piece, sourceSquare, targetSquare }: BoardMoveAttempt) {
   return `${piece} ${sourceSquare} to ${targetSquare ?? "off board"}`;
@@ -18,6 +34,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   const [orientation, setOrientation] = useState<BoardOrientation>("white");
   const [isEditMode, setIsEditMode] = useState(false);
   const [isRemoveMode, setIsRemoveMode] = useState(false);
+  const [selectedPiece, setSelectedPiece] = useState<string | null>(null);
   const [lastInteraction, setLastInteraction] = useState<string | null>(null);
 
   function handleMoveAttempt(move: BoardMoveAttempt) {
@@ -51,10 +68,22 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setCurrentFen((fenToUpdate) => removePieceFromFen({ fen: fenToUpdate, square }));
   }
 
+  function handleSquareSelect({ square }: BoardSquareSelection) {
+    if (!isEditMode || !selectedPiece) {
+      return;
+    }
+
+    setLastInteraction(`Place ${selectedPiece} on ${square}`);
+    setCurrentFen((fenToUpdate) =>
+      placePieceInFen({ fen: fenToUpdate, piece: selectedPiece, square }),
+    );
+  }
+
   function handleReset() {
     setCurrentFen(initialFen);
     setOrientation("white");
     setIsRemoveMode(false);
+    setSelectedPiece(null);
     setLastInteraction(null);
   }
 
@@ -71,13 +100,24 @@ export function AnalysisShell({ fen }: { fen?: string }) {
 
     if (!nextMode) {
       setIsRemoveMode(false);
+      setSelectedPiece(null);
     }
   }
 
   function handleRemoveModeToggle() {
     if (isEditMode) {
       setIsRemoveMode((currentMode) => !currentMode);
+      setSelectedPiece(null);
     }
+  }
+
+  function handlePieceSelection(piece: string) {
+    if (!isEditMode) {
+      return;
+    }
+
+    setIsRemoveMode(false);
+    setSelectedPiece((currentPiece) => (currentPiece === piece ? null : piece));
   }
 
   return (
@@ -139,6 +179,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
             isRemoveMode={isRemoveMode}
             onMoveAttempt={handleMoveAttempt}
             onRemoveAttempt={handleRemoveAttempt}
+            onSquareSelect={handleSquareSelect}
           />
         </div>
 
@@ -178,9 +219,35 @@ export function AnalysisShell({ fen }: { fen?: string }) {
         <p className="mt-2 text-sm font-semibold text-neutral-300">
           {isRemoveMode ? "Remove mode active." : "Remove mode inactive."}
         </p>
+        <div className="mt-5" aria-label="Piece palette">
+          <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
+            Add piece
+          </p>
+          <div className="mt-3 grid grid-cols-6 gap-2">
+            {pieceOptions.map((piece) => (
+              <button
+                key={piece}
+                type="button"
+                aria-pressed={selectedPiece === piece}
+                disabled={!isEditMode}
+                onClick={() => handlePieceSelection(piece)}
+                className={`rounded-lg border px-2 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50 ${
+                  selectedPiece === piece
+                    ? "border-emerald-200 bg-emerald-300 text-neutral-950"
+                    : "border-neutral-700 bg-neutral-900 text-neutral-200 hover:border-neutral-500 hover:text-white"
+                }`}
+              >
+                {piece}
+              </button>
+            ))}
+          </div>
+        </div>
+        <p className="mt-3 text-sm font-semibold text-neutral-300">
+          {selectedPiece ? `Selected piece: ${selectedPiece}.` : "No piece selected."}
+        </p>
         <p className="mt-3 text-sm leading-6 text-neutral-300">
-          Board loaded from the current FEN. Piece drops and removal update the position
-          only while edit mode is active.
+          Board loaded from the current FEN. Piece drops, removal, and placement update
+          the position only while edit mode is active.
         </p>
       </aside>
     </section>

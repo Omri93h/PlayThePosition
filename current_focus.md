@@ -4,10 +4,10 @@ Current Block:
 BLOCK 03 — Edit Mode
 
 Current Feature:
-3.3 Remove pieces
+3.4 Add pieces
 
 Current Step:
-Allow removing pieces only while edit mode is active.
+Allow adding pieces only while edit mode is active.
 
 Rules:
 - Work only on the current feature.
