@@ -4,10 +4,10 @@ Current Block:
 BLOCK 01 — Upload Flow
 
 Current Feature:
-1.4 Upload validation and error handling
+1.5 Frontend-backend upload wiring
 
 Current Step:
-Add backend upload validation and structured error responses.
+Wire upload UI to backend POST /upload and display placeholder FEN response.
 
 Rules:
 - Work only on the current feature.

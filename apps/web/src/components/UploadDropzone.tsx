@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-import type { DragEvent } from "react";
+import type { ChangeEvent, DragEvent } from "react";
+import { useState } from "react";
 
-type UploadUiState = "idle" | "dragging" | "loading" | "error" | "retry";
+import { uploadScreenshot } from "../api/upload";
+import type { UploadSuccessResponse } from "../api/upload";
 
-const demoErrorDelayMs = 700;
+type UploadUiState = "idle" | "dragging" | "loading" | "error" | "retry" | "success";
 
 const stateStyles: Record<UploadUiState, string> = {
   idle: "border-emerald-300/60 bg-neutral-900 shadow-emerald-950/30",
@@ -11,29 +12,31 @@ const stateStyles: Record<UploadUiState, string> = {
   loading: "border-sky-300/70 bg-sky-950/30 shadow-sky-950/30",
   error: "border-rose-300/70 bg-rose-950/30 shadow-rose-950/30",
   retry: "border-amber-300/70 bg-amber-950/30 shadow-amber-950/30",
+  success: "border-emerald-300/70 bg-emerald-950/30 shadow-emerald-950/30",
 };
 
 export function UploadDropzone() {
   const [uploadState, setUploadState] = useState<UploadUiState>("idle");
-  const demoTimer = useRef<number | undefined>(undefined);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [uploadResult, setUploadResult] = useState<UploadSuccessResponse | null>(null);
 
-  useEffect(() => {
-    return () => {
-      window.clearTimeout(demoTimer.current);
-    };
-  }, []);
-
-  function clearDemoTimer() {
-    window.clearTimeout(demoTimer.current);
-    demoTimer.current = undefined;
-  }
-
-  function startLocalLoadingDemo() {
-    clearDemoTimer();
+  async function uploadFile(file: File) {
     setUploadState("loading");
-    demoTimer.current = window.setTimeout(() => {
+    setErrorMessage("");
+    setUploadResult(null);
+
+    try {
+      const result = await uploadScreenshot(file);
+      setUploadResult(result);
+      setUploadState("success");
+    } catch (error) {
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : "Upload failed. Check your connection and try again.",
+      );
       setUploadState("error");
-    }, demoErrorDelayMs);
+    }
   }
 
   function handleDragEnter(event: DragEvent<HTMLDivElement>) {
@@ -59,18 +62,28 @@ export function UploadDropzone() {
   function handleDrop(event: DragEvent<HTMLDivElement>) {
     event.preventDefault();
 
-    if (uploadState === "dragging") {
-      setUploadState("idle");
+    const file = getFirstFile(event.dataTransfer.files);
+
+    if (file) {
+      void uploadFile(file);
+      return;
+    }
+
+    setUploadState("idle");
+  }
+
+  function handleFileSelection(event: ChangeEvent<HTMLInputElement>) {
+    const file = getFirstFile(event.target.files);
+
+    if (file) {
+      void uploadFile(file);
     }
   }
 
-  function handleFileSelection() {
-    startLocalLoadingDemo();
-  }
-
   function handleRetry() {
-    clearDemoTimer();
     setUploadState("retry");
+    setErrorMessage("");
+    setUploadResult(null);
   }
 
   const isLoading = uploadState === "loading";
@@ -87,7 +100,12 @@ export function UploadDropzone() {
       className={`mt-10 flex w-full max-w-2xl flex-col items-center justify-center border border-dashed px-6 py-12 text-center shadow-2xl outline-none transition focus-within:ring-2 focus-within:ring-emerald-300 sm:px-10 ${stateStyles[uploadState]}`}
     >
       <DropzoneIcon state={uploadState} />
-      <DropzoneContent state={uploadState} onRetry={handleRetry} />
+      <DropzoneContent
+        state={uploadState}
+        errorMessage={errorMessage}
+        uploadResult={uploadResult}
+        onRetry={handleRetry}
+      />
 
       {!isLoading && !isError ? (
         <label
@@ -102,13 +120,17 @@ export function UploadDropzone() {
         id="screenshot-upload"
         name="screenshot-upload"
         type="file"
-        accept="image/png,image/jpeg,image/webp"
+        accept="image/png,image/jpeg"
         className="sr-only"
         aria-label="Choose chess screenshot"
         onChange={handleFileSelection}
       />
     </div>
   );
+}
+
+function getFirstFile(files: FileList | null): File | undefined {
+  return files?.item?.(0) ?? files?.[0];
 }
 
 function DropzoneIcon({ state }: { state: UploadUiState }) {
@@ -130,9 +152,13 @@ function DropzoneIcon({ state }: { state: UploadUiState }) {
 
 function DropzoneContent({
   state,
+  errorMessage,
+  uploadResult,
   onRetry,
 }: {
   state: UploadUiState;
+  errorMessage: string;
+  uploadResult: UploadSuccessResponse | null;
   onRetry: () => void;
 }) {
   if (state === "dragging") {
@@ -152,10 +178,10 @@ function DropzoneContent({
     return (
       <>
         <span className="mt-6 text-xl font-semibold text-white">
-          Preparing screenshot
+          Uploading screenshot
         </span>
         <span className="mt-2 text-sm leading-6 text-neutral-300">
-          This local UI preview is not connected to the backend yet.
+          Sending the image to the backend.
         </span>
       </>
     );
@@ -164,11 +190,9 @@ function DropzoneContent({
   if (state === "error") {
     return (
       <>
-        <span className="mt-6 text-xl font-semibold text-white">
-          Upload preview paused
-        </span>
+        <span className="mt-6 text-xl font-semibold text-white">Upload failed</span>
         <span role="alert" className="mt-2 text-sm leading-6 text-rose-100">
-          No upload service is connected yet.
+          {errorMessage}
         </span>
         <button
           type="button"
@@ -189,8 +213,24 @@ function DropzoneContent({
           Choose a screenshot again or drag one over the dropzone.
         </span>
         <span className="mt-6 text-xs font-medium uppercase tracking-wide text-neutral-500">
-          PNG, JPG, or WebP image
+          PNG or JPG image
         </span>
+      </>
+    );
+  }
+
+  if (state === "success" && uploadResult) {
+    return (
+      <>
+        <span className="mt-6 text-xl font-semibold text-white">
+          Placeholder FEN ready
+        </span>
+        <span className="mt-2 text-sm leading-6 text-neutral-300">
+          {uploadResult.message}
+        </span>
+        <code className="mt-6 max-w-full overflow-x-auto border border-emerald-300/30 bg-neutral-950 px-3 py-2 text-sm text-emerald-100">
+          {uploadResult.fen}
+        </code>
       </>
     );
   }
@@ -204,7 +244,7 @@ function DropzoneContent({
         or drag and drop a chess screenshot here
       </span>
       <span className="mt-6 text-xs font-medium uppercase tracking-wide text-neutral-500">
-        PNG, JPG, or WebP image
+        PNG or JPG image
       </span>
     </>
   );
