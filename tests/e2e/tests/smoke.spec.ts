@@ -20,6 +20,7 @@ test("loads the analysis shell UI", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Position workspace" })).toBeVisible();
   await expect(page.getByTestId("static-board")).toBeVisible();
   await expect(page.getByRole("button", { name: "Edit mode" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Remove piece" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Reset" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Flip" })).toBeVisible();
 });

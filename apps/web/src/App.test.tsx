@@ -8,6 +8,11 @@ vi.mock("react-chessboard", () => ({
     options: {
       allowDragging?: boolean;
       boardOrientation?: "white" | "black";
+      onPieceClick?: (args: {
+        isSparePiece: boolean;
+        piece: { pieceType: string };
+        square: string | null;
+      }) => void;
       onPieceDrop?: (args: {
         piece: { isSparePiece: boolean; pieceType: string; position: string };
         sourceSquare: string;
@@ -16,22 +21,37 @@ vi.mock("react-chessboard", () => ({
       position?: string;
     };
   }) => (
-    <button
-      type="button"
-      data-interactive={String(options.allowDragging)}
-      data-orientation={options.boardOrientation}
-      data-position={options.position}
-      data-testid="mock-chessboard"
-      onClick={() =>
-        options.onPieceDrop?.({
-          piece: { isSparePiece: false, pieceType: "wP", position: "c4" },
-          sourceSquare: "c4",
-          targetSquare: "e5",
-        })
-      }
-    >
-      Mock chessboard
-    </button>
+    <>
+      <button
+        type="button"
+        data-interactive={String(options.allowDragging)}
+        data-orientation={options.boardOrientation}
+        data-position={options.position}
+        data-testid="mock-chessboard"
+        onClick={() =>
+          options.onPieceDrop?.({
+            piece: { isSparePiece: false, pieceType: "wP", position: "c4" },
+            sourceSquare: "c4",
+            targetSquare: "e5",
+          })
+        }
+      >
+        Mock chessboard
+      </button>
+      <button
+        type="button"
+        data-testid="mock-piece"
+        onClick={() =>
+          options.onPieceClick?.({
+            isSparePiece: false,
+            piece: { pieceType: "wP" },
+            square: "c4",
+          })
+        }
+      >
+        Mock piece
+      </button>
+    </>
   ),
 }));
 
@@ -40,6 +60,8 @@ import { STATIC_ANALYSIS_FEN } from "./components/StaticBoard";
 
 const MOVED_STATIC_FEN =
   "r2q1rk1/pp2bppp/2npbn2/2pNP3/4P3/2N2Q2/PP2BPPP/R1B2RK1 w - - 0 10";
+const REMOVED_STATIC_FEN =
+  "r2q1rk1/pp2bppp/2npbn2/2pNp3/4P3/2N2Q2/PP2BPPP/R1B2RK1 w - - 0 10";
 
 describe("App", () => {
   afterEach(() => {
@@ -91,6 +113,10 @@ describe("App", () => {
       "data-edit-mode",
       "false",
     );
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-remove-mode",
+      "false",
+    );
     expect(screen.getByTestId("mock-chessboard")).toHaveAttribute(
       "data-interactive",
       "true",
@@ -104,8 +130,10 @@ describe("App", () => {
     fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
 
     const editModeToggle = screen.getByRole("button", { name: "Edit mode" });
+    const removePieceToggle = screen.getByRole("button", { name: "Remove piece" });
 
     expect(editModeToggle).toHaveAttribute("aria-pressed", "false");
+    expect(removePieceToggle).toBeDisabled();
     expect(screen.getByText("Edit mode inactive.")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-edit-mode",
@@ -115,6 +143,7 @@ describe("App", () => {
     fireEvent.click(editModeToggle);
 
     expect(editModeToggle).toHaveAttribute("aria-pressed", "true");
+    expect(removePieceToggle).toBeEnabled();
     expect(screen.getByText("Edit mode active.")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-edit-mode",
@@ -123,6 +152,54 @@ describe("App", () => {
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
       STATIC_ANALYSIS_FEN,
+    );
+  });
+
+  it("keeps remove attempts non-mutating outside edit mode", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    fireEvent.click(screen.getByTestId("mock-piece"));
+
+    expect(
+      screen.getByText("Last interaction: Remove wP from c4."),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      STATIC_ANALYSIS_FEN,
+    );
+  });
+
+  it("removes pieces while remove mode is active", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
+    fireEvent.click(screen.getByRole("button", { name: "Remove piece" }));
+    fireEvent.click(screen.getByTestId("mock-piece"));
+
+    expect(
+      screen.getByText("Last interaction: Remove wP from c4."),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Remove mode active.")).toBeInTheDocument();
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-remove-mode",
+      "true",
+    );
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      REMOVED_STATIC_FEN,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Reset" }));
+
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      STATIC_ANALYSIS_FEN,
+    );
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-remove-mode",
+      "false",
     );
   });
 

@@ -1,8 +1,12 @@
 import { useState } from "react";
 
-import { movePieceInFen } from "../utils/fen";
+import { movePieceInFen, removePieceFromFen } from "../utils/fen";
 import { STATIC_ANALYSIS_FEN, StaticBoard } from "./StaticBoard";
-import type { BoardMoveAttempt, BoardOrientation } from "./StaticBoard";
+import type {
+  BoardMoveAttempt,
+  BoardOrientation,
+  BoardRemoveAttempt,
+} from "./StaticBoard";
 
 function formatMoveAttempt({ piece, sourceSquare, targetSquare }: BoardMoveAttempt) {
   return `${piece} ${sourceSquare} to ${targetSquare ?? "off board"}`;
@@ -13,6 +17,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   const [currentFen, setCurrentFen] = useState(initialFen);
   const [orientation, setOrientation] = useState<BoardOrientation>("white");
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isRemoveMode, setIsRemoveMode] = useState(false);
   const [lastInteraction, setLastInteraction] = useState<string | null>(null);
 
   function handleMoveAttempt(move: BoardMoveAttempt) {
@@ -20,7 +25,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
 
     const targetSquare = move.targetSquare;
 
-    if (!isEditMode || !targetSquare) {
+    if (!isEditMode || isRemoveMode || !targetSquare) {
       return false;
     }
 
@@ -36,9 +41,20 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     return true;
   }
 
+  function handleRemoveAttempt({ piece, square }: BoardRemoveAttempt) {
+    setLastInteraction(`Remove ${piece} from ${square}`);
+
+    if (!isEditMode || !isRemoveMode) {
+      return;
+    }
+
+    setCurrentFen((fenToUpdate) => removePieceFromFen({ fen: fenToUpdate, square }));
+  }
+
   function handleReset() {
     setCurrentFen(initialFen);
     setOrientation("white");
+    setIsRemoveMode(false);
     setLastInteraction(null);
   }
 
@@ -49,7 +65,19 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   }
 
   function handleEditModeToggle() {
-    setIsEditMode((currentMode) => !currentMode);
+    const nextMode = !isEditMode;
+
+    setIsEditMode(nextMode);
+
+    if (!nextMode) {
+      setIsRemoveMode(false);
+    }
+  }
+
+  function handleRemoveModeToggle() {
+    if (isEditMode) {
+      setIsRemoveMode((currentMode) => !currentMode);
+    }
   }
 
   return (
@@ -86,9 +114,19 @@ export function AnalysisShell({ fen }: { fen?: string }) {
             >
               Edit mode
             </button>
-            <span className="rounded-lg bg-neutral-800 px-4 py-2 text-sm font-semibold text-neutral-200">
-              Position tools
-            </span>
+            <button
+              type="button"
+              aria-pressed={isRemoveMode}
+              disabled={!isEditMode}
+              onClick={handleRemoveModeToggle}
+              className={`rounded-lg px-4 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50 ${
+                isRemoveMode
+                  ? "bg-rose-200 text-rose-950"
+                  : "bg-neutral-800 text-neutral-200 hover:text-white"
+              }`}
+            >
+              Remove piece
+            </button>
           </div>
         </div>
 
@@ -98,7 +136,9 @@ export function AnalysisShell({ fen }: { fen?: string }) {
             orientation={orientation}
             isEditMode={isEditMode}
             isInteractive
+            isRemoveMode={isRemoveMode}
             onMoveAttempt={handleMoveAttempt}
+            onRemoveAttempt={handleRemoveAttempt}
           />
         </div>
 
@@ -135,9 +175,12 @@ export function AnalysisShell({ fen }: { fen?: string }) {
         <p className="mt-3 text-sm font-semibold text-emerald-200">
           {isEditMode ? "Edit mode active." : "Edit mode inactive."}
         </p>
+        <p className="mt-2 text-sm font-semibold text-neutral-300">
+          {isRemoveMode ? "Remove mode active." : "Remove mode inactive."}
+        </p>
         <p className="mt-3 text-sm leading-6 text-neutral-300">
-          Board loaded from the current FEN. Piece drops update the position only while
-          edit mode is active.
+          Board loaded from the current FEN. Piece drops and removal update the position
+          only while edit mode is active.
         </p>
       </aside>
     </section>

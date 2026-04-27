@@ -1,5 +1,5 @@
 import { Chessboard } from "react-chessboard";
-import type { PieceDropHandlerArgs } from "react-chessboard";
+import type { PieceDropHandlerArgs, PieceHandlerArgs } from "react-chessboard";
 
 export const STATIC_ANALYSIS_FEN =
   "r2q1rk1/pp2bppp/2npbn2/2pNp3/2P1P3/2N2Q2/PP2BPPP/R1B2RK1 w - - 0 10";
@@ -10,6 +10,11 @@ export type BoardMoveAttempt = {
   targetSquare: string | null;
 };
 
+export type BoardRemoveAttempt = {
+  piece: string;
+  square: string;
+};
+
 export type BoardOrientation = "white" | "black";
 
 export function StaticBoard({
@@ -17,13 +22,17 @@ export function StaticBoard({
   orientation = "white",
   isEditMode = false,
   isInteractive = false,
+  isRemoveMode = false,
   onMoveAttempt,
+  onRemoveAttempt,
 }: {
   fen?: string;
   orientation?: BoardOrientation;
   isEditMode?: boolean;
   isInteractive?: boolean;
+  isRemoveMode?: boolean;
   onMoveAttempt?: (move: BoardMoveAttempt) => boolean | void;
+  onRemoveAttempt?: (attempt: BoardRemoveAttempt) => void;
 }) {
   function handlePieceDrop({
     piece,
@@ -39,6 +48,17 @@ export function StaticBoard({
     );
   }
 
+  function handlePieceClick({ isSparePiece, piece, square }: PieceHandlerArgs) {
+    if (isSparePiece || !square) {
+      return;
+    }
+
+    onRemoveAttempt?.({
+      piece: piece.pieceType,
+      square,
+    });
+  }
+
   return (
     <div
       aria-label="Analysis chessboard"
@@ -51,6 +71,7 @@ export function StaticBoard({
       data-fen={fen}
       data-interactive={isInteractive}
       data-orientation={orientation}
+      data-remove-mode={isRemoveMode}
       data-testid="static-board"
     >
       <div className="h-full w-full overflow-hidden rounded-lg">
@@ -62,6 +83,7 @@ export function StaticBoard({
             allowDragging: isInteractive,
             allowDrawingArrows: false,
             showAnimations: false,
+            onPieceClick: isInteractive ? handlePieceClick : undefined,
             onPieceDrop: isInteractive ? handlePieceDrop : undefined,
             boardStyle: {
               borderRadius: "0.5rem",

@@ -32,6 +32,23 @@ export function movePieceInFen({
   return metadata ? `${nextPlacement} ${metadata}` : nextPlacement;
 }
 
+export function removePieceFromFen({ fen, square }: { fen: string; square: string }) {
+  const [placement, ...metadataParts] = fen.trim().split(/\s+/);
+  const board = parsePlacement(placement);
+  const target = squareToIndices(square);
+
+  if (!target) {
+    return fen;
+  }
+
+  board[target.row][target.column] = null;
+
+  const metadata = metadataParts.join(" ");
+  const nextPlacement = serializePlacement(board);
+
+  return metadata ? `${nextPlacement} ${metadata}` : nextPlacement;
+}
+
 function parsePlacement(placement: string): FenBoard {
   return placement.split("/").map((rank) => {
     const row: Array<string | null> = [];

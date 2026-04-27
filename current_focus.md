@@ -4,10 +4,10 @@ Current Block:
 BLOCK 03 — Edit Mode
 
 Current Feature:
-3.2 Free piece movement
+3.3 Remove pieces
 
 Current Step:
-Allow free piece movement only while edit mode is active.
+Allow removing pieces only while edit mode is active.
 
 Rules:
 - Work only on the current feature.
