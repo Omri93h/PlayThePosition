@@ -2,6 +2,7 @@ import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/re
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { App } from "./App";
+import { STATIC_ANALYSIS_FEN } from "./components/StaticBoard";
 
 describe("App", () => {
   afterEach(() => {
@@ -27,7 +28,7 @@ describe("App", () => {
     );
   });
 
-  it("renders the static analysis shell areas", () => {
+  it("renders the static analysis shell areas with a static board", () => {
     render(<App />);
 
     fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
@@ -36,7 +37,11 @@ describe("App", () => {
       screen.getByRole("heading", { name: "Position workspace" }),
     ).toBeInTheDocument();
     expect(screen.getByLabelText("Analysis toolbar")).toBeInTheDocument();
-    expect(screen.getByLabelText("Board placeholder")).toBeInTheDocument();
+    expect(screen.getByLabelText("Static FEN chessboard")).toBeInTheDocument();
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      STATIC_ANALYSIS_FEN,
+    );
     expect(screen.getByLabelText("Analysis actions")).toBeInTheDocument();
   });
 

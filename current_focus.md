@@ -4,10 +4,10 @@ Current Block:
 BLOCK 02 — Analysis Board
 
 Current Feature:
-2.1 Analysis page shell
+2.2 Static FEN board loading
 
 Current Step:
-Create static analysis page shell only.
+Render a real read-only chessboard from a hard-coded static FEN.
 
 Rules:
 - Work only on the current feature.
