@@ -4,10 +4,10 @@ Current Block:
 BLOCK 01 — Upload Flow
 
 Current Feature:
-1.3 Upload API endpoint
+1.4 Upload validation and error handling
 
 Current Step:
-Add backend upload endpoint with placeholder FEN response only.
+Add backend upload validation and structured error responses.
 
 Rules:
 - Work only on the current feature.
