@@ -1,6 +1,38 @@
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+vi.mock("react-chessboard", () => ({
+  Chessboard: ({
+    options,
+  }: {
+    options: {
+      allowDragging?: boolean;
+      onPieceDrop?: (args: {
+        piece: { isSparePiece: boolean; pieceType: string; position: string };
+        sourceSquare: string;
+        targetSquare: string | null;
+      }) => boolean;
+      position?: string;
+    };
+  }) => (
+    <button
+      type="button"
+      data-interactive={String(options.allowDragging)}
+      data-position={options.position}
+      data-testid="mock-chessboard"
+      onClick={() =>
+        options.onPieceDrop?.({
+          piece: { isSparePiece: false, pieceType: "wP", position: "e2" },
+          sourceSquare: "e2",
+          targetSquare: "e4",
+        })
+      }
+    >
+      Mock chessboard
+    </button>
+  ),
+}));
+
 import { App } from "./App";
 import { STATIC_ANALYSIS_FEN } from "./components/StaticBoard";
 
@@ -42,7 +74,24 @@ describe("App", () => {
       "data-fen",
       STATIC_ANALYSIS_FEN,
     );
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-interactive",
+      "true",
+    );
+    expect(screen.getByTestId("mock-chessboard")).toHaveAttribute(
+      "data-interactive",
+      "true",
+    );
     expect(screen.getByLabelText("Analysis actions")).toBeInTheDocument();
+  });
+
+  it("wires board interaction attempts to the analysis status", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    fireEvent.click(screen.getByTestId("mock-chessboard"));
+
+    expect(screen.getByText("Last interaction: wP e2 to e4.")).toBeInTheDocument();
   });
 
   it("updates drag presentation without uploading", () => {

@@ -1,6 +1,19 @@
+import { useState } from "react";
+
 import { StaticBoard } from "./StaticBoard";
+import type { BoardMoveAttempt } from "./StaticBoard";
+
+function formatMoveAttempt({ piece, sourceSquare, targetSquare }: BoardMoveAttempt) {
+  return `${piece} ${sourceSquare} to ${targetSquare ?? "off board"}`;
+}
 
 export function AnalysisShell({ fen }: { fen?: string }) {
+  const [lastInteraction, setLastInteraction] = useState<string | null>(null);
+
+  function handleMoveAttempt(move: BoardMoveAttempt) {
+    setLastInteraction(formatMoveAttempt(move));
+  }
+
   return (
     <section
       aria-labelledby="analysis-shell-title"
@@ -33,14 +46,18 @@ export function AnalysisShell({ fen }: { fen?: string }) {
         </div>
 
         <div className="flex flex-1 items-center justify-center p-5">
-          <StaticBoard fen={fen} />
+          <StaticBoard fen={fen} isInteractive onMoveAttempt={handleMoveAttempt} />
         </div>
 
         <div
           aria-label="Analysis actions"
           className="flex flex-wrap items-center justify-between gap-3 border-t border-neutral-800 px-5 py-4"
         >
-          <span className="text-sm text-neutral-400">FEN loaded.</span>
+          <span className="text-sm text-neutral-400">
+            {lastInteraction
+              ? `Last interaction: ${lastInteraction}.`
+              : "Board interaction ready."}
+          </span>
           <div className="flex flex-wrap gap-2">
             <span className="rounded-lg border border-neutral-700 px-4 py-2 text-sm font-semibold text-neutral-200">
               Board action

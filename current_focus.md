@@ -4,10 +4,10 @@ Current Block:
 BLOCK 02 — Analysis Board
 
 Current Feature:
-2.3 API FEN integration
+2.4 Board interactions
 
 Current Step:
-Use uploaded API response FEN in the analysis board.
+Add minimal board interaction callback foundation only.
 
 Rules:
 - Work only on the current feature.
