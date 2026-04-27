@@ -1,13 +1,13 @@
 # Current Focus
 
 Current Block:
-BLOCK 01 — Upload Flow
+BLOCK 02 — Analysis Board
 
 Current Feature:
-1.5 Frontend-backend upload wiring
+2.1 Analysis page shell
 
 Current Step:
-Wire upload UI to backend POST /upload and display placeholder FEN response.
+Create static analysis page shell only.
 
 Rules:
 - Work only on the current feature.

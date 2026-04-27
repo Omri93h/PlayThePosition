@@ -27,6 +27,19 @@ describe("App", () => {
     );
   });
 
+  it("renders the static analysis shell areas", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+
+    expect(
+      screen.getByRole("heading", { name: "Position workspace" }),
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText("Analysis toolbar")).toBeInTheDocument();
+    expect(screen.getByLabelText("Board placeholder")).toBeInTheDocument();
+    expect(screen.getByLabelText("Analysis actions")).toBeInTheDocument();
+  });
+
   it("updates drag presentation without uploading", () => {
     render(<App />);
 
