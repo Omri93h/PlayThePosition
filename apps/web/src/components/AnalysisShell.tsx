@@ -31,11 +31,25 @@ function formatMoveAttempt({ piece, sourceSquare, targetSquare }: BoardMoveAttem
 export function AnalysisShell({ fen }: { fen?: string }) {
   const initialFen = fen ?? STATIC_ANALYSIS_FEN;
   const [currentFen, setCurrentFen] = useState(initialFen);
+  const [undoStack, setUndoStack] = useState<string[]>([]);
+  const [redoStack, setRedoStack] = useState<string[]>([]);
   const [orientation, setOrientation] = useState<BoardOrientation>("white");
   const [isEditMode, setIsEditMode] = useState(false);
   const [isRemoveMode, setIsRemoveMode] = useState(false);
   const [selectedPiece, setSelectedPiece] = useState<string | null>(null);
   const [lastInteraction, setLastInteraction] = useState<string | null>(null);
+
+  function applyFenEdit(nextFen: string) {
+    if (nextFen === currentFen) {
+      return false;
+    }
+
+    setUndoStack((history) => [...history, currentFen]);
+    setRedoStack([]);
+    setCurrentFen(nextFen);
+
+    return true;
+  }
 
   function handleMoveAttempt(move: BoardMoveAttempt) {
     setLastInteraction(formatMoveAttempt(move));
@@ -46,16 +60,14 @@ export function AnalysisShell({ fen }: { fen?: string }) {
       return false;
     }
 
-    setCurrentFen((fenToUpdate) =>
+    return applyFenEdit(
       movePieceInFen({
-        fen: fenToUpdate,
+        fen: currentFen,
         piece: move.piece,
         sourceSquare: move.sourceSquare,
         targetSquare,
       }),
     );
-
-    return true;
   }
 
   function handleRemoveAttempt({ piece, square }: BoardRemoveAttempt) {
@@ -65,7 +77,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
       return;
     }
 
-    setCurrentFen((fenToUpdate) => removePieceFromFen({ fen: fenToUpdate, square }));
+    applyFenEdit(removePieceFromFen({ fen: currentFen, square }));
   }
 
   function handleSquareSelect({ square }: BoardSquareSelection) {
@@ -74,17 +86,43 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     }
 
     setLastInteraction(`Place ${selectedPiece} on ${square}`);
-    setCurrentFen((fenToUpdate) =>
-      placePieceInFen({ fen: fenToUpdate, piece: selectedPiece, square }),
-    );
+    applyFenEdit(placePieceInFen({ fen: currentFen, piece: selectedPiece, square }));
   }
 
   function handleReset() {
     setCurrentFen(initialFen);
+    setUndoStack([]);
+    setRedoStack([]);
     setOrientation("white");
     setIsRemoveMode(false);
     setSelectedPiece(null);
     setLastInteraction(null);
+  }
+
+  function handleUndo() {
+    const previousFen = undoStack[undoStack.length - 1];
+
+    if (!previousFen) {
+      return;
+    }
+
+    setUndoStack((history) => history.slice(0, -1));
+    setRedoStack((history) => [...history, currentFen]);
+    setCurrentFen(previousFen);
+    setLastInteraction("Undo edit");
+  }
+
+  function handleRedo() {
+    const nextFen = redoStack[redoStack.length - 1];
+
+    if (!nextFen) {
+      return;
+    }
+
+    setRedoStack((history) => history.slice(0, -1));
+    setUndoStack((history) => [...history, currentFen]);
+    setCurrentFen(nextFen);
+    setLastInteraction("Redo edit");
   }
 
   function handleFlip() {
@@ -193,6 +231,22 @@ export function AnalysisShell({ fen }: { fen?: string }) {
               : "Board interaction ready."}
           </span>
           <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              disabled={undoStack.length === 0}
+              onClick={handleUndo}
+              className="rounded-lg border border-neutral-700 px-4 py-2 text-sm font-semibold text-neutral-200 transition hover:border-neutral-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Undo
+            </button>
+            <button
+              type="button"
+              disabled={redoStack.length === 0}
+              onClick={handleRedo}
+              className="rounded-lg border border-neutral-700 px-4 py-2 text-sm font-semibold text-neutral-200 transition hover:border-neutral-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Redo
+            </button>
             <button
               type="button"
               onClick={handleReset}

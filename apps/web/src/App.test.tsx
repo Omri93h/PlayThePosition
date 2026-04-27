@@ -148,6 +148,8 @@ describe("App", () => {
       "data-interactive",
       "true",
     );
+    expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled();
     expect(screen.getByLabelText("Analysis actions")).toBeInTheDocument();
   });
 
@@ -212,6 +214,8 @@ describe("App", () => {
       "data-fen",
       ADDED_STATIC_FEN,
     );
+    expect(screen.getByRole("button", { name: "Undo" })).toBeEnabled();
+    expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled();
 
     fireEvent.click(screen.getByRole("button", { name: "Reset" }));
 
@@ -219,7 +223,35 @@ describe("App", () => {
       "data-fen",
       STATIC_ANALYSIS_FEN,
     );
+    expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled();
     expect(screen.getByText("No piece selected.")).toBeInTheDocument();
+  });
+
+  it("undoes and redoes add-piece edits", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
+    fireEvent.click(screen.getByRole("button", { name: "wQ" }));
+    fireEvent.click(screen.getByTestId("mock-empty-square"));
+
+    fireEvent.click(screen.getByRole("button", { name: "Undo" }));
+
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      STATIC_ANALYSIS_FEN,
+    );
+    expect(screen.getByText("Last interaction: Undo edit.")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Redo" })).toBeEnabled();
+
+    fireEvent.click(screen.getByRole("button", { name: "Redo" }));
+
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      ADDED_STATIC_FEN,
+    );
+    expect(screen.getByText("Last interaction: Redo edit.")).toBeInTheDocument();
   });
 
   it("replaces occupied squares when adding a selected piece", () => {
@@ -273,6 +305,20 @@ describe("App", () => {
       REMOVED_STATIC_FEN,
     );
 
+    fireEvent.click(screen.getByRole("button", { name: "Undo" }));
+
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      STATIC_ANALYSIS_FEN,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Redo" }));
+
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      REMOVED_STATIC_FEN,
+    );
+
     fireEvent.click(screen.getByRole("button", { name: "Reset" }));
 
     expect(screen.getByTestId("static-board")).toHaveAttribute(
@@ -311,12 +357,49 @@ describe("App", () => {
       MOVED_STATIC_FEN,
     );
 
+    fireEvent.click(screen.getByRole("button", { name: "Undo" }));
+
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      STATIC_ANALYSIS_FEN,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Redo" }));
+
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      MOVED_STATIC_FEN,
+    );
+
     fireEvent.click(screen.getByRole("button", { name: "Reset" }));
 
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
       STATIC_ANALYSIS_FEN,
     );
+    expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled();
+  });
+
+  it("clears redo history after a new edit follows undo", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
+    fireEvent.click(screen.getByRole("button", { name: "wQ" }));
+    fireEvent.click(screen.getByTestId("mock-empty-square"));
+    fireEvent.click(screen.getByRole("button", { name: "Undo" }));
+
+    expect(screen.getByRole("button", { name: "Redo" })).toBeEnabled();
+
+    fireEvent.click(screen.getByRole("button", { name: "bQ" }));
+    fireEvent.click(screen.getByTestId("mock-occupied-square"));
+
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      REPLACED_STATIC_FEN,
+    );
+    expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled();
   });
 
   it("flips board orientation and resets session state", () => {

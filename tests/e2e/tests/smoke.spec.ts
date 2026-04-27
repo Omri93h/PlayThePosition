@@ -22,6 +22,8 @@ test("loads the analysis shell UI", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Edit mode" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Remove piece" })).toBeVisible();
   await expect(page.getByRole("button", { name: "wQ" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Undo" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Redo" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Reset" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Flip" })).toBeVisible();
 });
