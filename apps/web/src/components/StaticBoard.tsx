@@ -15,11 +15,13 @@ export type BoardOrientation = "white" | "black";
 export function StaticBoard({
   fen = STATIC_ANALYSIS_FEN,
   orientation = "white",
+  isEditMode = false,
   isInteractive = false,
   onMoveAttempt,
 }: {
   fen?: string;
   orientation?: BoardOrientation;
+  isEditMode?: boolean;
   isInteractive?: boolean;
   onMoveAttempt?: (move: BoardMoveAttempt) => void;
 }) {
@@ -40,7 +42,12 @@ export function StaticBoard({
   return (
     <div
       aria-label="Analysis chessboard"
-      className="aspect-square w-full max-w-[34rem] rounded-lg border border-emerald-300/30 bg-neutral-950 p-2 shadow-inner shadow-emerald-950"
+      className={`aspect-square w-full max-w-[34rem] rounded-lg border bg-neutral-950 p-2 shadow-inner shadow-emerald-950 transition ${
+        isEditMode
+          ? "border-emerald-200 ring-2 ring-emerald-300/30"
+          : "border-emerald-300/30"
+      }`}
+      data-edit-mode={isEditMode}
       data-fen={fen}
       data-interactive={isInteractive}
       data-orientation={orientation}

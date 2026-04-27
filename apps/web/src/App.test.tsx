@@ -84,11 +84,43 @@ describe("App", () => {
       "data-orientation",
       "white",
     );
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-edit-mode",
+      "false",
+    );
     expect(screen.getByTestId("mock-chessboard")).toHaveAttribute(
       "data-interactive",
       "true",
     );
     expect(screen.getByLabelText("Analysis actions")).toBeInTheDocument();
+  });
+
+  it("toggles edit mode visual state without mutating the board", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+
+    const editModeToggle = screen.getByRole("button", { name: "Edit mode" });
+
+    expect(editModeToggle).toHaveAttribute("aria-pressed", "false");
+    expect(screen.getByText("Edit mode inactive.")).toBeInTheDocument();
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-edit-mode",
+      "false",
+    );
+
+    fireEvent.click(editModeToggle);
+
+    expect(editModeToggle).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByText("Edit mode active.")).toBeInTheDocument();
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-edit-mode",
+      "true",
+    );
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      STATIC_ANALYSIS_FEN,
+    );
   });
 
   it("wires board interaction attempts to the analysis status", () => {

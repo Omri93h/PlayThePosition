@@ -11,6 +11,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   const initialFen = fen ?? STATIC_ANALYSIS_FEN;
   const [currentFen, setCurrentFen] = useState(initialFen);
   const [orientation, setOrientation] = useState<BoardOrientation>("white");
+  const [isEditMode, setIsEditMode] = useState(false);
   const [lastInteraction, setLastInteraction] = useState<string | null>(null);
 
   function handleMoveAttempt(move: BoardMoveAttempt) {
@@ -27,6 +28,10 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setOrientation((currentOrientation) =>
       currentOrientation === "white" ? "black" : "white",
     );
+  }
+
+  function handleEditModeToggle() {
+    setIsEditMode((currentMode) => !currentMode);
   }
 
   return (
@@ -51,9 +56,18 @@ export function AnalysisShell({ fen }: { fen?: string }) {
             aria-label="Analysis toolbar"
             className="flex flex-wrap items-center gap-2"
           >
-            <span className="rounded-lg bg-neutral-800 px-4 py-2 text-sm font-semibold text-neutral-200">
-              Board tools
-            </span>
+            <button
+              type="button"
+              aria-pressed={isEditMode}
+              onClick={handleEditModeToggle}
+              className={`rounded-lg px-4 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
+                isEditMode
+                  ? "bg-emerald-300 text-neutral-950"
+                  : "bg-neutral-800 text-neutral-200 hover:text-white"
+              }`}
+            >
+              Edit mode
+            </button>
             <span className="rounded-lg bg-neutral-800 px-4 py-2 text-sm font-semibold text-neutral-200">
               Position tools
             </span>
@@ -64,6 +78,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
           <StaticBoard
             fen={currentFen}
             orientation={orientation}
+            isEditMode={isEditMode}
             isInteractive
             onMoveAttempt={handleMoveAttempt}
           />
@@ -99,6 +114,9 @@ export function AnalysisShell({ fen }: { fen?: string }) {
 
       <aside className="rounded-lg border border-neutral-800 bg-neutral-900/60 p-5 shadow-xl shadow-neutral-950/40">
         <h2 className="text-lg font-semibold text-white">Position details</h2>
+        <p className="mt-3 text-sm font-semibold text-emerald-200">
+          {isEditMode ? "Edit mode active." : "Edit mode inactive."}
+        </p>
         <p className="mt-3 text-sm leading-6 text-neutral-300">
           Read-only board loaded from the current FEN. Moves stay non-mutating until
           edit mode arrives.

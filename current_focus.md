@@ -1,13 +1,13 @@
 # Current Focus
 
 Current Block:
-BLOCK 02 — Analysis Board
+BLOCK 03 — Edit Mode
 
 Current Feature:
-2.5 Board state management
+3.1 Edit mode toggle
 
 Current Step:
-Add local FEN state, reset, and flip behavior.
+Add edit mode toggle foundation only.
 
 Rules:
 - Work only on the current feature.
