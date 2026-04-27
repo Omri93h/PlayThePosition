@@ -1,13 +1,13 @@
 # Current Focus
 
 Current Block:
-BLOCK 00 — Foundation
+BLOCK 01 — Upload Flow
 
 Current Feature:
-0.6 Quality tooling setup
+1.1 Upload screen UI
 
 Current Step:
-Add lint/format/check command structure only.
+Build static upload screen UI only.
 
 Rules:
 - Work only on the current feature.
