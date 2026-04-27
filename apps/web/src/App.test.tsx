@@ -78,6 +78,44 @@ describe("App", () => {
     );
   });
 
+  it("uploads a dropped file and displays the placeholder FEN", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          fen: "8/8/8/8/8/8/8/8 w - - 0 1",
+          source: "placeholder",
+          confidence: null,
+          message: "Received dropped-position.png; detection is not implemented yet.",
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      ),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(<App />);
+
+    const dropzone = screen.getByTestId("upload-dropzone");
+    const file = new File(["fake image"], "dropped-position.png", {
+      type: "image/png",
+    });
+
+    fireEvent.drop(dropzone, {
+      dataTransfer: {
+        files: {
+          item: () => file,
+          0: file,
+        },
+      },
+    });
+
+    expect(await screen.findByText("Placeholder FEN ready")).toBeInTheDocument();
+    expect(screen.getByText("8/8/8/8/8/8/8/8 w - - 0 1")).toBeInTheDocument();
+    expect(fetchMock).toHaveBeenCalledWith(
+      "http://127.0.0.1:8000/upload",
+      expect.objectContaining({ method: "POST", body: expect.any(FormData) }),
+    );
+  });
+
   it("displays structured API errors", async () => {
     vi.stubGlobal(
       "fetch",
