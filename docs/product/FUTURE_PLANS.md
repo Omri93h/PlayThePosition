@@ -29,5 +29,10 @@ These are intentionally out of scope until the MVP blocks are complete.
 - Advanced edit/detection tools.
 - Premium engine features.
 
+## Later — Native and Mobile Apps
+- Native iOS app.
+- Native Android app.
+- Mobile-specific workflows beyond the responsive MVP web app.
+
 ## Rule
 Do not implement future plans during MVP development unless explicitly moved into scope.

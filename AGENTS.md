@@ -68,6 +68,9 @@ Preferred initial stack:
 - Do not leave dead code, unused files, or vague TODOs.
 - Keep frontend, backend, contracts, and tests clearly separated.
 
+## UI design rules
+When touching UI, follow `docs/product/DESIGN_DIRECTION.md`. Keep the product modern, premium, clean, dark-first, chess-inspired without copying chess.com or lichess, mobile-responsive, and restrained with green accents.
+
 ## Review rules
 After every executed feature, provide:
 1. What changed
