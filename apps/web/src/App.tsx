@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import type { UploadSuccessResponse } from "./api/upload";
 import { AnalysisShell } from "./components/AnalysisShell";
 import { UploadDropzone } from "./components/UploadDropzone";
 
@@ -7,6 +8,12 @@ type DemoView = "upload" | "analysis";
 
 export function App() {
   const [demoView, setDemoView] = useState<DemoView>("upload");
+  const [uploadedFen, setUploadedFen] = useState<string | null>(null);
+
+  function handleUploadSuccess(result: UploadSuccessResponse) {
+    setUploadedFen(result.fen);
+    setDemoView("analysis");
+  }
 
   return (
     <main className="min-h-screen bg-neutral-950 text-neutral-100">
@@ -43,13 +50,21 @@ export function App() {
           </div>
         </div>
 
-        {demoView === "upload" ? <UploadScreen /> : <AnalysisShell />}
+        {demoView === "upload" ? (
+          <UploadScreen onUploadSuccess={handleUploadSuccess} />
+        ) : (
+          <AnalysisShell fen={uploadedFen ?? undefined} />
+        )}
       </div>
     </main>
   );
 }
 
-function UploadScreen() {
+function UploadScreen({
+  onUploadSuccess,
+}: {
+  onUploadSuccess: (result: UploadSuccessResponse) => void;
+}) {
   return (
     <section className="flex flex-1 flex-col items-center justify-center py-12">
       <div className="w-full max-w-3xl text-center">
@@ -62,7 +77,7 @@ function UploadScreen() {
         </p>
       </div>
 
-      <UploadDropzone />
+      <UploadDropzone onUploadSuccess={onUploadSuccess} />
     </section>
   );
 }

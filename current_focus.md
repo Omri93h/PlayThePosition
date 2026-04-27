@@ -4,10 +4,10 @@ Current Block:
 BLOCK 02 — Analysis Board
 
 Current Feature:
-2.2 Static FEN board loading
+2.3 API FEN integration
 
 Current Step:
-Render a real read-only chessboard from a hard-coded static FEN.
+Use uploaded API response FEN in the analysis board.
 
 Rules:
 - Work only on the current feature.

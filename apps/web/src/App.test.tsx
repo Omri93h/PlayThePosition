@@ -37,7 +37,7 @@ describe("App", () => {
       screen.getByRole("heading", { name: "Position workspace" }),
     ).toBeInTheDocument();
     expect(screen.getByLabelText("Analysis toolbar")).toBeInTheDocument();
-    expect(screen.getByLabelText("Static FEN chessboard")).toBeInTheDocument();
+    expect(screen.getByLabelText("Analysis chessboard")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
       STATIC_ANALYSIS_FEN,
@@ -62,11 +62,12 @@ describe("App", () => {
     expect(screen.getByText("Choose a board image")).toBeInTheDocument();
   });
 
-  it("uploads a selected file and displays the placeholder FEN", async () => {
+  it("uploads a selected file and opens the analysis board with the returned FEN", async () => {
+    const uploadedFen = "8/8/8/8/8/8/8/8 w - - 0 1";
     const fetchMock = vi.fn().mockResolvedValue(
       new Response(
         JSON.stringify({
-          fen: "8/8/8/8/8/8/8/8 w - - 0 1",
+          fen: uploadedFen,
           source: "placeholder",
           confidence: null,
           message: "Received position.png; detection is not implemented yet.",
@@ -86,9 +87,10 @@ describe("App", () => {
     expect(screen.getByTestId("upload-dropzone")).toHaveAttribute("aria-busy", "true");
     expect(screen.getByText("Uploading screenshot")).toBeInTheDocument();
 
-    expect(await screen.findByText("Placeholder FEN ready")).toBeInTheDocument();
-    expect(screen.getByText("8/8/8/8/8/8/8/8 w - - 0 1")).toBeInTheDocument();
-    expect(screen.getByTestId("upload-dropzone")).toHaveAttribute("aria-busy", "false");
+    expect(
+      await screen.findByRole("heading", { name: "Position workspace" }),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId("static-board")).toHaveAttribute("data-fen", uploadedFen);
 
     expect(fetchMock).toHaveBeenCalledWith(
       "http://127.0.0.1:8000/upload",
@@ -96,11 +98,12 @@ describe("App", () => {
     );
   });
 
-  it("uploads a dropped file and displays the placeholder FEN", async () => {
+  it("uploads a dropped file and opens the analysis board with the returned FEN", async () => {
+    const uploadedFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - - 0 1";
     const fetchMock = vi.fn().mockResolvedValue(
       new Response(
         JSON.stringify({
-          fen: "8/8/8/8/8/8/8/8 w - - 0 1",
+          fen: uploadedFen,
           source: "placeholder",
           confidence: null,
           message: "Received dropped-position.png; detection is not implemented yet.",
@@ -126,8 +129,10 @@ describe("App", () => {
       },
     });
 
-    expect(await screen.findByText("Placeholder FEN ready")).toBeInTheDocument();
-    expect(screen.getByText("8/8/8/8/8/8/8/8 w - - 0 1")).toBeInTheDocument();
+    expect(
+      await screen.findByRole("heading", { name: "Position workspace" }),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId("static-board")).toHaveAttribute("data-fen", uploadedFen);
     expect(fetchMock).toHaveBeenCalledWith(
       "http://127.0.0.1:8000/upload",
       expect.objectContaining({ method: "POST", body: expect.any(FormData) }),

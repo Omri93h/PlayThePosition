@@ -15,7 +15,11 @@ const stateStyles: Record<UploadUiState, string> = {
   success: "border-emerald-300/70 bg-emerald-950/30 shadow-emerald-950/30",
 };
 
-export function UploadDropzone() {
+export function UploadDropzone({
+  onUploadSuccess,
+}: {
+  onUploadSuccess?: (result: UploadSuccessResponse) => void;
+}) {
   const [uploadState, setUploadState] = useState<UploadUiState>("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [uploadResult, setUploadResult] = useState<UploadSuccessResponse | null>(null);
@@ -29,6 +33,7 @@ export function UploadDropzone() {
       const result = await uploadScreenshot(file);
       setUploadResult(result);
       setUploadState("success");
+      onUploadSuccess?.(result);
     } catch (error) {
       setErrorMessage(
         error instanceof Error
