@@ -4,10 +4,10 @@ Current Block:
 BLOCK 03 — Edit Mode
 
 Current Feature:
-3.5 Undo/redo
+3.6 Board metadata editing
 
 Current Step:
-Add undo/redo for local edit-mode FEN changes.
+Add side-to-move editing only.
 
 Rules:
 - Work only on the current feature.

@@ -1,6 +1,13 @@
 import { useState } from "react";
 
-import { movePieceInFen, placePieceInFen, removePieceFromFen } from "../utils/fen";
+import {
+  getFenActiveColor,
+  movePieceInFen,
+  placePieceInFen,
+  removePieceFromFen,
+  setFenActiveColor,
+} from "../utils/fen";
+import type { FenActiveColor } from "../utils/fen";
 import { STATIC_ANALYSIS_FEN, StaticBoard } from "./StaticBoard";
 import type {
   BoardMoveAttempt,
@@ -38,6 +45,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   const [isRemoveMode, setIsRemoveMode] = useState(false);
   const [selectedPiece, setSelectedPiece] = useState<string | null>(null);
   const [lastInteraction, setLastInteraction] = useState<string | null>(null);
+  const activeColor = getFenActiveColor(currentFen);
 
   function applyFenEdit(nextFen: string) {
     if (nextFen === currentFen) {
@@ -158,6 +166,15 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setSelectedPiece((currentPiece) => (currentPiece === piece ? null : piece));
   }
 
+  function handleActiveColorChange(activeColor: FenActiveColor) {
+    if (!isEditMode) {
+      return;
+    }
+
+    setLastInteraction(`Side to move: ${activeColor === "w" ? "White" : "Black"}`);
+    applyFenEdit(setFenActiveColor({ fen: currentFen, activeColor }));
+  }
+
   return (
     <section
       aria-labelledby="analysis-shell-title"
@@ -273,6 +290,39 @@ export function AnalysisShell({ fen }: { fen?: string }) {
         <p className="mt-2 text-sm font-semibold text-neutral-300">
           {isRemoveMode ? "Remove mode active." : "Remove mode inactive."}
         </p>
+        <div className="mt-5" aria-label="Side to move">
+          <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
+            Side to move
+          </p>
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              aria-pressed={activeColor === "w"}
+              disabled={!isEditMode}
+              onClick={() => handleActiveColorChange("w")}
+              className={`rounded-lg border px-3 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50 ${
+                activeColor === "w"
+                  ? "border-emerald-200 bg-emerald-300 text-neutral-950"
+                  : "border-neutral-700 bg-neutral-900 text-neutral-200 hover:border-neutral-500 hover:text-white"
+              }`}
+            >
+              White
+            </button>
+            <button
+              type="button"
+              aria-pressed={activeColor === "b"}
+              disabled={!isEditMode}
+              onClick={() => handleActiveColorChange("b")}
+              className={`rounded-lg border px-3 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50 ${
+                activeColor === "b"
+                  ? "border-emerald-200 bg-emerald-300 text-neutral-950"
+                  : "border-neutral-700 bg-neutral-900 text-neutral-200 hover:border-neutral-500 hover:text-white"
+              }`}
+            >
+              Black
+            </button>
+          </div>
+        </div>
         <div className="mt-5" aria-label="Piece palette">
           <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
             Add piece
@@ -301,7 +351,8 @@ export function AnalysisShell({ fen }: { fen?: string }) {
         </p>
         <p className="mt-3 text-sm leading-6 text-neutral-300">
           Board loaded from the current FEN. Piece drops, removal, and placement update
-          the position only while edit mode is active.
+          the position only while edit mode is active. Side-to-move changes update FEN
+          metadata.
         </p>
       </aside>
     </section>

@@ -1,4 +1,5 @@
 type FenBoard = Array<Array<string | null>>;
+export type FenActiveColor = "w" | "b";
 
 const boardFiles = "abcdefgh";
 
@@ -73,6 +74,23 @@ export function placePieceInFen({
   const nextPlacement = serializePlacement(board);
 
   return metadata ? `${nextPlacement} ${metadata}` : nextPlacement;
+}
+
+export function getFenActiveColor(fen: string): FenActiveColor {
+  return fen.trim().split(/\s+/)[1] === "b" ? "b" : "w";
+}
+
+export function setFenActiveColor({
+  fen,
+  activeColor,
+}: {
+  fen: string;
+  activeColor: FenActiveColor;
+}) {
+  const [placement, , castling = "-", enPassant = "-", halfmove = "0", fullmove = "1"] =
+    fen.trim().split(/\s+/);
+
+  return [placement, activeColor, castling, enPassant, halfmove, fullmove].join(" ");
 }
 
 function parsePlacement(placement: string): FenBoard {

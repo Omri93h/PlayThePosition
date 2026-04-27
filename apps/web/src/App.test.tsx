@@ -89,6 +89,8 @@ const ADDED_STATIC_FEN =
   "r2q1rk1/pp2bppp/2npbn2/2pNp3/2PQP3/2N2Q2/PP2BPPP/R1B2RK1 w - - 0 10";
 const REPLACED_STATIC_FEN =
   "r2q1rk1/pp2bppp/2npbn2/2pNp3/2q1P3/2N2Q2/PP2BPPP/R1B2RK1 w - - 0 10";
+const BLACK_TO_MOVE_STATIC_FEN =
+  "r2q1rk1/pp2bppp/2npbn2/2pNp3/2P1P3/2N2Q2/PP2BPPP/R1B2RK1 b - - 0 10";
 
 describe("App", () => {
   afterEach(() => {
@@ -148,6 +150,15 @@ describe("App", () => {
       "data-interactive",
       "true",
     );
+    expect(screen.getByLabelText("Side to move")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "White" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    expect(screen.getByRole("button", { name: "Black" })).toHaveAttribute(
+      "aria-pressed",
+      "false",
+    );
     expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled();
     expect(screen.getByLabelText("Analysis actions")).toBeInTheDocument();
@@ -161,10 +172,12 @@ describe("App", () => {
     const editModeToggle = screen.getByRole("button", { name: "Edit mode" });
     const removePieceToggle = screen.getByRole("button", { name: "Remove piece" });
     const addWhiteQueenButton = screen.getByRole("button", { name: "wQ" });
+    const blackToMoveButton = screen.getByRole("button", { name: "Black" });
 
     expect(editModeToggle).toHaveAttribute("aria-pressed", "false");
     expect(removePieceToggle).toBeDisabled();
     expect(addWhiteQueenButton).toBeDisabled();
+    expect(blackToMoveButton).toBeDisabled();
     expect(screen.getByText("Edit mode inactive.")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-edit-mode",
@@ -176,6 +189,7 @@ describe("App", () => {
     expect(editModeToggle).toHaveAttribute("aria-pressed", "true");
     expect(removePieceToggle).toBeEnabled();
     expect(addWhiteQueenButton).toBeEnabled();
+    expect(blackToMoveButton).toBeEnabled();
     expect(screen.getByText("Edit mode active.")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-edit-mode",
@@ -185,6 +199,57 @@ describe("App", () => {
       "data-fen",
       STATIC_ANALYSIS_FEN,
     );
+  });
+
+  it("updates side to move metadata with undo, redo, and reset", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
+    fireEvent.click(screen.getByRole("button", { name: "Black" }));
+
+    expect(
+      screen.getByText("Last interaction: Side to move: Black."),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      BLACK_TO_MOVE_STATIC_FEN,
+    );
+    expect(screen.getByRole("button", { name: "Black" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Undo" }));
+
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      STATIC_ANALYSIS_FEN,
+    );
+    expect(screen.getByRole("button", { name: "White" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Redo" }));
+
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      BLACK_TO_MOVE_STATIC_FEN,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Reset" }));
+
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      STATIC_ANALYSIS_FEN,
+    );
+    expect(screen.getByRole("button", { name: "White" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled();
   });
 
   it("keeps add-piece controls non-mutating outside edit mode", () => {
