@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "check": "pnpm run lint && pnpm run test",
+    "lint": "prettier --ignore-path ../../.prettierignore --check .",
     "test": "playwright test"
   },
   "devDependencies": {

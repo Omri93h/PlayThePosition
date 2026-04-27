@@ -4,10 +4,10 @@ Current Block:
 BLOCK 00 — Foundation
 
 Current Feature:
-0.5 Testing setup
+0.6 Quality tooling setup
 
 Current Step:
-Add foundation-level test harnesses only.
+Add lint/format/check command structure only.
 
 Rules:
 - Work only on the current feature.

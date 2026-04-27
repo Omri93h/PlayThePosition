@@ -1,0 +1,15 @@
+AGENTS.md
+current_focus.md
+docs/
+prompts/
+pnpm-lock.yaml
+
+**/.venv/
+**/.pytest_cache/
+**/.ruff_cache/
+**/__pycache__/
+**/dist/
+**/node_modules/
+**/playwright-report/
+**/test-results/
+**/*.egg-info/

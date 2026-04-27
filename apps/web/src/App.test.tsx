@@ -8,6 +8,8 @@ describe("App", () => {
     render(<App />);
 
     expect(screen.getByText("Frontend foundation")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Play The Position" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Play The Position" }),
+    ).toBeInTheDocument();
   });
 });

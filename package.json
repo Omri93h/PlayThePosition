@@ -5,12 +5,21 @@
   "description": "Monorepo for Play The Position.",
   "license": "UNLICENSED",
   "scripts": {
+    "build": "pnpm -r --if-present build",
     "build:web": "pnpm --filter web build",
-    "check": "pnpm -r --if-present check",
+    "check": "pnpm run lint && pnpm run build && pnpm run test && pnpm run lint:api && pnpm run test:api",
+    "check:api": "pnpm run lint:api && pnpm run test:api",
     "dev:web": "pnpm --filter web dev",
-    "lint": "pnpm -r --if-present lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "pnpm run format:check && pnpm -r --if-present lint",
+    "lint:api": "cd services/api && . .venv/bin/activate && python -m ruff check .",
     "test": "pnpm -r --if-present test",
+    "test:api": "cd services/api && . .venv/bin/activate && python -m pytest",
     "test:e2e": "pnpm --filter e2e test",
     "test:web": "pnpm --filter web test"
+  },
+  "devDependencies": {
+    "prettier": "^3.7.4"
   }
 }

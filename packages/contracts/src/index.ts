@@ -4,5 +4,5 @@ export type {
   FenString,
   HealthResponse,
   UploadErrorResponse,
-  UploadSuccessResponse
+  UploadSuccessResponse,
 } from "./upload.js";

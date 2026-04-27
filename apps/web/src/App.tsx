@@ -9,8 +9,8 @@ export function App() {
           Play The Position
         </h1>
         <p className="mt-5 max-w-2xl text-lg leading-8 text-zinc-300">
-          React, Vite, TypeScript, and Tailwind are ready. Product flows will be
-          added in later blocks.
+          React, Vite, TypeScript, and Tailwind are ready. Product flows will be added
+          in later blocks.
         </p>
       </section>
     </main>

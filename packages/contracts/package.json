@@ -12,7 +12,9 @@
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.json",
+    "check": "pnpm run lint && pnpm run build",
+    "lint": "prettier --ignore-path ../../.prettierignore --check ."
   },
   "devDependencies": {
     "typescript": "^6.0.3"

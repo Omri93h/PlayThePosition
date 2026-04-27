@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "build": "tsc -b && vite build",
+    "check": "pnpm run lint && pnpm run build && pnpm run test",
     "dev": "vite",
+    "lint": "prettier --ignore-path ../../.prettierignore --check .",
     "preview": "vite preview",
     "test": "vitest run"
   },
