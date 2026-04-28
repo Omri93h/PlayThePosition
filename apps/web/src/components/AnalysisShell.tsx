@@ -178,7 +178,9 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   return (
     <section
       aria-labelledby="analysis-shell-title"
-      className="grid flex-1 gap-6 py-8 lg:grid-cols-[minmax(0,1fr)_20rem]"
+      className={`grid flex-1 gap-6 py-8 ${
+        isEditMode ? "lg:grid-cols-[minmax(0,1fr)_20rem]" : ""
+      }`}
     >
       <div className="flex min-h-[32rem] flex-col rounded-lg border border-neutral-800 bg-neutral-900/70 shadow-2xl shadow-emerald-950/20">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-800 px-5 py-4">
@@ -209,19 +211,20 @@ export function AnalysisShell({ fen }: { fen?: string }) {
             >
               Edit mode
             </button>
-            <button
-              type="button"
-              aria-pressed={isRemoveMode}
-              disabled={!isEditMode}
-              onClick={handleRemoveModeToggle}
-              className={`rounded-lg px-4 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50 ${
-                isRemoveMode
-                  ? "bg-rose-200 text-rose-950"
-                  : "bg-neutral-800 text-neutral-200 hover:text-white"
-              }`}
-            >
-              Remove piece
-            </button>
+            {isEditMode ? (
+              <button
+                type="button"
+                aria-pressed={isRemoveMode}
+                onClick={handleRemoveModeToggle}
+                className={`rounded-lg px-4 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
+                  isRemoveMode
+                    ? "bg-rose-200 text-rose-950"
+                    : "bg-neutral-800 text-neutral-200 hover:text-white"
+                }`}
+              >
+                Remove piece
+              </button>
+            ) : null}
           </div>
         </div>
 
@@ -242,28 +245,36 @@ export function AnalysisShell({ fen }: { fen?: string }) {
           aria-label="Analysis actions"
           className="flex flex-wrap items-center justify-between gap-3 border-t border-neutral-800 px-5 py-4"
         >
-          <span className="text-sm text-neutral-400">
-            {lastInteraction
-              ? `Last interaction: ${lastInteraction}.`
-              : "Board interaction ready."}
-          </span>
+          {isEditMode ? (
+            <span className="text-sm text-neutral-400">
+              {lastInteraction
+                ? `Last interaction: ${lastInteraction}.`
+                : "Board interaction ready."}
+            </span>
+          ) : (
+            <span aria-hidden="true" />
+          )}
           <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              disabled={undoStack.length === 0}
-              onClick={handleUndo}
-              className="rounded-lg border border-neutral-700 px-4 py-2 text-sm font-semibold text-neutral-200 transition hover:border-neutral-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Undo
-            </button>
-            <button
-              type="button"
-              disabled={redoStack.length === 0}
-              onClick={handleRedo}
-              className="rounded-lg border border-neutral-700 px-4 py-2 text-sm font-semibold text-neutral-200 transition hover:border-neutral-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Redo
-            </button>
+            {isEditMode ? (
+              <>
+                <button
+                  type="button"
+                  disabled={undoStack.length === 0}
+                  onClick={handleUndo}
+                  className="rounded-lg border border-neutral-700 px-4 py-2 text-sm font-semibold text-neutral-200 transition hover:border-neutral-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  Undo
+                </button>
+                <button
+                  type="button"
+                  disabled={redoStack.length === 0}
+                  onClick={handleRedo}
+                  className="rounded-lg border border-neutral-700 px-4 py-2 text-sm font-semibold text-neutral-200 transition hover:border-neutral-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  Redo
+                </button>
+              </>
+            ) : null}
             <button
               type="button"
               onClick={handleReset}
@@ -282,79 +293,78 @@ export function AnalysisShell({ fen }: { fen?: string }) {
         </div>
       </div>
 
-      <aside className="rounded-lg border border-neutral-800 bg-neutral-900/60 p-5 shadow-xl shadow-neutral-950/40">
-        <h2 className="text-lg font-semibold text-white">Position details</h2>
-        <p className="mt-3 text-sm font-semibold text-emerald-200">
-          {isEditMode ? "Edit mode active." : "Edit mode inactive."}
-        </p>
-        <p className="mt-2 text-sm font-semibold text-neutral-300">
-          {isRemoveMode ? "Remove mode active." : "Remove mode inactive."}
-        </p>
-        <div className="mt-5" aria-label="Side to move">
-          <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
-            Side to move
+      {isEditMode ? (
+        <aside className="rounded-lg border border-neutral-800 bg-neutral-900/60 p-5 shadow-xl shadow-neutral-950/40">
+          <h2 className="text-lg font-semibold text-white">Position details</h2>
+          <p className="mt-3 text-sm font-semibold text-emerald-200">
+            Edit mode active.
           </p>
-          <div className="mt-3 grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              aria-pressed={activeColor === "w"}
-              disabled={!isEditMode}
-              onClick={() => handleActiveColorChange("w")}
-              className={`rounded-lg border px-3 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50 ${
-                activeColor === "w"
-                  ? "border-emerald-200 bg-emerald-300 text-neutral-950"
-                  : "border-neutral-700 bg-neutral-900 text-neutral-200 hover:border-neutral-500 hover:text-white"
-              }`}
-            >
-              White
-            </button>
-            <button
-              type="button"
-              aria-pressed={activeColor === "b"}
-              disabled={!isEditMode}
-              onClick={() => handleActiveColorChange("b")}
-              className={`rounded-lg border px-3 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50 ${
-                activeColor === "b"
-                  ? "border-emerald-200 bg-emerald-300 text-neutral-950"
-                  : "border-neutral-700 bg-neutral-900 text-neutral-200 hover:border-neutral-500 hover:text-white"
-              }`}
-            >
-              Black
-            </button>
-          </div>
-        </div>
-        <div className="mt-5" aria-label="Piece palette">
-          <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
-            Add piece
+          <p className="mt-2 text-sm font-semibold text-neutral-300">
+            {isRemoveMode ? "Remove mode active." : "Remove mode inactive."}
           </p>
-          <div className="mt-3 grid grid-cols-6 gap-2">
-            {pieceOptions.map((piece) => (
+          <div className="mt-5" aria-label="Side to move">
+            <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
+              Side to move
+            </p>
+            <div className="mt-3 grid grid-cols-2 gap-2">
               <button
-                key={piece}
                 type="button"
-                aria-pressed={selectedPiece === piece}
-                disabled={!isEditMode}
-                onClick={() => handlePieceSelection(piece)}
-                className={`rounded-lg border px-2 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50 ${
-                  selectedPiece === piece
+                aria-pressed={activeColor === "w"}
+                onClick={() => handleActiveColorChange("w")}
+                className={`rounded-lg border px-3 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
+                  activeColor === "w"
                     ? "border-emerald-200 bg-emerald-300 text-neutral-950"
                     : "border-neutral-700 bg-neutral-900 text-neutral-200 hover:border-neutral-500 hover:text-white"
                 }`}
               >
-                {piece}
+                White
               </button>
-            ))}
+              <button
+                type="button"
+                aria-pressed={activeColor === "b"}
+                onClick={() => handleActiveColorChange("b")}
+                className={`rounded-lg border px-3 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
+                  activeColor === "b"
+                    ? "border-emerald-200 bg-emerald-300 text-neutral-950"
+                    : "border-neutral-700 bg-neutral-900 text-neutral-200 hover:border-neutral-500 hover:text-white"
+                }`}
+              >
+                Black
+              </button>
+            </div>
           </div>
-        </div>
-        <p className="mt-3 text-sm font-semibold text-neutral-300">
-          {selectedPiece ? `Selected piece: ${selectedPiece}.` : "No piece selected."}
-        </p>
-        <p className="mt-3 text-sm leading-6 text-neutral-300">
-          Board loaded from the current FEN. Piece drops, removal, and placement update
-          the position only while edit mode is active. Side-to-move changes update FEN
-          metadata.
-        </p>
-      </aside>
+          <div className="mt-5" aria-label="Piece palette">
+            <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
+              Add piece
+            </p>
+            <div className="mt-3 grid grid-cols-6 gap-2">
+              {pieceOptions.map((piece) => (
+                <button
+                  key={piece}
+                  type="button"
+                  aria-pressed={selectedPiece === piece}
+                  onClick={() => handlePieceSelection(piece)}
+                  className={`rounded-lg border px-2 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
+                    selectedPiece === piece
+                      ? "border-emerald-200 bg-emerald-300 text-neutral-950"
+                      : "border-neutral-700 bg-neutral-900 text-neutral-200 hover:border-neutral-500 hover:text-white"
+                  }`}
+                >
+                  {piece}
+                </button>
+              ))}
+            </div>
+          </div>
+          <p className="mt-3 text-sm font-semibold text-neutral-300">
+            {selectedPiece ? `Selected piece: ${selectedPiece}.` : "No piece selected."}
+          </p>
+          <p className="mt-3 text-sm leading-6 text-neutral-300">
+            Board loaded from the current FEN. Piece drops, removal, and placement
+            update the position only while edit mode is active. Side-to-move changes
+            update FEN metadata.
+          </p>
+        </aside>
+      ) : null}
     </section>
   );
 }

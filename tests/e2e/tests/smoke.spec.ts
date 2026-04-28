@@ -20,12 +20,18 @@ test("loads the analysis shell UI", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Position workspace" })).toBeVisible();
   await expect(page.getByTestId("static-board")).toBeVisible();
   await expect(page.getByRole("button", { name: "Edit mode" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Reset" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Flip" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Remove piece" })).toBeHidden();
+  await expect(page.getByRole("button", { name: "Undo" })).toBeHidden();
+  await expect(page.getByRole("button", { name: "Redo" })).toBeHidden();
+
+  await page.getByRole("button", { name: "Edit mode" }).click();
+
   await expect(page.getByRole("button", { name: "Remove piece" })).toBeVisible();
   await expect(page.getByRole("button", { name: "White" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Black" })).toBeVisible();
   await expect(page.getByRole("button", { name: "wQ" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Undo" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Redo" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Reset" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Flip" })).toBeVisible();
 });

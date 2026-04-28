@@ -4,10 +4,10 @@ Current Block:
 BLOCK 03.5 — UX Cleanup
 
 Current Feature:
-3.5.1 Full dropzone click target
+3.5.2 Hide edit controls when edit mode is inactive
 
 Current Step:
-Make the entire upload dropzone rectangle clickable.
+Hide edit-specific controls until Edit Mode is enabled.
 
 Rules:
 - Work only on the current feature.

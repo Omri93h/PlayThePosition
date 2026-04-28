@@ -164,18 +164,17 @@ describe("App", () => {
       "data-interactive",
       "true",
     );
-    expect(screen.getByLabelText("Side to move")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "White" })).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
-    expect(screen.getByRole("button", { name: "Black" })).toHaveAttribute(
-      "aria-pressed",
-      "false",
-    );
-    expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled();
-    expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled();
     expect(screen.getByLabelText("Analysis actions")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Edit mode" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Reset" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Flip" })).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Remove piece" }),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Side to move")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Undo" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Redo" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "wQ" })).not.toBeInTheDocument();
   });
 
   it("toggles edit mode visual state without mutating the board", () => {
@@ -184,15 +183,14 @@ describe("App", () => {
     fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
 
     const editModeToggle = screen.getByRole("button", { name: "Edit mode" });
-    const removePieceToggle = screen.getByRole("button", { name: "Remove piece" });
-    const addWhiteQueenButton = screen.getByRole("button", { name: "wQ" });
-    const blackToMoveButton = screen.getByRole("button", { name: "Black" });
 
     expect(editModeToggle).toHaveAttribute("aria-pressed", "false");
-    expect(removePieceToggle).toBeDisabled();
-    expect(addWhiteQueenButton).toBeDisabled();
-    expect(blackToMoveButton).toBeDisabled();
-    expect(screen.getByText("Edit mode inactive.")).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Remove piece" }),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "wQ" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Black" })).not.toBeInTheDocument();
+    expect(screen.queryByText("Edit mode inactive.")).not.toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-edit-mode",
       "false",
@@ -201,9 +199,11 @@ describe("App", () => {
     fireEvent.click(editModeToggle);
 
     expect(editModeToggle).toHaveAttribute("aria-pressed", "true");
-    expect(removePieceToggle).toBeEnabled();
-    expect(addWhiteQueenButton).toBeEnabled();
-    expect(blackToMoveButton).toBeEnabled();
+    expect(screen.getByRole("button", { name: "Remove piece" })).toBeEnabled();
+    expect(screen.getByRole("button", { name: "wQ" })).toBeEnabled();
+    expect(screen.getByRole("button", { name: "Black" })).toBeEnabled();
+    expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled();
     expect(screen.getByText("Edit mode active.")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-edit-mode",
@@ -272,7 +272,7 @@ describe("App", () => {
     fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
     fireEvent.click(screen.getByTestId("mock-empty-square"));
 
-    expect(screen.getByText("No piece selected.")).toBeInTheDocument();
+    expect(screen.queryByText("No piece selected.")).not.toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
       STATIC_ANALYSIS_FEN,
@@ -355,8 +355,8 @@ describe("App", () => {
     fireEvent.click(screen.getByTestId("mock-piece"));
 
     expect(
-      screen.getByText("Last interaction: Remove wP from c4."),
-    ).toBeInTheDocument();
+      screen.queryByText("Last interaction: Remove wP from c4."),
+    ).not.toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
       STATIC_ANALYSIS_FEN,
@@ -416,7 +416,9 @@ describe("App", () => {
     fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
     fireEvent.click(screen.getByTestId("mock-chessboard"));
 
-    expect(screen.getByText("Last interaction: wP c4 to e5.")).toBeInTheDocument();
+    expect(
+      screen.queryByText("Last interaction: wP c4 to e5."),
+    ).not.toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
       STATIC_ANALYSIS_FEN,
@@ -509,7 +511,7 @@ describe("App", () => {
       "data-orientation",
       "white",
     );
-    expect(screen.getByText("Board interaction ready.")).toBeInTheDocument();
+    expect(screen.queryByText("Board interaction ready.")).not.toBeInTheDocument();
   });
 
   it("updates drag presentation without uploading", () => {
