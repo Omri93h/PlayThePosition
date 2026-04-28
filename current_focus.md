@@ -4,10 +4,10 @@ Current Block:
 BLOCK 03.5 — UX Cleanup
 
 Current Feature:
-3.5.6 Remove temporary upload/analysis demo toggle when flow allows
+3.5.7 Improve edit mode visual board state
 
 Current Step:
-Remove user-visible demo toggle and keep upload-to-analysis flow.
+Add subtle edit-mode board visual treatment.
 
 Rules:
 - Work only on the current feature.

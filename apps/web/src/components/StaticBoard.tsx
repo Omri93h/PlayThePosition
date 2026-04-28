@@ -90,11 +90,12 @@ export function StaticBoard({
   return (
     <div
       aria-label="Analysis chessboard"
-      className={`aspect-square w-full max-w-[34rem] rounded-lg border bg-neutral-950 p-2 shadow-inner shadow-emerald-950 transition ${
+      className={`aspect-square w-full max-w-[34rem] rounded-lg border p-2 shadow-inner transition ${
         isEditMode
-          ? "border-emerald-200 ring-2 ring-emerald-300/30"
-          : "border-emerald-300/30"
+          ? "edit-mode-board border-amber-200/80 bg-emerald-950/30 shadow-emerald-800/30 ring-4 ring-amber-200/20"
+          : "analysis-mode-board border-emerald-300/30 bg-neutral-950 shadow-emerald-950"
       }`}
+      data-board-visual-state={isEditMode ? "edit" : "analysis"}
       data-edit-mode={isEditMode}
       data-fen={fen}
       data-interactive={isInteractive}

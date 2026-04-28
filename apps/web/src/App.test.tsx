@@ -161,6 +161,11 @@ describe("App", () => {
       "false",
     );
     expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-board-visual-state",
+      "analysis",
+    );
+    expect(screen.getByTestId("static-board")).toHaveClass("analysis-mode-board");
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-remove-mode",
       "false",
     );
@@ -219,6 +224,11 @@ describe("App", () => {
       "data-edit-mode",
       "true",
     );
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-board-visual-state",
+      "edit",
+    );
+    expect(screen.getByTestId("static-board")).toHaveClass("edit-mode-board");
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
       STATIC_ANALYSIS_FEN,
