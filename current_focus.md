@@ -4,10 +4,10 @@ Current Block:
 BLOCK 03.5 — UX Cleanup
 
 Current Feature:
-3.5.4 Icon-based action controls
+3.5.5 Selected-square highlight
 
 Current Step:
-Replace text-heavy action controls with icon-forward controls.
+Highlight selected square during edit interactions.
 
 Rules:
 - Work only on the current feature.

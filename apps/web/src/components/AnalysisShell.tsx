@@ -112,6 +112,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isRemoveMode, setIsRemoveMode] = useState(false);
   const [selectedPiece, setSelectedPiece] = useState<string | null>(null);
+  const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [lastInteraction, setLastInteraction] = useState<string | null>(null);
   const activeColor = getFenActiveColor(currentFen);
 
@@ -136,6 +137,8 @@ export function AnalysisShell({ fen }: { fen?: string }) {
       return false;
     }
 
+    setSelectedSquare(targetSquare);
+
     return applyFenEdit(
       movePieceInFen({
         fen: currentFen,
@@ -149,7 +152,13 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   function handleRemoveAttempt({ piece, square }: BoardRemoveAttempt) {
     setLastInteraction(`Remove ${piece} from ${square}`);
 
-    if (!isEditMode || !isRemoveMode) {
+    if (!isEditMode) {
+      return;
+    }
+
+    setSelectedSquare(square);
+
+    if (!isRemoveMode) {
       return;
     }
 
@@ -157,7 +166,13 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   }
 
   function handleSquareSelect({ square }: BoardSquareSelection) {
-    if (!isEditMode || !selectedPiece) {
+    if (!isEditMode) {
+      return;
+    }
+
+    setSelectedSquare(square);
+
+    if (!selectedPiece) {
       return;
     }
 
@@ -172,6 +187,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setOrientation("white");
     setIsRemoveMode(false);
     setSelectedPiece(null);
+    setSelectedSquare(null);
     setLastInteraction(null);
   }
 
@@ -215,6 +231,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     if (!nextMode) {
       setIsRemoveMode(false);
       setSelectedPiece(null);
+      setSelectedSquare(null);
     }
   }
 
@@ -307,6 +324,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
             isEditMode={isEditMode}
             isInteractive
             isRemoveMode={isRemoveMode}
+            selectedSquare={isEditMode ? selectedSquare : null}
             onMoveAttempt={handleMoveAttempt}
             onRemoveAttempt={handleRemoveAttempt}
             onSquareSelect={handleSquareSelect}

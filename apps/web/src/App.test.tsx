@@ -23,6 +23,7 @@ vi.mock("react-chessboard", () => ({
         square: string;
       }) => void;
       position?: string;
+      squareStyles?: Record<string, unknown>;
     };
   }) => (
     <>
@@ -31,6 +32,7 @@ vi.mock("react-chessboard", () => ({
         data-interactive={String(options.allowDragging)}
         data-orientation={options.boardOrientation}
         data-position={options.position}
+        data-square-styles={JSON.stringify(options.squareStyles ?? {})}
         data-testid="mock-chessboard"
         onClick={() =>
           options.onPieceDrop?.({
@@ -160,6 +162,10 @@ describe("App", () => {
       "data-remove-mode",
       "false",
     );
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-selected-square",
+      "",
+    );
     expect(screen.getByTestId("mock-chessboard")).toHaveAttribute(
       "data-interactive",
       "true",
@@ -216,6 +222,10 @@ describe("App", () => {
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
       STATIC_ANALYSIS_FEN,
+    );
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-selected-square",
+      "",
     );
   });
 
@@ -281,6 +291,26 @@ describe("App", () => {
       "data-fen",
       STATIC_ANALYSIS_FEN,
     );
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-selected-square",
+      "",
+    );
+  });
+
+  it("highlights a selected piece square while edit mode is active", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
+    fireEvent.click(screen.getByTestId("mock-piece"));
+
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-selected-square",
+      "c4",
+    );
+    expect(
+      screen.getByTestId("mock-chessboard").getAttribute("data-square-styles"),
+    ).toContain("c4");
   });
 
   it("adds selected pieces while edit mode is active", () => {
@@ -297,6 +327,10 @@ describe("App", () => {
       "data-fen",
       ADDED_STATIC_FEN,
     );
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-selected-square",
+      "d4",
+    );
     expect(screen.getByRole("button", { name: "Undo" })).toBeEnabled();
     expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled();
 
@@ -305,6 +339,10 @@ describe("App", () => {
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
       STATIC_ANALYSIS_FEN,
+    );
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-selected-square",
+      "",
     );
     expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled();
@@ -384,6 +422,10 @@ describe("App", () => {
       "true",
     );
     expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-selected-square",
+      "c4",
+    );
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
       REMOVED_STATIC_FEN,
     );
@@ -411,6 +453,10 @@ describe("App", () => {
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-remove-mode",
       "false",
+    );
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-selected-square",
+      "",
     );
   });
 
@@ -440,6 +486,10 @@ describe("App", () => {
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
       MOVED_STATIC_FEN,
+    );
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-selected-square",
+      "e5",
     );
 
     fireEvent.click(screen.getByRole("button", { name: "Undo" }));
@@ -514,6 +564,10 @@ describe("App", () => {
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-orientation",
       "white",
+    );
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-selected-square",
+      "",
     );
     expect(screen.queryByText("Board interaction ready.")).not.toBeInTheDocument();
   });

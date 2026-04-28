@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { Chessboard } from "react-chessboard";
 import type {
   PieceDropHandlerArgs,
@@ -31,6 +32,7 @@ export function StaticBoard({
   isEditMode = false,
   isInteractive = false,
   isRemoveMode = false,
+  selectedSquare = null,
   onMoveAttempt,
   onRemoveAttempt,
   onSquareSelect,
@@ -40,10 +42,22 @@ export function StaticBoard({
   isEditMode?: boolean;
   isInteractive?: boolean;
   isRemoveMode?: boolean;
+  selectedSquare?: string | null;
   onMoveAttempt?: (move: BoardMoveAttempt) => boolean | void;
   onRemoveAttempt?: (attempt: BoardRemoveAttempt) => void;
   onSquareSelect?: (selection: BoardSquareSelection) => void;
 }) {
+  const squareStyles: Record<string, CSSProperties> =
+    isEditMode && selectedSquare
+      ? {
+          [selectedSquare]: {
+            background:
+              "linear-gradient(135deg, rgba(254, 240, 138, 0.65), rgba(250, 204, 21, 0.45))",
+            boxShadow: "inset 0 0 0 3px rgba(254, 249, 195, 0.75)",
+          },
+        }
+      : {};
+
   function handlePieceDrop({
     piece,
     sourceSquare,
@@ -86,6 +100,7 @@ export function StaticBoard({
       data-interactive={isInteractive}
       data-orientation={orientation}
       data-remove-mode={isRemoveMode}
+      data-selected-square={selectedSquare ?? ""}
       data-testid="static-board"
     >
       <div className="h-full w-full overflow-hidden rounded-lg">
@@ -100,6 +115,7 @@ export function StaticBoard({
             onPieceClick: isInteractive ? handlePieceClick : undefined,
             onPieceDrop: isInteractive ? handlePieceDrop : undefined,
             onSquareClick: isInteractive ? handleSquareClick : undefined,
+            squareStyles,
             boardStyle: {
               borderRadius: "0.5rem",
               width: "100%",
