@@ -1,5 +1,5 @@
-import type { ChangeEvent, DragEvent } from "react";
-import { useState } from "react";
+import type { ChangeEvent, DragEvent, KeyboardEvent, MouseEvent } from "react";
+import { useRef, useState } from "react";
 
 import { uploadScreenshot } from "../api/upload";
 import type { UploadSuccessResponse } from "../api/upload";
@@ -20,6 +20,7 @@ export function UploadDropzone({
 }: {
   onUploadSuccess?: (result: UploadSuccessResponse) => void;
 }) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploadState, setUploadState] = useState<UploadUiState>("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [uploadResult, setUploadResult] = useState<UploadSuccessResponse | null>(null);
@@ -93,16 +94,45 @@ export function UploadDropzone({
 
   const isLoading = uploadState === "loading";
   const isError = uploadState === "error";
+  const canSelectFile = !isLoading && !isError;
+
+  function openFilePicker() {
+    if (canSelectFile) {
+      fileInputRef.current?.click();
+    }
+  }
+
+  function handleDropzoneClick(event: MouseEvent<HTMLDivElement>) {
+    if (event.target === fileInputRef.current) {
+      return;
+    }
+
+    openFilePicker();
+  }
+
+  function handleDropzoneKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+    if (event.key !== "Enter" && event.key !== " ") {
+      return;
+    }
+
+    event.preventDefault();
+    openFilePicker();
+  }
 
   return (
     <div
       data-testid="upload-dropzone"
       aria-busy={isLoading}
+      aria-label={canSelectFile ? "Open image file picker" : undefined}
+      role={canSelectFile ? "button" : undefined}
+      tabIndex={canSelectFile ? 0 : undefined}
+      onClick={handleDropzoneClick}
       onDragEnter={handleDragEnter}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      className={`mt-10 flex w-full max-w-2xl flex-col items-center justify-center border border-dashed px-6 py-12 text-center shadow-2xl outline-none transition focus-within:ring-2 focus-within:ring-emerald-300 sm:px-10 ${stateStyles[uploadState]}`}
+      onKeyDown={handleDropzoneKeyDown}
+      className={`mt-10 flex w-full max-w-2xl flex-col items-center justify-center border border-dashed px-6 py-12 text-center shadow-2xl outline-none transition focus:ring-2 focus:ring-emerald-300 focus-within:ring-2 focus-within:ring-emerald-300 sm:px-10 ${canSelectFile ? "cursor-pointer" : ""} ${stateStyles[uploadState]}`}
     >
       <DropzoneIcon state={uploadState} />
       <DropzoneContent
@@ -113,20 +143,19 @@ export function UploadDropzone({
       />
 
       {!isLoading && !isError ? (
-        <label
-          htmlFor="screenshot-upload"
-          className="mt-6 cursor-pointer text-sm font-semibold text-emerald-200 underline decoration-emerald-300/50 underline-offset-4 transition hover:text-emerald-100"
-        >
+        <span className="mt-6 text-sm font-semibold text-emerald-200 underline decoration-emerald-300/50 underline-offset-4 transition">
           Click to upload
-        </label>
+        </span>
       ) : null}
 
       <input
+        ref={fileInputRef}
         id="screenshot-upload"
         name="screenshot-upload"
         type="file"
         accept="image/png,image/jpeg"
         className="sr-only"
+        tabIndex={-1}
         aria-label="Choose chess screenshot"
         onChange={handleFileSelection}
       />

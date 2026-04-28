@@ -116,6 +116,20 @@ describe("App", () => {
     );
   });
 
+  it("opens file selection when the dropzone rectangle is clicked", () => {
+    const inputClickSpy = vi
+      .spyOn(HTMLInputElement.prototype, "click")
+      .mockImplementation(() => undefined);
+
+    render(<App />);
+
+    fireEvent.click(screen.getByTestId("upload-dropzone"));
+
+    expect(inputClickSpy).toHaveBeenCalledTimes(1);
+
+    inputClickSpy.mockRestore();
+  });
+
   it("renders the static analysis shell areas with a static board", () => {
     render(<App />);
 

@@ -1,13 +1,13 @@
 # Current Focus
 
 Current Block:
-BLOCK 03 — Edit Mode
+BLOCK 03.5 — UX Cleanup
 
 Current Feature:
-3.6 Board metadata editing
+3.5.1 Full dropzone click target
 
 Current Step:
-Add side-to-move editing only.
+Make the entire upload dropzone rectangle clickable.
 
 Rules:
 - Work only on the current feature.
