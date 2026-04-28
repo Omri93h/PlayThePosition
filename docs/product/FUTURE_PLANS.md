@@ -10,13 +10,15 @@ These are intentionally out of scope until the MVP blocks are complete.
 - Collection sharing.
 
 ## Phase 3 — Engine Analysis
-- Stockfish integration.
+- Analysis mode with legal move dots.
+- Engine bar / Stockfish.
 - Best move.
-- Evaluation bar.
 - Candidate lines.
 - Engine settings.
 
 ## Phase 4 — SEO and Growth
+- Homepage demo video/GIF.
+- Feedback popup.
 - Public indexed position pages.
 - Programmatic SEO pages.
 - Puzzle/position collections.
@@ -24,12 +26,14 @@ These are intentionally out of scope until the MVP blocks are complete.
 - Growth loops around chess communities.
 
 ## Phase 5 — Monetization
+- Ads and compliance pages.
 - Pro tier.
 - Unlimited analysis or saves.
 - Advanced edit/detection tools.
 - Premium engine features.
 
 ## Later — Native and Mobile Apps
+- Future mobile app.
 - Native iOS app.
 - Native Android app.
 - Mobile-specific workflows beyond the responsive MVP web app.

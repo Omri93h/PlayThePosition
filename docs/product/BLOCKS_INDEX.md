@@ -6,9 +6,10 @@
 2. BLOCK 01 — Upload Flow
 3. BLOCK 02 — Analysis Board
 4. BLOCK 03 — Edit Mode
-5. BLOCK 04 — Share and Link-Out
-6. BLOCK 05 — Detection Engine
-7. BLOCK 06 — Polish and Hardening
+5. BLOCK 03.5 — UX Cleanup
+6. BLOCK 04 — Share and Link-Out
+7. BLOCK 05 — Detection Engine
+8. BLOCK 06 — Polish and Hardening
 
 ## Rules
 - Work block-by-block.

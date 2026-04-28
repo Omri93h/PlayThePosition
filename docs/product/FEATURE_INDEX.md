@@ -30,6 +30,15 @@
 - 3.5 Undo/redo
 - 3.6 Board metadata editing
 
+## BLOCK 03.5 — UX Cleanup
+- 3.5.1 Full dropzone click target
+- 3.5.2 Hide edit controls when edit mode is inactive
+- 3.5.3 Visual chess piece palette
+- 3.5.4 Icon-based action controls
+- 3.5.5 Selected-square highlight
+- 3.5.6 Remove temporary upload/analysis demo toggle when flow allows
+- 3.5.7 Improve edit mode visual board state
+
 ## BLOCK 04 — Share and Link-Out
 - 4.1 Copy FEN
 - 4.2 chess.com analyzer link
