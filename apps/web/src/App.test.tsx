@@ -174,7 +174,9 @@ describe("App", () => {
     expect(screen.queryByLabelText("Side to move")).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Undo" })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Redo" })).not.toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "wQ" })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "White queen" }),
+    ).not.toBeInTheDocument();
   });
 
   it("toggles edit mode visual state without mutating the board", () => {
@@ -188,7 +190,9 @@ describe("App", () => {
     expect(
       screen.queryByRole("button", { name: "Remove piece" }),
     ).not.toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "wQ" })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "White queen" }),
+    ).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Black" })).not.toBeInTheDocument();
     expect(screen.queryByText("Edit mode inactive.")).not.toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
@@ -200,7 +204,7 @@ describe("App", () => {
 
     expect(editModeToggle).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("button", { name: "Remove piece" })).toBeEnabled();
-    expect(screen.getByRole("button", { name: "wQ" })).toBeEnabled();
+    expect(screen.getByRole("button", { name: "White queen" })).toBeEnabled();
     expect(screen.getByRole("button", { name: "Black" })).toBeEnabled();
     expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled();
@@ -284,7 +288,7 @@ describe("App", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
     fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
-    fireEvent.click(screen.getByRole("button", { name: "wQ" }));
+    fireEvent.click(screen.getByRole("button", { name: "White queen" }));
     fireEvent.click(screen.getByTestId("mock-empty-square"));
 
     expect(screen.getByText("Selected piece: wQ.")).toBeInTheDocument();
@@ -312,7 +316,7 @@ describe("App", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
     fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
-    fireEvent.click(screen.getByRole("button", { name: "wQ" }));
+    fireEvent.click(screen.getByRole("button", { name: "White queen" }));
     fireEvent.click(screen.getByTestId("mock-empty-square"));
 
     fireEvent.click(screen.getByRole("button", { name: "Undo" }));
@@ -338,7 +342,7 @@ describe("App", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
     fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
-    fireEvent.click(screen.getByRole("button", { name: "bQ" }));
+    fireEvent.click(screen.getByRole("button", { name: "Black queen" }));
     fireEvent.click(screen.getByTestId("mock-occupied-square"));
 
     expect(screen.getByText("Last interaction: Place bQ on c4.")).toBeInTheDocument();
@@ -467,13 +471,13 @@ describe("App", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
     fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
-    fireEvent.click(screen.getByRole("button", { name: "wQ" }));
+    fireEvent.click(screen.getByRole("button", { name: "White queen" }));
     fireEvent.click(screen.getByTestId("mock-empty-square"));
     fireEvent.click(screen.getByRole("button", { name: "Undo" }));
 
     expect(screen.getByRole("button", { name: "Redo" })).toBeEnabled();
 
-    fireEvent.click(screen.getByRole("button", { name: "bQ" }));
+    fireEvent.click(screen.getByRole("button", { name: "Black queen" }));
     fireEvent.click(screen.getByTestId("mock-occupied-square"));
 
     expect(screen.getByTestId("static-board")).toHaveAttribute(

@@ -17,18 +17,18 @@ import type {
 } from "./StaticBoard";
 
 const pieceOptions = [
-  "wP",
-  "wN",
-  "wB",
-  "wR",
-  "wQ",
-  "wK",
-  "bP",
-  "bN",
-  "bB",
-  "bR",
-  "bQ",
-  "bK",
+  { code: "wK", label: "White king", symbol: "♔" },
+  { code: "wQ", label: "White queen", symbol: "♕" },
+  { code: "wR", label: "White rook", symbol: "♖" },
+  { code: "wB", label: "White bishop", symbol: "♗" },
+  { code: "wN", label: "White knight", symbol: "♘" },
+  { code: "wP", label: "White pawn", symbol: "♙" },
+  { code: "bK", label: "Black king", symbol: "♚" },
+  { code: "bQ", label: "Black queen", symbol: "♛" },
+  { code: "bR", label: "Black rook", symbol: "♜" },
+  { code: "bB", label: "Black bishop", symbol: "♝" },
+  { code: "bN", label: "Black knight", symbol: "♞" },
+  { code: "bP", label: "Black pawn", symbol: "♟" },
 ];
 
 function formatMoveAttempt({ piece, sourceSquare, targetSquare }: BoardMoveAttempt) {
@@ -340,17 +340,18 @@ export function AnalysisShell({ fen }: { fen?: string }) {
             <div className="mt-3 grid grid-cols-6 gap-2">
               {pieceOptions.map((piece) => (
                 <button
-                  key={piece}
+                  key={piece.code}
                   type="button"
-                  aria-pressed={selectedPiece === piece}
-                  onClick={() => handlePieceSelection(piece)}
-                  className={`rounded-lg border px-2 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
-                    selectedPiece === piece
+                  aria-label={piece.label}
+                  aria-pressed={selectedPiece === piece.code}
+                  onClick={() => handlePieceSelection(piece.code)}
+                  className={`rounded-lg border px-2 py-2 text-2xl leading-none transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
+                    selectedPiece === piece.code
                       ? "border-emerald-200 bg-emerald-300 text-neutral-950"
                       : "border-neutral-700 bg-neutral-900 text-neutral-200 hover:border-neutral-500 hover:text-white"
                   }`}
                 >
-                  {piece}
+                  {piece.symbol}
                 </button>
               ))}
             </div>
