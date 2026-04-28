@@ -32,7 +32,9 @@ const pieceOptions = [
   { code: "bP", label: "Black pawn", symbol: "♟" },
 ];
 
-type ActionIconName = "edit" | "remove" | "undo" | "redo" | "reset" | "flip";
+type ActionIconName = "copy" | "edit" | "remove" | "undo" | "redo" | "reset" | "flip";
+
+type CopyStatus = "idle" | "success" | "error";
 
 const actionButtonBase =
   "inline-flex h-12 w-12 items-center justify-center rounded-lg transition focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50";
@@ -43,6 +45,12 @@ function formatMoveAttempt({ piece, sourceSquare, targetSquare }: BoardMoveAttem
 
 function ActionIcon({ name }: { name: ActionIconName }) {
   const paths: Record<ActionIconName, ReactNode> = {
+    copy: (
+      <>
+        <path d="M8 8h10v12H8z" />
+        <path d="M6 16H4V4h10v2" />
+      </>
+    ),
     edit: (
       <>
         <path d="M4 16v4h4L18.5 9.5l-4-4L4 16Z" />
@@ -114,6 +122,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   const [selectedPiece, setSelectedPiece] = useState<string | null>(null);
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [lastInteraction, setLastInteraction] = useState<string | null>(null);
+  const [copyStatus, setCopyStatus] = useState<CopyStatus>("idle");
   const activeColor = getFenActiveColor(currentFen);
 
   function applyFenEdit(nextFen: string) {
@@ -124,6 +133,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setUndoStack((history) => [...history, currentFen]);
     setRedoStack([]);
     setCurrentFen(nextFen);
+    setCopyStatus("idle");
 
     return true;
   }
@@ -189,6 +199,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setSelectedPiece(null);
     setSelectedSquare(null);
     setLastInteraction(null);
+    setCopyStatus("idle");
   }
 
   function handleUndo() {
@@ -202,6 +213,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setRedoStack((history) => [...history, currentFen]);
     setCurrentFen(previousFen);
     setLastInteraction("Undo edit");
+    setCopyStatus("idle");
   }
 
   function handleRedo() {
@@ -215,6 +227,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setUndoStack((history) => [...history, currentFen]);
     setCurrentFen(nextFen);
     setLastInteraction("Redo edit");
+    setCopyStatus("idle");
   }
 
   function handleFlip() {
@@ -254,6 +267,16 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   function handleActiveColorChange(activeColor: FenActiveColor) {
     setLastInteraction(`Side to move: ${activeColor === "w" ? "White" : "Black"}`);
     setCurrentFen((fen) => setFenActiveColor({ fen, activeColor }));
+    setCopyStatus("idle");
+  }
+
+  async function handleCopyFen() {
+    try {
+      await navigator.clipboard.writeText(currentFen);
+      setCopyStatus("success");
+    } catch {
+      setCopyStatus("error");
+    }
   }
 
   return (
@@ -360,6 +383,15 @@ export function AnalysisShell({ fen }: { fen?: string }) {
             <span aria-hidden="true" />
           )}
           <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              aria-label="Copy FEN"
+              title="Copy FEN"
+              onClick={() => void handleCopyFen()}
+              className={`${actionButtonBase} border border-emerald-300/60 text-emerald-200 hover:border-emerald-200 hover:text-emerald-100`}
+            >
+              <ActionIcon name="copy" />
+            </button>
             {isEditMode ? (
               <>
                 <button
@@ -403,6 +435,16 @@ export function AnalysisShell({ fen }: { fen?: string }) {
               <ActionIcon name="flip" />
             </button>
           </div>
+          {copyStatus === "success" ? (
+            <p className="w-full text-right text-sm font-semibold text-emerald-200">
+              FEN copied.
+            </p>
+          ) : null}
+          {copyStatus === "error" ? (
+            <p className="w-full text-right text-sm font-semibold text-rose-200">
+              Could not copy FEN.
+            </p>
+          ) : null}
         </div>
       </div>
 

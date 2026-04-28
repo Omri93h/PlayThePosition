@@ -95,6 +95,15 @@ const REPLACED_STATIC_FEN =
 const BLACK_TO_MOVE_STATIC_FEN =
   "r2q1rk1/pp2bppp/2npbn2/2pNp3/2P1P3/2N2Q2/PP2BPPP/R1B2RK1 b - - 0 10";
 
+function mockClipboard(writeText = vi.fn().mockResolvedValue(undefined)) {
+  Object.defineProperty(navigator, "clipboard", {
+    configurable: true,
+    value: { writeText },
+  });
+
+  return writeText;
+}
+
 describe("App", () => {
   afterEach(() => {
     cleanup();
@@ -179,6 +188,7 @@ describe("App", () => {
     );
     expect(screen.getByLabelText("Analysis actions")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Edit mode" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Copy FEN" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Reset" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Flip" })).toBeInTheDocument();
     expect(screen.getByLabelText("Side to move")).toBeInTheDocument();
@@ -250,7 +260,30 @@ describe("App", () => {
     );
   });
 
-  it("updates side to move metadata without enabling edit mode", () => {
+  it("copies the current fallback FEN outside edit mode", async () => {
+    const writeText = mockClipboard();
+
+    render(<AnalysisShell />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Copy FEN" }));
+
+    await waitFor(() => {
+      expect(writeText).toHaveBeenCalledWith(STATIC_ANALYSIS_FEN);
+    });
+    expect(screen.getByText("FEN copied.")).toBeInTheDocument();
+  });
+
+  it("shows a copy failure state when clipboard writing fails", async () => {
+    mockClipboard(vi.fn().mockRejectedValue(new Error("Permission denied")));
+
+    render(<AnalysisShell />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Copy FEN" }));
+
+    expect(await screen.findByText("Could not copy FEN.")).toBeInTheDocument();
+  });
+
+  it("updates side to move metadata without enabling edit mode", async () => {
     render(<AnalysisShell />);
     fireEvent.click(screen.getByRole("button", { name: "Black" }));
 
@@ -264,6 +297,14 @@ describe("App", () => {
       "aria-pressed",
       "true",
     );
+
+    const writeText = mockClipboard();
+
+    fireEvent.click(screen.getByRole("button", { name: "Copy FEN" }));
+
+    await waitFor(() => {
+      expect(writeText).toHaveBeenCalledWith(BLACK_TO_MOVE_STATIC_FEN);
+    });
 
     fireEvent.click(screen.getByRole("button", { name: "Reset" }));
 
@@ -495,6 +536,27 @@ describe("App", () => {
     expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled();
   });
 
+  it("copies edited FEN and then reset FEN", async () => {
+    const writeText = mockClipboard();
+
+    render(<AnalysisShell />);
+    fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
+    fireEvent.click(screen.getByTestId("mock-chessboard"));
+
+    fireEvent.click(screen.getByRole("button", { name: "Copy FEN" }));
+
+    await waitFor(() => {
+      expect(writeText).toHaveBeenLastCalledWith(MOVED_STATIC_FEN);
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Reset" }));
+    fireEvent.click(screen.getByRole("button", { name: "Copy FEN" }));
+
+    await waitFor(() => {
+      expect(writeText).toHaveBeenLastCalledWith(STATIC_ANALYSIS_FEN);
+    });
+  });
+
   it("clears redo history after a new edit follows undo", () => {
     render(<AnalysisShell />);
     fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
@@ -597,6 +659,14 @@ describe("App", () => {
       "data-orientation",
       "white",
     );
+
+    const writeText = mockClipboard();
+
+    fireEvent.click(screen.getByRole("button", { name: "Copy FEN" }));
+
+    await waitFor(() => {
+      expect(writeText).toHaveBeenCalledWith(uploadedFen);
+    });
 
     expect(fetchMock).toHaveBeenCalledWith(
       "http://127.0.0.1:8000/upload",

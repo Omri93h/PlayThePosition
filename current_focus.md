@@ -1,13 +1,13 @@
 # Current Focus
 
 Current Block:
-BLOCK 03.5 — UX Cleanup
+BLOCK 04 — Share and Link-Out
 
 Current Feature:
-3.5.8 UX hierarchy fixes
+4.1 Copy FEN
 
 Current Step:
-Fix edit tool hierarchy, action icon sizing, and side-to-move placement.
+Add Copy FEN action for current analysis position.
 
 Rules:
 - Work only on the current feature.
