@@ -14,6 +14,8 @@ Before coding, read these files:
 - `current_focus.md`
 - `docs/product/PRODUCT_VISION.md`
 - `docs/product/MVP_SCOPE.md`
+- `docs/product/DECISIONS.md`
+- `docs/product/PROGRESS.md`
 - `docs/product/BLOCKS_INDEX.md`
 - `docs/product/FEATURE_INDEX.md`
 - `docs/product/FUTURE_PLANS.md`
