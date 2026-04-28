@@ -4,10 +4,10 @@ Current Block:
 BLOCK 04 — Share and Link-Out
 
 Current Feature:
-4.3 Share link backend
+4.4 Public position page
 
 Current Step:
-Add backend-only share save/load endpoints with in-memory storage.
+Load shared FEN by share ID and render AnalysisShell.
 
 Rules:
 - Work only on the current feature.

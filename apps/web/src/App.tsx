@@ -1,11 +1,57 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import { loadSharedPosition } from "./api/share";
 import type { UploadSuccessResponse } from "./api/upload";
 import { AnalysisShell } from "./components/AnalysisShell";
 import { UploadDropzone } from "./components/UploadDropzone";
 
+type SharedPositionState =
+  | { status: "idle"; fen: null; error: "" }
+  | { status: "loading"; fen: null; error: "" }
+  | { status: "loaded"; fen: string; error: "" }
+  | { status: "error"; fen: null; error: string };
+
 export function App() {
+  const shareId = getShareId(window.location.pathname);
   const [uploadedFen, setUploadedFen] = useState<string | null>(null);
+  const [sharedPosition, setSharedPosition] = useState<SharedPositionState>({
+    status: shareId ? "loading" : "idle",
+    fen: null,
+    error: "",
+  });
+
+  useEffect(() => {
+    if (!shareId) {
+      return;
+    }
+
+    let isActive = true;
+
+    setSharedPosition({ status: "loading", fen: null, error: "" });
+
+    void loadSharedPosition(shareId)
+      .then((position) => {
+        if (isActive) {
+          setSharedPosition({ status: "loaded", fen: position.fen, error: "" });
+        }
+      })
+      .catch((error) => {
+        if (isActive) {
+          setSharedPosition({
+            status: "error",
+            fen: null,
+            error:
+              error instanceof Error
+                ? error.message
+                : "Shared position could not be loaded.",
+          });
+        }
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, [shareId]);
 
   function handleUploadSuccess(result: UploadSuccessResponse) {
     setUploadedFen(result.fen);
@@ -20,13 +66,50 @@ export function App() {
           </p>
         </div>
 
-        {uploadedFen ? (
+        {shareId ? (
+          <SharedPositionView state={sharedPosition} />
+        ) : uploadedFen ? (
           <AnalysisShell fen={uploadedFen} />
         ) : (
           <UploadScreen onUploadSuccess={handleUploadSuccess} />
         )}
       </div>
     </main>
+  );
+}
+
+function getShareId(pathname: string) {
+  const match = pathname.match(/^\/share\/([^/]+)\/?$/);
+  return match?.[1] ? decodeURIComponent(match[1]) : null;
+}
+
+function SharedPositionView({ state }: { state: SharedPositionState }) {
+  if (state.status === "loaded") {
+    return <AnalysisShell fen={state.fen} />;
+  }
+
+  if (state.status === "error") {
+    return (
+      <section className="flex flex-1 flex-col items-center justify-center py-12 text-center">
+        <h1 className="text-3xl font-semibold tracking-normal text-white">
+          Shared position unavailable
+        </h1>
+        <p role="alert" className="mt-4 max-w-xl text-sm leading-6 text-rose-100">
+          {state.error}
+        </p>
+      </section>
+    );
+  }
+
+  return (
+    <section className="flex flex-1 flex-col items-center justify-center py-12 text-center">
+      <h1 className="text-3xl font-semibold tracking-normal text-white">
+        Loading shared position
+      </h1>
+      <p className="mt-4 text-sm leading-6 text-neutral-300">
+        Fetching the saved board state.
+      </p>
+    </section>
   );
 }
 

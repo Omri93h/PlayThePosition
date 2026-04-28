@@ -104,11 +104,16 @@ function mockClipboard(writeText = vi.fn().mockResolvedValue(undefined)) {
   return writeText;
 }
 
+function setPath(path: string) {
+  window.history.pushState({}, "", path);
+}
+
 describe("App", () => {
   afterEach(() => {
     cleanup();
     vi.useRealTimers();
     vi.unstubAllGlobals();
+    setPath("/");
   });
 
   it("renders the idle upload screen UI", () => {
@@ -143,6 +148,62 @@ describe("App", () => {
     expect(inputClickSpy).toHaveBeenCalledTimes(1);
 
     inputClickSpy.mockRestore();
+  });
+
+  it("loads a shared position route and renders the returned FEN", async () => {
+    const sharedFen = "8/8/8/8/8/8/8/8 b - - 0 1";
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          id: "shared-123",
+          fen: sharedFen,
+          source: "share",
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      ),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+    setPath("/share/shared-123");
+
+    render(<App />);
+
+    expect(
+      screen.getByRole("heading", { name: "Loading shared position" }),
+    ).toBeInTheDocument();
+
+    expect(
+      await screen.findByRole("heading", { name: "Position workspace" }),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId("static-board")).toHaveAttribute("data-fen", sharedFen);
+    expect(fetchMock).toHaveBeenCalledWith("http://127.0.0.1:8000/share/shared-123");
+  });
+
+  it("shows an error state when a shared position cannot be loaded", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(
+        new Response(
+          JSON.stringify({
+            ok: false,
+            error: {
+              code: "share_not_found",
+              message: "Shared position was not found.",
+            },
+          }),
+          { status: 404, headers: { "Content-Type": "application/json" } },
+        ),
+      ),
+    );
+    setPath("/share/missing");
+
+    render(<App />);
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "Shared position was not found.",
+    );
+    expect(
+      screen.getByRole("heading", { name: "Shared position unavailable" }),
+    ).toBeInTheDocument();
   });
 
   it("renders the static analysis shell areas with a static board", () => {
