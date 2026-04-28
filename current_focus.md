@@ -4,10 +4,10 @@ Current Block:
 BLOCK 03.5 — UX Cleanup
 
 Current Feature:
-3.5.7 Improve edit mode visual board state
+3.5.8 UX hierarchy fixes
 
 Current Step:
-Add subtle edit-mode board visual treatment.
+Fix edit tool hierarchy, action icon sizing, and side-to-move placement.
 
 Rules:
 - Work only on the current feature.

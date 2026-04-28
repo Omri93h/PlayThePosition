@@ -27,6 +27,7 @@ These are intentionally out of scope until the MVP blocks are complete.
 
 ## Phase 5 — Monetization
 - Ads and compliance pages.
+- Premium-gated external analysis links to Chess.com and Lichess.
 - Pro tier.
 - Unlimited analysis or saves.
 - Advanced edit/detection tools.

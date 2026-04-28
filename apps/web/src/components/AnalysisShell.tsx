@@ -35,7 +35,7 @@ const pieceOptions = [
 type ActionIconName = "edit" | "remove" | "undo" | "redo" | "reset" | "flip";
 
 const actionButtonBase =
-  "inline-flex h-10 w-10 items-center justify-center rounded-lg transition focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex h-12 w-12 items-center justify-center rounded-lg transition focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50";
 
 function formatMoveAttempt({ piece, sourceSquare, targetSquare }: BoardMoveAttempt) {
   return `${piece} ${sourceSquare} to ${targetSquare ?? "off board"}`;
@@ -90,7 +90,7 @@ function ActionIcon({ name }: { name: ActionIconName }) {
   return (
     <svg
       aria-hidden="true"
-      className="h-4 w-4"
+      className="h-5 w-5"
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
@@ -252,12 +252,8 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   }
 
   function handleActiveColorChange(activeColor: FenActiveColor) {
-    if (!isEditMode) {
-      return;
-    }
-
     setLastInteraction(`Side to move: ${activeColor === "w" ? "White" : "Black"}`);
-    applyFenEdit(setFenActiveColor({ fen: currentFen, activeColor }));
+    setCurrentFen((fen) => setFenActiveColor({ fen, activeColor }));
   }
 
   return (
@@ -298,22 +294,41 @@ export function AnalysisShell({ fen }: { fen?: string }) {
             >
               <ActionIcon name="edit" />
             </button>
-            {isEditMode ? (
-              <button
-                type="button"
-                aria-label="Remove piece"
-                aria-pressed={isRemoveMode}
-                title="Remove piece"
-                onClick={handleRemoveModeToggle}
-                className={`${actionButtonBase} ${
-                  isRemoveMode
-                    ? "bg-rose-200 text-rose-950"
-                    : "bg-neutral-800 text-neutral-200 hover:text-white"
-                }`}
-              >
-                <ActionIcon name="remove" />
-              </button>
-            ) : null}
+          </div>
+        </div>
+
+        <div
+          aria-label="Position metadata"
+          className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-800 px-5 py-4"
+        >
+          <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
+            Side to move
+          </p>
+          <div aria-label="Side to move" className="flex gap-2">
+            <button
+              type="button"
+              aria-pressed={activeColor === "w"}
+              onClick={() => handleActiveColorChange("w")}
+              className={`rounded-lg border px-4 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
+                activeColor === "w"
+                  ? "border-emerald-200 bg-emerald-300 text-neutral-950"
+                  : "border-neutral-700 bg-neutral-900 text-neutral-200 hover:border-neutral-500 hover:text-white"
+              }`}
+            >
+              White
+            </button>
+            <button
+              type="button"
+              aria-pressed={activeColor === "b"}
+              onClick={() => handleActiveColorChange("b")}
+              className={`rounded-lg border px-4 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
+                activeColor === "b"
+                  ? "border-emerald-200 bg-emerald-300 text-neutral-950"
+                  : "border-neutral-700 bg-neutral-900 text-neutral-200 hover:border-neutral-500 hover:text-white"
+              }`}
+            >
+              Black
+            </button>
           </div>
         </div>
 
@@ -398,36 +413,26 @@ export function AnalysisShell({ fen }: { fen?: string }) {
             Edit mode active.
           </p>
           <p className="mt-2 text-sm font-semibold text-neutral-300">
-            {isRemoveMode ? "Remove mode active." : "Remove mode inactive."}
+            {isRemoveMode ? "Remove tool active." : "Remove tool inactive."}
           </p>
-          <div className="mt-5" aria-label="Side to move">
+          <div className="mt-5" aria-label="Edit tools">
             <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
-              Side to move
+              Edit tools
             </p>
-            <div className="mt-3 grid grid-cols-2 gap-2">
+            <div className="mt-3 flex gap-2">
               <button
                 type="button"
-                aria-pressed={activeColor === "w"}
-                onClick={() => handleActiveColorChange("w")}
-                className={`rounded-lg border px-3 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
-                  activeColor === "w"
-                    ? "border-emerald-200 bg-emerald-300 text-neutral-950"
-                    : "border-neutral-700 bg-neutral-900 text-neutral-200 hover:border-neutral-500 hover:text-white"
+                aria-label="Remove piece"
+                aria-pressed={isRemoveMode}
+                title="Remove piece"
+                onClick={handleRemoveModeToggle}
+                className={`${actionButtonBase} ${
+                  isRemoveMode
+                    ? "bg-rose-200 text-rose-950"
+                    : "bg-neutral-800 text-neutral-200 hover:text-white"
                 }`}
               >
-                White
-              </button>
-              <button
-                type="button"
-                aria-pressed={activeColor === "b"}
-                onClick={() => handleActiveColorChange("b")}
-                className={`rounded-lg border px-3 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
-                  activeColor === "b"
-                    ? "border-emerald-200 bg-emerald-300 text-neutral-950"
-                    : "border-neutral-700 bg-neutral-900 text-neutral-200 hover:border-neutral-500 hover:text-white"
-                }`}
-              >
-                Black
+                <ActionIcon name="remove" />
               </button>
             </div>
           </div>

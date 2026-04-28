@@ -181,10 +181,18 @@ describe("App", () => {
     expect(screen.getByRole("button", { name: "Edit mode" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Reset" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Flip" })).toBeInTheDocument();
+    expect(screen.getByLabelText("Side to move")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "White" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    expect(screen.getByRole("button", { name: "Black" })).toHaveAttribute(
+      "aria-pressed",
+      "false",
+    );
     expect(
       screen.queryByRole("button", { name: "Remove piece" }),
     ).not.toBeInTheDocument();
-    expect(screen.queryByLabelText("Side to move")).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Undo" })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Redo" })).not.toBeInTheDocument();
     expect(
@@ -204,7 +212,7 @@ describe("App", () => {
     expect(
       screen.queryByRole("button", { name: "White queen" }),
     ).not.toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "Black" })).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Black" })).toBeInTheDocument();
     expect(screen.queryByText("Edit mode inactive.")).not.toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-edit-mode",
@@ -215,6 +223,9 @@ describe("App", () => {
 
     expect(editModeToggle).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("button", { name: "Remove piece" })).toBeEnabled();
+    expect(screen.getByLabelText("Edit tools")).toContainElement(
+      screen.getByRole("button", { name: "Remove piece" }),
+    );
     expect(screen.getByRole("button", { name: "White queen" })).toBeEnabled();
     expect(screen.getByRole("button", { name: "Black" })).toBeEnabled();
     expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled();
@@ -239,14 +250,12 @@ describe("App", () => {
     );
   });
 
-  it("updates side to move metadata with undo, redo, and reset", () => {
+  it("updates side to move metadata without enabling edit mode", () => {
     render(<AnalysisShell />);
-    fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
     fireEvent.click(screen.getByRole("button", { name: "Black" }));
 
-    expect(
-      screen.getByText("Last interaction: Side to move: Black."),
-    ).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Undo" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Redo" })).not.toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
       BLACK_TO_MOVE_STATIC_FEN,
@@ -254,24 +263,6 @@ describe("App", () => {
     expect(screen.getByRole("button", { name: "Black" })).toHaveAttribute(
       "aria-pressed",
       "true",
-    );
-
-    fireEvent.click(screen.getByRole("button", { name: "Undo" }));
-
-    expect(screen.getByTestId("static-board")).toHaveAttribute(
-      "data-fen",
-      STATIC_ANALYSIS_FEN,
-    );
-    expect(screen.getByRole("button", { name: "White" })).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
-
-    fireEvent.click(screen.getByRole("button", { name: "Redo" }));
-
-    expect(screen.getByTestId("static-board")).toHaveAttribute(
-      "data-fen",
-      BLACK_TO_MOVE_STATIC_FEN,
     );
 
     fireEvent.click(screen.getByRole("button", { name: "Reset" }));
@@ -284,8 +275,6 @@ describe("App", () => {
       "aria-pressed",
       "true",
     );
-    expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled();
-    expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled();
   });
 
   it("keeps add-piece controls non-mutating outside edit mode", () => {
@@ -410,7 +399,7 @@ describe("App", () => {
     expect(
       screen.getByText("Last interaction: Remove wP from c4."),
     ).toBeInTheDocument();
-    expect(screen.getByText("Remove mode active.")).toBeInTheDocument();
+    expect(screen.getByText("Remove tool active.")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-remove-mode",
       "true",
