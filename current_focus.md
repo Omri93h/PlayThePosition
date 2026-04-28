@@ -4,10 +4,10 @@ Current Block:
 BLOCK 04 — Share and Link-Out
 
 Current Feature:
-4.1 Copy FEN
+4.2 Chess.com / Lichess analyzer link planning
 
 Current Step:
-Add Copy FEN action for current analysis position.
+Document future premium-gated analyzer link-out decision only.
 
 Rules:
 - Work only on the current feature.

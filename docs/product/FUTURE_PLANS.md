@@ -28,6 +28,8 @@ These are intentionally out of scope until the MVP blocks are complete.
 ## Phase 5 — Monetization
 - Ads and compliance pages.
 - Premium-gated external analysis links to Chess.com and Lichess.
+- Finalize whether external analyzer link-out is free, premium, or partially gated.
+- Keep Copy FEN as the free fallback if live external analyzer links are gated.
 - Pro tier.
 - Unlimited analysis or saves.
 - Advanced edit/detection tools.

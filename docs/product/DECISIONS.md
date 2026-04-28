@@ -6,7 +6,9 @@
 - Edit Mode is for correcting board positions after upload/detection.
 - Analysis Mode with legal move dots is future work.
 - Manual validation after BLOCK 03 created BLOCK 03.5 UX Cleanup before BLOCK 04.
-- External analysis links to Chess.com and Lichess are planned as premium-gated features.
+- External analyzer link-out to Chess.com and Lichess is planned and may be premium-gated.
+- Do not implement live external links until the gating decision is finalized.
+- Copy FEN remains the free fallback for external analysis workflows.
 - Do not implement payment or link-out before the relevant approved block.
 - BLOCK 04 must account for link-out gating instead of assuming external analysis links are free.
 - Do not build engine, share, accounts, or storage features before their blocks.

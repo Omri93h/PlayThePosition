@@ -41,7 +41,7 @@
 
 ## BLOCK 04 — Share and Link-Out
 - 4.1 Copy FEN
-- 4.2 chess.com analyzer link
+- 4.2 Chess.com / Lichess analyzer link planning
 - 4.3 Share link backend
 - 4.4 Public position page
 - 4.5 Share UI

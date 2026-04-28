@@ -11,10 +11,13 @@ BLOCK 03 — Edit Mode
 ### 4.1 Copy FEN
 - One-click copy.
 - Success/error state.
+- Free fallback for external analysis workflows.
 
-### 4.2 chess.com analyzer link
-- Generate analyzer URL from FEN.
-- Open in new tab.
+### 4.2 Chess.com / Lichess analyzer link planning
+- External analyzer link-out is planned.
+- Link-out may be premium-gated.
+- Do not add payment, auth, or enforcement in this block unless explicitly approved later.
+- Do not implement live external links until the gating decision is finalized.
 
 ### 4.3 Share link backend
 - Save minimal position state.
@@ -31,5 +34,5 @@ BLOCK 03 — Edit Mode
 
 ## Done definition
 - User can copy FEN.
-- User can open chess.com analyzer.
+- External analyzer link-out direction is documented without premature payment/auth work.
 - User can share a working position link.
