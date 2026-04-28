@@ -1,8 +1,10 @@
 from typing import Annotated
+from uuid import uuid4
 
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel, Field
 
 app = FastAPI(title="Play The Position API")
 
@@ -16,6 +18,24 @@ app.add_middleware(
 ALLOWED_UPLOAD_TYPES = {"image/jpeg", "image/png"}
 MAX_UPLOAD_BYTES = 5 * 1024 * 1024
 PLACEHOLDER_FEN = "8/8/8/8/8/8/8/8 w - - 0 1"
+SHARED_POSITIONS: dict[str, "SharedPosition"] = {}
+
+
+class SharePositionRequest(BaseModel):
+    fen: str = Field(min_length=1)
+
+
+class SharedPosition(BaseModel):
+    id: str
+    fen: str
+    source: str = "share"
+
+
+class SharePositionResponse(BaseModel):
+    id: str
+    path: str
+    fen: str
+    source: str
 
 
 @app.get("/health")
@@ -42,6 +62,34 @@ async def upload_position(
             "implemented yet."
         ),
     }
+
+
+@app.post("/share", response_model=SharePositionResponse)
+def create_share(payload: SharePositionRequest) -> SharePositionResponse:
+    share_id = uuid4().hex
+    position = SharedPosition(id=share_id, fen=payload.fen)
+    SHARED_POSITIONS[share_id] = position
+
+    return SharePositionResponse(
+        id=share_id,
+        path=f"/share/{share_id}",
+        fen=position.fen,
+        source=position.source,
+    )
+
+
+@app.get("/share/{share_id}", response_model=None)
+def get_share(share_id: str) -> SharedPosition | JSONResponse:
+    position = SHARED_POSITIONS.get(share_id)
+
+    if position is None:
+        return share_error(
+            404,
+            "share_not_found",
+            "Shared position was not found.",
+        )
+
+    return position
 
 
 def validate_upload(file: UploadFile, file_bytes: bytes) -> JSONResponse | None:
@@ -82,6 +130,19 @@ def has_valid_image_signature(content_type: str, file_bytes: bytes) -> bool:
 
 
 def upload_error(status_code: int, code: str, message: str) -> JSONResponse:
+    return JSONResponse(
+        status_code=status_code,
+        content={
+            "ok": False,
+            "error": {
+                "code": code,
+                "message": message,
+            },
+        },
+    )
+
+
+def share_error(status_code: int, code: str, message: str) -> JSONResponse:
     return JSONResponse(
         status_code=status_code,
         content={

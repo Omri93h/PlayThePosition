@@ -4,10 +4,10 @@ Current Block:
 BLOCK 04 — Share and Link-Out
 
 Current Feature:
-4.2 Chess.com / Lichess analyzer link planning
+4.3 Share link backend
 
 Current Step:
-Document future premium-gated analyzer link-out decision only.
+Add backend-only share save/load endpoints with in-memory storage.
 
 Rules:
 - Work only on the current feature.
