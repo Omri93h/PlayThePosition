@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useState } from "react";
 
+import { createSharedPosition } from "../api/share";
 import {
   getFenActiveColor,
   movePieceInFen,
@@ -32,9 +33,18 @@ const pieceOptions = [
   { code: "bP", label: "Black pawn", symbol: "♟" },
 ];
 
-type ActionIconName = "copy" | "edit" | "remove" | "undo" | "redo" | "reset" | "flip";
+type ActionIconName =
+  | "copy"
+  | "edit"
+  | "remove"
+  | "undo"
+  | "redo"
+  | "reset"
+  | "flip"
+  | "share";
 
 type CopyStatus = "idle" | "success" | "error";
+type ShareStatus = "idle" | "loading" | "success" | "error";
 
 const actionButtonBase =
   "inline-flex h-12 w-12 items-center justify-center rounded-lg transition focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50";
@@ -93,6 +103,13 @@ function ActionIcon({ name }: { name: ActionIconName }) {
         <path d="m7 17 3-3" />
       </>
     ),
+    share: (
+      <>
+        <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7" />
+        <path d="M12 16V4" />
+        <path d="m7 9 5-5 5 5" />
+      </>
+    ),
   };
 
   return (
@@ -123,7 +140,18 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [lastInteraction, setLastInteraction] = useState<string | null>(null);
   const [copyStatus, setCopyStatus] = useState<CopyStatus>("idle");
+  const [shareStatus, setShareStatus] = useState<ShareStatus>("idle");
+  const [shareUrl, setShareUrl] = useState("");
+  const [shareMessage, setShareMessage] = useState("");
+  const [shareError, setShareError] = useState("");
   const activeColor = getFenActiveColor(currentFen);
+
+  function clearShareResult() {
+    setShareStatus("idle");
+    setShareUrl("");
+    setShareMessage("");
+    setShareError("");
+  }
 
   function applyFenEdit(nextFen: string) {
     if (nextFen === currentFen) {
@@ -134,6 +162,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setRedoStack([]);
     setCurrentFen(nextFen);
     setCopyStatus("idle");
+    clearShareResult();
 
     return true;
   }
@@ -200,6 +229,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setSelectedSquare(null);
     setLastInteraction(null);
     setCopyStatus("idle");
+    clearShareResult();
   }
 
   function handleUndo() {
@@ -214,6 +244,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setCurrentFen(previousFen);
     setLastInteraction("Undo edit");
     setCopyStatus("idle");
+    clearShareResult();
   }
 
   function handleRedo() {
@@ -228,6 +259,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setCurrentFen(nextFen);
     setLastInteraction("Redo edit");
     setCopyStatus("idle");
+    clearShareResult();
   }
 
   function handleFlip() {
@@ -268,6 +300,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setLastInteraction(`Side to move: ${activeColor === "w" ? "White" : "Black"}`);
     setCurrentFen((fen) => setFenActiveColor({ fen, activeColor }));
     setCopyStatus("idle");
+    clearShareResult();
   }
 
   async function handleCopyFen() {
@@ -276,6 +309,34 @@ export function AnalysisShell({ fen }: { fen?: string }) {
       setCopyStatus("success");
     } catch {
       setCopyStatus("error");
+    }
+  }
+
+  async function handleSharePosition() {
+    setShareStatus("loading");
+    setShareError("");
+
+    try {
+      const result = await createSharedPosition(currentFen);
+      const nextShareUrl = new URL(result.path, window.location.origin).toString();
+
+      setShareUrl(nextShareUrl);
+
+      try {
+        await navigator.clipboard.writeText(nextShareUrl);
+        setShareMessage("Share link copied.");
+      } catch {
+        setShareMessage("Share link ready.");
+      }
+
+      setShareStatus("success");
+    } catch (error) {
+      setShareStatus("error");
+      setShareUrl("");
+      setShareMessage("");
+      setShareError(
+        error instanceof Error ? error.message : "Share link could not be created.",
+      );
     }
   }
 
@@ -392,6 +453,16 @@ export function AnalysisShell({ fen }: { fen?: string }) {
             >
               <ActionIcon name="copy" />
             </button>
+            <button
+              type="button"
+              aria-label="Share"
+              title="Share"
+              disabled={shareStatus === "loading"}
+              onClick={() => void handleSharePosition()}
+              className={`${actionButtonBase} border border-emerald-300/60 text-emerald-200 hover:border-emerald-200 hover:text-emerald-100`}
+            >
+              <ActionIcon name="share" />
+            </button>
             {isEditMode ? (
               <>
                 <button
@@ -443,6 +514,30 @@ export function AnalysisShell({ fen }: { fen?: string }) {
           {copyStatus === "error" ? (
             <p className="w-full text-right text-sm font-semibold text-rose-200">
               Could not copy FEN.
+            </p>
+          ) : null}
+          {shareStatus === "loading" ? (
+            <p className="w-full text-right text-sm font-semibold text-neutral-300">
+              Creating share link...
+            </p>
+          ) : null}
+          {shareStatus === "success" ? (
+            <div className="w-full text-right text-sm">
+              <p className="font-semibold text-emerald-200">{shareMessage}</p>
+              <a
+                href={shareUrl}
+                className="mt-1 inline-block max-w-full break-all text-emerald-100 underline decoration-emerald-300/60 underline-offset-4"
+              >
+                {shareUrl}
+              </a>
+            </div>
+          ) : null}
+          {shareStatus === "error" ? (
+            <p
+              role="alert"
+              className="w-full text-right text-sm font-semibold text-rose-200"
+            >
+              {shareError}
             </p>
           ) : null}
         </div>

@@ -4,6 +4,10 @@ export type SharedPositionResponse = {
   source: "share";
 };
 
+export type CreateSharedPositionResponse = SharedPositionResponse & {
+  path: string;
+};
+
 type ApiErrorResponse = {
   error?: {
     message?: string;
@@ -11,6 +15,30 @@ type ApiErrorResponse = {
 };
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:8000";
+
+export async function createSharedPosition(
+  fen: string,
+): Promise<CreateSharedPositionResponse> {
+  let response: Response;
+
+  try {
+    response = await fetch(`${apiBaseUrl}/share`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fen }),
+    });
+  } catch {
+    throw new Error("Network error. Check your connection and try again.");
+  }
+
+  if (!response.ok) {
+    throw new Error(
+      await getErrorMessage(response, "Share link could not be created."),
+    );
+  }
+
+  return response.json() as Promise<CreateSharedPositionResponse>;
+}
 
 export async function loadSharedPosition(
   shareId: string,
@@ -24,17 +52,19 @@ export async function loadSharedPosition(
   }
 
   if (!response.ok) {
-    throw new Error(await getErrorMessage(response));
+    throw new Error(
+      await getErrorMessage(response, "Shared position could not be loaded."),
+    );
   }
 
   return response.json() as Promise<SharedPositionResponse>;
 }
 
-async function getErrorMessage(response: Response) {
+async function getErrorMessage(response: Response, fallbackMessage: string) {
   try {
     const payload = (await response.json()) as ApiErrorResponse;
-    return payload.error?.message ?? "Shared position could not be loaded.";
+    return payload.error?.message ?? fallbackMessage;
   } catch {
-    return "Shared position could not be loaded.";
+    return fallbackMessage;
   }
 }

@@ -4,10 +4,10 @@ Current Block:
 BLOCK 04 — Share and Link-Out
 
 Current Feature:
-4.4 Public position page
+4.5 Share UI
 
 Current Step:
-Load shared FEN by share ID and render AnalysisShell.
+Add internal share action for current FEN.
 
 Rules:
 - Work only on the current feature.

@@ -250,6 +250,7 @@ describe("App", () => {
     expect(screen.getByLabelText("Analysis actions")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Edit mode" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Copy FEN" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Share" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Reset" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Flip" })).toBeInTheDocument();
     expect(screen.getByLabelText("Side to move")).toBeInTheDocument();
@@ -331,7 +332,71 @@ describe("App", () => {
     await waitFor(() => {
       expect(writeText).toHaveBeenCalledWith(STATIC_ANALYSIS_FEN);
     });
-    expect(screen.getByText("FEN copied.")).toBeInTheDocument();
+    expect(await screen.findByText("FEN copied.")).toBeInTheDocument();
+  });
+
+  it("creates a share link for the current fallback FEN outside edit mode", async () => {
+    const shareUrl = new URL("/share/generated-123", window.location.origin).toString();
+    const writeText = mockClipboard();
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          id: "generated-123",
+          path: "/share/generated-123",
+          fen: STATIC_ANALYSIS_FEN,
+          source: "share",
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      ),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(<AnalysisShell />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Share" }));
+
+    expect(await screen.findByText("Share link copied.")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: shareUrl })).toHaveAttribute(
+      "href",
+      shareUrl,
+    );
+    expect(writeText).toHaveBeenCalledWith(shareUrl);
+    expect(fetchMock).toHaveBeenCalledWith(
+      "http://127.0.0.1:8000/share",
+      expect.objectContaining({
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fen: STATIC_ANALYSIS_FEN }),
+      }),
+    );
+  });
+
+  it("shows an error state when share creation fails", async () => {
+    mockClipboard();
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(
+        new Response(
+          JSON.stringify({
+            ok: false,
+            error: {
+              code: "share_failed",
+              message: "Share link could not be created.",
+            },
+          }),
+          { status: 500, headers: { "Content-Type": "application/json" } },
+        ),
+      ),
+    );
+
+    render(<AnalysisShell />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Share" }));
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "Share link could not be created.",
+    );
+    expect(screen.queryByText("Share link copied.")).not.toBeInTheDocument();
   });
 
   it("shows a copy failure state when clipboard writing fails", async () => {
@@ -377,6 +442,36 @@ describe("App", () => {
       "aria-pressed",
       "true",
     );
+  });
+
+  it("shares updated side-to-move metadata", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          id: "black-to-move",
+          path: "/share/black-to-move",
+          fen: BLACK_TO_MOVE_STATIC_FEN,
+          source: "share",
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      ),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+    mockClipboard();
+
+    render(<AnalysisShell />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Black" }));
+    fireEvent.click(screen.getByRole("button", { name: "Share" }));
+
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledWith(
+        "http://127.0.0.1:8000/share",
+        expect.objectContaining({
+          body: JSON.stringify({ fen: BLACK_TO_MOVE_STATIC_FEN }),
+        }),
+      );
+    });
   });
 
   it("keeps add-piece controls non-mutating outside edit mode", () => {
@@ -615,6 +710,36 @@ describe("App", () => {
 
     await waitFor(() => {
       expect(writeText).toHaveBeenLastCalledWith(STATIC_ANALYSIS_FEN);
+    });
+  });
+
+  it("shares edited FEN after a move", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          id: "moved-position",
+          path: "/share/moved-position",
+          fen: MOVED_STATIC_FEN,
+          source: "share",
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      ),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+    mockClipboard();
+
+    render(<AnalysisShell />);
+    fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
+    fireEvent.click(screen.getByTestId("mock-chessboard"));
+    fireEvent.click(screen.getByRole("button", { name: "Share" }));
+
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledWith(
+        "http://127.0.0.1:8000/share",
+        expect.objectContaining({
+          body: JSON.stringify({ fen: MOVED_STATIC_FEN }),
+        }),
+      );
     });
   });
 
