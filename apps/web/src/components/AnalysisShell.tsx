@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { useState } from "react";
 
 import {
@@ -31,8 +32,75 @@ const pieceOptions = [
   { code: "bP", label: "Black pawn", symbol: "♟" },
 ];
 
+type ActionIconName = "edit" | "remove" | "undo" | "redo" | "reset" | "flip";
+
+const actionButtonBase =
+  "inline-flex h-10 w-10 items-center justify-center rounded-lg transition focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50";
+
 function formatMoveAttempt({ piece, sourceSquare, targetSquare }: BoardMoveAttempt) {
   return `${piece} ${sourceSquare} to ${targetSquare ?? "off board"}`;
+}
+
+function ActionIcon({ name }: { name: ActionIconName }) {
+  const paths: Record<ActionIconName, ReactNode> = {
+    edit: (
+      <>
+        <path d="M4 16v4h4L18.5 9.5l-4-4L4 16Z" />
+        <path d="m13.5 6.5 4 4" />
+      </>
+    ),
+    remove: (
+      <>
+        <path d="M5 7h14" />
+        <path d="M9 7V5h6v2" />
+        <path d="M8 10v8" />
+        <path d="M12 10v8" />
+        <path d="M16 10v8" />
+        <path d="M7 7l1 13h8l1-13" />
+      </>
+    ),
+    undo: (
+      <>
+        <path d="M9 7 5 11l4 4" />
+        <path d="M5 11h9a5 5 0 0 1 0 10h-2" />
+      </>
+    ),
+    redo: (
+      <>
+        <path d="m15 7 4 4-4 4" />
+        <path d="M19 11h-9a5 5 0 0 0 0 10h2" />
+      </>
+    ),
+    reset: (
+      <>
+        <path d="M4 12a8 8 0 1 0 2.34-5.66" />
+        <path d="M4 4v6h6" />
+      </>
+    ),
+    flip: (
+      <>
+        <path d="M7 7h10l-3-3" />
+        <path d="m17 7-3 3" />
+        <path d="M17 17H7l3 3" />
+        <path d="m7 17 3-3" />
+      </>
+    ),
+  };
+
+  return (
+    <svg
+      aria-hidden="true"
+      className="h-4 w-4"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+    >
+      {paths[name]}
+    </svg>
+  );
 }
 
 export function AnalysisShell({ fen }: { fen?: string }) {
@@ -201,28 +269,32 @@ export function AnalysisShell({ fen }: { fen?: string }) {
           >
             <button
               type="button"
+              aria-label="Edit mode"
               aria-pressed={isEditMode}
+              title="Edit mode"
               onClick={handleEditModeToggle}
-              className={`rounded-lg px-4 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
+              className={`${actionButtonBase} ${
                 isEditMode
                   ? "bg-emerald-300 text-neutral-950"
                   : "bg-neutral-800 text-neutral-200 hover:text-white"
               }`}
             >
-              Edit mode
+              <ActionIcon name="edit" />
             </button>
             {isEditMode ? (
               <button
                 type="button"
+                aria-label="Remove piece"
                 aria-pressed={isRemoveMode}
+                title="Remove piece"
                 onClick={handleRemoveModeToggle}
-                className={`rounded-lg px-4 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
+                className={`${actionButtonBase} ${
                   isRemoveMode
                     ? "bg-rose-200 text-rose-950"
                     : "bg-neutral-800 text-neutral-200 hover:text-white"
                 }`}
               >
-                Remove piece
+                <ActionIcon name="remove" />
               </button>
             ) : null}
           </div>
@@ -259,35 +331,43 @@ export function AnalysisShell({ fen }: { fen?: string }) {
               <>
                 <button
                   type="button"
+                  aria-label="Undo"
                   disabled={undoStack.length === 0}
+                  title="Undo"
                   onClick={handleUndo}
-                  className="rounded-lg border border-neutral-700 px-4 py-2 text-sm font-semibold text-neutral-200 transition hover:border-neutral-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
+                  className={`${actionButtonBase} border border-neutral-700 text-neutral-200 hover:border-neutral-500 hover:text-white`}
                 >
-                  Undo
+                  <ActionIcon name="undo" />
                 </button>
                 <button
                   type="button"
+                  aria-label="Redo"
                   disabled={redoStack.length === 0}
+                  title="Redo"
                   onClick={handleRedo}
-                  className="rounded-lg border border-neutral-700 px-4 py-2 text-sm font-semibold text-neutral-200 transition hover:border-neutral-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
+                  className={`${actionButtonBase} border border-neutral-700 text-neutral-200 hover:border-neutral-500 hover:text-white`}
                 >
-                  Redo
+                  <ActionIcon name="redo" />
                 </button>
               </>
             ) : null}
             <button
               type="button"
+              aria-label="Reset"
+              title="Reset"
               onClick={handleReset}
-              className="rounded-lg border border-neutral-700 px-4 py-2 text-sm font-semibold text-neutral-200 transition hover:border-neutral-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald-300"
+              className={`${actionButtonBase} border border-neutral-700 text-neutral-200 hover:border-neutral-500 hover:text-white`}
             >
-              Reset
+              <ActionIcon name="reset" />
             </button>
             <button
               type="button"
+              aria-label="Flip"
+              title="Flip"
               onClick={handleFlip}
-              className="rounded-lg border border-emerald-300/60 px-4 py-2 text-sm font-semibold text-emerald-200 transition hover:border-emerald-200 hover:text-emerald-100 focus:outline-none focus:ring-2 focus:ring-emerald-300"
+              className={`${actionButtonBase} border border-emerald-300/60 text-emerald-200 hover:border-emerald-200 hover:text-emerald-100`}
             >
-              Flip
+              <ActionIcon name="flip" />
             </button>
           </div>
         </div>

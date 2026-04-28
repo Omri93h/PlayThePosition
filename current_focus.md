@@ -4,10 +4,10 @@ Current Block:
 BLOCK 03.5 — UX Cleanup
 
 Current Feature:
-3.5.3 Visual chess piece palette
+3.5.4 Icon-based action controls
 
 Current Step:
-Replace text piece codes with visual chess piece controls.
+Replace text-heavy action controls with icon-forward controls.
 
 Rules:
 - Work only on the current feature.
