@@ -81,6 +81,7 @@ vi.mock("react-chessboard", () => ({
 }));
 
 import { App } from "./App";
+import { AnalysisShell } from "./components/AnalysisShell";
 import { STATIC_ANALYSIS_FEN } from "./components/StaticBoard";
 
 const MOVED_STATIC_FEN =
@@ -116,6 +117,9 @@ describe("App", () => {
       "type",
       "file",
     );
+    expect(
+      screen.queryByRole("button", { name: "Analysis shell" }),
+    ).not.toBeInTheDocument();
   });
 
   it("opens file selection when the dropzone rectangle is clicked", () => {
@@ -133,9 +137,7 @@ describe("App", () => {
   });
 
   it("renders the static analysis shell areas with a static board", () => {
-    render(<App />);
-
-    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    render(<AnalysisShell />);
 
     expect(
       screen.getByRole("heading", { name: "Position workspace" }),
@@ -186,9 +188,7 @@ describe("App", () => {
   });
 
   it("toggles edit mode visual state without mutating the board", () => {
-    render(<App />);
-
-    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    render(<AnalysisShell />);
 
     const editModeToggle = screen.getByRole("button", { name: "Edit mode" });
 
@@ -230,9 +230,7 @@ describe("App", () => {
   });
 
   it("updates side to move metadata with undo, redo, and reset", () => {
-    render(<App />);
-
-    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    render(<AnalysisShell />);
     fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
     fireEvent.click(screen.getByRole("button", { name: "Black" }));
 
@@ -281,9 +279,7 @@ describe("App", () => {
   });
 
   it("keeps add-piece controls non-mutating outside edit mode", () => {
-    render(<App />);
-
-    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    render(<AnalysisShell />);
     fireEvent.click(screen.getByTestId("mock-empty-square"));
 
     expect(screen.queryByText("No piece selected.")).not.toBeInTheDocument();
@@ -298,9 +294,7 @@ describe("App", () => {
   });
 
   it("highlights a selected piece square while edit mode is active", () => {
-    render(<App />);
-
-    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    render(<AnalysisShell />);
     fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
     fireEvent.click(screen.getByTestId("mock-piece"));
 
@@ -314,9 +308,7 @@ describe("App", () => {
   });
 
   it("adds selected pieces while edit mode is active", () => {
-    render(<App />);
-
-    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    render(<AnalysisShell />);
     fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
     fireEvent.click(screen.getByRole("button", { name: "White queen" }));
     fireEvent.click(screen.getByTestId("mock-empty-square"));
@@ -350,9 +342,7 @@ describe("App", () => {
   });
 
   it("undoes and redoes add-piece edits", () => {
-    render(<App />);
-
-    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    render(<AnalysisShell />);
     fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
     fireEvent.click(screen.getByRole("button", { name: "White queen" }));
     fireEvent.click(screen.getByTestId("mock-empty-square"));
@@ -376,9 +366,7 @@ describe("App", () => {
   });
 
   it("replaces occupied squares when adding a selected piece", () => {
-    render(<App />);
-
-    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    render(<AnalysisShell />);
     fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
     fireEvent.click(screen.getByRole("button", { name: "Black queen" }));
     fireEvent.click(screen.getByTestId("mock-occupied-square"));
@@ -391,9 +379,7 @@ describe("App", () => {
   });
 
   it("keeps remove attempts non-mutating outside edit mode", () => {
-    render(<App />);
-
-    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    render(<AnalysisShell />);
     fireEvent.click(screen.getByTestId("mock-piece"));
 
     expect(
@@ -406,9 +392,7 @@ describe("App", () => {
   });
 
   it("removes pieces while remove mode is active", () => {
-    render(<App />);
-
-    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    render(<AnalysisShell />);
     fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
     fireEvent.click(screen.getByRole("button", { name: "Remove piece" }));
     fireEvent.click(screen.getByTestId("mock-piece"));
@@ -461,9 +445,7 @@ describe("App", () => {
   });
 
   it("keeps board interaction attempts non-mutating outside edit mode", () => {
-    render(<App />);
-
-    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    render(<AnalysisShell />);
     fireEvent.click(screen.getByTestId("mock-chessboard"));
 
     expect(
@@ -476,9 +458,7 @@ describe("App", () => {
   });
 
   it("moves pieces freely while edit mode is active", () => {
-    render(<App />);
-
-    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    render(<AnalysisShell />);
     fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
     fireEvent.click(screen.getByTestId("mock-chessboard"));
 
@@ -517,9 +497,7 @@ describe("App", () => {
   });
 
   it("clears redo history after a new edit follows undo", () => {
-    render(<App />);
-
-    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    render(<AnalysisShell />);
     fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
     fireEvent.click(screen.getByRole("button", { name: "White queen" }));
     fireEvent.click(screen.getByTestId("mock-empty-square"));
@@ -538,9 +516,7 @@ describe("App", () => {
   });
 
   it("flips board orientation and resets session state", () => {
-    render(<App />);
-
-    fireEvent.click(screen.getByRole("button", { name: "Analysis shell" }));
+    render(<AnalysisShell />);
 
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-orientation",

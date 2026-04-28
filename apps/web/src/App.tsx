@@ -4,15 +4,11 @@ import type { UploadSuccessResponse } from "./api/upload";
 import { AnalysisShell } from "./components/AnalysisShell";
 import { UploadDropzone } from "./components/UploadDropzone";
 
-type DemoView = "upload" | "analysis";
-
 export function App() {
-  const [demoView, setDemoView] = useState<DemoView>("upload");
   const [uploadedFen, setUploadedFen] = useState<string | null>(null);
 
   function handleUploadSuccess(result: UploadSuccessResponse) {
     setUploadedFen(result.fen);
-    setDemoView("analysis");
   }
 
   return (
@@ -22,38 +18,12 @@ export function App() {
           <p className="text-sm font-medium uppercase tracking-wide text-emerald-300">
             Play The Position
           </p>
-          <div className="flex w-full rounded-full border border-neutral-800 bg-neutral-900 p-1 sm:w-auto">
-            <button
-              type="button"
-              aria-pressed={demoView === "upload"}
-              onClick={() => setDemoView("upload")}
-              className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition sm:flex-none ${
-                demoView === "upload"
-                  ? "bg-emerald-300 text-neutral-950"
-                  : "text-neutral-300 hover:text-white"
-              }`}
-            >
-              Upload
-            </button>
-            <button
-              type="button"
-              aria-pressed={demoView === "analysis"}
-              onClick={() => setDemoView("analysis")}
-              className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition sm:flex-none ${
-                demoView === "analysis"
-                  ? "bg-emerald-300 text-neutral-950"
-                  : "text-neutral-300 hover:text-white"
-              }`}
-            >
-              Analysis shell
-            </button>
-          </div>
         </div>
 
-        {demoView === "upload" ? (
-          <UploadScreen onUploadSuccess={handleUploadSuccess} />
+        {uploadedFen ? (
+          <AnalysisShell fen={uploadedFen} />
         ) : (
-          <AnalysisShell fen={uploadedFen ?? undefined} />
+          <UploadScreen onUploadSuccess={handleUploadSuccess} />
         )}
       </div>
     </main>

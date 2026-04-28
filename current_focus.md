@@ -4,10 +4,10 @@ Current Block:
 BLOCK 03.5 — UX Cleanup
 
 Current Feature:
-3.5.5 Selected-square highlight
+3.5.6 Remove temporary upload/analysis demo toggle when flow allows
 
 Current Step:
-Highlight selected square during edit interactions.
+Remove user-visible demo toggle and keep upload-to-analysis flow.
 
 Rules:
 - Work only on the current feature.
