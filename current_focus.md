@@ -4,10 +4,10 @@ Current Block:
 BLOCK 05 — Detection Engine
 
 Current Feature:
-5.4 Orientation detection
+5.5 FEN generation
 
 Current Step:
-Add deterministic synthetic orientation detection boundary.
+Add deterministic FEN generation from structured recognized board data.
 
 Rules:
 - Work only on the current feature.
