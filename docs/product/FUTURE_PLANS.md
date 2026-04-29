@@ -3,6 +3,7 @@
 These are intentionally out of scope until the MVP blocks are complete.
 
 ## Phase 2 — Accounts and Saved Work
+
 - User accounts.
 - Save positions.
 - Private collections.
@@ -10,13 +11,23 @@ These are intentionally out of scope until the MVP blocks are complete.
 - Collection sharing.
 
 ## Phase 3 — Engine Analysis
+
 - Analysis mode with legal move dots.
 - Engine bar / Stockfish.
 - Best move.
 - Candidate lines.
 - Engine settings.
 
+## Phase 3.5 — User Settings and Customization
+
+- Board colors.
+- Theme.
+- Light/dark mode.
+- Maybe piece style.
+- Other visual preferences later.
+
 ## Phase 4 — SEO and Growth
+
 - Homepage demo video/GIF.
 - Feedback popup.
 - Public indexed position pages.
@@ -26,6 +37,7 @@ These are intentionally out of scope until the MVP blocks are complete.
 - Growth loops around chess communities.
 
 ## Phase 5 — Monetization
+
 - Ads and compliance pages.
 - Premium-gated external analysis links to Chess.com and Lichess.
 - Finalize whether external analyzer link-out is free, premium, or partially gated.
@@ -36,10 +48,12 @@ These are intentionally out of scope until the MVP blocks are complete.
 - Premium engine features.
 
 ## Later — Native and Mobile Apps
+
 - Future mobile app.
 - Native iOS app.
 - Native Android app.
 - Mobile-specific workflows beyond the responsive MVP web app.
 
 ## Rule
+
 Do not implement future plans during MVP development unless explicitly moved into scope.

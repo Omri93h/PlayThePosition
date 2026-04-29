@@ -47,6 +47,12 @@ export function StaticBoard({
   onRemoveAttempt?: (attempt: BoardRemoveAttempt) => void;
   onSquareSelect?: (selection: BoardSquareSelection) => void;
 }) {
+  const darkSquareStyle: CSSProperties = {
+    backgroundColor: isEditMode ? "#3f6f54" : "#315844",
+  };
+  const lightSquareStyle: CSSProperties = {
+    backgroundColor: isEditMode ? "#8fba8c" : "#76966f",
+  };
   const squareStyles: Record<string, CSSProperties> =
     isEditMode && selectedSquare
       ? {
@@ -122,17 +128,13 @@ export function StaticBoard({
               width: "100%",
               height: "100%",
             },
-            darkSquareStyle: {
-              backgroundColor: "#1f2937",
-            },
-            lightSquareStyle: {
-              backgroundColor: "#475569",
-            },
+            darkSquareStyle,
+            lightSquareStyle,
             darkSquareNotationStyle: {
-              color: "#d1fae5",
+              color: isEditMode ? "#ecfdf5" : "#d1fae5",
             },
             lightSquareNotationStyle: {
-              color: "#ecfdf5",
+              color: isEditMode ? "#064e3b" : "#ecfdf5",
             },
           }}
         />

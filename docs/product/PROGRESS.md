@@ -15,7 +15,7 @@
 
 ## Next
 
-- Execute 4.5.1 Mobile-first analysis controls polish.
+- Execute 4.5.2 Board and action controls polish.
 
 ## Later
 

@@ -24,6 +24,8 @@ vi.mock("react-chessboard", () => ({
       }) => void;
       position?: string;
       squareStyles?: Record<string, unknown>;
+      darkSquareStyle?: Record<string, unknown>;
+      lightSquareStyle?: Record<string, unknown>;
     };
   }) => (
     <>
@@ -33,6 +35,8 @@ vi.mock("react-chessboard", () => ({
         data-orientation={options.boardOrientation}
         data-position={options.position}
         data-square-styles={JSON.stringify(options.squareStyles ?? {})}
+        data-dark-square-style={JSON.stringify(options.darkSquareStyle ?? {})}
+        data-light-square-style={JSON.stringify(options.lightSquareStyle ?? {})}
         data-testid="mock-chessboard"
         onClick={() =>
           options.onPieceDrop?.({
@@ -212,7 +216,6 @@ describe("App", () => {
     expect(
       screen.getByRole("heading", { name: "Position workspace" }),
     ).toBeInTheDocument();
-    expect(screen.getByLabelText("Analysis toolbar")).toBeInTheDocument();
     expect(screen.getByLabelText("Analysis chessboard")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
@@ -247,9 +250,19 @@ describe("App", () => {
       "data-interactive",
       "true",
     );
+    expect(
+      screen.getByTestId("mock-chessboard").getAttribute("data-dark-square-style"),
+    ).toContain("backgroundColor");
+    expect(
+      screen.getByTestId("mock-chessboard").getAttribute("data-light-square-style"),
+    ).toContain("backgroundColor");
     expect(screen.getByLabelText("Analysis actions")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Edit mode" })).toHaveTextContent("Edit");
     expect(screen.getByTestId("analysis-action-buttons")).toHaveClass("justify-center");
+    expect(screen.getByTestId("analysis-action-buttons")).toHaveTextContent("FEN");
+    expect(screen.getByTestId("analysis-action-buttons")).toHaveTextContent("Share");
+    expect(screen.getByTestId("analysis-action-buttons")).toHaveTextContent("Reset");
+    expect(screen.getByTestId("analysis-action-buttons")).toHaveTextContent("Flip");
     expect(screen.getByRole("button", { name: "Copy FEN" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Share" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Reset" })).toBeInTheDocument();
@@ -309,6 +322,8 @@ describe("App", () => {
     expect(screen.getByRole("button", { name: "Black" })).toBeEnabled();
     expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled();
+    expect(screen.getByTestId("analysis-action-buttons")).toHaveTextContent("Undo");
+    expect(screen.getByTestId("analysis-action-buttons")).toHaveTextContent("Redo");
     expect(screen.getByText("Edit mode active.")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-edit-mode",
@@ -319,6 +334,7 @@ describe("App", () => {
       "edit",
     );
     expect(screen.getByTestId("static-board")).toHaveClass("edit-mode-board");
+    expect(screen.getByLabelText("Edit tools")).toHaveTextContent("Remove");
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
       STATIC_ANALYSIS_FEN,

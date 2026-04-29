@@ -4,10 +4,10 @@ Current Block:
 BLOCK 04.5 — Mobile / Layout Polish
 
 Current Feature:
-4.5.1 Mobile-first analysis controls polish
+4.5.2 Board and action controls polish
 
 Current Step:
-Improve analysis screen controls layout, sizing, and mobile usability.
+Improve board colors, edit-mode board visuals, action labels, hover help, and future settings docs.
 
 Rules:
 - Work only on the current feature.

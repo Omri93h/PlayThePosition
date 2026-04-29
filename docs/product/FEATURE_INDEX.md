@@ -55,6 +55,7 @@
 ## BLOCK 04.5 — Mobile / Layout Polish
 
 - 4.5.1 Mobile-first analysis controls polish
+- 4.5.2 Board and action controls polish
 
 ## BLOCK 05 — Detection Engine
 

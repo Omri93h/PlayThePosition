@@ -47,7 +47,8 @@ type CopyStatus = "idle" | "success" | "error";
 type ShareStatus = "idle" | "loading" | "success" | "error";
 
 const actionButtonBase =
-  "inline-flex h-14 w-14 items-center justify-center rounded-lg transition focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex h-10 w-10 items-center justify-center rounded-lg transition focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50 sm:h-14 sm:w-14";
+const actionCaptionBase = "text-center text-[0.7rem] font-semibold text-neutral-400";
 
 function formatMoveAttempt({ piece, sourceSquare, targetSquare }: BoardMoveAttempt) {
   return `${piece} ${sourceSquare} to ${targetSquare ?? "off board"}`;
@@ -115,7 +116,7 @@ function ActionIcon({ name }: { name: ActionIconName }) {
   return (
     <svg
       aria-hidden="true"
-      className="h-6 w-6"
+      className="h-5 w-5 sm:h-6 sm:w-6"
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
@@ -125,6 +126,25 @@ function ActionIcon({ name }: { name: ActionIconName }) {
     >
       {paths[name]}
     </svg>
+  );
+}
+
+function ActionControl({
+  label,
+  title,
+  children,
+}: {
+  label: string;
+  title?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="flex min-w-10 flex-col items-center gap-1 sm:min-w-[4.25rem]">
+      {children}
+      <span className={actionCaptionBase} title={title ?? label}>
+        {label}
+      </span>
+    </div>
   );
 }
 
@@ -340,15 +360,35 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     }
   }
 
+  const editFeedback = isEditMode
+    ? lastInteraction
+      ? `Last interaction: ${lastInteraction}.`
+      : "Board interaction ready."
+    : "";
+  const feedbackMessage =
+    shareStatus === "loading"
+      ? "Creating share link..."
+      : shareStatus === "success"
+        ? shareMessage
+        : shareStatus === "error"
+          ? shareError
+          : copyStatus === "success"
+            ? "FEN copied."
+            : copyStatus === "error"
+              ? "Could not copy FEN."
+              : editFeedback;
+  const isFeedbackError = shareStatus === "error" || copyStatus === "error";
+  const isFeedbackSuccess = shareStatus === "success" || copyStatus === "success";
+
   return (
     <section
       aria-labelledby="analysis-shell-title"
-      className={`grid flex-1 gap-6 py-8 ${
+      className={`grid flex-1 gap-4 py-4 sm:gap-6 sm:py-8 ${
         isEditMode ? "lg:grid-cols-[minmax(0,1fr)_20rem]" : ""
       }`}
     >
-      <div className="flex min-h-[32rem] flex-col rounded-lg border border-neutral-800 bg-neutral-900/70 shadow-2xl shadow-emerald-950/20">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-800 px-5 py-4">
+      <div className="flex min-h-0 flex-col rounded-lg border border-neutral-800 bg-neutral-900/70 shadow-2xl shadow-emerald-950/20 sm:min-h-[32rem]">
+        <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-5 sm:py-4">
           <div>
             <p className="text-xs font-medium uppercase tracking-wide text-emerald-300">
               Analysis board
@@ -360,31 +400,26 @@ export function AnalysisShell({ fen }: { fen?: string }) {
               Position workspace
             </h1>
           </div>
-          <div
-            aria-label="Analysis toolbar"
-            className="flex flex-wrap items-center gap-2"
+          <button
+            type="button"
+            aria-label="Edit mode"
+            aria-pressed={isEditMode}
+            title="Toggle edit mode"
+            onClick={handleEditModeToggle}
+            className={`${actionButtonBase} w-auto gap-2 px-3 sm:px-4 ${
+              isEditMode
+                ? "bg-emerald-300 text-neutral-950"
+                : "bg-neutral-800 text-neutral-200 hover:text-white"
+            }`}
           >
-            <button
-              type="button"
-              aria-label="Edit mode"
-              aria-pressed={isEditMode}
-              title="Edit mode"
-              onClick={handleEditModeToggle}
-              className={`${actionButtonBase} w-auto gap-2 px-4 ${
-                isEditMode
-                  ? "bg-emerald-300 text-neutral-950"
-                  : "bg-neutral-800 text-neutral-200 hover:text-white"
-              }`}
-            >
-              <ActionIcon name="edit" />
-              <span className="text-sm font-semibold">Edit</span>
-            </button>
-          </div>
+            <ActionIcon name="edit" />
+            <span className="text-sm font-semibold">Edit</span>
+          </button>
         </div>
 
         <div
           aria-label="Position metadata"
-          className="flex flex-wrap items-center gap-3 border-b border-neutral-800 px-5 py-4"
+          className="flex flex-wrap items-center gap-3 px-4 pb-2 pt-1 sm:px-5 sm:pb-3 sm:pt-2"
         >
           <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
             Side to move
@@ -421,7 +456,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
           </div>
         </div>
 
-        <div className="flex flex-1 items-center justify-center p-5">
+        <div className="flex flex-1 items-center justify-center px-2 pb-1 pt-1 sm:p-5">
           <StaticBoard
             fen={currentFen}
             orientation={orientation}
@@ -437,117 +472,111 @@ export function AnalysisShell({ fen }: { fen?: string }) {
 
         <div
           aria-label="Analysis actions"
-          className="flex flex-col items-center justify-center gap-3 border-t border-neutral-800 px-5 py-4 sm:flex-row sm:flex-wrap"
+          className="flex flex-col items-center justify-center gap-2 px-1 pb-3 pt-1 sm:flex-row sm:flex-wrap sm:gap-3 sm:px-5 sm:py-4"
         >
-          {isEditMode ? (
-            <span className="w-full text-center text-sm text-neutral-400 sm:w-auto sm:text-left">
-              {lastInteraction
-                ? `Last interaction: ${lastInteraction}.`
-                : "Board interaction ready."}
-            </span>
-          ) : (
-            <span aria-hidden="true" />
-          )}
           <div
-            className="flex w-full flex-wrap justify-center gap-3 sm:w-auto"
+            className="flex w-full flex-nowrap justify-center gap-x-1 sm:w-auto sm:flex-wrap sm:gap-x-4 sm:gap-y-3"
             data-testid="analysis-action-buttons"
           >
-            <button
-              type="button"
-              aria-label="Copy FEN"
-              title="Copy FEN"
-              onClick={() => void handleCopyFen()}
-              className={`${actionButtonBase} border border-emerald-300/60 text-emerald-200 hover:border-emerald-200 hover:text-emerald-100`}
-            >
-              <ActionIcon name="copy" />
-            </button>
-            <button
-              type="button"
-              aria-label="Share"
-              title="Share"
-              disabled={shareStatus === "loading"}
-              onClick={() => void handleSharePosition()}
-              className={`${actionButtonBase} border border-emerald-300/60 text-emerald-200 hover:border-emerald-200 hover:text-emerald-100`}
-            >
-              <ActionIcon name="share" />
-            </button>
+            <ActionControl label="FEN" title="Copy FEN">
+              <button
+                type="button"
+                aria-label="Copy FEN"
+                title="Copy FEN"
+                onClick={() => void handleCopyFen()}
+                className={`${actionButtonBase} border border-emerald-300/60 text-emerald-200 hover:border-emerald-200 hover:text-emerald-100`}
+              >
+                <ActionIcon name="copy" />
+              </button>
+            </ActionControl>
+            <ActionControl label="Share" title="Create internal share link">
+              <button
+                type="button"
+                aria-label="Share"
+                title="Create internal share link"
+                disabled={shareStatus === "loading"}
+                onClick={() => void handleSharePosition()}
+                className={`${actionButtonBase} border border-emerald-300/60 text-emerald-200 hover:border-emerald-200 hover:text-emerald-100`}
+              >
+                <ActionIcon name="share" />
+              </button>
+            </ActionControl>
             {isEditMode ? (
               <>
-                <button
-                  type="button"
-                  aria-label="Undo"
-                  disabled={undoStack.length === 0}
-                  title="Undo"
-                  onClick={handleUndo}
-                  className={`${actionButtonBase} border border-neutral-700 text-neutral-200 hover:border-neutral-500 hover:text-white`}
-                >
-                  <ActionIcon name="undo" />
-                </button>
-                <button
-                  type="button"
-                  aria-label="Redo"
-                  disabled={redoStack.length === 0}
-                  title="Redo"
-                  onClick={handleRedo}
-                  className={`${actionButtonBase} border border-neutral-700 text-neutral-200 hover:border-neutral-500 hover:text-white`}
-                >
-                  <ActionIcon name="redo" />
-                </button>
+                <ActionControl label="Undo" title="Undo last edit">
+                  <button
+                    type="button"
+                    aria-label="Undo"
+                    disabled={undoStack.length === 0}
+                    title="Undo last edit"
+                    onClick={handleUndo}
+                    className={`${actionButtonBase} border border-neutral-700 text-neutral-200 hover:border-neutral-500 hover:text-white`}
+                  >
+                    <ActionIcon name="undo" />
+                  </button>
+                </ActionControl>
+                <ActionControl label="Redo" title="Redo last edit">
+                  <button
+                    type="button"
+                    aria-label="Redo"
+                    disabled={redoStack.length === 0}
+                    title="Redo last edit"
+                    onClick={handleRedo}
+                    className={`${actionButtonBase} border border-neutral-700 text-neutral-200 hover:border-neutral-500 hover:text-white`}
+                  >
+                    <ActionIcon name="redo" />
+                  </button>
+                </ActionControl>
               </>
             ) : null}
-            <button
-              type="button"
-              aria-label="Reset"
-              title="Reset"
-              onClick={handleReset}
-              className={`${actionButtonBase} border border-neutral-700 text-neutral-200 hover:border-neutral-500 hover:text-white`}
-            >
-              <ActionIcon name="reset" />
-            </button>
-            <button
-              type="button"
-              aria-label="Flip"
-              title="Flip"
-              onClick={handleFlip}
-              className={`${actionButtonBase} border border-emerald-300/60 text-emerald-200 hover:border-emerald-200 hover:text-emerald-100`}
-            >
-              <ActionIcon name="flip" />
-            </button>
+            <ActionControl label="Reset" title="Reset board position">
+              <button
+                type="button"
+                aria-label="Reset"
+                title="Reset board position"
+                onClick={handleReset}
+                className={`${actionButtonBase} border border-neutral-700 text-neutral-200 hover:border-neutral-500 hover:text-white`}
+              >
+                <ActionIcon name="reset" />
+              </button>
+            </ActionControl>
+            <ActionControl label="Flip" title="Flip board orientation">
+              <button
+                type="button"
+                aria-label="Flip"
+                title="Flip board orientation"
+                onClick={handleFlip}
+                className={`${actionButtonBase} border border-emerald-300/60 text-emerald-200 hover:border-emerald-200 hover:text-emerald-100`}
+              >
+                <ActionIcon name="flip" />
+              </button>
+            </ActionControl>
           </div>
-          {copyStatus === "success" ? (
-            <p className="w-full text-right text-sm font-semibold text-emerald-200">
-              FEN copied.
-            </p>
-          ) : null}
-          {copyStatus === "error" ? (
-            <p className="w-full text-right text-sm font-semibold text-rose-200">
-              Could not copy FEN.
-            </p>
-          ) : null}
-          {shareStatus === "loading" ? (
-            <p className="w-full text-right text-sm font-semibold text-neutral-300">
-              Creating share link...
-            </p>
-          ) : null}
-          {shareStatus === "success" ? (
-            <div className="w-full text-right text-sm">
-              <p className="font-semibold text-emerald-200">{shareMessage}</p>
+
+          <div
+            aria-live="polite"
+            className={`flex h-11 w-full flex-col items-center justify-center overflow-hidden px-2 text-center text-sm sm:h-12 ${
+              isFeedbackError
+                ? "font-semibold text-rose-200"
+                : isFeedbackSuccess
+                  ? "font-semibold text-emerald-200"
+                  : "text-neutral-400"
+            }`}
+            role={isFeedbackError ? "alert" : "status"}
+          >
+            {feedbackMessage ? (
+              <p className="max-w-full truncate">{feedbackMessage}</p>
+            ) : null}
+            {shareStatus === "success" ? (
               <a
                 href={shareUrl}
-                className="mt-1 inline-block max-w-full break-all text-emerald-100 underline decoration-emerald-300/60 underline-offset-4"
+                className="mt-0.5 block max-w-full truncate text-xs text-emerald-100 underline decoration-emerald-300/60 underline-offset-4"
+                title={shareUrl}
               >
                 {shareUrl}
               </a>
-            </div>
-          ) : null}
-          {shareStatus === "error" ? (
-            <p
-              role="alert"
-              className="w-full text-right text-sm font-semibold text-rose-200"
-            >
-              {shareError}
-            </p>
-          ) : null}
+            ) : null}
+          </div>
         </div>
       </div>
 
@@ -565,20 +594,22 @@ export function AnalysisShell({ fen }: { fen?: string }) {
               Edit tools
             </p>
             <div className="mt-3 flex gap-2">
-              <button
-                type="button"
-                aria-label="Remove piece"
-                aria-pressed={isRemoveMode}
-                title="Remove piece"
-                onClick={handleRemoveModeToggle}
-                className={`${actionButtonBase} ${
-                  isRemoveMode
-                    ? "bg-rose-200 text-rose-950"
-                    : "bg-neutral-800 text-neutral-200 hover:text-white"
-                }`}
-              >
-                <ActionIcon name="remove" />
-              </button>
+              <ActionControl label="Remove" title="Remove piece">
+                <button
+                  type="button"
+                  aria-label="Remove piece"
+                  aria-pressed={isRemoveMode}
+                  title="Remove piece"
+                  onClick={handleRemoveModeToggle}
+                  className={`${actionButtonBase} ${
+                    isRemoveMode
+                      ? "bg-rose-200 text-rose-950"
+                      : "bg-neutral-800 text-neutral-200 hover:text-white"
+                  }`}
+                >
+                  <ActionIcon name="remove" />
+                </button>
+              </ActionControl>
             </div>
           </div>
           <div className="mt-5" aria-label="Piece palette">
