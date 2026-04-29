@@ -6,6 +6,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
+from app.detection import PLACEHOLDER_FEN
+
 app = FastAPI(title="Play The Position API")
 
 app.add_middleware(
@@ -17,7 +19,6 @@ app.add_middleware(
 
 ALLOWED_UPLOAD_TYPES = {"image/jpeg", "image/png"}
 MAX_UPLOAD_BYTES = 5 * 1024 * 1024
-PLACEHOLDER_FEN = "8/8/8/8/8/8/8/8 w - - 0 1"
 SHARED_POSITIONS: dict[str, "SharedPosition"] = {}
 
 

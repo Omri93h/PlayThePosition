@@ -1,13 +1,13 @@
 # Current Focus
 
 Current Block:
-BLOCK 04.5 — Mobile / Layout Polish
+BLOCK 05 — Detection Engine
 
 Current Feature:
-4.5.2 Board and action controls polish
+5.1 Detection pipeline skeleton
 
 Current Step:
-Improve board colors, edit-mode board visuals, action labels, hover help, and future settings docs.
+Add backend detection pipeline skeleton with placeholder result.
 
 Rules:
 - Work only on the current feature.
