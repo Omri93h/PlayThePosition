@@ -4,10 +4,10 @@ Current Block:
 BLOCK 05 — Detection Engine
 
 Current Feature:
-5.2 Board grid detection
+5.3 Piece recognition
 
 Current Step:
-Add backend board grid detection boundary with synthetic-board tests.
+Add deterministic synthetic piece-recognition boundary.
 
 Rules:
 - Work only on the current feature.
