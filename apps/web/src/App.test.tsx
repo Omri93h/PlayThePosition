@@ -248,12 +248,19 @@ describe("App", () => {
       "true",
     );
     expect(screen.getByLabelText("Analysis actions")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Edit mode" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Edit mode" })).toHaveTextContent("Edit");
+    expect(screen.getByTestId("analysis-action-buttons")).toHaveClass("justify-center");
     expect(screen.getByRole("button", { name: "Copy FEN" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Share" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Reset" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Flip" })).toBeInTheDocument();
-    expect(screen.getByLabelText("Side to move")).toBeInTheDocument();
+    expect(screen.getByTestId("side-to-move-group")).toHaveClass("gap-2");
+    expect(screen.getByTestId("side-to-move-group")).toContainElement(
+      screen.getByRole("button", { name: "White" }),
+    );
+    expect(screen.getByTestId("side-to-move-group")).toContainElement(
+      screen.getByRole("button", { name: "Black" }),
+    );
     expect(screen.getByRole("button", { name: "White" })).toHaveAttribute(
       "aria-pressed",
       "true",

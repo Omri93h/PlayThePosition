@@ -1,13 +1,13 @@
 # Current Focus
 
 Current Block:
-BLOCK 04 — Share and Link-Out
+BLOCK 04.5 — Mobile / Layout Polish
 
 Current Feature:
-4.5 Share UI
+4.5.1 Mobile-first analysis controls polish
 
 Current Step:
-Add internal share action for current FEN.
+Improve analysis screen controls layout, sizing, and mobile usability.
 
 Rules:
 - Work only on the current feature.

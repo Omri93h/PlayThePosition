@@ -47,7 +47,7 @@ type CopyStatus = "idle" | "success" | "error";
 type ShareStatus = "idle" | "loading" | "success" | "error";
 
 const actionButtonBase =
-  "inline-flex h-12 w-12 items-center justify-center rounded-lg transition focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex h-14 w-14 items-center justify-center rounded-lg transition focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50";
 
 function formatMoveAttempt({ piece, sourceSquare, targetSquare }: BoardMoveAttempt) {
   return `${piece} ${sourceSquare} to ${targetSquare ?? "off board"}`;
@@ -115,7 +115,7 @@ function ActionIcon({ name }: { name: ActionIconName }) {
   return (
     <svg
       aria-hidden="true"
-      className="h-5 w-5"
+      className="h-6 w-6"
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
@@ -370,25 +370,30 @@ export function AnalysisShell({ fen }: { fen?: string }) {
               aria-pressed={isEditMode}
               title="Edit mode"
               onClick={handleEditModeToggle}
-              className={`${actionButtonBase} ${
+              className={`${actionButtonBase} w-auto gap-2 px-4 ${
                 isEditMode
                   ? "bg-emerald-300 text-neutral-950"
                   : "bg-neutral-800 text-neutral-200 hover:text-white"
               }`}
             >
               <ActionIcon name="edit" />
+              <span className="text-sm font-semibold">Edit</span>
             </button>
           </div>
         </div>
 
         <div
           aria-label="Position metadata"
-          className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-800 px-5 py-4"
+          className="flex flex-wrap items-center gap-3 border-b border-neutral-800 px-5 py-4"
         >
           <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
             Side to move
           </p>
-          <div aria-label="Side to move" className="flex gap-2">
+          <div
+            aria-label="Side to move"
+            className="flex flex-wrap gap-2"
+            data-testid="side-to-move-group"
+          >
             <button
               type="button"
               aria-pressed={activeColor === "w"}
@@ -432,10 +437,10 @@ export function AnalysisShell({ fen }: { fen?: string }) {
 
         <div
           aria-label="Analysis actions"
-          className="flex flex-wrap items-center justify-between gap-3 border-t border-neutral-800 px-5 py-4"
+          className="flex flex-col items-center justify-center gap-3 border-t border-neutral-800 px-5 py-4 sm:flex-row sm:flex-wrap"
         >
           {isEditMode ? (
-            <span className="text-sm text-neutral-400">
+            <span className="w-full text-center text-sm text-neutral-400 sm:w-auto sm:text-left">
               {lastInteraction
                 ? `Last interaction: ${lastInteraction}.`
                 : "Board interaction ready."}
@@ -443,7 +448,10 @@ export function AnalysisShell({ fen }: { fen?: string }) {
           ) : (
             <span aria-hidden="true" />
           )}
-          <div className="flex flex-wrap gap-2">
+          <div
+            className="flex w-full flex-wrap justify-center gap-3 sm:w-auto"
+            data-testid="analysis-action-buttons"
+          >
             <button
               type="button"
               aria-label="Copy FEN"
