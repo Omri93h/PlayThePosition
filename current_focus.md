@@ -4,10 +4,10 @@ Current Block:
 BLOCK 05 — Detection Engine
 
 Current Feature:
-5.1 Detection pipeline skeleton
+5.2 Board grid detection
 
 Current Step:
-Add backend detection pipeline skeleton with placeholder result.
+Add backend board grid detection boundary with synthetic-board tests.
 
 Rules:
 - Work only on the current feature.
