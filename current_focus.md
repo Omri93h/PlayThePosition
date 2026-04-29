@@ -4,10 +4,10 @@ Current Block:
 BLOCK 05 — Detection Engine
 
 Current Feature:
-5.3 Piece recognition
+5.4 Orientation detection
 
 Current Step:
-Add deterministic synthetic piece-recognition boundary.
+Add deterministic synthetic orientation detection boundary.
 
 Rules:
 - Work only on the current feature.
