@@ -4,10 +4,10 @@ Current Block:
 BLOCK 06 — Polish and Hardening
 
 Current Feature:
-6.2 Better error UX
+6.3 Mobile layout
 
 Current Step:
-Improve user-facing error messages and recovery.
+Harden mobile layout across existing app screens.
 
 Rules:
 - Work only on the current feature.

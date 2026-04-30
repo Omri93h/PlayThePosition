@@ -47,7 +47,7 @@ type CopyStatus = "idle" | "success" | "error";
 type ShareStatus = "idle" | "loading" | "success" | "error";
 
 const actionButtonBase =
-  "inline-flex h-10 w-10 items-center justify-center rounded-lg transition focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50 sm:h-14 sm:w-14";
+  "inline-flex h-11 w-11 items-center justify-center rounded-lg transition focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50 sm:h-14 sm:w-14";
 const actionCaptionBase = "text-center text-[0.7rem] font-semibold text-neutral-400";
 
 function formatMoveAttempt({ piece, sourceSquare, targetSquare }: BoardMoveAttempt) {
@@ -139,7 +139,7 @@ function ActionControl({
   children: ReactNode;
 }) {
   return (
-    <div className="flex min-w-10 flex-col items-center gap-1 sm:min-w-[4.25rem]">
+    <div className="flex min-w-11 flex-col items-center gap-1 sm:min-w-[4.25rem]">
       {children}
       <span className={actionCaptionBase} title={title ?? label}>
         {label}
@@ -381,11 +381,11 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   return (
     <section
       aria-labelledby="analysis-shell-title"
-      className={`grid flex-1 gap-4 py-4 sm:gap-6 sm:py-8 ${
+      className={`grid min-w-0 flex-1 gap-3 py-3 sm:gap-6 sm:py-8 ${
         isEditMode ? "lg:grid-cols-[minmax(0,1fr)_20rem]" : ""
       }`}
     >
-      <div className="flex min-h-0 flex-col rounded-lg border border-neutral-800 bg-neutral-900/70 shadow-2xl shadow-emerald-950/20 sm:min-h-[32rem]">
+      <div className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-lg border border-neutral-800 bg-neutral-900/70 shadow-2xl shadow-emerald-950/20 sm:min-h-[32rem]">
         <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-5 sm:py-4">
           <div>
             <p className="text-xs font-medium uppercase tracking-wide text-emerald-300">
@@ -393,7 +393,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
             </p>
             <h1
               id="analysis-shell-title"
-              className="mt-1 text-2xl font-semibold tracking-normal text-white"
+              className="mt-1 text-xl font-semibold tracking-normal text-white sm:text-2xl"
             >
               Position workspace
             </h1>
@@ -417,7 +417,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
 
         <div
           aria-label="Position metadata"
-          className="flex flex-wrap items-center gap-3 px-4 pb-2 pt-1 sm:px-5 sm:pb-3 sm:pt-2"
+          className="flex flex-wrap items-center gap-2 px-4 pb-2 pt-1 sm:gap-3 sm:px-5 sm:pb-3 sm:pt-2"
         >
           <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
             Side to move
@@ -431,7 +431,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
               type="button"
               aria-pressed={activeColor === "w"}
               onClick={() => handleActiveColorChange("w")}
-              className={`rounded-lg border px-4 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
+              className={`min-h-11 rounded-lg border px-4 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
                 activeColor === "w"
                   ? "border-emerald-200 bg-emerald-300 text-neutral-950"
                   : "border-neutral-700 bg-neutral-900 text-neutral-200 hover:border-neutral-500 hover:text-white"
@@ -443,7 +443,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
               type="button"
               aria-pressed={activeColor === "b"}
               onClick={() => handleActiveColorChange("b")}
-              className={`rounded-lg border px-4 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
+              className={`min-h-11 rounded-lg border px-4 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
                 activeColor === "b"
                   ? "border-emerald-200 bg-emerald-300 text-neutral-950"
                   : "border-neutral-700 bg-neutral-900 text-neutral-200 hover:border-neutral-500 hover:text-white"
@@ -454,7 +454,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
           </div>
         </div>
 
-        <div className="flex flex-1 items-center justify-center px-2 pb-1 pt-1 sm:p-5">
+        <div className="flex flex-1 items-center justify-center px-2 py-1 sm:p-5">
           <StaticBoard
             fen={currentFen}
             orientation={orientation}
@@ -473,7 +473,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
           className="flex flex-col items-center justify-center gap-2 px-1 pb-3 pt-1 sm:flex-row sm:flex-wrap sm:gap-3 sm:px-5 sm:py-4"
         >
           <div
-            className="flex w-full flex-nowrap justify-center gap-x-1 sm:w-auto sm:flex-wrap sm:gap-x-4 sm:gap-y-3"
+            className="flex w-full min-w-0 flex-nowrap justify-center gap-x-1 sm:w-auto sm:flex-wrap sm:gap-x-4 sm:gap-y-3"
             data-testid="analysis-action-buttons"
           >
             <ActionControl label="FEN" title="Copy FEN">
@@ -622,7 +622,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
                   aria-label={piece.label}
                   aria-pressed={selectedPiece === piece.code}
                   onClick={() => handlePieceSelection(piece.code)}
-                  className={`rounded-lg border px-2 py-2 text-2xl leading-none transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
+                  className={`min-h-11 rounded-lg border px-2 py-2 text-2xl leading-none transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
                     selectedPiece === piece.code
                       ? "border-emerald-200 bg-emerald-300 text-neutral-950"
                       : "border-neutral-700 bg-neutral-900 text-neutral-200 hover:border-neutral-500 hover:text-white"

@@ -4,8 +4,9 @@ Playwright end-to-end test skeleton for Play The Position.
 
 Current scope:
 
-- Foundation smoke checks only.
-- No upload, chessboard, backend integration, detection, sharing, or product-flow tests yet.
+- Foundation smoke checks.
+- Mobile layout smoke checks for upload and shared analysis screens.
+- No real upload, backend integration, detection, or external-link tests yet.
 
 Commands:
 

@@ -27,10 +27,10 @@ export function LoadingOverlay({ stage }: LoadingOverlayProps) {
     <div
       aria-labelledby="upload-loading-title"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-neutral-950/80 px-5 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-neutral-950/80 px-4 backdrop-blur-sm"
       role="dialog"
     >
-      <div className="w-full max-w-sm rounded-lg border border-emerald-300/30 bg-neutral-900 p-6 text-center shadow-2xl shadow-emerald-950/40">
+      <div className="w-full max-w-sm rounded-lg border border-emerald-300/30 bg-neutral-900 p-5 text-center shadow-2xl shadow-emerald-950/40 sm:p-6">
         <div
           aria-hidden="true"
           className="mx-auto h-12 w-12 animate-spin rounded-full border-2 border-emerald-300/20 border-t-emerald-200"

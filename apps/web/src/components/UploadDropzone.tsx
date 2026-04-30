@@ -145,7 +145,7 @@ export function UploadDropzone({
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       onKeyDown={handleDropzoneKeyDown}
-      className={`mt-10 flex w-full max-w-2xl flex-col items-center justify-center border border-dashed px-6 py-12 text-center shadow-2xl outline-none transition focus:ring-2 focus:ring-emerald-300 focus-within:ring-2 focus-within:ring-emerald-300 sm:px-10 ${canSelectFile ? "cursor-pointer" : ""} ${stateStyles[uploadState]}`}
+      className={`mt-8 flex min-h-80 w-full max-w-2xl flex-col items-center justify-center border border-dashed px-5 py-10 text-center shadow-2xl outline-none transition focus:ring-2 focus:ring-emerald-300 focus-within:ring-2 focus-within:ring-emerald-300 sm:mt-10 sm:px-10 sm:py-12 ${canSelectFile ? "cursor-pointer" : ""} ${stateStyles[uploadState]}`}
     >
       <DropzoneIcon state={uploadState} />
       <DropzoneContent
@@ -255,7 +255,7 @@ function DropzoneContent({
         <button
           type="button"
           onClick={onRetry}
-          className="mt-6 border border-rose-200 px-4 py-2 text-sm font-semibold text-rose-50 transition hover:bg-rose-200 hover:text-rose-950 focus:outline-none focus:ring-2 focus:ring-rose-200"
+          className="mt-6 inline-flex min-h-11 items-center border border-rose-200 px-4 py-2 text-sm font-semibold text-rose-50 transition hover:bg-rose-200 hover:text-rose-950 focus:outline-none focus:ring-2 focus:ring-rose-200"
         >
           Try another image
         </button>

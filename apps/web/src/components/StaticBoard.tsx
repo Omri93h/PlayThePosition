@@ -96,7 +96,7 @@ export function StaticBoard({
   return (
     <div
       aria-label="Analysis chessboard"
-      className={`aspect-square w-full max-w-[34rem] rounded-lg border p-2 shadow-inner transition ${
+      className={`aspect-square w-full max-w-[min(34rem,calc(100vw-2rem))] rounded-lg border p-1.5 shadow-inner transition sm:p-2 ${
         isEditMode
           ? "edit-mode-board border-amber-200/80 bg-emerald-950/30 shadow-emerald-800/30 ring-4 ring-amber-200/20"
           : "analysis-mode-board border-emerald-300/30 bg-neutral-950 shadow-emerald-950"
