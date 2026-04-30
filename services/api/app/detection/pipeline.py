@@ -19,6 +19,7 @@ def detect_position(image_bytes: bytes) -> DetectionResult:
         metadata={
             "status": "placeholder",
             "input_bytes": str(len(image_bytes)),
+            "stage": "pipeline",
             "message": (
                 "Detection pipeline skeleton; real detection is not implemented yet."
             ),

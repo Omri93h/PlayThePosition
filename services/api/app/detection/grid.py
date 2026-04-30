@@ -1,4 +1,6 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+
+from app.detection.results import DetectionMetadata, DetectionStage
 
 RgbPixel = tuple[int, int, int]
 
@@ -31,12 +33,22 @@ class BoardGrid:
 class GridDetectionSuccess:
     grid: BoardGrid
     source: str = "synthetic_ppm_grid"
+    metadata: DetectionMetadata = field(
+        default_factory=lambda: DetectionMetadata(
+            confidence=0.75,
+            source="synthetic_ppm_grid",
+            stage="grid",
+        )
+    )
 
 
 @dataclass(frozen=True)
 class GridDetectionFailure:
     code: str
     message: str
+    stage: DetectionStage = "grid"
+    retryable: bool = True
+    suggestion: str = "Use a clear, uncropped chessboard image."
 
 
 GridDetectionResult = GridDetectionSuccess | GridDetectionFailure
@@ -48,6 +60,8 @@ def preprocess_image_bytes(image_bytes: bytes) -> PreprocessResult:
         return GridDetectionFailure(
             code="empty_image",
             message="Image payload is empty.",
+            stage="preprocess",
+            suggestion="Upload a non-empty image file.",
         )
 
     return _parse_ppm(image_bytes)
@@ -126,6 +140,8 @@ def _parse_ppm(image_bytes: bytes) -> PreprocessResult:
         return GridDetectionFailure(
             code="unsupported_image_format",
             message="Only binary PPM test images are supported by this boundary.",
+            stage="preprocess",
+            suggestion="Use a supported image format for this detection boundary.",
         )
 
     try:
@@ -223,6 +239,8 @@ def _invalid_image() -> GridDetectionFailure:
     return GridDetectionFailure(
         code="invalid_image_bytes",
         message="Image payload could not be preprocessed.",
+        stage="preprocess",
+        suggestion="Upload a valid image payload.",
     )
 
 

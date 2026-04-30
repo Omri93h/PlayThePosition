@@ -1,8 +1,9 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Literal
 
 from app.detection.orientation import BoardOrientation
 from app.detection.pieces import SquareRecognition
+from app.detection.results import DetectionMetadata, DetectionStage
 
 ActiveColor = Literal["w", "b"]
 
@@ -20,6 +21,13 @@ class FenMetadata:
 class FenGenerationSuccess:
     fen: str
     source: str = "structured_recognition"
+    metadata: DetectionMetadata = field(
+        default_factory=lambda: DetectionMetadata(
+            confidence=1.0,
+            source="structured_recognition",
+            stage="fen",
+        )
+    )
 
 
 @dataclass(frozen=True)
@@ -28,6 +36,9 @@ class FenGenerationFailure:
     message: str
     row: int | None = None
     column: int | None = None
+    stage: DetectionStage = "fen"
+    retryable: bool = False
+    suggestion: str = "Check structured board data before generating FEN."
 
 
 FenGenerationResult = FenGenerationSuccess | FenGenerationFailure

@@ -1,5 +1,7 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Literal
+
+from app.detection.results import DetectionMetadata, DetectionStage
 
 PieceColor = Literal["white", "black"]
 PieceRole = Literal["king", "queen", "pawn"]
@@ -39,6 +41,13 @@ class SquareRecognition:
 class PieceRecognitionSuccess:
     squares: tuple[SquareRecognition, ...]
     source: str = "synthetic_marker_recognition"
+    metadata: DetectionMetadata = field(
+        default_factory=lambda: DetectionMetadata(
+            confidence=1.0,
+            source="synthetic_marker_recognition",
+            stage="pieces",
+        )
+    )
 
 
 @dataclass(frozen=True)
@@ -47,6 +56,9 @@ class PieceRecognitionFailure:
     message: str
     row: int | None = None
     column: int | None = None
+    stage: DetectionStage = "pieces"
+    retryable: bool = True
+    suggestion: str = "Use supported synthetic piece markers."
 
 
 PieceRecognitionResult = PieceRecognitionSuccess | PieceRecognitionFailure

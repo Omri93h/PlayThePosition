@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "synthetic-empty-board",
+      "kind": "synthetic",
+      "description": "Generated 8x8 board without pieces.",
+      "generator": "synthetic_ppm_board",
+      "expected": {
+        "fen": "8/8/8/8/8/8/8/8 w - - 0 1",
+        "orientation": "unknown"
+      },
+      "synthetic": {
+        "square_size": 6,
+        "light_rgb": [178, 207, 162],
+        "dark_rgb": [67, 118, 88],
+        "pieces": []
+      }
+    },
+    {
+      "id": "synthetic-basic-position",
+      "kind": "synthetic",
+      "description": "Generated metadata for a simple recognized position.",
+      "generator": "synthetic_ppm_board",
+      "expected": {
+        "fen": "4q3/8/8/8/8/8/P7/4K3 w - - 0 1",
+        "orientation": "white-bottom"
+      },
+      "synthetic": {
+        "square_size": 6,
+        "light_rgb": [178, 207, 162],
+        "dark_rgb": [67, 118, 88],
+        "pieces": [
+          { "row": 0, "column": 4, "marker": "black_queen" },
+          { "row": 6, "column": 0, "marker": "white_pawn" },
+          { "row": 7, "column": 4, "marker": "white_king" }
+        ]
+      }
+    }
+  ]
+}

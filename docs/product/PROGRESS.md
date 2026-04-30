@@ -9,15 +9,15 @@
 - BLOCK 03.5 — UX Cleanup
 - BLOCK 04 — Share and Link-Out
 - BLOCK 04.5 — Mobile / Layout Polish
+- BLOCK 05 — Detection Engine
 
 ## Current
 
-- BLOCK 05 — Detection Engine
-- Current Feature: 5.1 Detection pipeline skeleton
+- BLOCK 05 documentation accuracy corrected after review.
 
 ## Next
 
-- Execute 5.1 Detection pipeline skeleton.
+- Move to BLOCK 06 — Polish and Hardening.
 
 ## Later
 

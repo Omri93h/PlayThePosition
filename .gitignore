@@ -16,6 +16,11 @@ coverage/
 playwright-report/
 test-results/
 
+# large/raw detection datasets should stay out of git
+services/api/tests/fixtures/detection/raw/
+services/api/tests/fixtures/detection/large/
+services/api/tests/fixtures/detection/**/*.zip
+
 # env/secrets
 .env
 .env.*

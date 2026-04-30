@@ -4,10 +4,10 @@ Current Block:
 BLOCK 05 — Detection Engine
 
 Current Feature:
-5.5 FEN generation
+5.7 Test dataset
 
 Current Step:
-Add deterministic FEN generation from structured recognized board data.
+Add lightweight synthetic detection test dataset structure.
 
 Rules:
 - Work only on the current feature.
