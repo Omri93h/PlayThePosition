@@ -1,4 +1,11 @@
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("react-chessboard", () => ({
@@ -836,6 +843,7 @@ describe("App", () => {
   });
 
   it("uploads a selected file and opens the analysis board with the returned FEN", async () => {
+    vi.useFakeTimers();
     const uploadedFen = "8/8/8/8/8/8/8/8 w - - 0 1";
     const fetchMock = vi.fn().mockResolvedValue(
       new Response(
@@ -858,11 +866,29 @@ describe("App", () => {
     fireEvent.change(input, { target: { files: [file] } });
 
     expect(screen.getByTestId("upload-dropzone")).toHaveAttribute("aria-busy", "true");
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByText("Uploading image")).toBeInTheDocument();
     expect(screen.getByText("Uploading screenshot")).toBeInTheDocument();
 
+    await flushPromises();
+
+    expect(screen.getByText("Analyzing position")).toBeInTheDocument();
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(120);
+    });
+
+    expect(screen.getByText("Opening board")).toBeInTheDocument();
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(120);
+    });
+
     expect(
-      await screen.findByRole("heading", { name: "Position workspace" }),
+      screen.getByRole("heading", { name: "Position workspace" }),
     ).toBeInTheDocument();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    vi.useRealTimers();
     expect(screen.getByTestId("static-board")).toHaveAttribute("data-fen", uploadedFen);
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-orientation",
@@ -884,6 +910,7 @@ describe("App", () => {
   });
 
   it("uploads a dropped file and opens the analysis board with the returned FEN", async () => {
+    vi.useFakeTimers();
     const uploadedFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - - 0 1";
     const fetchMock = vi.fn().mockResolvedValue(
       new Response(
@@ -914,8 +941,24 @@ describe("App", () => {
       },
     });
 
+    expect(screen.getByText("Uploading image")).toBeInTheDocument();
+
+    await flushPromises();
+
+    expect(screen.getByText("Analyzing position")).toBeInTheDocument();
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(120);
+    });
+
+    expect(screen.getByText("Opening board")).toBeInTheDocument();
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(120);
+    });
+
     expect(
-      await screen.findByRole("heading", { name: "Position workspace" }),
+      screen.getByRole("heading", { name: "Position workspace" }),
     ).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute("data-fen", uploadedFen);
     expect(fetchMock).toHaveBeenCalledWith(
@@ -948,9 +991,12 @@ describe("App", () => {
 
     fireEvent.change(input, { target: { files: [file] } });
 
+    expect(screen.getByText("Uploading image")).toBeInTheDocument();
+
     expect(await screen.findByRole("alert")).toHaveTextContent(
       "Only PNG and JPEG images are supported.",
     );
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
   it("displays network failures", async () => {
@@ -963,11 +1009,14 @@ describe("App", () => {
 
     fireEvent.change(input, { target: { files: [file] } });
 
+    expect(screen.getByText("Uploading image")).toBeInTheDocument();
+
     await waitFor(() => {
       expect(screen.getByRole("alert")).toHaveTextContent(
         "Network error. Check your connection and try again.",
       );
     });
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "Retry upload" }));
 
@@ -975,3 +1024,10 @@ describe("App", () => {
     expect(screen.getByTestId("upload-dropzone")).toHaveAttribute("aria-busy", "false");
   });
 });
+
+async function flushPromises() {
+  await act(async () => {
+    await Promise.resolve();
+    await Promise.resolve();
+  });
+}

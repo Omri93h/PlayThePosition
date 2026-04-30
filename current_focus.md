@@ -1,13 +1,13 @@
 # Current Focus
 
 Current Block:
-BLOCK 05 — Detection Engine
+BLOCK 06 — Polish and Hardening
 
 Current Feature:
-5.7 Test dataset
+6.1 Better loading UX
 
 Current Step:
-Add lightweight synthetic detection test dataset structure.
+Add staged non-dismissable upload/analyze loading overlay.
 
 Rules:
 - Work only on the current feature.

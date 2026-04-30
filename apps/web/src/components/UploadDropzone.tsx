@@ -5,6 +5,7 @@ import { uploadScreenshot } from "../api/upload";
 import type { UploadSuccessResponse } from "../api/upload";
 
 type UploadUiState = "idle" | "dragging" | "loading" | "error" | "retry" | "success";
+type UploadLoadingStage = "uploading" | "analyzing" | "opening";
 
 const stateStyles: Record<UploadUiState, string> = {
   idle: "border-emerald-300/60 bg-neutral-900 shadow-emerald-950/30",
@@ -16,8 +17,12 @@ const stateStyles: Record<UploadUiState, string> = {
 };
 
 export function UploadDropzone({
+  onUploadFailure,
+  onUploadStageChange,
   onUploadSuccess,
 }: {
+  onUploadFailure?: () => void;
+  onUploadStageChange?: (stage: UploadLoadingStage) => void;
   onUploadSuccess?: (result: UploadSuccessResponse) => void;
 }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -29,13 +34,21 @@ export function UploadDropzone({
     setUploadState("loading");
     setErrorMessage("");
     setUploadResult(null);
+    onUploadStageChange?.("uploading");
 
     try {
       const result = await uploadScreenshot(file);
+
+      onUploadStageChange?.("analyzing");
+      await waitForLoadingStage();
+      onUploadStageChange?.("opening");
+      await waitForLoadingStage();
+
       setUploadResult(result);
       setUploadState("success");
       onUploadSuccess?.(result);
     } catch (error) {
+      onUploadFailure?.();
       setErrorMessage(
         error instanceof Error
           ? error.message
@@ -165,6 +178,10 @@ export function UploadDropzone({
 
 function getFirstFile(files: FileList | null): File | undefined {
   return files?.item?.(0) ?? files?.[0];
+}
+
+function waitForLoadingStage() {
+  return new Promise((resolve) => window.setTimeout(resolve, 120));
 }
 
 function DropzoneIcon({ state }: { state: UploadUiState }) {

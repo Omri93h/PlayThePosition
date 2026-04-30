@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 import { loadSharedPosition } from "./api/share";
 import type { UploadSuccessResponse } from "./api/upload";
 import { AnalysisShell } from "./components/AnalysisShell";
+import { LoadingOverlay } from "./components/LoadingOverlay";
 import { UploadDropzone } from "./components/UploadDropzone";
+
+type UploadLoadingStage = "uploading" | "analyzing" | "opening";
 
 type SharedPositionState =
   | { status: "idle"; fen: null; error: "" }
@@ -14,6 +17,8 @@ type SharedPositionState =
 export function App() {
   const shareId = getShareId(window.location.pathname);
   const [uploadedFen, setUploadedFen] = useState<string | null>(null);
+  const [uploadLoadingStage, setUploadLoadingStage] =
+    useState<UploadLoadingStage | null>(null);
   const [sharedPosition, setSharedPosition] = useState<SharedPositionState>({
     status: shareId ? "loading" : "idle",
     fen: null,
@@ -55,6 +60,11 @@ export function App() {
 
   function handleUploadSuccess(result: UploadSuccessResponse) {
     setUploadedFen(result.fen);
+    setUploadLoadingStage(null);
+  }
+
+  function handleUploadFailure() {
+    setUploadLoadingStage(null);
   }
 
   return (
@@ -71,9 +81,14 @@ export function App() {
         ) : uploadedFen ? (
           <AnalysisShell fen={uploadedFen} />
         ) : (
-          <UploadScreen onUploadSuccess={handleUploadSuccess} />
+          <UploadScreen
+            onUploadFailure={handleUploadFailure}
+            onUploadStageChange={setUploadLoadingStage}
+            onUploadSuccess={handleUploadSuccess}
+          />
         )}
       </div>
+      {uploadLoadingStage ? <LoadingOverlay stage={uploadLoadingStage} /> : null}
     </main>
   );
 }
@@ -114,8 +129,12 @@ function SharedPositionView({ state }: { state: SharedPositionState }) {
 }
 
 function UploadScreen({
+  onUploadFailure,
+  onUploadStageChange,
   onUploadSuccess,
 }: {
+  onUploadFailure: () => void;
+  onUploadStageChange: (stage: UploadLoadingStage) => void;
   onUploadSuccess: (result: UploadSuccessResponse) => void;
 }) {
   return (
@@ -130,7 +149,11 @@ function UploadScreen({
         </p>
       </div>
 
-      <UploadDropzone onUploadSuccess={onUploadSuccess} />
+      <UploadDropzone
+        onUploadFailure={onUploadFailure}
+        onUploadStageChange={onUploadStageChange}
+        onUploadSuccess={onUploadSuccess}
+      />
     </section>
   );
 }
