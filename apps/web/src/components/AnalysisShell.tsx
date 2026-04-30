@@ -354,9 +354,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
       setShareStatus("error");
       setShareUrl("");
       setShareMessage("");
-      setShareError(
-        error instanceof Error ? error.message : "Share link could not be created.",
-      );
+      setShareError(getShareErrorMessage(error));
     }
   }
 
@@ -647,4 +645,18 @@ export function AnalysisShell({ fen }: { fen?: string }) {
       ) : null}
     </section>
   );
+}
+
+function getShareErrorMessage(error: unknown) {
+  const fallback = "Could not create a share link. Try again in a moment.";
+
+  if (!(error instanceof Error)) {
+    return fallback;
+  }
+
+  if (error.message.toLowerCase().includes("network")) {
+    return "Could not reach the share service. Check your connection and try again.";
+  }
+
+  return fallback;
 }

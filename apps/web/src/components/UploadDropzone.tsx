@@ -239,18 +239,25 @@ function DropzoneContent({
   }
 
   if (state === "error") {
+    const errorContent = getUploadErrorContent(errorMessage);
+
     return (
       <>
-        <span className="mt-6 text-xl font-semibold text-white">Upload failed</span>
+        <span className="mt-6 text-xl font-semibold text-white">
+          {errorContent.title}
+        </span>
         <span role="alert" className="mt-2 text-sm leading-6 text-rose-100">
-          {errorMessage}
+          {errorContent.message}
+        </span>
+        <span className="mt-2 max-w-md text-sm leading-6 text-neutral-300">
+          {errorContent.guidance}
         </span>
         <button
           type="button"
           onClick={onRetry}
           className="mt-6 border border-rose-200 px-4 py-2 text-sm font-semibold text-rose-50 transition hover:bg-rose-200 hover:text-rose-950 focus:outline-none focus:ring-2 focus:ring-rose-200"
         >
-          Retry upload
+          Try another image
         </button>
       </>
     );
@@ -299,4 +306,45 @@ function DropzoneContent({
       </span>
     </>
   );
+}
+
+function getUploadErrorContent(errorMessage: string) {
+  if (errorMessage.toLowerCase().includes("network")) {
+    return {
+      title: "Connection problem",
+      message: "We could not reach the upload service.",
+      guidance:
+        "Check your connection, make sure the backend is running, then try again.",
+    };
+  }
+
+  if (errorMessage.toLowerCase().includes("png and jpeg")) {
+    return {
+      title: "Use a PNG or JPG image",
+      message: "This upload is not a supported image type.",
+      guidance: "Choose a PNG or JPG screenshot of the board and upload it again.",
+    };
+  }
+
+  if (errorMessage.toLowerCase().includes("size")) {
+    return {
+      title: "Image is too large",
+      message: "This screenshot is bigger than the upload limit.",
+      guidance: "Try a smaller PNG or JPG image of the board.",
+    };
+  }
+
+  if (errorMessage.toLowerCase().includes("valid image")) {
+    return {
+      title: "Image could not be read",
+      message: "The file does not look like a readable board screenshot.",
+      guidance: "Export or capture the board again, then upload a fresh PNG or JPG.",
+    };
+  }
+
+  return {
+    title: "Upload needs another try",
+    message: "We could not process this upload.",
+    guidance: "Choose a clear PNG or JPG screenshot and try again.",
+  };
 }

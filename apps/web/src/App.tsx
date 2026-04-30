@@ -110,8 +110,19 @@ function SharedPositionView({ state }: { state: SharedPositionState }) {
           Shared position unavailable
         </h1>
         <p role="alert" className="mt-4 max-w-xl text-sm leading-6 text-rose-100">
-          {state.error}
+          This shared board could not be opened. The link may be expired, incomplete, or
+          unavailable.
         </p>
+        <p className="mt-3 max-w-xl text-sm leading-6 text-neutral-300">
+          Start a new upload to rebuild the position, or ask for a fresh share link.
+        </p>
+        <a
+          href="/"
+          className="mt-6 rounded-lg border border-emerald-300/60 px-4 py-2 text-sm font-semibold text-emerald-100 transition hover:border-emerald-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald-300"
+        >
+          Start from upload
+        </a>
+        <p className="mt-4 text-xs leading-5 text-neutral-500">{state.error}</p>
       </section>
     );
   }

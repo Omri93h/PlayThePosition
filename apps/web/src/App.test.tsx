@@ -210,11 +210,18 @@ describe("App", () => {
     render(<App />);
 
     expect(await screen.findByRole("alert")).toHaveTextContent(
-      "Shared position was not found.",
+      "This shared board could not be opened.",
     );
     expect(
       screen.getByRole("heading", { name: "Shared position unavailable" }),
     ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Start a new upload to rebuild the position/),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Start from upload" })).toHaveAttribute(
+      "href",
+      "/",
+    );
   });
 
   it("renders the static analysis shell areas with a static board", () => {
@@ -424,8 +431,9 @@ describe("App", () => {
     fireEvent.click(screen.getByRole("button", { name: "Share" }));
 
     expect(await screen.findByRole("alert")).toHaveTextContent(
-      "Share link could not be created.",
+      "Could not create a share link. Try again in a moment.",
     );
+    expect(screen.getByRole("button", { name: "Share" })).toBeEnabled();
     expect(screen.queryByText("Share link copied.")).not.toBeInTheDocument();
   });
 
@@ -994,8 +1002,16 @@ describe("App", () => {
     expect(screen.getByText("Uploading image")).toBeInTheDocument();
 
     expect(await screen.findByRole("alert")).toHaveTextContent(
-      "Only PNG and JPEG images are supported.",
+      "This upload is not a supported image type.",
     );
+    expect(
+      screen.getByText(
+        "Choose a PNG or JPG screenshot of the board and upload it again.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Try another image" }),
+    ).toBeInTheDocument();
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
@@ -1013,12 +1029,17 @@ describe("App", () => {
 
     await waitFor(() => {
       expect(screen.getByRole("alert")).toHaveTextContent(
-        "Network error. Check your connection and try again.",
+        "We could not reach the upload service.",
       );
     });
+    expect(
+      screen.getByText(
+        "Check your connection, make sure the backend is running, then try again.",
+      ),
+    ).toBeInTheDocument();
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole("button", { name: "Retry upload" }));
+    fireEvent.click(screen.getByRole("button", { name: "Try another image" }));
 
     expect(screen.getByText("Ready to retry")).toBeInTheDocument();
     expect(screen.getByTestId("upload-dropzone")).toHaveAttribute("aria-busy", "false");
