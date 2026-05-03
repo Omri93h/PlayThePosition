@@ -14,7 +14,7 @@
 
 ## Current
 
-- Current focus: MVP readiness manual validation fixes.
+- Current focus: MVP readiness share modal and palette polish.
 - MVP hardening/polish is complete.
 - MVP itself is not formally marked complete.
 - Next status: revalidate the MVP readiness checklist before deciding MVP closeout.
@@ -22,7 +22,7 @@
 ## MVP Readiness
 
 - MVP release-readiness checklist is created.
-- Manual validation fixes are implemented and pending revalidation.
+- Manual validation follow-up fixes are implemented and pending revalidation.
 - Do not mark MVP complete until the checklist is validated and explicitly approved.
 
 ## Completed In BLOCK 06

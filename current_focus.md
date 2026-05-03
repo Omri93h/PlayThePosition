@@ -4,7 +4,7 @@ Current Block/Area:
 MVP release readiness
 
 Current Feature:
-MVP readiness manual validation fixes
+MVP readiness share modal and palette polish
 
 Current Step:
 Implemented / pending revalidation

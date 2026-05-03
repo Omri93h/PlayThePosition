@@ -449,18 +449,35 @@ describe("App", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Share" }));
 
-    expect(await screen.findByText("Share link copied.")).toBeInTheDocument();
+    expect(
+      await screen.findByRole("dialog", { name: "Share position" }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Share link ready.")).toBeInTheDocument();
     expect(screen.getByRole("textbox", { name: "Share link" })).toHaveValue(shareUrl);
     expect(screen.getByRole("textbox", { name: "Share link" })).toHaveAttribute(
       "readonly",
     );
-    expect(writeText).toHaveBeenCalledWith(shareUrl);
+    expect(screen.getByRole("textbox", { name: "Current FEN" })).toHaveValue(
+      STATIC_ANALYSIS_FEN,
+    );
+    expect(screen.getByRole("textbox", { name: "Current FEN" })).toHaveAttribute(
+      "readonly",
+    );
+    expect(writeText).not.toHaveBeenCalled();
 
     fireEvent.click(screen.getByRole("button", { name: "Copy share link" }));
 
     await waitFor(() => {
       expect(writeText).toHaveBeenLastCalledWith(shareUrl);
     });
+    expect(screen.getByText("Share link copied.")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Copy current FEN" }));
+
+    await waitFor(() => {
+      expect(writeText).toHaveBeenLastCalledWith(STATIC_ANALYSIS_FEN);
+    });
+    expect(screen.getByText("Current FEN copied.")).toBeInTheDocument();
     expect(fetchMock).toHaveBeenCalledWith(
       "http://127.0.0.1:8000/share",
       expect.objectContaining({
@@ -632,6 +649,8 @@ describe("App", () => {
 
     expect(whiteQueen).toHaveClass("ring-2");
     expect(whiteQueen).toHaveClass("bg-white");
+    expect(whiteQueen).toHaveClass("text-neutral-950");
+    expect(whiteQueen).toHaveAttribute("data-piece-color", "white");
     expect(screen.getByText("Last interaction: Place Q on d4.")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
@@ -700,8 +719,13 @@ describe("App", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Undo" }));
     fireEvent.click(screen.getByRole("button", { name: "Black queen" }));
+    expect(screen.getByRole("button", { name: "Black queen" })).toHaveClass("bg-white");
     expect(screen.getByRole("button", { name: "Black queen" })).toHaveClass(
-      "bg-neutral-950",
+      "text-neutral-950",
+    );
+    expect(screen.getByRole("button", { name: "Black queen" })).toHaveAttribute(
+      "data-piece-color",
+      "black",
     );
     fireEvent.click(screen.getByTestId("mock-occupied-square"));
 
@@ -965,147 +989,151 @@ describe("App", () => {
   it("uploads a selected file and opens the analysis board with the returned FEN", async () => {
     vi.useFakeTimers();
     const analytics = captureAnalytics();
-    const uploadedFen = "8/8/8/8/8/8/8/8 w - - 0 1";
-    const replacementFen = "8/8/8/8/8/8/8/8 b - - 0 1";
-    const fetchMock = vi
-      .fn()
-      .mockResolvedValueOnce(
-        new Response(
-          JSON.stringify({
-            fen: uploadedFen,
-            source: "placeholder",
-            confidence: null,
-            message: "Received position.png; detection is not implemented yet.",
-          }),
-          { status: 200, headers: { "Content-Type": "application/json" } },
-        ),
-      )
-      .mockResolvedValueOnce(
-        new Response(
-          JSON.stringify({
-            fen: replacementFen,
-            source: "placeholder",
-            confidence: null,
-            message:
-              "Received replacement-position.png; detection is not implemented yet.",
-          }),
-          { status: 200, headers: { "Content-Type": "application/json" } },
-        ),
+    try {
+      const uploadedFen = "8/8/8/8/8/8/8/8 w - - 0 1";
+      const replacementFen = "8/8/8/8/8/8/8/8 b - - 0 1";
+      const fetchMock = vi
+        .fn()
+        .mockResolvedValueOnce(
+          new Response(
+            JSON.stringify({
+              fen: uploadedFen,
+              source: "placeholder",
+              confidence: null,
+              message: "Received position.png; detection is not implemented yet.",
+            }),
+            { status: 200, headers: { "Content-Type": "application/json" } },
+          ),
+        )
+        .mockResolvedValueOnce(
+          new Response(
+            JSON.stringify({
+              fen: replacementFen,
+              source: "placeholder",
+              confidence: null,
+              message:
+                "Received replacement-position.png; detection is not implemented yet.",
+            }),
+            { status: 200, headers: { "Content-Type": "application/json" } },
+          ),
+        );
+      vi.stubGlobal("fetch", fetchMock);
+
+      render(<App />);
+
+      const input = screen.getByLabelText("Choose chess screenshot");
+      const file = new File(["fake image"], "position.png", { type: "image/png" });
+
+      fireEvent.change(input, { target: { files: [file] } });
+
+      expect(screen.getByTestId("upload-dropzone")).toHaveAttribute(
+        "aria-busy",
+        "true",
       );
-    vi.stubGlobal("fetch", fetchMock);
+      expect(screen.getByRole("dialog")).toBeInTheDocument();
+      expect(screen.getByText("Uploading image")).toBeInTheDocument();
+      expect(screen.getByText("Uploading screenshot")).toBeInTheDocument();
 
-    render(<App />);
+      await flushPromises();
 
-    const input = screen.getByLabelText("Choose chess screenshot");
-    const file = new File(["fake image"], "position.png", { type: "image/png" });
+      expect(screen.getByText("Analyzing position")).toBeInTheDocument();
 
-    fireEvent.change(input, { target: { files: [file] } });
+      await advanceNextUploadStage();
 
-    expect(screen.getByTestId("upload-dropzone")).toHaveAttribute("aria-busy", "true");
-    expect(screen.getByRole("dialog")).toBeInTheDocument();
-    expect(screen.getByText("Uploading image")).toBeInTheDocument();
-    expect(screen.getByText("Uploading screenshot")).toBeInTheDocument();
+      expect(screen.getByText("Opening board")).toBeInTheDocument();
 
-    await flushPromises();
+      await advanceNextUploadStage();
 
-    expect(screen.getByText("Analyzing position")).toBeInTheDocument();
+      expect(screen.getByTestId("static-board")).toBeInTheDocument();
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+      expect(screen.getByTestId("static-board")).toHaveAttribute(
+        "data-fen",
+        uploadedFen,
+      );
+      expect(screen.getByTestId("static-board")).toHaveAttribute(
+        "data-orientation",
+        "white",
+      );
 
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(120);
-    });
-
-    expect(screen.getByText("Opening board")).toBeInTheDocument();
-
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(120);
-    });
-
-    expect(screen.getByTestId("static-board")).toBeInTheDocument();
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    expect(screen.getByTestId("static-board")).toHaveAttribute("data-fen", uploadedFen);
-    expect(screen.getByTestId("static-board")).toHaveAttribute(
-      "data-orientation",
-      "white",
-    );
-
-    expect(fetchMock).toHaveBeenCalledWith(
-      "http://127.0.0.1:8000/upload",
-      expect.objectContaining({ method: "POST", body: expect.any(FormData) }),
-    );
-    expect(analytics.events).toEqual(
-      expect.arrayContaining([
-        {
-          name: "upload_started",
-          payload: {
-            file_type: "image/png",
-            file_size_bucket: "under_100kb",
+      expect(fetchMock).toHaveBeenCalledWith(
+        "http://127.0.0.1:8000/upload",
+        expect.objectContaining({ method: "POST", body: expect.any(FormData) }),
+      );
+      expect(analytics.events).toEqual(
+        expect.arrayContaining([
+          {
+            name: "upload_started",
+            payload: {
+              file_type: "image/png",
+              file_size_bucket: "under_100kb",
+            },
           },
-        },
-        {
-          name: "upload_success",
-          payload: {
-            source: "placeholder",
-            fen_length: uploadedFen.length,
-            confidence_available: false,
+          {
+            name: "upload_success",
+            payload: {
+              source: "placeholder",
+              fen_length: uploadedFen.length,
+              confidence_available: false,
+            },
           },
-        },
-        {
-          name: "analysis_opened",
-          payload: {
-            source: "placeholder",
-            fen_length: uploadedFen.length,
+          {
+            name: "analysis_opened",
+            payload: {
+              source: "placeholder",
+              fen_length: uploadedFen.length,
+            },
           },
+        ]),
+      );
+      expectAnalyticsEventsAreSafe(analytics.events, uploadedFen);
+      expect(screen.getByTestId("app-header")).toContainElement(
+        screen.getByRole("button", { name: "Upload" }),
+      );
+
+      const inputClickSpy = vi
+        .spyOn(HTMLInputElement.prototype, "click")
+        .mockImplementation(() => undefined);
+
+      fireEvent.click(screen.getByRole("button", { name: "Upload" }));
+
+      expect(inputClickSpy).toHaveBeenCalled();
+      expect(screen.getByTestId("static-board")).toHaveAttribute(
+        "data-fen",
+        uploadedFen,
+      );
+
+      inputClickSpy.mockRestore();
+
+      fireEvent.change(screen.getByLabelText("Choose another chess screenshot"), {
+        target: {
+          files: [
+            new File(["replacement image"], "replacement-position.png", {
+              type: "image/png",
+            }),
+          ],
         },
-      ]),
-    );
-    expectAnalyticsEventsAreSafe(analytics.events, uploadedFen);
-    expect(screen.getByTestId("app-header")).toContainElement(
-      screen.getByRole("button", { name: "Upload" }),
-    );
+      });
 
-    const inputClickSpy = vi
-      .spyOn(HTMLInputElement.prototype, "click")
-      .mockImplementation(() => undefined);
+      expect(screen.getByText("Uploading image")).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole("button", { name: "Upload" }));
+      await flushPromises();
 
-    expect(inputClickSpy).toHaveBeenCalled();
-    expect(screen.getByTestId("static-board")).toHaveAttribute("data-fen", uploadedFen);
+      expect(screen.getByText("Analyzing position")).toBeInTheDocument();
 
-    inputClickSpy.mockRestore();
+      await advanceNextUploadStage();
 
-    fireEvent.change(screen.getByLabelText("Choose another chess screenshot"), {
-      target: {
-        files: [
-          new File(["replacement image"], "replacement-position.png", {
-            type: "image/png",
-          }),
-        ],
-      },
-    });
+      expect(screen.getByText("Opening board")).toBeInTheDocument();
 
-    expect(screen.getByText("Uploading image")).toBeInTheDocument();
+      await advanceNextUploadStage();
 
-    await flushPromises();
-
-    expect(screen.getByText("Analyzing position")).toBeInTheDocument();
-
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(120);
-    });
-
-    expect(screen.getByText("Opening board")).toBeInTheDocument();
-
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(120);
-    });
-
-    expect(screen.getByTestId("static-board")).toHaveAttribute(
-      "data-fen",
-      replacementFen,
-    );
-    vi.useRealTimers();
-    analytics.unsubscribe();
+      expect(screen.getByTestId("static-board")).toHaveAttribute(
+        "data-fen",
+        replacementFen,
+      );
+    } finally {
+      vi.useRealTimers();
+      analytics.unsubscribe();
+    }
   });
 
   it("uploads a dropped file and opens the analysis board with the returned FEN", async () => {
@@ -1146,15 +1174,11 @@ describe("App", () => {
 
     expect(screen.getByText("Analyzing position")).toBeInTheDocument();
 
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(120);
-    });
+    await advanceNextUploadStage();
 
     expect(screen.getByText("Opening board")).toBeInTheDocument();
 
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(120);
-    });
+    await advanceNextUploadStage();
 
     expect(screen.getByTestId("static-board")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute("data-fen", uploadedFen);
@@ -1262,6 +1286,13 @@ async function flushPromises() {
     await Promise.resolve();
     await Promise.resolve();
   });
+}
+
+async function advanceNextUploadStage() {
+  await act(async () => {
+    await vi.advanceTimersToNextTimerAsync();
+  });
+  await flushPromises();
 }
 
 function captureAnalytics() {

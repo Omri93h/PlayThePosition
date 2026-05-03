@@ -49,7 +49,9 @@ This checklist is for deciding whether the MVP can be formally closed out. It do
 - [ ] Revalidate piece palette color mapping places selected white pieces as white and selected black pieces as black.
 - [ ] Revalidate delete tool removes the clicked piece.
 - [ ] Revalidate Reset and Flip behave as simple actions without persistent active state.
-- [ ] Revalidate share link displays in a readonly field and copies the full internal link.
+- [ ] Revalidate share opens a modal without auto-copying.
+- [ ] Revalidate share modal readonly link and FEN fields copy their full values.
+- [ ] Revalidate black and white piece palette visuals stay clear and selection uses ring/stroke only.
 
 ## Known Limitations
 

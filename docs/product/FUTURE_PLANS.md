@@ -2,6 +2,11 @@
 
 These are intentionally out of scope until the MVP blocks are complete.
 
+## Future — Detection Accuracy
+
+- Real-world screenshot detection accuracy.
+- Detection debug/inspection view showing recognized pieces and squares, such as "black rook at h4" or "white king at d3".
+
 ## Phase 2 — Accounts and Saved Work
 
 - User accounts.
@@ -13,6 +18,7 @@ These are intentionally out of scope until the MVP blocks are complete.
 ## Phase 3 — Engine Analysis
 
 - Analysis mode with legal move dots.
+- Selecting or pressing a piece should show all legal moves.
 - Validate side-to-move legality for positions where check state constrains whose turn it can be.
 - Engine bar / Stockfish.
 - Best move.

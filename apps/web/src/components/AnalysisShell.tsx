@@ -174,6 +174,9 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   const [shareUrl, setShareUrl] = useState("");
   const [shareMessage, setShareMessage] = useState("");
   const [shareError, setShareError] = useState("");
+  const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
+  const [shareLinkCopyStatus, setShareLinkCopyStatus] = useState<CopyStatus>("idle");
+  const [shareFenCopyStatus, setShareFenCopyStatus] = useState<CopyStatus>("idle");
   const activeColor = getFenActiveColor(currentFen);
 
   useEffect(() => {
@@ -190,6 +193,9 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setShareUrl("");
     setShareMessage("");
     setShareError("");
+    setIsShareDialogOpen(false);
+    setShareLinkCopyStatus("idle");
+    setShareFenCopyStatus("idle");
   }, [initialFen]);
 
   function clearShareResult() {
@@ -197,6 +203,9 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setShareUrl("");
     setShareMessage("");
     setShareError("");
+    setIsShareDialogOpen(false);
+    setShareLinkCopyStatus("idle");
+    setShareFenCopyStatus("idle");
   }
 
   function applyFenEdit(nextFen: string) {
@@ -387,19 +396,17 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   async function handleSharePosition() {
     setShareStatus("loading");
     setShareError("");
+    setShareMessage("");
+    setShareLinkCopyStatus("idle");
+    setShareFenCopyStatus("idle");
 
     try {
       const result = await createSharedPosition(currentFen);
       const nextShareUrl = new URL(result.path, window.location.origin).toString();
 
       setShareUrl(nextShareUrl);
-
-      try {
-        await navigator.clipboard.writeText(nextShareUrl);
-        setShareMessage("Share link copied.");
-      } catch {
-        setShareMessage("Share link ready.");
-      }
+      setShareMessage("Share link ready.");
+      setIsShareDialogOpen(true);
 
       trackEvent("share_created", {
         fen_length: currentFen.length,
@@ -423,11 +430,24 @@ export function AnalysisShell({ fen }: { fen?: string }) {
       return;
     }
 
+    setShareLinkCopyStatus("idle");
+
     try {
       await navigator.clipboard.writeText(shareUrl);
-      setShareMessage("Share link copied.");
+      setShareLinkCopyStatus("success");
     } catch {
-      setShareMessage("Could not copy share link.");
+      setShareLinkCopyStatus("error");
+    }
+  }
+
+  async function handleCopyShareFen() {
+    setShareFenCopyStatus("idle");
+
+    try {
+      await navigator.clipboard.writeText(currentFen);
+      setShareFenCopyStatus("success");
+    } catch {
+      setShareFenCopyStatus("error");
     }
   }
 
@@ -676,26 +696,6 @@ export function AnalysisShell({ fen }: { fen?: string }) {
             {feedbackMessage ? (
               <p className="max-w-full truncate">{feedbackMessage}</p>
             ) : null}
-            {shareStatus === "success" && shareUrl ? (
-              <div className="mt-1 flex w-full max-w-xl overflow-hidden rounded-lg border border-emerald-200/70 bg-white text-neutral-950 shadow-sm">
-                <input
-                  readOnly
-                  aria-label="Share link"
-                  className="min-w-0 flex-1 truncate bg-white px-3 py-1.5 text-xs font-medium text-neutral-950 outline-none"
-                  title={shareUrl}
-                  value={shareUrl}
-                />
-                <button
-                  type="button"
-                  aria-label="Copy share link"
-                  title="Copy share link"
-                  onClick={() => void handleCopyShareUrl()}
-                  className="inline-flex min-h-9 w-10 items-center justify-center border-l border-neutral-300 text-neutral-700 transition hover:bg-neutral-100 hover:text-neutral-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600"
-                >
-                  <ActionIcon name="copy" />
-                </button>
-              </div>
-            ) : null}
           </div>
         </div>
       </div>
@@ -744,11 +744,6 @@ export function AnalysisShell({ fen }: { fen?: string }) {
           <div className="mt-4" aria-label="Piece palette" data-testid="piece-palette">
             <div className="grid grid-cols-6 gap-2" data-testid="piece-palette-grid">
               {pieceOptions.map((piece) => {
-                const pieceTone =
-                  piece.color === "white"
-                    ? "border-white/70 bg-white text-neutral-950 hover:border-emerald-200"
-                    : "border-neutral-600 bg-neutral-950 text-white hover:border-emerald-200";
-
                 return (
                   <button
                     key={piece.code}
@@ -756,7 +751,8 @@ export function AnalysisShell({ fen }: { fen?: string }) {
                     aria-label={piece.label}
                     aria-pressed={selectedPiece === piece.code}
                     onClick={() => handlePieceSelection(piece.code)}
-                    className={`min-h-11 rounded-lg border px-2 py-2 text-2xl leading-none transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${pieceTone} ${
+                    data-piece-color={piece.color}
+                    className={`min-h-12 rounded-lg bg-white px-2 py-1 text-4xl leading-none text-neutral-950 transition hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-emerald-300 sm:min-h-14 ${
                       selectedPiece === piece.code
                         ? "ring-2 ring-emerald-300 ring-offset-2 ring-offset-neutral-900"
                         : ""
@@ -770,7 +766,122 @@ export function AnalysisShell({ fen }: { fen?: string }) {
           </div>
         </aside>
       ) : null}
+
+      {isShareDialogOpen && shareUrl ? (
+        <div
+          aria-modal="true"
+          aria-label="Share position"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-neutral-950/80 px-4 py-6"
+          role="dialog"
+        >
+          <div className="w-full max-w-2xl rounded-lg border border-neutral-700 bg-neutral-900 p-4 shadow-2xl shadow-neutral-950 sm:p-6">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <h2 className="text-lg font-semibold text-white">Share position</h2>
+                <p className="mt-1 text-sm leading-6 text-neutral-300">
+                  Copy the internal link or the current FEN.
+                </p>
+              </div>
+              <button
+                type="button"
+                aria-label="Close share dialog"
+                title="Close"
+                onClick={() => setIsShareDialogOpen(false)}
+                className="inline-flex min-h-10 w-10 items-center justify-center rounded-lg border border-neutral-700 text-neutral-300 transition hover:border-neutral-500 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
+              >
+                <span aria-hidden="true" className="text-xl leading-none">
+                  ×
+                </span>
+              </button>
+            </div>
+
+            <div className="mt-5 space-y-5">
+              <ReadonlyCopyField
+                copyLabel="Copy share link"
+                copyStatus={shareLinkCopyStatus}
+                label="Share link"
+                onCopy={() => void handleCopyShareUrl()}
+                value={shareUrl}
+              />
+              <ReadonlyCopyField
+                copyLabel="Copy current FEN"
+                copyStatus={shareFenCopyStatus}
+                isMultiline
+                label="Current FEN"
+                onCopy={() => void handleCopyShareFen()}
+                value={currentFen}
+              />
+            </div>
+          </div>
+        </div>
+      ) : null}
     </section>
+  );
+}
+
+function ReadonlyCopyField({
+  copyLabel,
+  copyStatus,
+  isMultiline = false,
+  label,
+  onCopy,
+  value,
+}: {
+  copyLabel: string;
+  copyStatus: CopyStatus;
+  isMultiline?: boolean;
+  label: string;
+  onCopy: () => void;
+  value: string;
+}) {
+  const feedback =
+    copyStatus === "success"
+      ? `${label} copied.`
+      : copyStatus === "error"
+        ? `Could not copy ${label.toLowerCase()}.`
+        : "";
+
+  return (
+    <div>
+      <label className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
+        {label}
+      </label>
+      <div className="mt-2 flex overflow-hidden rounded-lg border border-neutral-300 bg-white text-neutral-950 shadow-sm">
+        {isMultiline ? (
+          <textarea
+            readOnly
+            aria-label={label}
+            className="min-h-20 min-w-0 flex-1 resize-none overflow-x-auto whitespace-nowrap bg-white px-3 py-2 text-sm font-medium text-neutral-950 outline-none"
+            value={value}
+            wrap="off"
+          />
+        ) : (
+          <input
+            readOnly
+            aria-label={label}
+            className="min-w-0 flex-1 overflow-x-auto bg-white px-3 py-2 text-sm font-medium text-neutral-950 outline-none"
+            value={value}
+          />
+        )}
+        <button
+          type="button"
+          aria-label={copyLabel}
+          title={copyLabel}
+          onClick={onCopy}
+          className="inline-flex min-h-11 w-12 shrink-0 items-center justify-center border-l border-neutral-300 text-neutral-700 transition hover:bg-neutral-100 hover:text-neutral-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600"
+        >
+          <ActionIcon name="copy" />
+        </button>
+      </div>
+      <p
+        aria-live="polite"
+        className={`mt-2 min-h-5 text-sm ${
+          copyStatus === "error" ? "text-rose-200" : "text-emerald-200"
+        }`}
+      >
+        {feedback}
+      </p>
+    </div>
   );
 }
 
