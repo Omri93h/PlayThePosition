@@ -22,7 +22,8 @@ type SharedPositionState =
   | { status: "error"; fen: null; error: string };
 
 export function App() {
-  const shareId = getShareId(window.location.pathname);
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  const shareId = getShareId(currentPath);
   const [uploadedFen, setUploadedFen] = useState<string | null>(null);
   const [uploadLoadingStage, setUploadLoadingStage] =
     useState<UploadLoadingStage | null>(null);
@@ -78,6 +79,14 @@ export function App() {
     setUploadLoadingStage(null);
   }
 
+  function handleStartNewUpload() {
+    window.history.pushState({}, "", "/");
+    setCurrentPath("/");
+    setUploadedFen(null);
+    setUploadLoadingStage(null);
+    setSharedPosition({ status: "idle", fen: null, error: "" });
+  }
+
   return (
     <main className="min-h-screen overflow-x-hidden bg-neutral-950 text-neutral-100">
       <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-4 sm:px-8 sm:py-6">
@@ -88,10 +97,13 @@ export function App() {
         </div>
 
         {shareId ? (
-          <SharedPositionView state={sharedPosition} />
+          <SharedPositionView
+            state={sharedPosition}
+            onStartNewUpload={handleStartNewUpload}
+          />
         ) : uploadedFen ? (
           <AnalysisExperienceFallback>
-            <AnalysisShell fen={uploadedFen} />
+            <AnalysisShell fen={uploadedFen} onStartNewUpload={handleStartNewUpload} />
           </AnalysisExperienceFallback>
         ) : (
           <UploadScreen
@@ -111,11 +123,17 @@ function getShareId(pathname: string) {
   return match?.[1] ? decodeURIComponent(match[1]) : null;
 }
 
-function SharedPositionView({ state }: { state: SharedPositionState }) {
+function SharedPositionView({
+  state,
+  onStartNewUpload,
+}: {
+  state: SharedPositionState;
+  onStartNewUpload: () => void;
+}) {
   if (state.status === "loaded") {
     return (
       <AnalysisExperienceFallback>
-        <AnalysisShell fen={state.fen} />
+        <AnalysisShell fen={state.fen} onStartNewUpload={onStartNewUpload} />
       </AnalysisExperienceFallback>
     );
   }

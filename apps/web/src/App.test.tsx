@@ -185,9 +185,7 @@ describe("App", () => {
       screen.getByRole("heading", { name: "Loading shared position" }),
     ).toBeInTheDocument();
 
-    expect(
-      await screen.findByRole("heading", { name: "Position workspace" }),
-    ).toBeInTheDocument();
+    expect(await screen.findByTestId("static-board")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute("data-fen", sharedFen);
     expect(fetchMock).toHaveBeenCalledWith("http://127.0.0.1:8000/share/shared-123");
   });
@@ -230,9 +228,9 @@ describe("App", () => {
   it("renders the static analysis shell areas with a static board", () => {
     render(<AnalysisShell />);
 
-    expect(
-      screen.getByRole("heading", { name: "Position workspace" }),
-    ).toBeInTheDocument();
+    expect(screen.queryByText("Analysis board")).not.toBeInTheDocument();
+    expect(screen.queryByText("Position workspace")).not.toBeInTheDocument();
+    expect(screen.getByLabelText("Analysis board")).toBeInTheDocument();
     expect(screen.getByLabelText("Analysis chessboard")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
@@ -274,7 +272,17 @@ describe("App", () => {
       screen.getByTestId("mock-chessboard").getAttribute("data-light-square-style"),
     ).toContain("backgroundColor");
     expect(screen.getByLabelText("Analysis actions")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Edit mode" })).toHaveTextContent("Edit");
+    expect(screen.getByRole("button", { name: "Play" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    expect(screen.getByRole("button", { name: "Edit Board" })).toHaveTextContent(
+      "Edit Board",
+    );
+    expect(screen.getByRole("button", { name: "Edit Board" })).toHaveAttribute(
+      "aria-pressed",
+      "false",
+    );
     expect(screen.getByTestId("analysis-action-buttons")).toHaveClass("justify-center");
     expect(screen.getByTestId("analysis-action-buttons")).toHaveTextContent("FEN");
     expect(screen.getByTestId("analysis-action-buttons")).toHaveTextContent("Share");
@@ -295,6 +303,8 @@ describe("App", () => {
       "aria-pressed",
       "true",
     );
+    expect(screen.getByRole("button", { name: "White" })).toHaveClass("bg-white");
+    expect(screen.getByRole("button", { name: "Black" })).toHaveClass("bg-neutral-950");
     expect(screen.getByRole("button", { name: "Black" })).toHaveAttribute(
       "aria-pressed",
       "false",
@@ -314,9 +324,13 @@ describe("App", () => {
 
     render(<AnalysisShell />);
 
-    const editModeToggle = screen.getByRole("button", { name: "Edit mode" });
+    const editModeToggle = screen.getByRole("button", { name: "Edit Board" });
 
     expect(editModeToggle).toHaveAttribute("aria-pressed", "false");
+    expect(screen.getByRole("button", { name: "Play" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
     expect(
       screen.queryByRole("button", { name: "Remove piece" }),
     ).not.toBeInTheDocument();
@@ -333,6 +347,10 @@ describe("App", () => {
     fireEvent.click(editModeToggle);
 
     expect(editModeToggle).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("button", { name: "Play" })).toHaveAttribute(
+      "aria-pressed",
+      "false",
+    );
     expect(screen.getByRole("button", { name: "Remove piece" })).toBeEnabled();
     expect(screen.getByLabelText("Edit tools")).toContainElement(
       screen.getByRole("button", { name: "Remove piece" }),
@@ -343,7 +361,7 @@ describe("App", () => {
     expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled();
     expect(screen.getByTestId("analysis-action-buttons")).toHaveTextContent("Undo");
     expect(screen.getByTestId("analysis-action-buttons")).toHaveTextContent("Redo");
-    expect(screen.getByText("Edit mode active.")).toBeInTheDocument();
+    expect(screen.getByText("Edit Board active.")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-edit-mode",
       "true",
@@ -567,7 +585,7 @@ describe("App", () => {
 
   it("highlights a selected piece square while edit mode is active", () => {
     render(<AnalysisShell />);
-    fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
+    fireEvent.click(screen.getByRole("button", { name: "Edit Board" }));
     fireEvent.click(screen.getByTestId("mock-piece"));
 
     expect(screen.getByTestId("static-board")).toHaveAttribute(
@@ -581,7 +599,7 @@ describe("App", () => {
 
   it("adds selected pieces while edit mode is active", () => {
     render(<AnalysisShell />);
-    fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
+    fireEvent.click(screen.getByRole("button", { name: "Edit Board" }));
     fireEvent.click(screen.getByRole("button", { name: "White queen" }));
     fireEvent.click(screen.getByTestId("mock-empty-square"));
 
@@ -615,7 +633,7 @@ describe("App", () => {
 
   it("undoes and redoes add-piece edits", () => {
     render(<AnalysisShell />);
-    fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
+    fireEvent.click(screen.getByRole("button", { name: "Edit Board" }));
     fireEvent.click(screen.getByRole("button", { name: "White queen" }));
     fireEvent.click(screen.getByTestId("mock-empty-square"));
 
@@ -639,7 +657,7 @@ describe("App", () => {
 
   it("replaces occupied squares when adding a selected piece", () => {
     render(<AnalysisShell />);
-    fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
+    fireEvent.click(screen.getByRole("button", { name: "Edit Board" }));
     fireEvent.click(screen.getByRole("button", { name: "Black queen" }));
     fireEvent.click(screen.getByTestId("mock-occupied-square"));
 
@@ -665,7 +683,7 @@ describe("App", () => {
 
   it("removes pieces while remove mode is active", () => {
     render(<AnalysisShell />);
-    fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
+    fireEvent.click(screen.getByRole("button", { name: "Edit Board" }));
     fireEvent.click(screen.getByRole("button", { name: "Remove piece" }));
     fireEvent.click(screen.getByTestId("mock-piece"));
 
@@ -731,7 +749,7 @@ describe("App", () => {
 
   it("moves pieces freely while edit mode is active", () => {
     render(<AnalysisShell />);
-    fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
+    fireEvent.click(screen.getByRole("button", { name: "Edit Board" }));
     fireEvent.click(screen.getByTestId("mock-chessboard"));
 
     expect(screen.getByText("Last interaction: wP c4 to e5.")).toBeInTheDocument();
@@ -772,7 +790,7 @@ describe("App", () => {
     const writeText = mockClipboard();
 
     render(<AnalysisShell />);
-    fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
+    fireEvent.click(screen.getByRole("button", { name: "Edit Board" }));
     fireEvent.click(screen.getByTestId("mock-chessboard"));
 
     fireEvent.click(screen.getByRole("button", { name: "Copy FEN" }));
@@ -805,7 +823,7 @@ describe("App", () => {
     mockClipboard();
 
     render(<AnalysisShell />);
-    fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
+    fireEvent.click(screen.getByRole("button", { name: "Edit Board" }));
     fireEvent.click(screen.getByTestId("mock-chessboard"));
     fireEvent.click(screen.getByRole("button", { name: "Share" }));
 
@@ -821,7 +839,7 @@ describe("App", () => {
 
   it("clears redo history after a new edit follows undo", () => {
     render(<AnalysisShell />);
-    fireEvent.click(screen.getByRole("button", { name: "Edit mode" }));
+    fireEvent.click(screen.getByRole("button", { name: "Edit Board" }));
     fireEvent.click(screen.getByRole("button", { name: "White queen" }));
     fireEvent.click(screen.getByTestId("mock-empty-square"));
     fireEvent.click(screen.getByRole("button", { name: "Undo" }));
@@ -931,9 +949,7 @@ describe("App", () => {
       await vi.advanceTimersByTimeAsync(120);
     });
 
-    expect(
-      screen.getByRole("heading", { name: "Position workspace" }),
-    ).toBeInTheDocument();
+    expect(screen.getByTestId("static-board")).toBeInTheDocument();
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     vi.useRealTimers();
     expect(screen.getByTestId("static-board")).toHaveAttribute("data-fen", uploadedFen);
@@ -981,6 +997,13 @@ describe("App", () => {
       ]),
     );
     expectAnalyticsEventsAreSafe(analytics.events, uploadedFen);
+    expect(screen.getByRole("button", { name: "Upload" })).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Upload" }));
+
+    expect(
+      screen.getByRole("heading", { name: "Upload a chess position screenshot" }),
+    ).toBeInTheDocument();
     analytics.unsubscribe();
   });
 
@@ -1032,9 +1055,7 @@ describe("App", () => {
       await vi.advanceTimersByTimeAsync(120);
     });
 
-    expect(
-      screen.getByRole("heading", { name: "Position workspace" }),
-    ).toBeInTheDocument();
+    expect(screen.getByTestId("static-board")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute("data-fen", uploadedFen);
     expect(fetchMock).toHaveBeenCalledWith(
       "http://127.0.0.1:8000/upload",

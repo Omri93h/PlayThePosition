@@ -4,7 +4,7 @@ Current Block:
 BLOCK 06 — Polish and Hardening
 
 Current Feature:
-6.6 Performance cleanup
+6.7 Analysis page UX cleanup
 
 Current Step:
 Implemented / ready for review

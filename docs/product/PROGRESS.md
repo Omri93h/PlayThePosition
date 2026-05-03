@@ -17,7 +17,7 @@
 
 ## Current
 
-- Current focus: Review 6.6 Performance cleanup.
+- Current focus: Review 6.7 Analysis page UX cleanup.
 - BLOCK 06 remains in progress until final review is approved.
 
 ## Completed In BLOCK 06
@@ -28,10 +28,11 @@
 - 6.4 Observability/logs
 - 6.5 Analytics events
 - 6.6 Performance cleanup
+- 6.7 Analysis page UX cleanup
 
 ## Next
 
-- Review BLOCK 06 / 6.6 Performance cleanup.
+- Review BLOCK 06 / 6.7 Analysis page UX cleanup.
 
 ## Later / Deferred
 

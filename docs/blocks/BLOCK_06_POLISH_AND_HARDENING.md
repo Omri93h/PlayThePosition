@@ -40,5 +40,10 @@ BLOCK 05 — Detection Engine
 - API response speed.
 - Frontend render cleanup.
 
+### 6.7 Analysis page UX cleanup
+- Manual-validation follow-up for analysis page hierarchy.
+- Clear upload-again action from analysis.
+- Cleaner side-to-move, mode toggle, and board action controls.
+
 ## Done definition
 - MVP is functional, stable, trackable, and usable on desktop/mobile.

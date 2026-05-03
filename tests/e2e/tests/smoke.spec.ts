@@ -38,13 +38,13 @@ test("keeps upload and shared analysis usable on mobile", async ({ page }) => {
 
   await page.goto("/share/mobile-position");
 
-  await expect(page.getByRole("heading", { name: "Position workspace" })).toBeVisible();
   await expect(page.getByLabel("Analysis chessboard")).toBeVisible();
-  await expect(page.getByRole("button", { name: "Edit mode" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Upload" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Edit Board" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Share" })).toBeVisible();
   await expectPageNotOverflowing(page);
 
-  await page.getByRole("button", { name: "Edit mode" }).click();
+  await page.getByRole("button", { name: "Edit Board" }).click();
 
   await expect(page.getByLabel("Edit tools")).toBeVisible();
   await expect(page.getByLabel("Piece palette")).toBeVisible();

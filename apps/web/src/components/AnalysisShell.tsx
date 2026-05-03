@@ -37,6 +37,8 @@ const pieceOptions = [
 type ActionIconName =
   | "copy"
   | "edit"
+  | "play"
+  | "upload"
   | "remove"
   | "undo"
   | "redo"
@@ -69,6 +71,14 @@ function ActionIcon({ name }: { name: ActionIconName }) {
         <path d="m13.5 6.5 4 4" />
       </>
     ),
+    play: <path d="m8 5 11 7-11 7V5Z" />,
+    upload: (
+      <>
+        <rect height="14" rx="2" width="18" x="3" y="5" />
+        <path d="m8 14 2.5-2.5L14 15l1.5-1.5L19 17" />
+        <circle cx="8" cy="9" r="1" />
+      </>
+    ),
     remove: (
       <>
         <path d="M5 7h14" />
@@ -99,10 +109,10 @@ function ActionIcon({ name }: { name: ActionIconName }) {
     ),
     flip: (
       <>
-        <path d="M7 7h10l-3-3" />
-        <path d="m17 7-3 3" />
-        <path d="M17 17H7l3 3" />
-        <path d="m7 17 3-3" />
+        <path d="M8 7a6 6 0 0 1 10.4 4" />
+        <path d="M18 5v6h-6" />
+        <path d="M16 17A6 6 0 0 1 5.6 13" />
+        <path d="M6 19v-6h6" />
       </>
     ),
     share: (
@@ -149,7 +159,13 @@ function ActionControl({
   );
 }
 
-export function AnalysisShell({ fen }: { fen?: string }) {
+export function AnalysisShell({
+  fen,
+  onStartNewUpload,
+}: {
+  fen?: string;
+  onStartNewUpload?: () => void;
+}) {
   const initialFen = fen ?? STATIC_ANALYSIS_FEN;
   const [currentFen, setCurrentFen] = useState(initialFen);
   const [undoStack, setUndoStack] = useState<string[]>([]);
@@ -289,8 +305,10 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     );
   }
 
-  function handleEditModeToggle() {
-    const nextMode = !isEditMode;
+  function handleModeChange(nextMode: boolean) {
+    if (nextMode === isEditMode) {
+      return;
+    }
 
     setIsEditMode(nextMode);
 
@@ -398,77 +416,99 @@ export function AnalysisShell({ fen }: { fen?: string }) {
 
   return (
     <section
-      aria-labelledby="analysis-shell-title"
+      aria-label="Analysis board"
       className={`grid min-w-0 flex-1 gap-3 py-3 sm:gap-6 sm:py-8 ${
         isEditMode ? "lg:grid-cols-[minmax(0,1fr)_20rem]" : ""
       }`}
     >
       <div className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-lg border border-neutral-800 bg-neutral-900/70 shadow-2xl shadow-emerald-950/20 sm:min-h-[32rem]">
         <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-5 sm:py-4">
-          <div>
-            <p className="text-xs font-medium uppercase tracking-wide text-emerald-300">
-              Analysis board
-            </p>
-            <h1
-              id="analysis-shell-title"
-              className="mt-1 text-xl font-semibold tracking-normal text-white sm:text-2xl"
-            >
-              Position workspace
-            </h1>
-          </div>
-          <button
-            type="button"
-            aria-label="Edit mode"
-            aria-pressed={isEditMode}
-            title="Toggle edit mode"
-            onClick={handleEditModeToggle}
-            className={`${actionButtonBase} w-auto gap-2 px-3 sm:px-4 ${
-              isEditMode
-                ? "bg-emerald-300 text-neutral-950"
-                : "bg-neutral-800 text-neutral-200 hover:text-white"
-            }`}
-          >
-            <ActionIcon name="edit" />
-            <span className="text-sm font-semibold">Edit</span>
-          </button>
-        </div>
-
-        <div
-          aria-label="Position metadata"
-          className="flex flex-wrap items-center gap-2 px-4 pb-2 pt-1 sm:gap-3 sm:px-5 sm:pb-3 sm:pt-2"
-        >
-          <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
-            Side to move
-          </p>
           <div
-            aria-label="Side to move"
-            className="flex flex-wrap gap-2"
-            data-testid="side-to-move-group"
+            aria-label="Position metadata"
+            className="flex flex-wrap items-center gap-2 sm:gap-3"
           >
-            <button
-              type="button"
-              aria-pressed={activeColor === "w"}
-              onClick={() => handleActiveColorChange("w")}
-              className={`min-h-11 rounded-lg border px-4 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
-                activeColor === "w"
-                  ? "border-emerald-200 bg-emerald-300 text-neutral-950"
-                  : "border-neutral-700 bg-neutral-900 text-neutral-200 hover:border-neutral-500 hover:text-white"
-              }`}
+            <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
+              Side to move
+            </p>
+            <div
+              aria-label="Side to move"
+              className="flex flex-wrap gap-2"
+              data-testid="side-to-move-group"
             >
-              White
-            </button>
-            <button
-              type="button"
-              aria-pressed={activeColor === "b"}
-              onClick={() => handleActiveColorChange("b")}
-              className={`min-h-11 rounded-lg border px-4 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
-                activeColor === "b"
-                  ? "border-emerald-200 bg-emerald-300 text-neutral-950"
-                  : "border-neutral-700 bg-neutral-900 text-neutral-200 hover:border-neutral-500 hover:text-white"
-              }`}
+              <button
+                type="button"
+                aria-pressed={activeColor === "w"}
+                onClick={() => handleActiveColorChange("w")}
+                className={`min-h-11 rounded-lg border bg-white px-4 py-2 text-sm font-semibold text-neutral-950 transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
+                  activeColor === "w"
+                    ? "border-white ring-2 ring-emerald-300 ring-offset-2 ring-offset-neutral-900"
+                    : "border-white/60 opacity-80 hover:opacity-100"
+                }`}
+              >
+                White
+              </button>
+              <button
+                type="button"
+                aria-pressed={activeColor === "b"}
+                onClick={() => handleActiveColorChange("b")}
+                className={`min-h-11 rounded-lg border bg-neutral-950 px-4 py-2 text-sm font-semibold text-white transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
+                  activeColor === "b"
+                    ? "border-white ring-2 ring-emerald-300 ring-offset-2 ring-offset-neutral-900"
+                    : "border-neutral-500 opacity-80 hover:opacity-100"
+                }`}
+              >
+                Black
+              </button>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            {onStartNewUpload ? (
+              <button
+                type="button"
+                aria-label="Upload"
+                title="Upload another image"
+                onClick={onStartNewUpload}
+                className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-emerald-300/60 px-3 py-2 text-sm font-semibold text-emerald-100 transition hover:border-emerald-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald-300"
+              >
+                <ActionIcon name="upload" />
+                <span>Upload</span>
+              </button>
+            ) : null}
+            <div
+              aria-label="Board mode"
+              className="inline-flex rounded-lg border border-neutral-700 bg-neutral-950/80 p-1"
             >
-              Black
-            </button>
+              <button
+                type="button"
+                aria-label="Play"
+                aria-pressed={!isEditMode}
+                title="Play mode"
+                onClick={() => handleModeChange(false)}
+                className={`inline-flex min-h-9 items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
+                  !isEditMode
+                    ? "bg-neutral-100 text-neutral-950"
+                    : "text-neutral-300 hover:text-white"
+                }`}
+              >
+                <ActionIcon name="play" />
+                <span>Play</span>
+              </button>
+              <button
+                type="button"
+                aria-label="Edit Board"
+                aria-pressed={isEditMode}
+                title="Edit board"
+                onClick={() => handleModeChange(true)}
+                className={`inline-flex min-h-9 items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
+                  isEditMode
+                    ? "bg-emerald-300 text-neutral-950"
+                    : "text-neutral-300 hover:text-white"
+                }`}
+              >
+                <ActionIcon name="edit" />
+                <span>Edit Board</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -600,7 +640,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
         <aside className="rounded-lg border border-neutral-800 bg-neutral-900/60 p-5 shadow-xl shadow-neutral-950/40">
           <h2 className="text-lg font-semibold text-white">Position details</h2>
           <p className="mt-3 text-sm font-semibold text-emerald-200">
-            Edit mode active.
+            Edit Board active.
           </p>
           <p className="mt-2 text-sm font-semibold text-neutral-300">
             {isRemoveMode ? "Remove tool active." : "Remove tool inactive."}
