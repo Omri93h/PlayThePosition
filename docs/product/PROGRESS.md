@@ -11,24 +11,27 @@
 - BLOCK 04.5 — Mobile / Layout Polish
 - BLOCK 05 — Detection Engine
 - BLOCK 06 — Polish and Hardening
+- BLOCK 07 — Real Image Recognition Discovery
 
 ## Current
 
-- Current focus: BLOCK 07 — Real Image Recognition Discovery.
-- Current feature: 7.7 Integration plan for replacing scaffolded detection.
-- Feature 7.1 is implemented / ready for review.
-- Feature 7.2 is implemented / ready for review.
-- Feature 7.3 is implemented / ready for review.
-- Feature 7.4 is implemented / ready for review as a synthetic/control PPM experiment only.
-- Feature 7.5 is implemented / ready for review as a synthetic/control marker experiment only.
-- Feature 7.6 is implemented / ready for review as backend metadata standardization and docs only.
-- Feature 7.7 is implemented / ready for review as a docs-only integration plan.
-- BLOCK 07 is approved for discovery/planning only.
+- Current focus: Awaiting approved roadmap planning.
+- BLOCK 07 is completed as discovery/experiment-only.
+- Real image recognition implementation has not started.
 - MVP hardening/polish is complete.
 - MVP readiness automated validation passed.
 - MVP is closed.
 - MVP closeout is approved.
-- Real image recognition implementation has not started.
+
+## Completed In BLOCK 07
+
+- 7.1 Discovery/spec and fixture strategy.
+- 7.2 Detection debug/inspection UI design.
+- 7.3 Real screenshot fixture pipeline.
+- 7.4 Board detection experiment as synthetic/control PPM only.
+- 7.5 Piece recognition experiment as synthetic/control markers only.
+- 7.6 Confidence/failure UX as backend metadata standardization and docs only.
+- 7.7 Integration plan for replacing scaffolded detection as docs/planning only.
 
 ## MVP Readiness
 
@@ -52,14 +55,16 @@
 
 ## Next
 
-- Review 7.7 Integration plan for replacing scaffolded detection.
-- Decide whether BLOCK 07 is ready for docs-only closeout review.
-- Keep BLOCK 07 limited to discovery unless a later implementation feature is explicitly approved.
+- Choose the next approved roadmap/block step.
 - Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.
+- Keep real recognition implementation, PNG/JPEG decode, and approved real fixtures deferred until explicitly approved.
 
 ## Known MVP Limitations
 
 - Detection is scaffolded/synthetic and is not real-world screenshot accurate yet.
+- Real recognition implementation is not started.
+- PNG/JPEG decode for real detection experiments is not implemented.
+- Approved real fixture images have not been added.
 - No engine or Stockfish analysis.
 - No legal move validation.
 - No auth or user accounts.

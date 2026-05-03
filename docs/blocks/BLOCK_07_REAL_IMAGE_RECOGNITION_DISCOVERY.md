@@ -1,7 +1,14 @@
 # BLOCK 07 — Real Image Recognition Discovery
 
 ## Status
-In progress / discovery-only; ready for closeout review after 7.7 review.
+Completed as discovery/experiment-only.
+
+Closeout notes:
+- Features 7.1 through 7.7 are complete.
+- No real-world screenshot recognition was implemented.
+- No upload/API behavior changed.
+- No raw user screenshots or real fixture images were added.
+- Real recognition implementation remains deferred until an approved follow-up block/feature.
 
 ## Purpose
 Close the biggest MVP gap: uploaded chess screenshots currently produce scaffolded/synthetic detection results.
