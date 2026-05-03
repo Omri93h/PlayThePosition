@@ -64,6 +64,10 @@ git status
 
 After the commit/push command section, ChatGPT should include the next Codex prompt immediately when it is safe to continue.
 
+When ChatGPT gives both Git commands and a next Codex prompt in the same response, the Git command section must always come first. The next Codex prompt must come only after those commands. Never put Git commands after a Codex prompt.
+
+Git commands must always match the latest Codex response and the exact changed files from that response.
+
 Omri does not need to paste successful commit output every time. If commit, push, or checks fail, Omri will paste the error and ChatGPT gives a fix prompt.
 
 ## Stop Rules
