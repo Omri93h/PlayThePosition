@@ -153,8 +153,8 @@ export function App() {
             <div className="flex flex-col items-end gap-1">
               <button
                 type="button"
-                aria-label="Upload"
-                title="Upload another image"
+                aria-label="New Image"
+                title="Choose a new image"
                 onClick={handleHeaderUploadClick}
                 className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-emerald-300/60 px-3 py-2 text-sm font-semibold text-emerald-100 transition hover:border-emerald-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald-300"
               >
@@ -172,7 +172,7 @@ export function App() {
                   <path d="m8 14 2.5-2.5L14 15l1.5-1.5L19 17" />
                   <circle cx="8" cy="9" r="1" />
                 </svg>
-                <span>Upload</span>
+                <span>New Image</span>
               </button>
               <input
                 ref={headerUploadInputRef}

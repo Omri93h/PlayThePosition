@@ -4,7 +4,7 @@ Current Block/Area:
 MVP release readiness
 
 Current Feature:
-MVP readiness UI cleanup after share modal validation
+MVP readiness header and play controls adjustment
 
 Current Step:
 Implemented / pending revalidation

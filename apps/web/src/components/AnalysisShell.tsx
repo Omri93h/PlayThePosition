@@ -503,47 +503,6 @@ export function AnalysisShell({ fen }: { fen?: string }) {
               <span>Edit Board</span>
             </button>
           </div>
-          {!isEditMode ? (
-            <div
-              aria-label="Position metadata"
-              className="flex flex-wrap items-center justify-center gap-2 sm:gap-3"
-              data-testid="position-metadata-controls"
-            >
-              <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
-                Side to move
-              </p>
-              <div
-                aria-label="Side to move"
-                className="flex flex-wrap justify-center gap-2"
-                data-testid="side-to-move-group"
-              >
-                <button
-                  type="button"
-                  aria-pressed={activeColor === "w"}
-                  onClick={() => handleActiveColorChange("w")}
-                  className={`min-h-9 rounded-lg border bg-white px-3 py-1.5 text-sm font-semibold text-neutral-950 transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
-                    activeColor === "w"
-                      ? "border-white ring-2 ring-emerald-300 ring-offset-2 ring-offset-neutral-900"
-                      : "border-white/60 opacity-80 hover:opacity-100"
-                  }`}
-                >
-                  White
-                </button>
-                <button
-                  type="button"
-                  aria-pressed={activeColor === "b"}
-                  onClick={() => handleActiveColorChange("b")}
-                  className={`min-h-9 rounded-lg border bg-neutral-950 px-3 py-1.5 text-sm font-semibold text-white transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
-                    activeColor === "b"
-                      ? "border-white ring-2 ring-emerald-300 ring-offset-2 ring-offset-neutral-900"
-                      : "border-neutral-500 opacity-80 hover:opacity-100"
-                  }`}
-                >
-                  Black
-                </button>
-              </div>
-            </div>
-          ) : null}
         </div>
 
         <div
@@ -708,31 +667,75 @@ export function AnalysisShell({ fen }: { fen?: string }) {
               data-testid="analysis-action-buttons"
             >
               <div
-                className="flex w-full min-w-0 flex-nowrap justify-center gap-x-1 sm:w-auto sm:flex-wrap sm:gap-x-4 sm:gap-y-3"
-                data-testid="primary-board-actions"
+                className="flex w-full min-w-0 flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap sm:gap-4"
+                data-testid="play-controls-row"
               >
-                <ActionControl label="Flip" title="Flip board orientation">
-                  <button
-                    type="button"
-                    aria-label="Flip"
-                    title="Flip board orientation"
-                    onClick={handleFlip}
-                    className={`${actionButtonBase} border border-emerald-300/60 text-emerald-200 hover:border-emerald-200 hover:text-emerald-100`}
+                <div
+                  aria-label="Position metadata"
+                  className="flex min-w-0 flex-wrap items-center justify-center gap-2 rounded-lg border border-neutral-700 bg-neutral-950/60 px-3 py-2"
+                  data-testid="position-metadata-controls"
+                >
+                  <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
+                    Side to move
+                  </p>
+                  <div
+                    aria-label="Side to move"
+                    className="flex flex-wrap justify-center gap-2"
+                    data-testid="side-to-move-group"
                   >
-                    <ActionIcon name="flip" />
-                  </button>
-                </ActionControl>
-                <ActionControl label="Reset" title="Reset board position">
-                  <button
-                    type="button"
-                    aria-label="Reset"
-                    title="Reset board position"
-                    onClick={handleReset}
-                    className={`${actionButtonBase} border border-neutral-700 text-neutral-200 hover:border-neutral-500 hover:text-white`}
-                  >
-                    <ActionIcon name="reset" />
-                  </button>
-                </ActionControl>
+                    <button
+                      type="button"
+                      aria-pressed={activeColor === "w"}
+                      onClick={() => handleActiveColorChange("w")}
+                      className={`min-h-9 rounded-lg border bg-white px-3 py-1.5 text-sm font-semibold text-neutral-950 transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
+                        activeColor === "w"
+                          ? "border-white ring-2 ring-emerald-300 ring-offset-2 ring-offset-neutral-900"
+                          : "border-white/60 opacity-80 hover:opacity-100"
+                      }`}
+                    >
+                      White
+                    </button>
+                    <button
+                      type="button"
+                      aria-pressed={activeColor === "b"}
+                      onClick={() => handleActiveColorChange("b")}
+                      className={`min-h-9 rounded-lg border bg-neutral-950 px-3 py-1.5 text-sm font-semibold text-white transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
+                        activeColor === "b"
+                          ? "border-white ring-2 ring-emerald-300 ring-offset-2 ring-offset-neutral-900"
+                          : "border-neutral-500 opacity-80 hover:opacity-100"
+                      }`}
+                    >
+                      Black
+                    </button>
+                  </div>
+                </div>
+                <div
+                  className="flex min-w-0 flex-nowrap justify-center gap-x-1 sm:w-auto sm:flex-wrap sm:gap-x-4 sm:gap-y-3"
+                  data-testid="primary-board-actions"
+                >
+                  <ActionControl label="Flip" title="Flip board orientation">
+                    <button
+                      type="button"
+                      aria-label="Flip"
+                      title="Flip board orientation"
+                      onClick={handleFlip}
+                      className={`${actionButtonBase} border border-emerald-300/60 text-emerald-200 hover:border-emerald-200 hover:text-emerald-100`}
+                    >
+                      <ActionIcon name="flip" />
+                    </button>
+                  </ActionControl>
+                  <ActionControl label="Reset" title="Reset board position">
+                    <button
+                      type="button"
+                      aria-label="Reset"
+                      title="Reset board position"
+                      onClick={handleReset}
+                      className={`${actionButtonBase} border border-neutral-700 text-neutral-200 hover:border-neutral-500 hover:text-white`}
+                    >
+                      <ActionIcon name="reset" />
+                    </button>
+                  </ActionControl>
+                </div>
               </div>
               <div
                 className="flex w-full min-w-0 flex-nowrap justify-center gap-x-1 sm:w-auto sm:gap-x-4"

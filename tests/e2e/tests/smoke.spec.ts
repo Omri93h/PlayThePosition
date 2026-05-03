@@ -40,7 +40,7 @@ test("keeps upload and shared analysis usable on mobile", async ({ page }) => {
 
   await expect(page.getByLabel("Analysis chessboard")).toBeVisible();
   await expect(
-    page.getByTestId("app-header").getByRole("button", { name: "Upload" }),
+    page.getByTestId("app-header").getByRole("button", { name: "New Image" }),
   ).toBeVisible();
   await expect(page.getByRole("button", { name: "Edit Board" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Share" })).toBeVisible();

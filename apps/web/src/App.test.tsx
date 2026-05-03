@@ -148,7 +148,7 @@ describe("App", () => {
     expect(
       screen.queryByRole("button", { name: "Analysis shell" }),
     ).not.toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "Upload" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "New Image" })).not.toBeInTheDocument();
   });
 
   it("opens file selection when the dropzone rectangle is clicked", () => {
@@ -236,7 +236,6 @@ describe("App", () => {
     expect(screen.getByTestId("analysis-board-card")).toBeInTheDocument();
     expect(screen.getByTestId("analysis-primary-controls")).toBeInTheDocument();
     expect(screen.getByTestId("board-mode-toggle")).toBeInTheDocument();
-    expect(screen.getByTestId("position-metadata-controls")).toBeInTheDocument();
     expect(screen.getByTestId("analysis-board-frame")).toBeInTheDocument();
     expect(screen.getByTestId("analysis-actions")).toBeInTheDocument();
     expect(screen.getByTestId("analysis-feedback")).toBeInTheDocument();
@@ -291,6 +290,15 @@ describe("App", () => {
     expect(screen.getByRole("button", { name: "Edit Board" })).toHaveAttribute(
       "aria-pressed",
       "false",
+    );
+    expect(screen.getByTestId("play-controls-row")).toContainElement(
+      screen.getByTestId("position-metadata-controls"),
+    );
+    expect(screen.getByTestId("play-controls-row")).toContainElement(
+      screen.getByTestId("primary-board-actions"),
+    );
+    expect(screen.getByTestId("position-metadata-controls")).toHaveClass(
+      "border-neutral-700",
     );
     expect(screen.getByTestId("primary-board-actions")).toHaveTextContent("Flip");
     expect(screen.getByTestId("primary-board-actions")).toHaveTextContent("Reset");
@@ -1121,14 +1129,14 @@ describe("App", () => {
       );
       expectAnalyticsEventsAreSafe(analytics.events, uploadedFen);
       expect(screen.getByTestId("app-header")).toContainElement(
-        screen.getByRole("button", { name: "Upload" }),
+        screen.getByRole("button", { name: "New Image" }),
       );
 
       const inputClickSpy = vi
         .spyOn(HTMLInputElement.prototype, "click")
         .mockImplementation(() => undefined);
 
-      fireEvent.click(screen.getByRole("button", { name: "Upload" }));
+      fireEvent.click(screen.getByRole("button", { name: "New Image" }));
 
       expect(inputClickSpy).toHaveBeenCalled();
       expect(screen.getByTestId("static-board")).toHaveAttribute(

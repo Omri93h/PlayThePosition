@@ -54,6 +54,8 @@ This checklist is for deciding whether the MVP can be formally closed out. It do
 - [ ] Revalidate black and white piece palette visuals stay clear and selection uses ring/stroke only.
 - [ ] Revalidate standalone main FEN action is removed and FEN copy remains available in the Share modal.
 - [ ] Revalidate Edit Board mode shows edit tools/pieces as the primary controls.
+- [ ] Revalidate header action says New Image and still opens the file picker directly.
+- [ ] Revalidate Play mode groups Side to move with Flip and Reset in a compact responsive row.
 
 ## Known Limitations
 

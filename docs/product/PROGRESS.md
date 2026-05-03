@@ -14,7 +14,7 @@
 
 ## Current
 
-- Current focus: MVP readiness UI cleanup after share modal validation.
+- Current focus: MVP readiness header and play controls adjustment.
 - MVP hardening/polish is complete.
 - MVP itself is not formally marked complete.
 - Next status: revalidate the MVP readiness checklist before deciding MVP closeout.
