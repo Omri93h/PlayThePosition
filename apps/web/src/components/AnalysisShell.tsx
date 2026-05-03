@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useState } from "react";
 
+import { trackEvent } from "../analytics";
 import { createSharedPosition } from "../api/share";
 import {
   getFenActiveColor,
@@ -293,6 +294,12 @@ export function AnalysisShell({ fen }: { fen?: string }) {
 
     setIsEditMode(nextMode);
 
+    if (nextMode) {
+      trackEvent("edit_mode_opened", {
+        fen_length: currentFen.length,
+      });
+    }
+
     if (!nextMode) {
       setIsRemoveMode(false);
       setSelectedPiece(null);
@@ -326,6 +333,9 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   async function handleCopyFen() {
     try {
       await navigator.clipboard.writeText(currentFen);
+      trackEvent("fen_copied", {
+        fen_length: currentFen.length,
+      });
       setCopyStatus("success");
     } catch {
       setCopyStatus("error");
@@ -349,8 +359,16 @@ export function AnalysisShell({ fen }: { fen?: string }) {
         setShareMessage("Share link ready.");
       }
 
+      trackEvent("share_created", {
+        fen_length: currentFen.length,
+        share_path_length: result.path.length,
+      });
       setShareStatus("success");
     } catch (error) {
+      trackEvent("share_failed", {
+        reason: getShareFailureReason(error),
+        fen_length: currentFen.length,
+      });
       setShareStatus("error");
       setShareUrl("");
       setShareMessage("");
@@ -659,4 +677,12 @@ function getShareErrorMessage(error: unknown) {
   }
 
   return fallback;
+}
+
+function getShareFailureReason(error: unknown) {
+  if (!(error instanceof Error)) {
+    return "unknown";
+  }
+
+  return error.message.toLowerCase().includes("network") ? "network" : "api_error";
 }

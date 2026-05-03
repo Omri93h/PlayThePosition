@@ -8,6 +8,9 @@ import {
 } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+import { subscribeToAnalytics } from "./analytics";
+import type { AnalyticsEvent } from "./analytics";
+
 vi.mock("react-chessboard", () => ({
   Chessboard: ({
     options,
@@ -307,6 +310,8 @@ describe("App", () => {
   });
 
   it("toggles edit mode visual state without mutating the board", () => {
+    const analytics = captureAnalytics();
+
     render(<AnalysisShell />);
 
     const editModeToggle = screen.getByRole("button", { name: "Edit mode" });
@@ -357,9 +362,16 @@ describe("App", () => {
       "data-selected-square",
       "",
     );
+    expect(analytics.events).toContainEqual({
+      name: "edit_mode_opened",
+      payload: { fen_length: STATIC_ANALYSIS_FEN.length },
+    });
+    expectAnalyticsEventsAreSafe(analytics.events, STATIC_ANALYSIS_FEN);
+    analytics.unsubscribe();
   });
 
   it("copies the current fallback FEN outside edit mode", async () => {
+    const analytics = captureAnalytics();
     const writeText = mockClipboard();
 
     render(<AnalysisShell />);
@@ -370,9 +382,16 @@ describe("App", () => {
       expect(writeText).toHaveBeenCalledWith(STATIC_ANALYSIS_FEN);
     });
     expect(await screen.findByText("FEN copied.")).toBeInTheDocument();
+    expect(analytics.events).toContainEqual({
+      name: "fen_copied",
+      payload: { fen_length: STATIC_ANALYSIS_FEN.length },
+    });
+    expectAnalyticsEventsAreSafe(analytics.events, STATIC_ANALYSIS_FEN);
+    analytics.unsubscribe();
   });
 
   it("creates a share link for the current fallback FEN outside edit mode", async () => {
+    const analytics = captureAnalytics();
     const shareUrl = new URL("/share/generated-123", window.location.origin).toString();
     const writeText = mockClipboard();
     const fetchMock = vi.fn().mockResolvedValue(
@@ -406,9 +425,19 @@ describe("App", () => {
         body: JSON.stringify({ fen: STATIC_ANALYSIS_FEN }),
       }),
     );
+    expect(analytics.events).toContainEqual({
+      name: "share_created",
+      payload: {
+        fen_length: STATIC_ANALYSIS_FEN.length,
+        share_path_length: "/share/generated-123".length,
+      },
+    });
+    expectAnalyticsEventsAreSafe(analytics.events, STATIC_ANALYSIS_FEN);
+    analytics.unsubscribe();
   });
 
   it("shows an error state when share creation fails", async () => {
+    const analytics = captureAnalytics();
     mockClipboard();
     vi.stubGlobal(
       "fetch",
@@ -435,6 +464,15 @@ describe("App", () => {
     );
     expect(screen.getByRole("button", { name: "Share" })).toBeEnabled();
     expect(screen.queryByText("Share link copied.")).not.toBeInTheDocument();
+    expect(analytics.events).toContainEqual({
+      name: "share_failed",
+      payload: {
+        reason: "api_error",
+        fen_length: STATIC_ANALYSIS_FEN.length,
+      },
+    });
+    expectAnalyticsEventsAreSafe(analytics.events, STATIC_ANALYSIS_FEN);
+    analytics.unsubscribe();
   });
 
   it("shows a copy failure state when clipboard writing fails", async () => {
@@ -852,6 +890,7 @@ describe("App", () => {
 
   it("uploads a selected file and opens the analysis board with the returned FEN", async () => {
     vi.useFakeTimers();
+    const analytics = captureAnalytics();
     const uploadedFen = "8/8/8/8/8/8/8/8 w - - 0 1";
     const fetchMock = vi.fn().mockResolvedValue(
       new Response(
@@ -915,6 +954,34 @@ describe("App", () => {
       "http://127.0.0.1:8000/upload",
       expect.objectContaining({ method: "POST", body: expect.any(FormData) }),
     );
+    expect(analytics.events).toEqual(
+      expect.arrayContaining([
+        {
+          name: "upload_started",
+          payload: {
+            file_type: "image/png",
+            file_size_bucket: "under_100kb",
+          },
+        },
+        {
+          name: "upload_success",
+          payload: {
+            source: "placeholder",
+            fen_length: uploadedFen.length,
+            confidence_available: false,
+          },
+        },
+        {
+          name: "analysis_opened",
+          payload: {
+            source: "placeholder",
+            fen_length: uploadedFen.length,
+          },
+        },
+      ]),
+    );
+    expectAnalyticsEventsAreSafe(analytics.events, uploadedFen);
+    analytics.unsubscribe();
   });
 
   it("uploads a dropped file and opens the analysis board with the returned FEN", async () => {
@@ -976,6 +1043,7 @@ describe("App", () => {
   });
 
   it("displays structured API errors", async () => {
+    const analytics = captureAnalytics();
     vi.stubGlobal(
       "fetch",
       vi.fn().mockResolvedValue(
@@ -1013,9 +1081,20 @@ describe("App", () => {
       screen.getByRole("button", { name: "Try another image" }),
     ).toBeInTheDocument();
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(analytics.events).toContainEqual({
+      name: "upload_failed",
+      payload: {
+        reason: "unsupported_file_type",
+        file_type: "text/plain",
+        file_size_bucket: "under_100kb",
+      },
+    });
+    expectAnalyticsEventsAreSafe(analytics.events);
+    analytics.unsubscribe();
   });
 
   it("displays network failures", async () => {
+    const analytics = captureAnalytics();
     vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("Failed to fetch")));
 
     render(<App />);
@@ -1043,6 +1122,16 @@ describe("App", () => {
 
     expect(screen.getByText("Ready to retry")).toBeInTheDocument();
     expect(screen.getByTestId("upload-dropzone")).toHaveAttribute("aria-busy", "false");
+    expect(analytics.events).toContainEqual({
+      name: "upload_failed",
+      payload: {
+        reason: "network",
+        file_type: "image/png",
+        file_size_bucket: "under_100kb",
+      },
+    });
+    expectAnalyticsEventsAreSafe(analytics.events);
+    analytics.unsubscribe();
   });
 });
 
@@ -1050,5 +1139,21 @@ async function flushPromises() {
   await act(async () => {
     await Promise.resolve();
     await Promise.resolve();
+  });
+}
+
+function captureAnalytics() {
+  const events: AnalyticsEvent[] = [];
+  const unsubscribe = subscribeToAnalytics((event) => events.push(event));
+
+  return { events, unsubscribe };
+}
+
+function expectAnalyticsEventsAreSafe(events: AnalyticsEvent[], forbiddenFen = "") {
+  events.forEach((event) => {
+    expect(event.payload).not.toHaveProperty("file");
+    expect(event.payload).not.toHaveProperty("image");
+    expect(event.payload).not.toHaveProperty("fen");
+    expect(Object.values(event.payload)).not.toContain(forbiddenFen);
   });
 }

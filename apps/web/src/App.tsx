@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import { trackEvent } from "./analytics";
 import { loadSharedPosition } from "./api/share";
 import type { UploadSuccessResponse } from "./api/upload";
 import { AnalysisShell } from "./components/AnalysisShell";
@@ -59,6 +60,10 @@ export function App() {
   }, [shareId]);
 
   function handleUploadSuccess(result: UploadSuccessResponse) {
+    trackEvent("analysis_opened", {
+      source: result.source,
+      fen_length: result.fen.length,
+    });
     setUploadedFen(result.fen);
     setUploadLoadingStage(null);
   }

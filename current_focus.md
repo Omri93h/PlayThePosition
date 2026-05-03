@@ -4,10 +4,10 @@ Current Block:
 BLOCK 06 — Polish and Hardening
 
 Current Feature:
-6.4 Observability/logs
+6.5 Analytics events
 
 Current Step:
-Add lightweight privacy-safe backend logging.
+Add privacy-safe vendor-neutral frontend analytics event boundaries.
 
 Rules:
 - Work only on the current feature.

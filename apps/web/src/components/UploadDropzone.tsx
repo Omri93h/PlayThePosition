@@ -1,6 +1,7 @@
 import type { ChangeEvent, DragEvent, KeyboardEvent, MouseEvent } from "react";
 import { useRef, useState } from "react";
 
+import { trackEvent } from "../analytics";
 import { uploadScreenshot } from "../api/upload";
 import type { UploadSuccessResponse } from "../api/upload";
 
@@ -34,10 +35,20 @@ export function UploadDropzone({
     setUploadState("loading");
     setErrorMessage("");
     setUploadResult(null);
+    trackEvent("upload_started", {
+      file_type: file.type || "unknown",
+      file_size_bucket: getFileSizeBucket(file.size),
+    });
     onUploadStageChange?.("uploading");
 
     try {
       const result = await uploadScreenshot(file);
+
+      trackEvent("upload_success", {
+        source: result.source,
+        fen_length: result.fen.length,
+        confidence_available: result.confidence !== null,
+      });
 
       onUploadStageChange?.("analyzing");
       await waitForLoadingStage();
@@ -48,6 +59,11 @@ export function UploadDropzone({
       setUploadState("success");
       onUploadSuccess?.(result);
     } catch (error) {
+      trackEvent("upload_failed", {
+        reason: getUploadFailureReason(error),
+        file_type: file.type || "unknown",
+        file_size_bucket: getFileSizeBucket(file.size),
+      });
       onUploadFailure?.();
       setErrorMessage(
         error instanceof Error
@@ -182,6 +198,48 @@ function getFirstFile(files: FileList | null): File | undefined {
 
 function waitForLoadingStage() {
   return new Promise((resolve) => window.setTimeout(resolve, 120));
+}
+
+function getFileSizeBucket(size: number) {
+  if (size < 100 * 1024) {
+    return "under_100kb";
+  }
+
+  if (size < 1024 * 1024) {
+    return "under_1mb";
+  }
+
+  if (size < 5 * 1024 * 1024) {
+    return "under_5mb";
+  }
+
+  return "over_5mb";
+}
+
+function getUploadFailureReason(error: unknown) {
+  if (!(error instanceof Error)) {
+    return "unknown";
+  }
+
+  const message = error.message.toLowerCase();
+
+  if (message.includes("network")) {
+    return "network";
+  }
+
+  if (message.includes("png and jpeg")) {
+    return "unsupported_file_type";
+  }
+
+  if (message.includes("size")) {
+    return "file_too_large";
+  }
+
+  if (message.includes("valid image")) {
+    return "invalid_image_payload";
+  }
+
+  return "api_error";
 }
 
 function DropzoneIcon({ state }: { state: UploadUiState }) {
