@@ -30,6 +30,14 @@ class BoardGrid:
 
 
 @dataclass(frozen=True)
+class BoardBounds:
+    x: int
+    y: int
+    width: int
+    height: int
+
+
+@dataclass(frozen=True)
 class GridDetectionSuccess:
     grid: BoardGrid
     source: str = "synthetic_ppm_grid"
@@ -51,7 +59,16 @@ class GridDetectionFailure:
     suggestion: str = "Use a clear, uncropped chessboard image."
 
 
+@dataclass(frozen=True)
+class BoardBoundsDetectionSuccess:
+    bounds: BoardBounds
+    confidence: float
+    source: str = "synthetic_ppm_board_bounds"
+    stage: DetectionStage = "grid"
+
+
 GridDetectionResult = GridDetectionSuccess | GridDetectionFailure
+BoardBoundsDetectionResult = BoardBoundsDetectionSuccess | GridDetectionFailure
 PreprocessResult = PreprocessedImage | GridDetectionFailure
 
 
@@ -76,6 +93,34 @@ def detect_board_grid(image_bytes: bytes) -> GridDetectionResult:
     return detect_grid_from_image(image)
 
 
+def detect_board_bounds(image_bytes: bytes) -> BoardBoundsDetectionResult:
+    image = preprocess_image_bytes(image_bytes)
+
+    if isinstance(image, GridDetectionFailure):
+        return image
+
+    return detect_board_bounds_from_image(image)
+
+
+def detect_board_bounds_from_image(
+    image: PreprocessedImage,
+) -> BoardBoundsDetectionResult:
+    max_square_size = min(image.width, image.height) // 8
+
+    for square_size in range(max_square_size, 1, -1):
+        side = square_size * 8
+
+        for y in range(0, image.height - side + 1):
+            for x in range(0, image.width - side + 1):
+                if _region_has_checkerboard(image, x, y, square_size):
+                    return BoardBoundsDetectionSuccess(
+                        bounds=BoardBounds(x=x, y=y, width=side, height=side),
+                        confidence=0.7,
+                    )
+
+    return _grid_not_found()
+
+
 def detect_grid_from_image(image: PreprocessedImage) -> GridDetectionResult:
     if image.width <= 0 or image.height <= 0:
         return _grid_not_found()
@@ -84,31 +129,8 @@ def detect_grid_from_image(image: PreprocessedImage) -> GridDetectionResult:
         return _grid_not_found()
 
     square_size = image.width // 8
-    sampled_pixels = _sample_square_centers(image, square_size)
 
-    if len(sampled_pixels) != 64:
-        return _grid_not_found()
-
-    light_pixels = [
-        pixel
-        for row, column, pixel in sampled_pixels
-        if (row + column) % 2 == 0
-    ]
-    dark_pixels = [
-        pixel
-        for row, column, pixel in sampled_pixels
-        if (row + column) % 2 == 1
-    ]
-    light_average = _average_color(light_pixels)
-    dark_average = _average_color(dark_pixels)
-
-    if _color_distance(light_average, dark_average) < 35:
-        return _grid_not_found()
-
-    if not _pixels_are_consistent(light_pixels, light_average):
-        return _grid_not_found()
-
-    if not _pixels_are_consistent(dark_pixels, dark_average):
+    if not _region_has_checkerboard(image, 0, 0, square_size):
         return _grid_not_found()
 
     squares = tuple(
@@ -125,6 +147,44 @@ def detect_grid_from_image(image: PreprocessedImage) -> GridDetectionResult:
     )
 
     return GridDetectionSuccess(grid=BoardGrid(rows=8, columns=8, squares=squares))
+
+
+def _region_has_checkerboard(
+    image: PreprocessedImage,
+    x_offset: int,
+    y_offset: int,
+    square_size: int,
+) -> bool:
+    sampled_pixels = _sample_square_points(
+        image,
+        square_size,
+        x_offset=x_offset,
+        y_offset=y_offset,
+    )
+
+    if len(sampled_pixels) < 64:
+        return False
+
+    light_pixels = [
+        pixel
+        for row, column, pixel in sampled_pixels
+        if (row + column) % 2 == 0
+    ]
+    dark_pixels = [
+        pixel
+        for row, column, pixel in sampled_pixels
+        if (row + column) % 2 == 1
+    ]
+    light_average = _average_color(light_pixels)
+    dark_average = _average_color(dark_pixels)
+
+    if _color_distance(light_average, dark_average) < 35:
+        return False
+
+    if not _pixels_are_consistent(light_pixels, light_average):
+        return False
+
+    return _pixels_are_consistent(dark_pixels, dark_average)
 
 
 def _parse_ppm(image_bytes: bytes) -> PreprocessResult:
@@ -204,17 +264,33 @@ def _skip_single_whitespace(image_bytes: bytes, index: int) -> int:
     return index
 
 
-def _sample_square_centers(
+def _sample_square_points(
     image: PreprocessedImage,
     square_size: int,
+    *,
+    x_offset: int = 0,
+    y_offset: int = 0,
 ) -> list[tuple[int, int, RgbPixel]]:
     samples: list[tuple[int, int, RgbPixel]] = []
+    local_offsets = sorted(
+        {
+            0,
+            square_size // 2,
+            square_size - 1,
+        }
+    )
 
     for row in range(8):
         for column in range(8):
-            x = column * square_size + square_size // 2
-            y = row * square_size + square_size // 2
-            samples.append((row, column, image.pixels[y * image.width + x]))
+            for local_y in local_offsets:
+                for local_x in local_offsets:
+                    x = x_offset + column * square_size + local_x
+                    y = y_offset + row * square_size + local_y
+
+                    if x >= image.width or y >= image.height:
+                        continue
+
+                    samples.append((row, column, image.pixels[y * image.width + x]))
 
     return samples
 

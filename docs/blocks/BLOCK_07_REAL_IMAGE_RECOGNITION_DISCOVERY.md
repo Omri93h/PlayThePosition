@@ -48,6 +48,8 @@ Discover and design the path toward real screenshot-to-board recognition without
 - Avoid large, copyrighted, or raw user-uploaded datasets.
 
 ### 7.4 Board detection experiment
+- Status: implemented / ready for review.
+- Synthetic/control PPM experiment only; not real screenshot support.
 - Explore board localization/cropping approaches.
 - Measure against approved fixtures only.
 
