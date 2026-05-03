@@ -7,8 +7,10 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 from app.detection import PLACEHOLDER_FEN
+from app.logging import get_logger, log_event
 
 app = FastAPI(title="Play The Position API")
+logger = get_logger("api")
 
 app.add_middleware(
     CORSMiddleware,
@@ -54,6 +56,15 @@ async def upload_position(
     if validation_error is not None:
         return validation_error
 
+    log_event(
+        logger,
+        "upload.succeeded",
+        content_type=file.content_type or "application/octet-stream",
+        file_size=len(file_bytes),
+        source="placeholder",
+        fen_length=len(PLACEHOLDER_FEN),
+    )
+
     return {
         "fen": PLACEHOLDER_FEN,
         "source": "placeholder",
@@ -71,6 +82,14 @@ def create_share(payload: SharePositionRequest) -> SharePositionResponse:
     position = SharedPosition(id=share_id, fen=payload.fen)
     SHARED_POSITIONS[share_id] = position
 
+    log_event(
+        logger,
+        "share.created",
+        share_id=share_id,
+        fen_length=len(payload.fen),
+        source=position.source,
+    )
+
     return SharePositionResponse(
         id=share_id,
         path=f"/share/{share_id}",
@@ -84,11 +103,20 @@ def get_share(share_id: str) -> SharedPosition | JSONResponse:
     position = SHARED_POSITIONS.get(share_id)
 
     if position is None:
+        log_event(logger, "share.not_found", share_id=share_id)
         return share_error(
             404,
             "share_not_found",
             "Shared position was not found.",
         )
+
+    log_event(
+        logger,
+        "share.loaded",
+        share_id=share_id,
+        fen_length=len(position.fen),
+        source=position.source,
+    )
 
     return position
 
@@ -97,6 +125,11 @@ def validate_upload(file: UploadFile, file_bytes: bytes) -> JSONResponse | None:
     content_type = file.content_type or "application/octet-stream"
 
     if content_type not in ALLOWED_UPLOAD_TYPES:
+        log_upload_validation_failure(
+            code="unsupported_file_type",
+            content_type=content_type,
+            file_size=len(file_bytes),
+        )
         return upload_error(
             415,
             "unsupported_file_type",
@@ -104,6 +137,11 @@ def validate_upload(file: UploadFile, file_bytes: bytes) -> JSONResponse | None:
         )
 
     if len(file_bytes) > MAX_UPLOAD_BYTES:
+        log_upload_validation_failure(
+            code="file_too_large",
+            content_type=content_type,
+            file_size=len(file_bytes),
+        )
         return upload_error(
             413,
             "file_too_large",
@@ -111,6 +149,11 @@ def validate_upload(file: UploadFile, file_bytes: bytes) -> JSONResponse | None:
         )
 
     if not has_valid_image_signature(content_type, file_bytes):
+        log_upload_validation_failure(
+            code="invalid_image_payload",
+            content_type=content_type,
+            file_size=len(file_bytes),
+        )
         return upload_error(
             400,
             "invalid_image_payload",
@@ -128,6 +171,21 @@ def has_valid_image_signature(content_type: str, file_bytes: bytes) -> bool:
         return file_bytes.startswith(b"\xff\xd8\xff")
 
     return False
+
+
+def log_upload_validation_failure(
+    *,
+    code: str,
+    content_type: str,
+    file_size: int,
+) -> None:
+    log_event(
+        logger,
+        "upload.validation_failed",
+        code=code,
+        content_type=content_type,
+        file_size=file_size,
+    )
 
 
 def upload_error(status_code: int, code: str, message: str) -> JSONResponse:

@@ -4,10 +4,10 @@ Current Block:
 BLOCK 06 — Polish and Hardening
 
 Current Feature:
-6.3 Mobile layout
+6.4 Observability/logs
 
 Current Step:
-Harden mobile layout across existing app screens.
+Add lightweight privacy-safe backend logging.
 
 Rules:
 - Work only on the current feature.
