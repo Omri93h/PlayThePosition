@@ -158,7 +158,7 @@ export function StaticBoard({
       data-fen={fen}
       data-interactive={isInteractive}
       data-orientation={orientation}
-      data-remove-mode={isRemoveMode}
+      data-delete-tool-active={isRemoveMode}
       data-selected-square={selectedSquare ?? ""}
       data-testid="static-board"
     >

@@ -152,6 +152,10 @@ function squareToIndices(square: string) {
 }
 
 function pieceCodeToFenPiece(piece: string) {
+  if (/^[kqrbnpKQRBNP]$/.test(piece)) {
+    return piece;
+  }
+
   const color = piece[0];
   const pieceType = piece[1];
 

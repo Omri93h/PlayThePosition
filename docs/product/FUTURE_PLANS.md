@@ -13,6 +13,7 @@ These are intentionally out of scope until the MVP blocks are complete.
 ## Phase 3 — Engine Analysis
 
 - Analysis mode with legal move dots.
+- Validate side-to-move legality for positions where check state constrains whose turn it can be.
 - Engine bar / Stockfish.
 - Best move.
 - Candidate lines.

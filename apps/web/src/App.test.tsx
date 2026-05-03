@@ -148,6 +148,7 @@ describe("App", () => {
     expect(
       screen.queryByRole("button", { name: "Analysis shell" }),
     ).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Upload" })).not.toBeInTheDocument();
   });
 
   it("opens file selection when the dropzone rectangle is clicked", () => {
@@ -231,6 +232,14 @@ describe("App", () => {
     expect(screen.queryByText("Analysis board")).not.toBeInTheDocument();
     expect(screen.queryByText("Position workspace")).not.toBeInTheDocument();
     expect(screen.getByLabelText("Analysis board")).toBeInTheDocument();
+    expect(screen.getByTestId("analysis-shell")).toBeInTheDocument();
+    expect(screen.getByTestId("analysis-board-card")).toBeInTheDocument();
+    expect(screen.getByTestId("analysis-primary-controls")).toBeInTheDocument();
+    expect(screen.getByTestId("board-mode-toggle")).toBeInTheDocument();
+    expect(screen.getByTestId("position-metadata-controls")).toBeInTheDocument();
+    expect(screen.getByTestId("analysis-board-frame")).toBeInTheDocument();
+    expect(screen.getByTestId("analysis-actions")).toBeInTheDocument();
+    expect(screen.getByTestId("analysis-feedback")).toBeInTheDocument();
     expect(screen.getByLabelText("Analysis chessboard")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
@@ -254,7 +263,7 @@ describe("App", () => {
     );
     expect(screen.getByTestId("static-board")).toHaveClass("analysis-mode-board");
     expect(screen.getByTestId("static-board")).toHaveAttribute(
-      "data-remove-mode",
+      "data-delete-tool-active",
       "false",
     );
     expect(screen.getByTestId("static-board")).toHaveAttribute(
@@ -283,11 +292,10 @@ describe("App", () => {
       "aria-pressed",
       "false",
     );
-    expect(screen.getByTestId("analysis-action-buttons")).toHaveClass("justify-center");
-    expect(screen.getByTestId("analysis-action-buttons")).toHaveTextContent("FEN");
-    expect(screen.getByTestId("analysis-action-buttons")).toHaveTextContent("Share");
-    expect(screen.getByTestId("analysis-action-buttons")).toHaveTextContent("Reset");
-    expect(screen.getByTestId("analysis-action-buttons")).toHaveTextContent("Flip");
+    expect(screen.getByTestId("primary-board-actions")).toHaveTextContent("Flip");
+    expect(screen.getByTestId("primary-board-actions")).toHaveTextContent("Reset");
+    expect(screen.getByTestId("secondary-share-actions")).toHaveTextContent("FEN");
+    expect(screen.getByTestId("secondary-share-actions")).toHaveTextContent("Share");
     expect(screen.getByRole("button", { name: "Copy FEN" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Share" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Reset" })).toBeInTheDocument();
@@ -310,7 +318,10 @@ describe("App", () => {
       "false",
     );
     expect(
-      screen.queryByRole("button", { name: "Remove piece" }),
+      screen.queryByRole("button", { name: "Delete pieces" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Select or place pieces" }),
     ).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Undo" })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Redo" })).not.toBeInTheDocument();
@@ -332,7 +343,7 @@ describe("App", () => {
       "true",
     );
     expect(
-      screen.queryByRole("button", { name: "Remove piece" }),
+      screen.queryByRole("button", { name: "Delete pieces" }),
     ).not.toBeInTheDocument();
     expect(
       screen.queryByRole("button", { name: "White queen" }),
@@ -351,17 +362,25 @@ describe("App", () => {
       "aria-pressed",
       "false",
     );
-    expect(screen.getByRole("button", { name: "Remove piece" })).toBeEnabled();
+    expect(screen.getByRole("button", { name: "Delete pieces" })).toBeEnabled();
+    expect(
+      screen.getByRole("button", { name: "Select or place pieces" }),
+    ).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByLabelText("Edit tools")).toContainElement(
-      screen.getByRole("button", { name: "Remove piece" }),
+      screen.getByRole("button", { name: "Delete pieces" }),
     );
+    expect(screen.getByTestId("edit-tools-panel")).toBeInTheDocument();
+    expect(screen.getByTestId("edit-tool-mode-controls")).toBeInTheDocument();
+    expect(screen.getByTestId("piece-palette")).toBeInTheDocument();
+    expect(screen.getByTestId("piece-palette-grid")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "White queen" })).toBeEnabled();
-    expect(screen.getByRole("button", { name: "Black" })).toBeEnabled();
+    expect(screen.queryByTestId("position-metadata-controls")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Black" })).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled();
     expect(screen.getByTestId("analysis-action-buttons")).toHaveTextContent("Undo");
     expect(screen.getByTestId("analysis-action-buttons")).toHaveTextContent("Redo");
-    expect(screen.getByText("Edit Board active.")).toBeInTheDocument();
+    expect(screen.queryByText("Edit Board active.")).not.toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-edit-mode",
       "true",
@@ -371,7 +390,8 @@ describe("App", () => {
       "edit",
     );
     expect(screen.getByTestId("static-board")).toHaveClass("edit-mode-board");
-    expect(screen.getByLabelText("Edit tools")).toHaveTextContent("Remove");
+    expect(screen.getByLabelText("Edit tools")).toHaveTextContent("Select");
+    expect(screen.getByLabelText("Edit tools")).toHaveTextContent("Delete");
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
       STATIC_ANALYSIS_FEN,
@@ -572,7 +592,7 @@ describe("App", () => {
     render(<AnalysisShell />);
     fireEvent.click(screen.getByTestId("mock-empty-square"));
 
-    expect(screen.queryByText("No piece selected.")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("edit-tools-panel")).not.toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
       STATIC_ANALYSIS_FEN,
@@ -600,11 +620,13 @@ describe("App", () => {
   it("adds selected pieces while edit mode is active", () => {
     render(<AnalysisShell />);
     fireEvent.click(screen.getByRole("button", { name: "Edit Board" }));
-    fireEvent.click(screen.getByRole("button", { name: "White queen" }));
+    const whiteQueen = screen.getByRole("button", { name: "White queen" });
+    fireEvent.click(whiteQueen);
     fireEvent.click(screen.getByTestId("mock-empty-square"));
 
-    expect(screen.getByText("Selected piece: wQ.")).toBeInTheDocument();
-    expect(screen.getByText("Last interaction: Place wQ on d4.")).toBeInTheDocument();
+    expect(whiteQueen).toHaveClass("ring-2");
+    expect(whiteQueen).toHaveClass("bg-neutral-900");
+    expect(screen.getByText("Last interaction: Place Q on d4.")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
       ADDED_STATIC_FEN,
@@ -628,7 +650,10 @@ describe("App", () => {
     );
     expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled();
-    expect(screen.getByText("No piece selected.")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "White queen" })).toHaveAttribute(
+      "aria-pressed",
+      "false",
+    );
   });
 
   it("undoes and redoes add-piece edits", () => {
@@ -655,25 +680,35 @@ describe("App", () => {
     expect(screen.getByText("Last interaction: Redo edit.")).toBeInTheDocument();
   });
 
-  it("replaces occupied squares when adding a selected piece", () => {
+  it("places white and black selected pieces with the correct FEN color", () => {
     render(<AnalysisShell />);
     fireEvent.click(screen.getByRole("button", { name: "Edit Board" }));
+    fireEvent.click(screen.getByRole("button", { name: "White queen" }));
+    fireEvent.click(screen.getByTestId("mock-empty-square"));
+
+    expect(screen.getByText("Last interaction: Place Q on d4.")).toBeInTheDocument();
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      ADDED_STATIC_FEN,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Undo" }));
     fireEvent.click(screen.getByRole("button", { name: "Black queen" }));
     fireEvent.click(screen.getByTestId("mock-occupied-square"));
 
-    expect(screen.getByText("Last interaction: Place bQ on c4.")).toBeInTheDocument();
+    expect(screen.getByText("Last interaction: Place q on c4.")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
       REPLACED_STATIC_FEN,
     );
   });
 
-  it("keeps remove attempts non-mutating outside edit mode", () => {
+  it("keeps delete attempts non-mutating outside edit mode", () => {
     render(<AnalysisShell />);
     fireEvent.click(screen.getByTestId("mock-piece"));
 
     expect(
-      screen.queryByText("Last interaction: Remove wP from c4."),
+      screen.queryByText("Last interaction: Deleted wP from c4."),
     ).not.toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
@@ -681,18 +716,24 @@ describe("App", () => {
     );
   });
 
-  it("removes pieces while remove mode is active", () => {
+  it("deletes pieces while delete tool is active", () => {
     render(<AnalysisShell />);
     fireEvent.click(screen.getByRole("button", { name: "Edit Board" }));
-    fireEvent.click(screen.getByRole("button", { name: "Remove piece" }));
+    expect(
+      screen.getByRole("button", { name: "Select or place pieces" }),
+    ).toHaveAttribute("aria-pressed", "true");
+    fireEvent.click(screen.getByRole("button", { name: "Delete pieces" }));
     fireEvent.click(screen.getByTestId("mock-piece"));
 
     expect(
-      screen.getByText("Last interaction: Remove wP from c4."),
+      screen.getByText("Last interaction: Deleted wP from c4."),
     ).toBeInTheDocument();
-    expect(screen.getByText("Remove tool active.")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Delete pieces" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
     expect(screen.getByTestId("static-board")).toHaveAttribute(
-      "data-remove-mode",
+      "data-delete-tool-active",
       "true",
     );
     expect(screen.getByTestId("static-board")).toHaveAttribute(
@@ -725,7 +766,7 @@ describe("App", () => {
       STATIC_ANALYSIS_FEN,
     );
     expect(screen.getByTestId("static-board")).toHaveAttribute(
-      "data-remove-mode",
+      "data-delete-tool-active",
       "false",
     );
     expect(screen.getByTestId("static-board")).toHaveAttribute(
@@ -997,7 +1038,9 @@ describe("App", () => {
       ]),
     );
     expectAnalyticsEventsAreSafe(analytics.events, uploadedFen);
-    expect(screen.getByRole("button", { name: "Upload" })).toBeInTheDocument();
+    expect(screen.getByTestId("app-header")).toContainElement(
+      screen.getByRole("button", { name: "Upload" }),
+    );
 
     fireEvent.click(screen.getByRole("button", { name: "Upload" }));
 

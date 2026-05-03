@@ -45,5 +45,10 @@ BLOCK 05 — Detection Engine
 - Clear upload-again action from analysis.
 - Cleaner side-to-move, mode toggle, and board action controls.
 
+### 6.8 Analysis page manual validation fixes
+- Manual-validation follow-up for analysis page spacing and control hierarchy.
+- Move upload-again action to the app header.
+- Simplify edit controls and add stable layout test IDs.
+
 ## Done definition
 - MVP is functional, stable, trackable, and usable on desktop/mobile.

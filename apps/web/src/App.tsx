@@ -32,6 +32,9 @@ export function App() {
     fen: null,
     error: "",
   });
+  const showHeaderUploadAction = Boolean(
+    uploadedFen || (shareId && sharedPosition.status === "loaded"),
+  );
 
   useEffect(() => {
     if (!shareId) {
@@ -90,20 +93,45 @@ export function App() {
   return (
     <main className="min-h-screen overflow-x-hidden bg-neutral-950 text-neutral-100">
       <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-4 sm:px-8 sm:py-6">
-        <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+        <div
+          className="flex flex-row items-center justify-between gap-4"
+          data-testid="app-header"
+        >
           <p className="text-sm font-medium uppercase tracking-wide text-emerald-300">
             Play The Position
           </p>
+          {showHeaderUploadAction ? (
+            <button
+              type="button"
+              aria-label="Upload"
+              title="Upload another image"
+              onClick={handleStartNewUpload}
+              className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-emerald-300/60 px-3 py-2 text-sm font-semibold text-emerald-100 transition hover:border-emerald-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald-300"
+            >
+              <svg
+                aria-hidden="true"
+                className="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <rect height="14" rx="2" width="18" x="3" y="5" />
+                <path d="m8 14 2.5-2.5L14 15l1.5-1.5L19 17" />
+                <circle cx="8" cy="9" r="1" />
+              </svg>
+              <span>Upload</span>
+            </button>
+          ) : null}
         </div>
 
         {shareId ? (
-          <SharedPositionView
-            state={sharedPosition}
-            onStartNewUpload={handleStartNewUpload}
-          />
+          <SharedPositionView state={sharedPosition} />
         ) : uploadedFen ? (
           <AnalysisExperienceFallback>
-            <AnalysisShell fen={uploadedFen} onStartNewUpload={handleStartNewUpload} />
+            <AnalysisShell fen={uploadedFen} />
           </AnalysisExperienceFallback>
         ) : (
           <UploadScreen
@@ -123,17 +151,11 @@ function getShareId(pathname: string) {
   return match?.[1] ? decodeURIComponent(match[1]) : null;
 }
 
-function SharedPositionView({
-  state,
-  onStartNewUpload,
-}: {
-  state: SharedPositionState;
-  onStartNewUpload: () => void;
-}) {
+function SharedPositionView({ state }: { state: SharedPositionState }) {
   if (state.status === "loaded") {
     return (
       <AnalysisExperienceFallback>
-        <AnalysisShell fen={state.fen} onStartNewUpload={onStartNewUpload} />
+        <AnalysisShell fen={state.fen} />
       </AnalysisExperienceFallback>
     );
   }
