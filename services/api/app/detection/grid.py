@@ -57,6 +57,7 @@ class GridDetectionFailure:
     stage: DetectionStage = "grid"
     retryable: bool = True
     suggestion: str = "Use a clear, uncropped chessboard image."
+    failure_reason: str | None = None
 
 
 @dataclass(frozen=True)
@@ -65,6 +66,14 @@ class BoardBoundsDetectionSuccess:
     confidence: float
     source: str = "synthetic_ppm_board_bounds"
     stage: DetectionStage = "grid"
+
+    @property
+    def metadata(self) -> DetectionMetadata:
+        return DetectionMetadata(
+            confidence=self.confidence,
+            source=self.source,
+            stage=self.stage,
+        )
 
 
 GridDetectionResult = GridDetectionSuccess | GridDetectionFailure
@@ -79,6 +88,7 @@ def preprocess_image_bytes(image_bytes: bytes) -> PreprocessResult:
             message="Image payload is empty.",
             stage="preprocess",
             suggestion="Upload a non-empty image file.",
+            failure_reason="empty_image",
         )
 
     return _parse_ppm(image_bytes)
@@ -202,6 +212,7 @@ def _parse_ppm(image_bytes: bytes) -> PreprocessResult:
             message="Only binary PPM test images are supported by this boundary.",
             stage="preprocess",
             suggestion="Use a supported image format for this detection boundary.",
+            failure_reason="unsupported_image_format",
         )
 
     try:
@@ -317,6 +328,7 @@ def _invalid_image() -> GridDetectionFailure:
         message="Image payload could not be preprocessed.",
         stage="preprocess",
         suggestion="Upload a valid image payload.",
+        failure_reason="invalid_image_bytes",
     )
 
 
@@ -324,4 +336,5 @@ def _grid_not_found() -> GridDetectionFailure:
     return GridDetectionFailure(
         code="board_grid_not_found",
         message="An 8x8 chessboard grid could not be found.",
+        failure_reason="board_grid_not_found",
     )

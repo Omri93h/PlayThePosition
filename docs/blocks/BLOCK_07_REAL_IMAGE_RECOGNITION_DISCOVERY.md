@@ -60,6 +60,8 @@ Discover and design the path toward real screenshot-to-board recognition without
 - Avoid production accuracy claims.
 
 ### 7.6 Confidence/failure UX
+- Status: implemented / ready for review.
+- Backend metadata standardization and docs only; no upload/API response change and no frontend UI.
 - Define confidence thresholds and recoverable failure states.
 - Keep Edit Board as the fallback for uncertain results.
 

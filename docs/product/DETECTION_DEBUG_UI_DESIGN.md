@@ -50,6 +50,16 @@ Avoid:
 - Do not store raw uploaded screenshots.
 - The future panel should receive metadata only, not raw image bytes.
 
+## Confidence And Failure Wording
+
+- Use "Detection estimate" for normal results, including successful future detection.
+- Use "Needs review" when confidence is partial or some squares/stages are uncertain.
+- Use "Low confidence" for weak board, orientation, piece, or FEN estimates.
+- Failed detection should show the failed stage, failure reason, and a short suggestion such as trying a cleaner full-board screenshot.
+- Avoid "confirmed", "accurate", "recognized perfectly", or any wording that implies real-world screenshot accuracy is solved.
+- Do not show raw uploaded screenshots or crop previews unless explicitly approved later.
+- The current upload response is not changed by 7.6; detection metadata remains internal/scaffolded until a later approved integration feature.
+
 ## UX States
 
 ### Placeholder / Scaffolded

@@ -4,7 +4,7 @@ Current Block/Area:
 BLOCK 07 — Real Image Recognition Discovery
 
 Current Feature:
-7.5 Piece recognition experiment
+7.6 Confidence/failure UX
 
 Current Step:
 Implemented / ready for review
