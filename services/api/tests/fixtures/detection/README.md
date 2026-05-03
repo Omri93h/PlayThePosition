@@ -2,6 +2,14 @@
 
 This directory holds lightweight metadata for detection tests. Current fixtures are synthetic and generated in test code. Do not commit generated binary images for these cases.
 
+## Folder Strategy
+
+- `cases.json` is the active synthetic manifest used by current tests.
+- `cases.example.json` documents the future approved-fixture metadata shape.
+- `approved/` is the only future tracked location for approved screenshot fixtures.
+- `raw/`, `large/`, and archive dumps are local-only and ignored by git.
+- Do not commit real screenshot images outside `approved/`.
+
 ## Naming
 
 Use:
@@ -69,3 +77,5 @@ See `cases.example.json` for the future approved-fixture metadata shape. The exi
 ## Local Experiments
 
 Put experimental local/raw data under ignored `raw/` or `large/` folders. Do not commit those files.
+
+Do not place approved fixtures in `raw/` or `large/`; use `approved/` only after explicit approval.

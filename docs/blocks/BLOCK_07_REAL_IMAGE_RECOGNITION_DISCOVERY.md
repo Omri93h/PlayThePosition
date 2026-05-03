@@ -43,6 +43,7 @@ Discover and design the path toward real screenshot-to-board recognition without
 - Keep this as design/spec until implementation is approved.
 
 ### 7.3 Real screenshot fixture pipeline
+- Status: implemented / ready for review.
 - Plan a small curated fixture workflow.
 - Avoid large, copyrighted, or raw user-uploaded datasets.
 

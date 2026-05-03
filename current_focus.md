@@ -4,7 +4,7 @@ Current Block/Area:
 BLOCK 07 — Real Image Recognition Discovery
 
 Current Feature:
-7.2 Detection debug/inspection UI design
+7.3 Real screenshot fixture pipeline
 
 Current Step:
 Implemented / ready for review

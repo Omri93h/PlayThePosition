@@ -20,6 +20,11 @@ test-results/
 services/api/tests/fixtures/detection/raw/
 services/api/tests/fixtures/detection/large/
 services/api/tests/fixtures/detection/**/*.zip
+services/api/tests/fixtures/detection/**/*.tar
+services/api/tests/fixtures/detection/**/*.tar.gz
+services/api/tests/fixtures/detection/**/*.tgz
+services/api/tests/fixtures/detection/**/*.7z
+services/api/tests/fixtures/detection/**/*.rar
 
 # env/secrets
 .env
