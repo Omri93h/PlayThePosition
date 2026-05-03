@@ -4,7 +4,7 @@ Current Block/Area:
 BLOCK 07 — Real Image Recognition Discovery
 
 Current Feature:
-7.4 Board detection experiment
+7.5 Piece recognition experiment
 
 Current Step:
 Implemented / ready for review

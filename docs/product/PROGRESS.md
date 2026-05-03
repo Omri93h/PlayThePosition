@@ -15,11 +15,12 @@
 ## Current
 
 - Current focus: BLOCK 07 — Real Image Recognition Discovery.
-- Current feature: 7.4 Board detection experiment.
+- Current feature: 7.5 Piece recognition experiment.
 - Feature 7.1 is implemented / ready for review.
 - Feature 7.2 is implemented / ready for review.
 - Feature 7.3 is implemented / ready for review.
 - Feature 7.4 is implemented / ready for review as a synthetic/control PPM experiment only.
+- Feature 7.5 is implemented / ready for review as a synthetic/control marker experiment only.
 - BLOCK 07 is approved for discovery/planning only.
 - MVP hardening/polish is complete.
 - MVP readiness automated validation passed.
@@ -49,7 +50,7 @@
 
 ## Next
 
-- Review 7.4 Board detection experiment.
+- Review 7.5 Piece recognition experiment.
 - Keep BLOCK 07 limited to discovery unless a later implementation feature is explicitly approved.
 - Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.
 

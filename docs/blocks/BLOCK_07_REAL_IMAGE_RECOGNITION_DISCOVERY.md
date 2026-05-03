@@ -54,6 +54,8 @@ Discover and design the path toward real screenshot-to-board recognition without
 - Measure against approved fixtures only.
 
 ### 7.5 Piece recognition experiment
+- Status: implemented / ready for review.
+- Synthetic/control marker experiment only; not real screenshot recognition.
 - Explore piece recognition approaches.
 - Avoid production accuracy claims.
 
