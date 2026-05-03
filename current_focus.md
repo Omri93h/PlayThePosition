@@ -4,7 +4,7 @@ Current Block/Area:
 BLOCK 07 — Real Image Recognition Discovery
 
 Current Feature:
-7.6 Confidence/failure UX
+7.7 Integration plan for replacing scaffolded detection
 
 Current Step:
 Implemented / ready for review

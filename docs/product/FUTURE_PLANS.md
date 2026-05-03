@@ -34,6 +34,10 @@ These remain outside the currently approved BLOCK 07 discovery scope unless expl
 - Maybe piece style.
 - Other visual preferences later.
 
+## Future — UI Polish Backlog
+
+- Side-to-move, Flip, and Reset must be visually aligned in the same row in Play mode.
+
 ## Phase 4 — SEO and Growth
 
 - Homepage demo video/GIF.

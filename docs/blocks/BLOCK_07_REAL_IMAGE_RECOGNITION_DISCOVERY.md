@@ -1,7 +1,7 @@
 # BLOCK 07 — Real Image Recognition Discovery
 
 ## Status
-Planned / approved for discovery only.
+In progress / discovery-only; ready for closeout review after 7.7 review.
 
 ## Purpose
 Close the biggest MVP gap: uploaded chess screenshots currently produce scaffolded/synthetic detection results.
@@ -66,6 +66,8 @@ Discover and design the path toward real screenshot-to-board recognition without
 - Keep Edit Board as the fallback for uncertain results.
 
 ### 7.7 Integration plan for replacing scaffolded detection
+- Status: implemented / ready for review.
+- Docs/planning only; no upload/API response change and no real recognition integration.
 - Define the safest path from scaffolded detection to real detection.
 - Include rollout, testing, and fallback criteria.
 

@@ -85,6 +85,8 @@ Avoid:
 
 Keep the current upload response stable until implementation is explicitly approved. A later implementation may add an optional `detection` object:
 
+The staged backend/frontend integration plan is documented in `docs/product/DETECTION_INTEGRATION_PLAN.md`.
+
 ```json
 {
   "fen": "4k3/8/8/8/7r/3K4/8/8 w - - 0 1",
