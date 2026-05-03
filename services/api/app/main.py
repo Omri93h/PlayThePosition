@@ -51,7 +51,8 @@ async def upload_position(
     file: Annotated[UploadFile, File()],
 ) -> dict[str, object] | JSONResponse:
     file_bytes = await file.read()
-    validation_error = validate_upload(file, file_bytes)
+    file_size = len(file_bytes)
+    validation_error = validate_upload(file, file_bytes, file_size)
 
     if validation_error is not None:
         return validation_error
@@ -60,7 +61,7 @@ async def upload_position(
         logger,
         "upload.succeeded",
         content_type=file.content_type or "application/octet-stream",
-        file_size=len(file_bytes),
+        file_size=file_size,
         source="placeholder",
         fen_length=len(PLACEHOLDER_FEN),
     )
@@ -121,14 +122,18 @@ def get_share(share_id: str) -> SharedPosition | JSONResponse:
     return position
 
 
-def validate_upload(file: UploadFile, file_bytes: bytes) -> JSONResponse | None:
+def validate_upload(
+    file: UploadFile,
+    file_bytes: bytes,
+    file_size: int,
+) -> JSONResponse | None:
     content_type = file.content_type or "application/octet-stream"
 
     if content_type not in ALLOWED_UPLOAD_TYPES:
         log_upload_validation_failure(
             code="unsupported_file_type",
             content_type=content_type,
-            file_size=len(file_bytes),
+            file_size=file_size,
         )
         return upload_error(
             415,
@@ -136,11 +141,11 @@ def validate_upload(file: UploadFile, file_bytes: bytes) -> JSONResponse | None:
             "Only PNG and JPEG images are supported.",
         )
 
-    if len(file_bytes) > MAX_UPLOAD_BYTES:
+    if file_size > MAX_UPLOAD_BYTES:
         log_upload_validation_failure(
             code="file_too_large",
             content_type=content_type,
-            file_size=len(file_bytes),
+            file_size=file_size,
         )
         return upload_error(
             413,
@@ -152,7 +157,7 @@ def validate_upload(file: UploadFile, file_bytes: bytes) -> JSONResponse | None:
         log_upload_validation_failure(
             code="invalid_image_payload",
             content_type=content_type,
-            file_size=len(file_bytes),
+            file_size=file_size,
         )
         return upload_error(
             400,

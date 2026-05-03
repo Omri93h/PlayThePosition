@@ -17,8 +17,8 @@
 
 ## Current
 
-- Current focus: 6.6 Performance cleanup.
-- 6.6 is planning-only next; do not implement until approved.
+- Current focus: Review 6.6 Performance cleanup.
+- BLOCK 06 remains in progress until final review is approved.
 
 ## Completed In BLOCK 06
 
@@ -27,10 +27,11 @@
 - 6.3 Mobile layout
 - 6.4 Observability/logs
 - 6.5 Analytics events
+- 6.6 Performance cleanup
 
 ## Next
 
-- Plan 6.6 Performance cleanup.
+- Review BLOCK 06 / 6.6 Performance cleanup.
 
 ## Later / Deferred
 

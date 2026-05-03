@@ -1,11 +1,17 @@
-import { useEffect, useState } from "react";
+import type { ReactNode } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 
 import { trackEvent } from "./analytics";
 import { loadSharedPosition } from "./api/share";
 import type { UploadSuccessResponse } from "./api/upload";
-import { AnalysisShell } from "./components/AnalysisShell";
 import { LoadingOverlay } from "./components/LoadingOverlay";
 import { UploadDropzone } from "./components/UploadDropzone";
+
+const AnalysisShell = lazy(() =>
+  import("./components/AnalysisShell").then((module) => ({
+    default: module.AnalysisShell,
+  })),
+);
 
 type UploadLoadingStage = "uploading" | "analyzing" | "opening";
 
@@ -84,7 +90,9 @@ export function App() {
         {shareId ? (
           <SharedPositionView state={sharedPosition} />
         ) : uploadedFen ? (
-          <AnalysisShell fen={uploadedFen} />
+          <AnalysisExperienceFallback>
+            <AnalysisShell fen={uploadedFen} />
+          </AnalysisExperienceFallback>
         ) : (
           <UploadScreen
             onUploadFailure={handleUploadFailure}
@@ -105,7 +113,11 @@ function getShareId(pathname: string) {
 
 function SharedPositionView({ state }: { state: SharedPositionState }) {
   if (state.status === "loaded") {
-    return <AnalysisShell fen={state.fen} />;
+    return (
+      <AnalysisExperienceFallback>
+        <AnalysisShell fen={state.fen} />
+      </AnalysisExperienceFallback>
+    );
   }
 
   if (state.status === "error") {
@@ -141,6 +153,25 @@ function SharedPositionView({ state }: { state: SharedPositionState }) {
         Fetching the saved board state.
       </p>
     </section>
+  );
+}
+
+function AnalysisExperienceFallback({ children }: { children: ReactNode }) {
+  return (
+    <Suspense
+      fallback={
+        <section className="flex flex-1 flex-col items-center justify-center px-1 py-10 text-center sm:py-12">
+          <h1 className="text-2xl font-semibold tracking-normal text-white sm:text-3xl">
+            Loading analysis board
+          </h1>
+          <p className="mt-4 text-sm leading-6 text-neutral-300">
+            Preparing the editable position workspace.
+          </p>
+        </section>
+      }
+    >
+      {children}
+    </Suspense>
   );
 }
 

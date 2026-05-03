@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { useCallback, useMemo } from "react";
 import { Chessboard } from "react-chessboard";
 import type {
   PieceDropHandlerArgs,
@@ -47,51 +48,102 @@ export function StaticBoard({
   onRemoveAttempt?: (attempt: BoardRemoveAttempt) => void;
   onSquareSelect?: (selection: BoardSquareSelection) => void;
 }) {
-  const darkSquareStyle: CSSProperties = {
-    backgroundColor: isEditMode ? "#3f6f54" : "#315844",
-  };
-  const lightSquareStyle: CSSProperties = {
-    backgroundColor: isEditMode ? "#8fba8c" : "#76966f",
-  };
-  const squareStyles: Record<string, CSSProperties> =
-    isEditMode && selectedSquare
-      ? {
-          [selectedSquare]: {
-            background:
-              "linear-gradient(135deg, rgba(254, 240, 138, 0.65), rgba(250, 204, 21, 0.45))",
-            boxShadow: "inset 0 0 0 3px rgba(254, 249, 195, 0.75)",
-          },
-        }
-      : {};
+  const darkSquareStyle = useMemo<CSSProperties>(
+    () => ({
+      backgroundColor: isEditMode ? "#3f6f54" : "#315844",
+    }),
+    [isEditMode],
+  );
+  const lightSquareStyle = useMemo<CSSProperties>(
+    () => ({
+      backgroundColor: isEditMode ? "#8fba8c" : "#76966f",
+    }),
+    [isEditMode],
+  );
+  const squareStyles = useMemo<Record<string, CSSProperties>>(() => {
+    if (!isEditMode || !selectedSquare) {
+      return {};
+    }
 
-  function handlePieceDrop({
-    piece,
-    sourceSquare,
-    targetSquare,
-  }: PieceDropHandlerArgs) {
-    return (
+    return {
+      [selectedSquare]: {
+        background:
+          "linear-gradient(135deg, rgba(254, 240, 138, 0.65), rgba(250, 204, 21, 0.45))",
+        boxShadow: "inset 0 0 0 3px rgba(254, 249, 195, 0.75)",
+      },
+    };
+  }, [isEditMode, selectedSquare]);
+
+  const handlePieceDrop = useCallback(
+    ({ piece, sourceSquare, targetSquare }: PieceDropHandlerArgs) =>
       onMoveAttempt?.({
         piece: piece.pieceType,
         sourceSquare,
         targetSquare,
-      }) ?? false
-    );
-  }
+      }) ?? false,
+    [onMoveAttempt],
+  );
 
-  function handlePieceClick({ isSparePiece, piece, square }: PieceHandlerArgs) {
-    if (isSparePiece || !square) {
-      return;
-    }
+  const handlePieceClick = useCallback(
+    ({ isSparePiece, piece, square }: PieceHandlerArgs) => {
+      if (isSparePiece || !square) {
+        return;
+      }
 
-    onRemoveAttempt?.({
-      piece: piece.pieceType,
-      square,
-    });
-  }
+      onRemoveAttempt?.({
+        piece: piece.pieceType,
+        square,
+      });
+    },
+    [onRemoveAttempt],
+  );
 
-  function handleSquareClick({ square }: SquareHandlerArgs) {
-    onSquareSelect?.({ square });
-  }
+  const handleSquareClick = useCallback(
+    ({ square }: SquareHandlerArgs) => {
+      onSquareSelect?.({ square });
+    },
+    [onSquareSelect],
+  );
+
+  const boardOptions = useMemo(
+    () => ({
+      id: "static-analysis-board",
+      position: fen,
+      boardOrientation: orientation,
+      allowDragging: isInteractive,
+      allowDrawingArrows: false,
+      showAnimations: false,
+      onPieceClick: isInteractive ? handlePieceClick : undefined,
+      onPieceDrop: isInteractive ? handlePieceDrop : undefined,
+      onSquareClick: isInteractive ? handleSquareClick : undefined,
+      squareStyles,
+      boardStyle: {
+        borderRadius: "0.5rem",
+        width: "100%",
+        height: "100%",
+      },
+      darkSquareStyle,
+      lightSquareStyle,
+      darkSquareNotationStyle: {
+        color: isEditMode ? "#ecfdf5" : "#d1fae5",
+      },
+      lightSquareNotationStyle: {
+        color: isEditMode ? "#064e3b" : "#ecfdf5",
+      },
+    }),
+    [
+      darkSquareStyle,
+      fen,
+      handlePieceClick,
+      handlePieceDrop,
+      handleSquareClick,
+      isEditMode,
+      isInteractive,
+      lightSquareStyle,
+      orientation,
+      squareStyles,
+    ],
+  );
 
   return (
     <div
@@ -111,33 +163,7 @@ export function StaticBoard({
       data-testid="static-board"
     >
       <div className="h-full w-full overflow-hidden rounded-lg">
-        <Chessboard
-          options={{
-            id: "static-analysis-board",
-            position: fen,
-            boardOrientation: orientation,
-            allowDragging: isInteractive,
-            allowDrawingArrows: false,
-            showAnimations: false,
-            onPieceClick: isInteractive ? handlePieceClick : undefined,
-            onPieceDrop: isInteractive ? handlePieceDrop : undefined,
-            onSquareClick: isInteractive ? handleSquareClick : undefined,
-            squareStyles,
-            boardStyle: {
-              borderRadius: "0.5rem",
-              width: "100%",
-              height: "100%",
-            },
-            darkSquareStyle,
-            lightSquareStyle,
-            darkSquareNotationStyle: {
-              color: isEditMode ? "#ecfdf5" : "#d1fae5",
-            },
-            lightSquareNotationStyle: {
-              color: isEditMode ? "#064e3b" : "#ecfdf5",
-            },
-          }}
-        />
+        <Chessboard options={boardOptions} />
       </div>
     </div>
   );
