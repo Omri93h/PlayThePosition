@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "lichess-like_default_white-bottom_start-01",
+      "filename": "lichess-like_default_white-bottom_start-01.png",
+      "kind": "approved_manual_fixture",
+      "source": "lichess-like",
+      "style": "default",
+      "orientation": "white-bottom",
+      "board_bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      },
+      "expected_pieces": [
+        {
+          "square": "e1",
+          "piece": "king",
+          "color": "white",
+          "confidence_note": "expected"
+        },
+        {
+          "square": "e8",
+          "piece": "king",
+          "color": "black",
+          "confidence_note": "expected"
+        }
+      ],
+      "expected_fen": "4k3/8/8/8/8/8/8/4K3 w - - 0 1",
+      "expected_metrics": {
+        "board_crop_detected": true,
+        "orientation_detected": "white-bottom",
+        "piece_list_required": true,
+        "fen_match_required": true,
+        "failure_reason_required": false
+      },
+      "license": {
+        "status": "approved",
+        "note": "Example metadata only; do not add an image file without approval."
+      },
+      "notes": "Example schema for a future approved fixture. No corresponding image is committed."
+    },
+    {
+      "id": "synthetic_default_unknown_noboard-01",
+      "filename": "synthetic_default_unknown_noboard-01.png",
+      "kind": "failure_case",
+      "source": "synthetic",
+      "style": "default",
+      "orientation": "unknown",
+      "board_bounds": null,
+      "expected_pieces": [],
+      "expected_fen": null,
+      "expected_metrics": {
+        "board_crop_detected": false,
+        "orientation_detected": "unknown",
+        "piece_list_required": false,
+        "fen_match_required": false,
+        "failure_reason_required": true
+      },
+      "expected_failure": {
+        "stage": "grid_detection",
+        "reason": "no_board_detected"
+      },
+      "license": {
+        "status": "approved",
+        "note": "Example metadata only; synthetic failure case."
+      },
+      "notes": "Example schema for a fixture that should fail cleanly."
+    }
+  ]
+}

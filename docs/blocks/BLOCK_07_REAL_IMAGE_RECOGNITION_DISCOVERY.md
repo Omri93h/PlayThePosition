@@ -32,6 +32,7 @@ Discover and design the path toward real screenshot-to-board recognition without
 ## Suggested feature breakdown
 
 ### 7.1 Discovery/spec and fixture strategy
+- Status: implemented / ready for review.
 - Define supported screenshot targets.
 - Define initial measurement approach.
 - Define fixture metadata expectations.

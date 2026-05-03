@@ -7,7 +7,7 @@ Current Feature:
 7.1 Discovery/spec and fixture strategy
 
 Current Step:
-Plan only / not implemented
+Implemented / ready for review
 
 Rules:
 - Work only on the current feature.
