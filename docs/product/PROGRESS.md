@@ -14,18 +14,22 @@
 
 ## Current
 
-- Current focus: MVP closeout.
+- Current focus: BLOCK 07 — Real Image Recognition Discovery.
+- Current feature: 7.1 Discovery/spec and fixture strategy.
+- BLOCK 07 is approved for discovery/planning only.
 - MVP hardening/polish is complete.
 - MVP readiness automated validation passed.
+- MVP is closed.
 - MVP closeout is approved.
-- Next focus: choose the next approved roadmap/block step.
+- Real image recognition implementation has not started.
 
 ## MVP Readiness
 
 - MVP release-readiness checklist is created.
 - Manual validation feedback fixes are implemented.
 - Final automated validation passed.
-- MVP closeout is approved without starting BLOCK 07.
+- MVP is closed.
+- MVP closeout is approved.
 - Closeout does not claim full production readiness or real-world screenshot detection accuracy.
 
 ## Completed In BLOCK 06
@@ -41,9 +45,9 @@
 
 ## Next
 
-- Choose the next approved roadmap/block step.
-- Do not start BLOCK 07 until it is explicitly approved.
-- Keep future/post-MVP items deferred unless explicitly moved into scope.
+- Plan 7.1 Discovery/spec and fixture strategy.
+- Keep BLOCK 07 limited to discovery unless a later implementation feature is explicitly approved.
+- Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.
 
 ## Known MVP Limitations
 

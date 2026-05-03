@@ -77,3 +77,13 @@
 - 6.6 Performance cleanup
 - 6.7 Analysis page UX cleanup
 - 6.8 Analysis page manual validation fixes
+
+## BLOCK 07 — Real Image Recognition Discovery
+
+- 7.1 Discovery/spec and fixture strategy
+- 7.2 Detection debug/inspection UI design
+- 7.3 Real screenshot fixture pipeline
+- 7.4 Board detection experiment
+- 7.5 Piece recognition experiment
+- 7.6 Confidence/failure UX
+- 7.7 Integration plan for replacing scaffolded detection

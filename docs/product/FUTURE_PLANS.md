@@ -1,11 +1,12 @@
 # Future Plans — Post-MVP
 
-These are intentionally out of scope until the MVP blocks are complete.
+These remain outside the currently approved BLOCK 07 discovery scope unless explicitly moved into scope.
 
 ## Future — Detection Accuracy
 
-- Real-world screenshot detection accuracy.
-- Detection debug/inspection view showing recognized pieces and squares, such as "black rook at h4" or "white king at d3".
+- BLOCK 07 covers discovery/planning for the path toward real screenshot recognition.
+- Production-grade real-world screenshot recognition accuracy remains future work until measured and explicitly approved.
+- Detection debug/inspection view design is part of BLOCK 07 discovery; implementation remains unstarted until approved.
 
 ## Phase 2 — Accounts and Saved Work
 
@@ -63,4 +64,4 @@ These are intentionally out of scope until the MVP blocks are complete.
 
 ## Rule
 
-Do not implement future plans during MVP development unless explicitly moved into scope.
+Do not implement future plans unless explicitly moved into an approved block/feature.

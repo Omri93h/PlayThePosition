@@ -1,16 +1,18 @@
 # Current Focus
 
 Current Block/Area:
-MVP closeout
+BLOCK 07 — Real Image Recognition Discovery
 
 Current Feature:
-MVP closeout
+7.1 Discovery/spec and fixture strategy
 
 Current Step:
-MVP closed / awaiting next approved planning step
+Plan only / not implemented
 
 Rules:
 - Work only on the current feature.
 - Do not jump ahead.
-- Do not build API endpoints, detection, sharing, or future edit features yet.
-- Finish relevant setup/tests before moving on.
+- Do not implement image recognition yet.
+- Do not add CV/ML dependencies yet.
+- Do not claim real-world screenshot detection accuracy.
+- Do not start engine, legal moves, auth/accounts, payments, link-out, or SEO.
