@@ -14,7 +14,7 @@
 
 ## Current
 
-- Current focus: MVP readiness share modal and palette polish.
+- Current focus: MVP readiness UI cleanup after share modal validation.
 - MVP hardening/polish is complete.
 - MVP itself is not formally marked complete.
 - Next status: revalidate the MVP readiness checklist before deciding MVP closeout.

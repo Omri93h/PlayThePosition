@@ -294,9 +294,8 @@ describe("App", () => {
     );
     expect(screen.getByTestId("primary-board-actions")).toHaveTextContent("Flip");
     expect(screen.getByTestId("primary-board-actions")).toHaveTextContent("Reset");
-    expect(screen.getByTestId("secondary-share-actions")).toHaveTextContent("FEN");
     expect(screen.getByTestId("secondary-share-actions")).toHaveTextContent("Share");
-    expect(screen.getByRole("button", { name: "Copy FEN" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Copy FEN" })).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Share" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Reset" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Flip" })).toBeInTheDocument();
@@ -370,6 +369,9 @@ describe("App", () => {
       screen.getByRole("button", { name: "Delete pieces" }),
     );
     expect(screen.getByTestId("edit-tools-panel")).toBeInTheDocument();
+    expect(screen.getByTestId("analysis-actions")).toContainElement(
+      screen.getByTestId("edit-tools-panel"),
+    );
     expect(screen.getByTestId("edit-tool-mode-controls")).toBeInTheDocument();
     expect(screen.getByTestId("piece-palette")).toBeInTheDocument();
     expect(screen.getByTestId("piece-palette-grid")).toBeInTheDocument();
@@ -378,8 +380,12 @@ describe("App", () => {
     expect(screen.queryByRole("button", { name: "Black" })).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled();
-    expect(screen.getByTestId("analysis-action-buttons")).toHaveTextContent("Undo");
-    expect(screen.getByTestId("analysis-action-buttons")).toHaveTextContent("Redo");
+    expect(screen.getByTestId("edit-history-actions")).toHaveTextContent("Undo");
+    expect(screen.getByTestId("edit-history-actions")).toHaveTextContent("Redo");
+    expect(screen.getByTestId("edit-utility-actions")).toHaveTextContent("Flip");
+    expect(screen.getByTestId("edit-utility-actions")).toHaveTextContent("Reset");
+    expect(screen.queryByRole("button", { name: "Share" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Copy FEN" })).not.toBeInTheDocument();
     expect(screen.queryByText("Edit Board active.")).not.toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-edit-mode",
@@ -402,26 +408,6 @@ describe("App", () => {
     );
     expect(analytics.events).toContainEqual({
       name: "edit_mode_opened",
-      payload: { fen_length: STATIC_ANALYSIS_FEN.length },
-    });
-    expectAnalyticsEventsAreSafe(analytics.events, STATIC_ANALYSIS_FEN);
-    analytics.unsubscribe();
-  });
-
-  it("copies the current fallback FEN outside edit mode", async () => {
-    const analytics = captureAnalytics();
-    const writeText = mockClipboard();
-
-    render(<AnalysisShell />);
-
-    fireEvent.click(screen.getByRole("button", { name: "Copy FEN" }));
-
-    await waitFor(() => {
-      expect(writeText).toHaveBeenCalledWith(STATIC_ANALYSIS_FEN);
-    });
-    expect(await screen.findByText("FEN copied.")).toBeInTheDocument();
-    expect(analytics.events).toContainEqual({
-      name: "fen_copied",
       payload: { fen_length: STATIC_ANALYSIS_FEN.length },
     });
     expectAnalyticsEventsAreSafe(analytics.events, STATIC_ANALYSIS_FEN);
@@ -478,6 +464,10 @@ describe("App", () => {
       expect(writeText).toHaveBeenLastCalledWith(STATIC_ANALYSIS_FEN);
     });
     expect(screen.getByText("Current FEN copied.")).toBeInTheDocument();
+    expect(analytics.events).toContainEqual({
+      name: "fen_copied",
+      payload: { fen_length: STATIC_ANALYSIS_FEN.length },
+    });
     expect(fetchMock).toHaveBeenCalledWith(
       "http://127.0.0.1:8000/share",
       expect.objectContaining({
@@ -536,14 +526,30 @@ describe("App", () => {
     analytics.unsubscribe();
   });
 
-  it("shows a copy failure state when clipboard writing fails", async () => {
+  it("shows a modal FEN copy failure state when clipboard writing fails", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          id: "generated-123",
+          path: "/share/generated-123",
+          fen: STATIC_ANALYSIS_FEN,
+          source: "share",
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      ),
+    );
+    vi.stubGlobal("fetch", fetchMock);
     mockClipboard(vi.fn().mockRejectedValue(new Error("Permission denied")));
 
     render(<AnalysisShell />);
 
-    fireEvent.click(screen.getByRole("button", { name: "Copy FEN" }));
+    fireEvent.click(screen.getByRole("button", { name: "Share" }));
+    expect(
+      await screen.findByRole("dialog", { name: "Share position" }),
+    ).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Copy current FEN" }));
 
-    expect(await screen.findByText("Could not copy FEN.")).toBeInTheDocument();
+    expect(await screen.findByText("Could not copy current FEN.")).toBeInTheDocument();
   });
 
   it("updates side to move metadata without enabling edit mode", async () => {
@@ -560,14 +566,6 @@ describe("App", () => {
       "aria-pressed",
       "true",
     );
-
-    const writeText = mockClipboard();
-
-    fireEvent.click(screen.getByRole("button", { name: "Copy FEN" }));
-
-    await waitFor(() => {
-      expect(writeText).toHaveBeenCalledWith(BLACK_TO_MOVE_STATIC_FEN);
-    });
 
     fireEvent.click(screen.getByRole("button", { name: "Reset" }));
 
@@ -860,21 +858,56 @@ describe("App", () => {
     expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled();
   });
 
-  it("copies edited FEN and then reset FEN", async () => {
+  it("copies edited FEN and then reset FEN from the share modal", async () => {
     const writeText = mockClipboard();
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            id: "moved-position",
+            path: "/share/moved-position",
+            fen: MOVED_STATIC_FEN,
+            source: "share",
+          }),
+          { status: 200, headers: { "Content-Type": "application/json" } },
+        ),
+      )
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            id: "reset-position",
+            path: "/share/reset-position",
+            fen: STATIC_ANALYSIS_FEN,
+            source: "share",
+          }),
+          { status: 200, headers: { "Content-Type": "application/json" } },
+        ),
+      );
+    vi.stubGlobal("fetch", fetchMock);
 
     render(<AnalysisShell />);
     fireEvent.click(screen.getByRole("button", { name: "Edit Board" }));
     fireEvent.click(screen.getByTestId("mock-chessboard"));
+    fireEvent.click(screen.getByRole("button", { name: "Play" }));
 
-    fireEvent.click(screen.getByRole("button", { name: "Copy FEN" }));
+    fireEvent.click(screen.getByRole("button", { name: "Share" }));
+    expect(
+      await screen.findByRole("dialog", { name: "Share position" }),
+    ).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Copy current FEN" }));
 
     await waitFor(() => {
       expect(writeText).toHaveBeenLastCalledWith(MOVED_STATIC_FEN);
     });
 
+    fireEvent.click(screen.getByRole("button", { name: "Close share dialog" }));
     fireEvent.click(screen.getByRole("button", { name: "Reset" }));
-    fireEvent.click(screen.getByRole("button", { name: "Copy FEN" }));
+    fireEvent.click(screen.getByRole("button", { name: "Share" }));
+    expect(
+      await screen.findByRole("dialog", { name: "Share position" }),
+    ).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Copy current FEN" }));
 
     await waitFor(() => {
       expect(writeText).toHaveBeenLastCalledWith(STATIC_ANALYSIS_FEN);
@@ -899,6 +932,7 @@ describe("App", () => {
     render(<AnalysisShell />);
     fireEvent.click(screen.getByRole("button", { name: "Edit Board" }));
     fireEvent.click(screen.getByTestId("mock-chessboard"));
+    fireEvent.click(screen.getByRole("button", { name: "Play" }));
     fireEvent.click(screen.getByRole("button", { name: "Share" }));
 
     await waitFor(() => {

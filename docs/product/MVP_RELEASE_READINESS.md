@@ -52,6 +52,8 @@ This checklist is for deciding whether the MVP can be formally closed out. It do
 - [ ] Revalidate share opens a modal without auto-copying.
 - [ ] Revalidate share modal readonly link and FEN fields copy their full values.
 - [ ] Revalidate black and white piece palette visuals stay clear and selection uses ring/stroke only.
+- [ ] Revalidate standalone main FEN action is removed and FEN copy remains available in the Share modal.
+- [ ] Revalidate Edit Board mode shows edit tools/pieces as the primary controls.
 
 ## Known Limitations
 

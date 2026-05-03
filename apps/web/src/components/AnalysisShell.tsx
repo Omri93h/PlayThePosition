@@ -169,7 +169,6 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   const [selectedPiece, setSelectedPiece] = useState<string | null>(null);
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [lastInteraction, setLastInteraction] = useState<string | null>(null);
-  const [copyStatus, setCopyStatus] = useState<CopyStatus>("idle");
   const [shareStatus, setShareStatus] = useState<ShareStatus>("idle");
   const [shareUrl, setShareUrl] = useState("");
   const [shareMessage, setShareMessage] = useState("");
@@ -188,7 +187,6 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setSelectedPiece(null);
     setSelectedSquare(null);
     setLastInteraction(null);
-    setCopyStatus("idle");
     setShareStatus("idle");
     setShareUrl("");
     setShareMessage("");
@@ -216,7 +214,6 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setUndoStack((history) => [...history, currentFen]);
     setRedoStack([]);
     setCurrentFen(nextFen);
-    setCopyStatus("idle");
     clearShareResult();
 
     return true;
@@ -292,7 +289,6 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setSelectedPiece(null);
     setSelectedSquare(null);
     setLastInteraction(null);
-    setCopyStatus("idle");
     clearShareResult();
   }
 
@@ -307,7 +303,6 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setRedoStack((history) => [...history, currentFen]);
     setCurrentFen(previousFen);
     setLastInteraction("Undo edit");
-    setCopyStatus("idle");
     clearShareResult();
   }
 
@@ -322,7 +317,6 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setUndoStack((history) => [...history, currentFen]);
     setCurrentFen(nextFen);
     setLastInteraction("Redo edit");
-    setCopyStatus("idle");
     clearShareResult();
   }
 
@@ -377,20 +371,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   function handleActiveColorChange(activeColor: FenActiveColor) {
     setLastInteraction(`Side to move: ${activeColor === "w" ? "White" : "Black"}`);
     setCurrentFen((fen) => setFenActiveColor({ fen, activeColor }));
-    setCopyStatus("idle");
     clearShareResult();
-  }
-
-  async function handleCopyFen() {
-    try {
-      await navigator.clipboard.writeText(currentFen);
-      trackEvent("fen_copied", {
-        fen_length: currentFen.length,
-      });
-      setCopyStatus("success");
-    } catch {
-      setCopyStatus("error");
-    }
   }
 
   async function handleSharePosition() {
@@ -445,6 +426,9 @@ export function AnalysisShell({ fen }: { fen?: string }) {
 
     try {
       await navigator.clipboard.writeText(currentFen);
+      trackEvent("fen_copied", {
+        fen_length: currentFen.length,
+      });
       setShareFenCopyStatus("success");
     } catch {
       setShareFenCopyStatus("error");
@@ -463,21 +447,15 @@ export function AnalysisShell({ fen }: { fen?: string }) {
         ? shareMessage
         : shareStatus === "error"
           ? shareError
-          : copyStatus === "success"
-            ? "FEN copied."
-            : copyStatus === "error"
-              ? "Could not copy FEN."
-              : editFeedback;
-  const isFeedbackError = shareStatus === "error" || copyStatus === "error";
-  const isFeedbackSuccess = shareStatus === "success" || copyStatus === "success";
+          : editFeedback;
+  const isFeedbackError = shareStatus === "error";
+  const isFeedbackSuccess = shareStatus === "success";
 
   return (
     <section
       aria-label="Analysis board"
       data-testid="analysis-shell"
-      className={`grid min-w-0 flex-1 gap-3 py-3 sm:gap-6 sm:py-8 ${
-        isEditMode ? "lg:grid-cols-[minmax(0,1fr)_20rem]" : ""
-      }`}
+      className="grid min-w-0 flex-1 gap-3 py-3 sm:gap-6 sm:py-8"
     >
       <div
         className={`flex min-h-0 min-w-0 flex-col overflow-hidden rounded-lg border border-neutral-800 bg-neutral-900/70 shadow-2xl shadow-emerald-950/20 ${
@@ -588,42 +566,88 @@ export function AnalysisShell({ fen }: { fen?: string }) {
         </div>
 
         <div
-          aria-label="Analysis actions"
+          aria-label={isEditMode ? "Edit Board controls" : "Analysis actions"}
           data-testid="analysis-actions"
-          className="flex flex-col items-center justify-center gap-2 px-1 pb-3 pt-1 sm:flex-row sm:flex-wrap sm:gap-3 sm:px-5 sm:py-4"
+          className="flex flex-col items-center justify-center gap-3 px-1 pb-3 pt-1 sm:gap-4 sm:px-5 sm:py-4"
         >
-          <div
-            className="flex w-full min-w-0 flex-col items-center gap-3"
-            data-testid="analysis-action-buttons"
-          >
+          {isEditMode ? (
             <div
-              className="flex w-full min-w-0 flex-nowrap justify-center gap-x-1 sm:w-auto sm:flex-wrap sm:gap-x-4 sm:gap-y-3"
-              data-testid="primary-board-actions"
+              className="flex w-full min-w-0 flex-col items-center gap-4 rounded-lg border border-neutral-800 bg-neutral-900/60 p-3 shadow-xl shadow-neutral-950/30 sm:p-4"
+              data-testid="edit-tools-panel"
             >
-              <ActionControl label="Flip" title="Flip board orientation">
-                <button
-                  type="button"
-                  aria-label="Flip"
-                  title="Flip board orientation"
-                  onClick={handleFlip}
-                  className={`${actionButtonBase} border border-emerald-300/60 text-emerald-200 hover:border-emerald-200 hover:text-emerald-100`}
+              <div
+                aria-label="Edit tools"
+                className="flex flex-col items-center gap-4"
+                data-testid="edit-tool-mode-controls"
+              >
+                <div className="flex justify-center gap-2">
+                  <ActionControl label="Select" title="Select/place pieces">
+                    <button
+                      type="button"
+                      aria-label="Select or place pieces"
+                      aria-pressed={!isRemoveMode}
+                      title="Select or place pieces"
+                      onClick={handleSelectTool}
+                      className={`${actionButtonBase} ${
+                        !isRemoveMode
+                          ? "border border-emerald-300/70 text-emerald-100 ring-2 ring-emerald-300/50"
+                          : "bg-neutral-800 text-neutral-200 hover:text-white"
+                      }`}
+                    >
+                      <ActionIcon name="select" />
+                    </button>
+                  </ActionControl>
+                  <ActionControl label="Delete" title="Delete pieces">
+                    <button
+                      type="button"
+                      aria-label="Delete pieces"
+                      aria-pressed={isRemoveMode}
+                      title="Delete pieces"
+                      onClick={handleDeleteTool}
+                      className={`${actionButtonBase} ${
+                        isRemoveMode
+                          ? "border border-rose-200 text-rose-100 ring-2 ring-rose-200/50"
+                          : "bg-neutral-800 text-neutral-200 hover:text-white"
+                      }`}
+                    >
+                      <ActionIcon name="remove" />
+                    </button>
+                  </ActionControl>
+                </div>
+                <div
+                  className="w-full max-w-md"
+                  aria-label="Piece palette"
+                  data-testid="piece-palette"
                 >
-                  <ActionIcon name="flip" />
-                </button>
-              </ActionControl>
-              <ActionControl label="Reset" title="Reset board position">
-                <button
-                  type="button"
-                  aria-label="Reset"
-                  title="Reset board position"
-                  onClick={handleReset}
-                  className={`${actionButtonBase} border border-neutral-700 text-neutral-200 hover:border-neutral-500 hover:text-white`}
+                  <div
+                    className="grid grid-cols-6 gap-2"
+                    data-testid="piece-palette-grid"
+                  >
+                    {pieceOptions.map((piece) => {
+                      return (
+                        <button
+                          key={piece.code}
+                          type="button"
+                          aria-label={piece.label}
+                          aria-pressed={selectedPiece === piece.code}
+                          onClick={() => handlePieceSelection(piece.code)}
+                          data-piece-color={piece.color}
+                          className={`min-h-12 rounded-lg bg-white px-2 py-1 text-4xl leading-none text-neutral-950 transition hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-emerald-300 sm:min-h-14 ${
+                            selectedPiece === piece.code
+                              ? "ring-2 ring-emerald-300 ring-offset-2 ring-offset-neutral-900"
+                              : ""
+                          }`}
+                        >
+                          {piece.symbol}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div
+                  className="flex w-full min-w-0 flex-nowrap justify-center gap-x-1 sm:w-auto sm:flex-wrap sm:gap-x-4 sm:gap-y-3"
+                  data-testid="edit-history-actions"
                 >
-                  <ActionIcon name="reset" />
-                </button>
-              </ActionControl>
-              {isEditMode ? (
-                <>
                   <ActionControl label="Undo" title="Undo last edit">
                     <button
                       type="button"
@@ -648,38 +672,87 @@ export function AnalysisShell({ fen }: { fen?: string }) {
                       <ActionIcon name="redo" />
                     </button>
                   </ActionControl>
-                </>
-              ) : null}
+                </div>
+              </div>
+              <div
+                className="flex w-full min-w-0 flex-nowrap justify-center gap-x-1 sm:w-auto sm:flex-wrap sm:gap-x-4 sm:gap-y-3"
+                data-testid="edit-utility-actions"
+              >
+                <ActionControl label="Flip" title="Flip board orientation">
+                  <button
+                    type="button"
+                    aria-label="Flip"
+                    title="Flip board orientation"
+                    onClick={handleFlip}
+                    className={`${actionButtonBase} border border-neutral-700 text-neutral-200 hover:border-neutral-500 hover:text-white`}
+                  >
+                    <ActionIcon name="flip" />
+                  </button>
+                </ActionControl>
+                <ActionControl label="Reset" title="Reset board position">
+                  <button
+                    type="button"
+                    aria-label="Reset"
+                    title="Reset board position"
+                    onClick={handleReset}
+                    className={`${actionButtonBase} border border-neutral-700 text-neutral-200 hover:border-neutral-500 hover:text-white`}
+                  >
+                    <ActionIcon name="reset" />
+                  </button>
+                </ActionControl>
+              </div>
             </div>
+          ) : (
             <div
-              className="flex w-full min-w-0 flex-nowrap justify-center gap-x-1 sm:w-auto sm:gap-x-4"
-              data-testid="secondary-share-actions"
+              className="flex w-full min-w-0 flex-col items-center gap-3"
+              data-testid="analysis-action-buttons"
             >
-              <ActionControl label="FEN" title="Copy FEN">
-                <button
-                  type="button"
-                  aria-label="Copy FEN"
-                  title="Copy FEN"
-                  onClick={() => void handleCopyFen()}
-                  className={`${actionButtonBase} border border-neutral-700 text-neutral-300 hover:border-neutral-500 hover:text-white`}
-                >
-                  <ActionIcon name="copy" />
-                </button>
-              </ActionControl>
-              <ActionControl label="Share" title="Create internal share link">
-                <button
-                  type="button"
-                  aria-label="Share"
-                  title="Create internal share link"
-                  disabled={shareStatus === "loading"}
-                  onClick={() => void handleSharePosition()}
-                  className={`${actionButtonBase} border border-neutral-700 text-neutral-300 hover:border-neutral-500 hover:text-white`}
-                >
-                  <ActionIcon name="share" />
-                </button>
-              </ActionControl>
+              <div
+                className="flex w-full min-w-0 flex-nowrap justify-center gap-x-1 sm:w-auto sm:flex-wrap sm:gap-x-4 sm:gap-y-3"
+                data-testid="primary-board-actions"
+              >
+                <ActionControl label="Flip" title="Flip board orientation">
+                  <button
+                    type="button"
+                    aria-label="Flip"
+                    title="Flip board orientation"
+                    onClick={handleFlip}
+                    className={`${actionButtonBase} border border-emerald-300/60 text-emerald-200 hover:border-emerald-200 hover:text-emerald-100`}
+                  >
+                    <ActionIcon name="flip" />
+                  </button>
+                </ActionControl>
+                <ActionControl label="Reset" title="Reset board position">
+                  <button
+                    type="button"
+                    aria-label="Reset"
+                    title="Reset board position"
+                    onClick={handleReset}
+                    className={`${actionButtonBase} border border-neutral-700 text-neutral-200 hover:border-neutral-500 hover:text-white`}
+                  >
+                    <ActionIcon name="reset" />
+                  </button>
+                </ActionControl>
+              </div>
+              <div
+                className="flex w-full min-w-0 flex-nowrap justify-center gap-x-1 sm:w-auto sm:gap-x-4"
+                data-testid="secondary-share-actions"
+              >
+                <ActionControl label="Share" title="Create internal share link">
+                  <button
+                    type="button"
+                    aria-label="Share"
+                    title="Create internal share link"
+                    disabled={shareStatus === "loading"}
+                    onClick={() => void handleSharePosition()}
+                    className={`${actionButtonBase} border border-neutral-700 text-neutral-300 hover:border-neutral-500 hover:text-white`}
+                  >
+                    <ActionIcon name="share" />
+                  </button>
+                </ActionControl>
+              </div>
             </div>
-          </div>
+          )}
 
           <div
             aria-live="polite"
@@ -699,73 +772,6 @@ export function AnalysisShell({ fen }: { fen?: string }) {
           </div>
         </div>
       </div>
-
-      {isEditMode ? (
-        <aside
-          className="rounded-lg border border-neutral-800 bg-neutral-900/60 p-4 shadow-xl shadow-neutral-950/40 sm:p-5"
-          data-testid="edit-tools-panel"
-        >
-          <div aria-label="Edit tools" data-testid="edit-tool-mode-controls">
-            <div className="flex gap-2">
-              <ActionControl label="Select" title="Select/place pieces">
-                <button
-                  type="button"
-                  aria-label="Select or place pieces"
-                  aria-pressed={!isRemoveMode}
-                  title="Select or place pieces"
-                  onClick={handleSelectTool}
-                  className={`${actionButtonBase} ${
-                    !isRemoveMode
-                      ? "border border-emerald-300/70 text-emerald-100 ring-2 ring-emerald-300/50"
-                      : "bg-neutral-800 text-neutral-200 hover:text-white"
-                  }`}
-                >
-                  <ActionIcon name="select" />
-                </button>
-              </ActionControl>
-              <ActionControl label="Delete" title="Delete pieces">
-                <button
-                  type="button"
-                  aria-label="Delete pieces"
-                  aria-pressed={isRemoveMode}
-                  title="Delete pieces"
-                  onClick={handleDeleteTool}
-                  className={`${actionButtonBase} ${
-                    isRemoveMode
-                      ? "border border-rose-200 text-rose-100 ring-2 ring-rose-200/50"
-                      : "bg-neutral-800 text-neutral-200 hover:text-white"
-                  }`}
-                >
-                  <ActionIcon name="remove" />
-                </button>
-              </ActionControl>
-            </div>
-          </div>
-          <div className="mt-4" aria-label="Piece palette" data-testid="piece-palette">
-            <div className="grid grid-cols-6 gap-2" data-testid="piece-palette-grid">
-              {pieceOptions.map((piece) => {
-                return (
-                  <button
-                    key={piece.code}
-                    type="button"
-                    aria-label={piece.label}
-                    aria-pressed={selectedPiece === piece.code}
-                    onClick={() => handlePieceSelection(piece.code)}
-                    data-piece-color={piece.color}
-                    className={`min-h-12 rounded-lg bg-white px-2 py-1 text-4xl leading-none text-neutral-950 transition hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-emerald-300 sm:min-h-14 ${
-                      selectedPiece === piece.code
-                        ? "ring-2 ring-emerald-300 ring-offset-2 ring-offset-neutral-900"
-                        : ""
-                    }`}
-                  >
-                    {piece.symbol}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </aside>
-      ) : null}
 
       {isShareDialogOpen && shareUrl ? (
         <div
@@ -834,11 +840,12 @@ function ReadonlyCopyField({
   onCopy: () => void;
   value: string;
 }) {
+  const copyTarget = label === "Current FEN" ? "current FEN" : label.toLowerCase();
   const feedback =
     copyStatus === "success"
       ? `${label} copied.`
       : copyStatus === "error"
-        ? `Could not copy ${label.toLowerCase()}.`
+        ? `Could not copy ${copyTarget}.`
         : "";
 
   return (
