@@ -4,10 +4,10 @@ Current Block/Area:
 MVP release readiness
 
 Current Feature:
-MVP readiness checklist
+MVP readiness manual validation fixes
 
 Current Step:
-Checklist created / pending validation
+Implemented / pending revalidation
 
 Rules:
 - Work only on the current feature.

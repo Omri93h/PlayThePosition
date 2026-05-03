@@ -450,11 +450,17 @@ describe("App", () => {
     fireEvent.click(screen.getByRole("button", { name: "Share" }));
 
     expect(await screen.findByText("Share link copied.")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: shareUrl })).toHaveAttribute(
-      "href",
-      shareUrl,
+    expect(screen.getByRole("textbox", { name: "Share link" })).toHaveValue(shareUrl);
+    expect(screen.getByRole("textbox", { name: "Share link" })).toHaveAttribute(
+      "readonly",
     );
     expect(writeText).toHaveBeenCalledWith(shareUrl);
+
+    fireEvent.click(screen.getByRole("button", { name: "Copy share link" }));
+
+    await waitFor(() => {
+      expect(writeText).toHaveBeenLastCalledWith(shareUrl);
+    });
     expect(fetchMock).toHaveBeenCalledWith(
       "http://127.0.0.1:8000/share",
       expect.objectContaining({
@@ -625,7 +631,7 @@ describe("App", () => {
     fireEvent.click(screen.getByTestId("mock-empty-square"));
 
     expect(whiteQueen).toHaveClass("ring-2");
-    expect(whiteQueen).toHaveClass("bg-neutral-900");
+    expect(whiteQueen).toHaveClass("bg-white");
     expect(screen.getByText("Last interaction: Place Q on d4.")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-fen",
@@ -694,6 +700,9 @@ describe("App", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Undo" }));
     fireEvent.click(screen.getByRole("button", { name: "Black queen" }));
+    expect(screen.getByRole("button", { name: "Black queen" })).toHaveClass(
+      "bg-neutral-950",
+    );
     fireEvent.click(screen.getByTestId("mock-occupied-square"));
 
     expect(screen.getByText("Last interaction: Place q on c4.")).toBeInTheDocument();
@@ -723,7 +732,7 @@ describe("App", () => {
       screen.getByRole("button", { name: "Select or place pieces" }),
     ).toHaveAttribute("aria-pressed", "true");
     fireEvent.click(screen.getByRole("button", { name: "Delete pieces" }));
-    fireEvent.click(screen.getByTestId("mock-piece"));
+    fireEvent.click(screen.getByTestId("mock-occupied-square"));
 
     expect(
       screen.getByText("Last interaction: Deleted wP from c4."),
@@ -911,6 +920,12 @@ describe("App", () => {
       "data-orientation",
       "black",
     );
+    expect(screen.getByRole("button", { name: "Flip" })).not.toHaveAttribute(
+      "aria-pressed",
+    );
+    expect(screen.getByRole("button", { name: "Reset" })).not.toHaveAttribute(
+      "aria-pressed",
+    );
 
     fireEvent.click(screen.getByTestId("mock-chessboard"));
     fireEvent.click(screen.getByRole("button", { name: "Reset" }));
@@ -951,17 +966,32 @@ describe("App", () => {
     vi.useFakeTimers();
     const analytics = captureAnalytics();
     const uploadedFen = "8/8/8/8/8/8/8/8 w - - 0 1";
-    const fetchMock = vi.fn().mockResolvedValue(
-      new Response(
-        JSON.stringify({
-          fen: uploadedFen,
-          source: "placeholder",
-          confidence: null,
-          message: "Received position.png; detection is not implemented yet.",
-        }),
-        { status: 200, headers: { "Content-Type": "application/json" } },
-      ),
-    );
+    const replacementFen = "8/8/8/8/8/8/8/8 b - - 0 1";
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            fen: uploadedFen,
+            source: "placeholder",
+            confidence: null,
+            message: "Received position.png; detection is not implemented yet.",
+          }),
+          { status: 200, headers: { "Content-Type": "application/json" } },
+        ),
+      )
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            fen: replacementFen,
+            source: "placeholder",
+            confidence: null,
+            message:
+              "Received replacement-position.png; detection is not implemented yet.",
+          }),
+          { status: 200, headers: { "Content-Type": "application/json" } },
+        ),
+      );
     vi.stubGlobal("fetch", fetchMock);
 
     render(<App />);
@@ -992,20 +1022,11 @@ describe("App", () => {
 
     expect(screen.getByTestId("static-board")).toBeInTheDocument();
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    vi.useRealTimers();
     expect(screen.getByTestId("static-board")).toHaveAttribute("data-fen", uploadedFen);
     expect(screen.getByTestId("static-board")).toHaveAttribute(
       "data-orientation",
       "white",
     );
-
-    const writeText = mockClipboard();
-
-    fireEvent.click(screen.getByRole("button", { name: "Copy FEN" }));
-
-    await waitFor(() => {
-      expect(writeText).toHaveBeenCalledWith(uploadedFen);
-    });
 
     expect(fetchMock).toHaveBeenCalledWith(
       "http://127.0.0.1:8000/upload",
@@ -1042,11 +1063,48 @@ describe("App", () => {
       screen.getByRole("button", { name: "Upload" }),
     );
 
+    const inputClickSpy = vi
+      .spyOn(HTMLInputElement.prototype, "click")
+      .mockImplementation(() => undefined);
+
     fireEvent.click(screen.getByRole("button", { name: "Upload" }));
 
-    expect(
-      screen.getByRole("heading", { name: "Upload a chess position screenshot" }),
-    ).toBeInTheDocument();
+    expect(inputClickSpy).toHaveBeenCalled();
+    expect(screen.getByTestId("static-board")).toHaveAttribute("data-fen", uploadedFen);
+
+    inputClickSpy.mockRestore();
+
+    fireEvent.change(screen.getByLabelText("Choose another chess screenshot"), {
+      target: {
+        files: [
+          new File(["replacement image"], "replacement-position.png", {
+            type: "image/png",
+          }),
+        ],
+      },
+    });
+
+    expect(screen.getByText("Uploading image")).toBeInTheDocument();
+
+    await flushPromises();
+
+    expect(screen.getByText("Analyzing position")).toBeInTheDocument();
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(120);
+    });
+
+    expect(screen.getByText("Opening board")).toBeInTheDocument();
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(120);
+    });
+
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-fen",
+      replacementFen,
+    );
+    vi.useRealTimers();
     analytics.unsubscribe();
   });
 

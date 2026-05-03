@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { trackEvent } from "../analytics";
 import { createSharedPosition } from "../api/share";
@@ -20,18 +20,18 @@ import type {
 } from "./StaticBoard";
 
 const pieceOptions = [
-  { code: "K", label: "White king", symbol: "♔" },
-  { code: "Q", label: "White queen", symbol: "♕" },
-  { code: "R", label: "White rook", symbol: "♖" },
-  { code: "B", label: "White bishop", symbol: "♗" },
-  { code: "N", label: "White knight", symbol: "♘" },
-  { code: "P", label: "White pawn", symbol: "♙" },
-  { code: "k", label: "Black king", symbol: "♚" },
-  { code: "q", label: "Black queen", symbol: "♛" },
-  { code: "r", label: "Black rook", symbol: "♜" },
-  { code: "b", label: "Black bishop", symbol: "♝" },
-  { code: "n", label: "Black knight", symbol: "♞" },
-  { code: "p", label: "Black pawn", symbol: "♟" },
+  { code: "K", color: "white", label: "White king", symbol: "♔" },
+  { code: "Q", color: "white", label: "White queen", symbol: "♕" },
+  { code: "R", color: "white", label: "White rook", symbol: "♖" },
+  { code: "B", color: "white", label: "White bishop", symbol: "♗" },
+  { code: "N", color: "white", label: "White knight", symbol: "♘" },
+  { code: "P", color: "white", label: "White pawn", symbol: "♙" },
+  { code: "k", color: "black", label: "Black king", symbol: "♚" },
+  { code: "q", color: "black", label: "Black queen", symbol: "♛" },
+  { code: "r", color: "black", label: "Black rook", symbol: "♜" },
+  { code: "b", color: "black", label: "Black bishop", symbol: "♝" },
+  { code: "n", color: "black", label: "Black knight", symbol: "♞" },
+  { code: "p", color: "black", label: "Black pawn", symbol: "♟" },
 ];
 
 type ActionIconName =
@@ -50,7 +50,7 @@ type CopyStatus = "idle" | "success" | "error";
 type ShareStatus = "idle" | "loading" | "success" | "error";
 
 const actionButtonBase =
-  "inline-flex h-11 w-11 items-center justify-center rounded-lg transition focus:outline-none focus:ring-2 focus:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50 sm:h-14 sm:w-14";
+  "inline-flex h-11 w-11 items-center justify-center rounded-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50 sm:h-14 sm:w-14";
 const actionCaptionBase = "text-center text-[0.7rem] font-semibold text-neutral-400";
 
 function formatMoveAttempt({ piece, sourceSquare, targetSquare }: BoardMoveAttempt) {
@@ -176,6 +176,22 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   const [shareError, setShareError] = useState("");
   const activeColor = getFenActiveColor(currentFen);
 
+  useEffect(() => {
+    setCurrentFen(initialFen);
+    setUndoStack([]);
+    setRedoStack([]);
+    setOrientation("white");
+    setIsRemoveMode(false);
+    setSelectedPiece(null);
+    setSelectedSquare(null);
+    setLastInteraction(null);
+    setCopyStatus("idle");
+    setShareStatus("idle");
+    setShareUrl("");
+    setShareMessage("");
+    setShareError("");
+  }, [initialFen]);
+
   function clearShareResult() {
     setShareStatus("idle");
     setShareUrl("");
@@ -233,12 +249,22 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     applyFenEdit(removePieceFromFen({ fen: currentFen, square }));
   }
 
-  function handleSquareSelect({ square }: BoardSquareSelection) {
+  function handleSquareSelect({ piece, square }: BoardSquareSelection) {
     if (!isEditMode) {
       return;
     }
 
     setSelectedSquare(square);
+
+    if (isRemoveMode) {
+      if (!piece) {
+        return;
+      }
+
+      setLastInteraction(`Deleted ${piece} from ${square}`);
+      applyFenEdit(removePieceFromFen({ fen: currentFen, square }));
+      return;
+    }
 
     if (!selectedPiece) {
       return;
@@ -389,6 +415,19 @@ export function AnalysisShell({ fen }: { fen?: string }) {
       setShareUrl("");
       setShareMessage("");
       setShareError(getShareErrorMessage(error));
+    }
+  }
+
+  async function handleCopyShareUrl() {
+    if (!shareUrl) {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setShareMessage("Share link copied.");
+    } catch {
+      setShareMessage("Could not copy share link.");
     }
   }
 
@@ -625,7 +664,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
           <div
             aria-live="polite"
             data-testid="analysis-feedback"
-            className={`flex h-11 w-full flex-col items-center justify-center overflow-hidden px-2 text-center text-sm sm:h-12 ${
+            className={`flex h-20 w-full flex-col items-center justify-center overflow-hidden px-2 text-center text-sm sm:h-16 ${
               isFeedbackError
                 ? "font-semibold text-rose-200"
                 : isFeedbackSuccess
@@ -637,14 +676,25 @@ export function AnalysisShell({ fen }: { fen?: string }) {
             {feedbackMessage ? (
               <p className="max-w-full truncate">{feedbackMessage}</p>
             ) : null}
-            {shareStatus === "success" ? (
-              <a
-                href={shareUrl}
-                className="mt-0.5 block max-w-full truncate text-xs text-emerald-100 underline decoration-emerald-300/60 underline-offset-4"
-                title={shareUrl}
-              >
-                {shareUrl}
-              </a>
+            {shareStatus === "success" && shareUrl ? (
+              <div className="mt-1 flex w-full max-w-xl overflow-hidden rounded-lg border border-emerald-200/70 bg-white text-neutral-950 shadow-sm">
+                <input
+                  readOnly
+                  aria-label="Share link"
+                  className="min-w-0 flex-1 truncate bg-white px-3 py-1.5 text-xs font-medium text-neutral-950 outline-none"
+                  title={shareUrl}
+                  value={shareUrl}
+                />
+                <button
+                  type="button"
+                  aria-label="Copy share link"
+                  title="Copy share link"
+                  onClick={() => void handleCopyShareUrl()}
+                  className="inline-flex min-h-9 w-10 items-center justify-center border-l border-neutral-300 text-neutral-700 transition hover:bg-neutral-100 hover:text-neutral-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600"
+                >
+                  <ActionIcon name="copy" />
+                </button>
+              </div>
             ) : null}
           </div>
         </div>
@@ -693,22 +743,29 @@ export function AnalysisShell({ fen }: { fen?: string }) {
           </div>
           <div className="mt-4" aria-label="Piece palette" data-testid="piece-palette">
             <div className="grid grid-cols-6 gap-2" data-testid="piece-palette-grid">
-              {pieceOptions.map((piece) => (
-                <button
-                  key={piece.code}
-                  type="button"
-                  aria-label={piece.label}
-                  aria-pressed={selectedPiece === piece.code}
-                  onClick={() => handlePieceSelection(piece.code)}
-                  className={`min-h-11 rounded-lg border px-2 py-2 text-2xl leading-none transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${
-                    selectedPiece === piece.code
-                      ? "border-emerald-200 bg-neutral-900 text-neutral-200 ring-2 ring-emerald-300 ring-offset-2 ring-offset-neutral-900"
-                      : "border-neutral-700 bg-neutral-900 text-neutral-200 hover:border-neutral-500 hover:text-white"
-                  }`}
-                >
-                  {piece.symbol}
-                </button>
-              ))}
+              {pieceOptions.map((piece) => {
+                const pieceTone =
+                  piece.color === "white"
+                    ? "border-white/70 bg-white text-neutral-950 hover:border-emerald-200"
+                    : "border-neutral-600 bg-neutral-950 text-white hover:border-emerald-200";
+
+                return (
+                  <button
+                    key={piece.code}
+                    type="button"
+                    aria-label={piece.label}
+                    aria-pressed={selectedPiece === piece.code}
+                    onClick={() => handlePieceSelection(piece.code)}
+                    className={`min-h-11 rounded-lg border px-2 py-2 text-2xl leading-none transition focus:outline-none focus:ring-2 focus:ring-emerald-300 ${pieceTone} ${
+                      selectedPiece === piece.code
+                        ? "ring-2 ring-emerald-300 ring-offset-2 ring-offset-neutral-900"
+                        : ""
+                    }`}
+                  >
+                    {piece.symbol}
+                  </button>
+                );
+              })}
             </div>
           </div>
         </aside>

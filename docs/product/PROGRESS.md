@@ -14,15 +14,15 @@
 
 ## Current
 
-- Current focus: MVP release-readiness checklist.
+- Current focus: MVP readiness manual validation fixes.
 - MVP hardening/polish is complete.
 - MVP itself is not formally marked complete.
-- Next status: validate the MVP readiness checklist before deciding MVP closeout.
+- Next status: revalidate the MVP readiness checklist before deciding MVP closeout.
 
 ## MVP Readiness
 
 - MVP release-readiness checklist is created.
-- MVP closeout is pending validation.
+- Manual validation fixes are implemented and pending revalidation.
 - Do not mark MVP complete until the checklist is validated and explicitly approved.
 
 ## Completed In BLOCK 06
@@ -38,7 +38,7 @@
 
 ## Next
 
-- Validate the MVP release-readiness checklist.
+- Revalidate the MVP release-readiness checklist.
 - After validation, decide whether to formally close out the MVP, define an approved BLOCK 07, or keep future/post-MVP items deferred.
 
 ## Later / Deferred

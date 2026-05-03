@@ -43,6 +43,14 @@ This checklist is for deciding whether the MVP can be formally closed out. It do
 - [ ] Public share error states are understandable.
 - [ ] No future-only UI is exposed as available now.
 
+## Manual Validation Fix Pass
+
+- [ ] Revalidate header Upload opens the file picker from analysis and preserves the current board when canceled.
+- [ ] Revalidate piece palette color mapping places selected white pieces as white and selected black pieces as black.
+- [ ] Revalidate delete tool removes the clicked piece.
+- [ ] Revalidate Reset and Flip behave as simple actions without persistent active state.
+- [ ] Revalidate share link displays in a readonly field and copies the full internal link.
+
 ## Known Limitations
 
 - Detection is scaffolded/synthetic and is not real-world screenshot accurate yet.

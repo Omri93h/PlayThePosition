@@ -22,6 +22,7 @@ export type BoardRemoveAttempt = {
 };
 
 export type BoardSquareSelection = {
+  piece: string | null;
   square: string;
 };
 
@@ -99,8 +100,8 @@ export function StaticBoard({
   );
 
   const handleSquareClick = useCallback(
-    ({ square }: SquareHandlerArgs) => {
-      onSquareSelect?.({ square });
+    ({ piece, square }: SquareHandlerArgs) => {
+      onSquareSelect?.({ piece: piece?.pieceType ?? null, square });
     },
     [onSquareSelect],
   );

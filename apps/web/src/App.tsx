@@ -1,8 +1,9 @@
-import type { ReactNode } from "react";
-import { lazy, Suspense, useEffect, useState } from "react";
+import type { ChangeEvent, ReactNode } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 
 import { trackEvent } from "./analytics";
 import { loadSharedPosition } from "./api/share";
+import { uploadScreenshot } from "./api/upload";
 import type { UploadSuccessResponse } from "./api/upload";
 import { LoadingOverlay } from "./components/LoadingOverlay";
 import { UploadDropzone } from "./components/UploadDropzone";
@@ -22,11 +23,13 @@ type SharedPositionState =
   | { status: "error"; fen: null; error: string };
 
 export function App() {
+  const headerUploadInputRef = useRef<HTMLInputElement>(null);
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
   const shareId = getShareId(currentPath);
   const [uploadedFen, setUploadedFen] = useState<string | null>(null);
   const [uploadLoadingStage, setUploadLoadingStage] =
     useState<UploadLoadingStage | null>(null);
+  const [headerUploadError, setHeaderUploadError] = useState("");
   const [sharedPosition, setSharedPosition] = useState<SharedPositionState>({
     status: shareId ? "loading" : "idle",
     fen: null,
@@ -76,18 +79,64 @@ export function App() {
     });
     setUploadedFen(result.fen);
     setUploadLoadingStage(null);
+    setHeaderUploadError("");
   }
 
   function handleUploadFailure() {
     setUploadLoadingStage(null);
   }
 
-  function handleStartNewUpload() {
-    window.history.pushState({}, "", "/");
-    setCurrentPath("/");
-    setUploadedFen(null);
-    setUploadLoadingStage(null);
-    setSharedPosition({ status: "idle", fen: null, error: "" });
+  function handleHeaderUploadClick() {
+    setHeaderUploadError("");
+    headerUploadInputRef.current?.click();
+  }
+
+  function handleHeaderUploadSelection(event: ChangeEvent<HTMLInputElement>) {
+    const file = getFirstFile(event.target.files);
+    event.target.value = "";
+
+    if (!file) {
+      return;
+    }
+
+    void uploadFromHeader(file);
+  }
+
+  async function uploadFromHeader(file: File) {
+    setUploadLoadingStage("uploading");
+    setHeaderUploadError("");
+    trackEvent("upload_started", {
+      file_type: file.type || "unknown",
+      file_size_bucket: getFileSizeBucket(file.size),
+    });
+
+    try {
+      const result = await uploadScreenshot(file);
+
+      trackEvent("upload_success", {
+        source: result.source,
+        fen_length: result.fen.length,
+        confidence_available: result.confidence !== null,
+      });
+
+      setUploadLoadingStage("analyzing");
+      await waitForUploadStage();
+      setUploadLoadingStage("opening");
+      await waitForUploadStage();
+
+      window.history.pushState({}, "", "/");
+      setCurrentPath("/");
+      setSharedPosition({ status: "idle", fen: null, error: "" });
+      handleUploadSuccess(result);
+    } catch (error) {
+      trackEvent("upload_failed", {
+        reason: getUploadFailureReason(error),
+        file_type: file.type || "unknown",
+        file_size_bucket: getFileSizeBucket(file.size),
+      });
+      setUploadLoadingStage(null);
+      setHeaderUploadError(getHeaderUploadErrorMessage(error));
+    }
   }
 
   return (
@@ -101,29 +150,48 @@ export function App() {
             Play The Position
           </p>
           {showHeaderUploadAction ? (
-            <button
-              type="button"
-              aria-label="Upload"
-              title="Upload another image"
-              onClick={handleStartNewUpload}
-              className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-emerald-300/60 px-3 py-2 text-sm font-semibold text-emerald-100 transition hover:border-emerald-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald-300"
-            >
-              <svg
-                aria-hidden="true"
-                className="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
+            <div className="flex flex-col items-end gap-1">
+              <button
+                type="button"
+                aria-label="Upload"
+                title="Upload another image"
+                onClick={handleHeaderUploadClick}
+                className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-emerald-300/60 px-3 py-2 text-sm font-semibold text-emerald-100 transition hover:border-emerald-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald-300"
               >
-                <rect height="14" rx="2" width="18" x="3" y="5" />
-                <path d="m8 14 2.5-2.5L14 15l1.5-1.5L19 17" />
-                <circle cx="8" cy="9" r="1" />
-              </svg>
-              <span>Upload</span>
-            </button>
+                <svg
+                  aria-hidden="true"
+                  className="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <rect height="14" rx="2" width="18" x="3" y="5" />
+                  <path d="m8 14 2.5-2.5L14 15l1.5-1.5L19 17" />
+                  <circle cx="8" cy="9" r="1" />
+                </svg>
+                <span>Upload</span>
+              </button>
+              <input
+                ref={headerUploadInputRef}
+                type="file"
+                accept="image/png,image/jpeg"
+                className="sr-only"
+                tabIndex={-1}
+                aria-label="Choose another chess screenshot"
+                onChange={handleHeaderUploadSelection}
+              />
+              {headerUploadError ? (
+                <p
+                  className="max-w-56 text-right text-xs font-medium text-rose-200"
+                  role="alert"
+                >
+                  {headerUploadError}
+                </p>
+              ) : null}
+            </div>
           ) : null}
         </div>
 
@@ -231,8 +299,8 @@ function UploadScreen({
           Upload a chess position screenshot
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-neutral-300 sm:text-lg">
-          Drop in a board image or choose one from your device to start turning a
-          screenshot into a live position.
+          Upload a board image to open a scaffolded position you can correct in Edit
+          Board.
         </p>
       </div>
 
@@ -243,4 +311,80 @@ function UploadScreen({
       />
     </section>
   );
+}
+
+function getFirstFile(files: FileList | null): File | undefined {
+  return files?.item?.(0) ?? files?.[0];
+}
+
+function waitForUploadStage() {
+  return new Promise((resolve) => window.setTimeout(resolve, 120));
+}
+
+function getFileSizeBucket(size: number) {
+  if (size < 100 * 1024) {
+    return "under_100kb";
+  }
+
+  if (size < 1024 * 1024) {
+    return "under_1mb";
+  }
+
+  if (size < 5 * 1024 * 1024) {
+    return "under_5mb";
+  }
+
+  return "over_5mb";
+}
+
+function getUploadFailureReason(error: unknown) {
+  if (!(error instanceof Error)) {
+    return "unknown";
+  }
+
+  const message = error.message.toLowerCase();
+
+  if (message.includes("network")) {
+    return "network";
+  }
+
+  if (message.includes("png and jpeg")) {
+    return "unsupported_file_type";
+  }
+
+  if (message.includes("size")) {
+    return "file_too_large";
+  }
+
+  if (message.includes("valid image")) {
+    return "invalid_image_payload";
+  }
+
+  return "api_error";
+}
+
+function getHeaderUploadErrorMessage(error: unknown) {
+  if (!(error instanceof Error)) {
+    return "Upload failed. Try another image.";
+  }
+
+  const message = error.message.toLowerCase();
+
+  if (message.includes("network")) {
+    return "Upload service unreachable. Try again.";
+  }
+
+  if (message.includes("png and jpeg")) {
+    return "Use a PNG or JPG image.";
+  }
+
+  if (message.includes("size")) {
+    return "Image is too large.";
+  }
+
+  if (message.includes("valid image")) {
+    return "Image could not be read.";
+  }
+
+  return "Upload failed. Try another image.";
 }
