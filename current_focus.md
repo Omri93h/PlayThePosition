@@ -1,13 +1,13 @@
 # Current Focus
 
 Current Block:
-BLOCK 06 — Polish and Hardening
+Post-BLOCK 06 Roadmap Planning
 
 Current Feature:
-BLOCK 06 closeout
+Next approved roadmap/block decision
 
 Current Step:
-Completed / awaiting next approved planning step
+Deciding the next approved roadmap/block step
 
 Rules:
 - Work only on the current feature.

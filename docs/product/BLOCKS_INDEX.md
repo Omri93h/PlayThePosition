@@ -11,6 +11,12 @@
 7. BLOCK 05 — Detection Engine
 8. BLOCK 06 — Polish and Hardening
 
+## Status
+
+- BLOCK 06 is completed.
+- No next block is approved yet.
+- Next step is post-BLOCK 06 roadmap planning.
+
 ## Rules
 - Work block-by-block.
 - Complete the current feature before starting the next one.

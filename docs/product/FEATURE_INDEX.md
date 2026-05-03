@@ -75,3 +75,5 @@
 - 6.4 Observability/logs
 - 6.5 Analytics events
 - 6.6 Performance cleanup
+- 6.7 Analysis page UX cleanup
+- 6.8 Analysis page manual validation fixes

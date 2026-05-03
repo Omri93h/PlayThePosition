@@ -14,10 +14,15 @@
 
 ## Current
 
-- Current focus: BLOCK 06 closeout completed.
+- Current focus: Post-BLOCK 06 roadmap planning.
 - MVP hardening/polish is complete.
 - MVP itself is not formally marked complete.
-- Next status: awaiting next approved roadmap/block planning.
+- Next status: deciding the next approved roadmap/block step.
+
+## Planning Decision Needed
+
+- Choose between a formal MVP closeout/release-readiness checklist, a new approved BLOCK 07, or keeping future/post-MVP items deferred.
+- Do not start BLOCK 07 or future/post-MVP work until explicitly approved.
 
 ## Completed In BLOCK 06
 
@@ -32,7 +37,7 @@
 
 ## Next
 
-- Awaiting next approved roadmap/block planning.
+- Decide the next approved roadmap/block step after BLOCK 06 closeout.
 
 ## Later / Deferred
 
