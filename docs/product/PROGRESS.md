@@ -15,9 +15,10 @@
 
 ## Current
 
-- Current focus: Awaiting approved roadmap planning.
+- Current focus: BLOCK 08 — Real Recognition Implementation Foundation planning.
 - BLOCK 07 is completed as discovery/experiment-only.
 - Real image recognition implementation has not started.
+- BLOCK 08 implementation has not started.
 - MVP hardening/polish is complete.
 - MVP readiness automated validation passed.
 - MVP is closed.
@@ -55,9 +56,17 @@
 
 ## Next
 
-- Choose the next approved roadmap/block step.
+- Plan 8.1 PNG/JPEG decode and preprocess boundary.
 - Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.
 - Keep real recognition implementation, PNG/JPEG decode, and approved real fixtures deferred until explicitly approved.
+
+## Planned In BLOCK 08
+
+- 8.1 PNG/JPEG decode and preprocess boundary.
+- 8.2 Approved fixture metadata validation.
+- 8.3 Detection orchestrator behind feature gate.
+- 8.4 Fixture-gated board detection path.
+- 8.5 Fallback/metadata contract planning.
 
 ## Known MVP Limitations
 

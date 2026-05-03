@@ -11,16 +11,18 @@
 7. BLOCK 05 — Detection Engine
 8. BLOCK 06 — Polish and Hardening
 9. BLOCK 07 — Real Image Recognition Discovery
+10. BLOCK 08 — Real Recognition Implementation Foundation
 
 ## Status
 
 - BLOCK 06 is completed.
-- BLOCK 07 is planned / approved for discovery only.
-- Current step is 7.1 Discovery/spec and fixture strategy.
-- BLOCK 07 implementation has not started.
+- BLOCK 07 is completed as discovery/experiment-only.
+- BLOCK 08 is planned as the current foundation block.
+- Current step is 8.1 PNG/JPEG decode and preprocess boundary.
+- BLOCK 08 implementation has not started.
 
 ## Rules
 - Work block-by-block.
 - Complete the current feature before starting the next one.
-- Do not turn BLOCK 07 discovery into production detection implementation without explicit approval.
-- Do not build engine, legal moves, auth/accounts, payments, premium link-out, or SEO during BLOCK 07 discovery.
+- Do not turn BLOCK 08 foundation work into production detection claims without explicit approval.
+- Do not build engine, legal moves, auth/accounts, payments, premium link-out, or SEO during BLOCK 08 foundation work.

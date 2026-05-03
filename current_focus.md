@@ -1,13 +1,13 @@
 # Current Focus
 
 Current Block/Area:
-BLOCK 07 — Real Image Recognition Discovery
+BLOCK 08 — Real Recognition Implementation Foundation
 
 Current Feature:
-BLOCK 07 closeout
+8.1 PNG/JPEG decode and preprocess boundary
 
 Current Step:
-Completed / awaiting next approved planning step
+Plan only / not implemented
 
 Rules:
 - Work only on the current feature.

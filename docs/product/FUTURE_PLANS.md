@@ -1,12 +1,13 @@
 # Future Plans — Post-MVP
 
-These remain outside the currently approved BLOCK 07 discovery scope unless explicitly moved into scope.
+These remain outside the currently approved BLOCK 08 foundation scope unless explicitly moved into scope.
 
 ## Future — Detection Accuracy
 
 - BLOCK 07 covers discovery/planning for the path toward real screenshot recognition.
+- BLOCK 08 covers the approved recognition-foundation slice only: decode/preprocess boundary, approved fixture validation, gated orchestration, fixture-gated board detection, and fallback/metadata planning.
 - Production-grade real-world screenshot recognition accuracy remains future work until measured and explicitly approved.
-- Detection debug/inspection view design is part of BLOCK 07 discovery; implementation remains unstarted until approved.
+- Detection debug/inspection view implementation remains unstarted until approved.
 
 ## Phase 2 — Accounts and Saved Work
 

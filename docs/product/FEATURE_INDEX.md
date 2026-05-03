@@ -80,10 +80,20 @@
 
 ## BLOCK 07 — Real Image Recognition Discovery
 
-- 7.1 Discovery/spec and fixture strategy
-- 7.2 Detection debug/inspection UI design
-- 7.3 Real screenshot fixture pipeline
-- 7.4 Board detection experiment
-- 7.5 Piece recognition experiment
-- 7.6 Confidence/failure UX
-- 7.7 Integration plan for replacing scaffolded detection
+- Status: complete.
+- 7.1 Discovery/spec and fixture strategy — complete
+- 7.2 Detection debug/inspection UI design — complete
+- 7.3 Real screenshot fixture pipeline — complete
+- 7.4 Board detection experiment — complete
+- 7.5 Piece recognition experiment — complete
+- 7.6 Confidence/failure UX — complete
+- 7.7 Integration plan for replacing scaffolded detection — complete
+
+## BLOCK 08 — Real Recognition Implementation Foundation
+
+- Status: planned.
+- 8.1 PNG/JPEG decode and preprocess boundary
+- 8.2 Approved fixture metadata validation
+- 8.3 Detection orchestrator behind feature gate
+- 8.4 Fixture-gated board detection path
+- 8.5 Fallback/metadata contract planning
