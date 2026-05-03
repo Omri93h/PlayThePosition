@@ -4,10 +4,10 @@ Current Block:
 BLOCK 06 — Polish and Hardening
 
 Current Feature:
-6.5 Analytics events
+6.6 Performance cleanup
 
 Current Step:
-Add privacy-safe vendor-neutral frontend analytics event boundaries.
+Plan performance cleanup only
 
 Rules:
 - Work only on the current feature.
