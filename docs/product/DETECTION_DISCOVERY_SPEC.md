@@ -92,6 +92,8 @@ Confidence should be explicit and easy to inspect. A low-confidence result is ac
 
 ## Debug / Inspection Output
 
+Future debug UI design is documented in `docs/product/DETECTION_DEBUG_UI_DESIGN.md`.
+
 Human-readable output should be simple:
 
 ```text

@@ -38,6 +38,7 @@ Discover and design the path toward real screenshot-to-board recognition without
 - Define fixture metadata expectations.
 
 ### 7.2 Detection debug/inspection UI design
+- Status: implemented / ready for review.
 - Design how users or developers can see what detection understood.
 - Keep this as design/spec until implementation is approved.
 
