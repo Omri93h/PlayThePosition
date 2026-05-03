@@ -14,16 +14,19 @@
 
 ## Current
 
-- Current focus: MVP readiness header and play controls adjustment.
+- Current focus: MVP closeout.
 - MVP hardening/polish is complete.
-- MVP itself is not formally marked complete.
-- Next status: revalidate the MVP readiness checklist before deciding MVP closeout.
+- MVP readiness automated validation passed.
+- MVP closeout is approved.
+- Next focus: choose the next approved roadmap/block step.
 
 ## MVP Readiness
 
 - MVP release-readiness checklist is created.
-- Manual validation follow-up fixes are implemented and pending revalidation.
-- Do not mark MVP complete until the checklist is validated and explicitly approved.
+- Manual validation feedback fixes are implemented.
+- Final automated validation passed.
+- MVP closeout is approved without starting BLOCK 07.
+- Closeout does not claim full production readiness or real-world screenshot detection accuracy.
 
 ## Completed In BLOCK 06
 
@@ -38,8 +41,18 @@
 
 ## Next
 
-- Revalidate the MVP release-readiness checklist.
-- After validation, decide whether to formally close out the MVP, define an approved BLOCK 07, or keep future/post-MVP items deferred.
+- Choose the next approved roadmap/block step.
+- Do not start BLOCK 07 until it is explicitly approved.
+- Keep future/post-MVP items deferred unless explicitly moved into scope.
+
+## Known MVP Limitations
+
+- Detection is scaffolded/synthetic and is not real-world screenshot accurate yet.
+- No engine or Stockfish analysis.
+- No legal move validation.
+- No auth or user accounts.
+- No payments, subscriptions, or premium gating.
+- No external Chess.com/Lichess link-out.
 
 ## Later / Deferred
 

@@ -2,6 +2,14 @@
 
 This checklist is for deciding whether the MVP can be formally closed out. It does not mark the MVP complete by itself.
 
+## Closeout Status
+
+- MVP closeout is approved.
+- Final automated validation passed.
+- Manual validation was limited/skipped after the final header/play-controls polish.
+- This closeout does not claim full production readiness.
+- This closeout does not claim real-world screenshot detection accuracy.
+
 ## Core MVP Flow Checklist
 
 - [ ] Upload an image from the upload screen.
@@ -21,14 +29,14 @@ This checklist is for deciding whether the MVP can be formally closed out. It do
 
 ## Automated Checks Before MVP Closeout
 
-- [ ] `pnpm --filter web test`
-- [ ] `pnpm --filter web build`
-- [ ] `pnpm --filter e2e test`
-- [ ] `pnpm -r --if-present lint`
-- [ ] From `services/api`: `./.venv/bin/python -m pytest`
-- [ ] From `services/api`: `./.venv/bin/python -m ruff check .`
-- [ ] `git diff --check`
-- [ ] `git status --short`
+- [x] `pnpm --filter web test`
+- [x] `pnpm --filter web build`
+- [x] `pnpm --filter e2e test`
+- [x] `pnpm -r --if-present lint`
+- [x] From `services/api`: `./.venv/bin/python -m pytest`
+- [x] From `services/api`: `./.venv/bin/python -m ruff check .`
+- [x] `git diff --check`
+- [x] `git status --short`
 
 ## Manual Validation Checklist
 

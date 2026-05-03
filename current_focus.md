@@ -1,13 +1,13 @@
 # Current Focus
 
 Current Block/Area:
-MVP release readiness
+MVP closeout
 
 Current Feature:
-MVP readiness header and play controls adjustment
+MVP closeout
 
 Current Step:
-Implemented / pending revalidation
+MVP closed / awaiting next approved planning step
 
 Rules:
 - Work only on the current feature.
