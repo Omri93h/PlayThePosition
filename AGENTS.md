@@ -16,6 +16,7 @@ Before coding, read these files:
 - `docs/product/MVP_SCOPE.md`
 - `docs/product/DECISIONS.md`
 - `docs/product/PROGRESS.md`
+- `docs/product/ASSISTANT_WORKFLOW.md`
 - `docs/product/BLOCKS_INDEX.md`
 - `docs/product/FEATURE_INDEX.md`
 - `docs/product/FUTURE_PLANS.md`
