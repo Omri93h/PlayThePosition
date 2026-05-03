@@ -17,6 +17,7 @@ Before coding, read these files:
 - `docs/product/DECISIONS.md`
 - `docs/product/PROGRESS.md`
 - `docs/product/ASSISTANT_WORKFLOW.md`
+- `docs/product/CODEX_PROMPT_TEMPLATES.md`
 - `docs/product/BLOCKS_INDEX.md`
 - `docs/product/FEATURE_INDEX.md`
 - `docs/product/FUTURE_PLANS.md`

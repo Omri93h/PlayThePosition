@@ -16,11 +16,14 @@ This document captures how Omri works with ChatGPT and Codex on Play The Positio
 - ChatGPT is the orchestrator and reviewer, not the direct coder.
 - Codex does the repository edits.
 - Omri should do nothing manually except paste prompts/results and run copy-paste commands when needed.
+- Omri should only need visual or product judgment when the work needs human taste, validation, or approval.
 - Development is block-driven and feature-by-feature.
 
 ## Plan Then Execute
 
 Codex must PLAN first.
+
+Use `docs/product/CODEX_PROMPT_TEMPLATES.md` for short reusable PLAN, EXECUTE, FIX, docs-only, and block closeout prompts.
 
 1. Codex reads the current source-of-truth docs and `current_focus.md`.
 2. Codex creates a plan for the current feature only.
@@ -53,6 +56,8 @@ ChatGPT reviews the Codex handoff before commit, including:
 
 ## Commit Flow
 
+Prefer one feature = one commit.
+
 If implementation is good, ChatGPT gives exact copy-paste commands:
 
 ```bash
@@ -75,6 +80,8 @@ Omri does not need to paste successful commit output every time. If commit, push
 - If tests or checks fail, do not commit.
 - If Codex expands scope, touches unrelated files, or docs overclaim reality, stop and fix.
 - If source-of-truth docs are stale, repair docs before the next feature.
+- Avoid docs-only state churn unless repairing source-of-truth docs, planning roadmap, or closing a block.
+- Fix manual-validation issues inside the current uncommitted feature before committing.
 - Manual validation checkpoints must happen when UI or product quality needs review.
 - Do not blindly continue into future blocks.
 - Do not mark a block complete until implementation, automated checks, review, and any needed manual validation are done.
