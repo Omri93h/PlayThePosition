@@ -14,15 +14,16 @@
 
 ## Current
 
-- Current focus: Post-BLOCK 06 roadmap planning.
+- Current focus: MVP release-readiness checklist.
 - MVP hardening/polish is complete.
 - MVP itself is not formally marked complete.
-- Next status: deciding the next approved roadmap/block step.
+- Next status: validate the MVP readiness checklist before deciding MVP closeout.
 
-## Planning Decision Needed
+## MVP Readiness
 
-- Choose between a formal MVP closeout/release-readiness checklist, a new approved BLOCK 07, or keeping future/post-MVP items deferred.
-- Do not start BLOCK 07 or future/post-MVP work until explicitly approved.
+- MVP release-readiness checklist is created.
+- MVP closeout is pending validation.
+- Do not mark MVP complete until the checklist is validated and explicitly approved.
 
 ## Completed In BLOCK 06
 
@@ -37,7 +38,8 @@
 
 ## Next
 
-- Decide the next approved roadmap/block step after BLOCK 06 closeout.
+- Validate the MVP release-readiness checklist.
+- After validation, decide whether to formally close out the MVP, define an approved BLOCK 07, or keep future/post-MVP items deferred.
 
 ## Later / Deferred
 

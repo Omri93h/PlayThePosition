@@ -1,13 +1,13 @@
 # Current Focus
 
-Current Block:
-Post-BLOCK 06 Roadmap Planning
+Current Block/Area:
+MVP release readiness
 
 Current Feature:
-Next approved roadmap/block decision
+MVP readiness checklist
 
 Current Step:
-Deciding the next approved roadmap/block step
+Checklist created / pending validation
 
 Rules:
 - Work only on the current feature.
