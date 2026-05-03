@@ -4,10 +4,10 @@ Current Block:
 BLOCK 06 — Polish and Hardening
 
 Current Feature:
-6.8 Analysis page manual validation fixes
+BLOCK 06 closeout
 
 Current Step:
-Implemented / ready for review
+Completed / awaiting next approved planning step
 
 Rules:
 - Work only on the current feature.

@@ -6,6 +6,9 @@ Make the MVP stable, measurable, and usable.
 ## Depends on
 BLOCK 05 — Detection Engine
 
+## Status
+Completed. Closeout is based on automated checks and prior manual feedback fixes. This does not overclaim full product readiness or mark the MVP complete.
+
 ## Features
 
 ### 6.1 Loading UX
@@ -51,4 +54,5 @@ BLOCK 05 — Detection Engine
 - Simplify edit controls and add stable layout test IDs.
 
 ## Done definition
-- MVP is functional, stable, trackable, and usable on desktop/mobile.
+- BLOCK 06 polish and hardening work is completed when automated checks pass and prior manual feedback fixes are addressed.
+- This block closeout does not mark the MVP complete or production-ready by itself.

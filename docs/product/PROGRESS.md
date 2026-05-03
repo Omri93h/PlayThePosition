@@ -10,15 +10,14 @@
 - BLOCK 04 — Share and Link-Out
 - BLOCK 04.5 — Mobile / Layout Polish
 - BLOCK 05 — Detection Engine
-
-## In Progress
-
 - BLOCK 06 — Polish and Hardening
 
 ## Current
 
-- Current focus: Review 6.8 Analysis page manual validation fixes.
-- BLOCK 06 remains in progress until final review is approved.
+- Current focus: BLOCK 06 closeout completed.
+- MVP hardening/polish is complete.
+- MVP itself is not formally marked complete.
+- Next status: awaiting next approved roadmap/block planning.
 
 ## Completed In BLOCK 06
 
@@ -33,9 +32,8 @@
 
 ## Next
 
-- Review BLOCK 06 / 6.8 Analysis page manual validation fixes.
+- Awaiting next approved roadmap/block planning.
 
 ## Later / Deferred
 
-- Complete remaining BLOCK 06 hardening work.
 - Keep post-MVP items deferred until explicitly moved into scope.
