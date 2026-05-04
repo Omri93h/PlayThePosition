@@ -8,7 +8,7 @@ This directory holds lightweight metadata for detection tests. Current fixtures 
 - `cases.example.json` documents the future approved-fixture metadata shape.
 - `approved/` is the only future tracked location for approved screenshot fixtures.
 - `approved/cases.json` is the active approved-fixture manifest.
-  It is intentionally empty until screenshots are explicitly approved.
+  It now contains the first approved synthetic non-user fixture set.
 - `raw/`, `large/`, and archive dumps are local-only and ignored by git.
 - Do not commit real screenshot images outside `approved/`.
 
@@ -37,6 +37,7 @@ Use concise values for:
 
 - Prefer synthetic or hand-created fixtures first.
 - Real screenshots may be added only as a small curated set after approval.
+- Synthetic approved fixtures may be added when generated from owned project assets.
 - Use screenshots that are owned, licensed, public-domain, generated with approval, or explicitly permitted.
 - Include a licensing/approval note for every fixture.
 - Do not add copyrighted screenshots from chess sites, streams, books, courses, or user submissions without explicit approval.

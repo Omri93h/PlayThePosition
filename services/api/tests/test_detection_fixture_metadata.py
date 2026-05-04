@@ -12,15 +12,22 @@ APPROVED_DIR = (
 APPROVED_MANIFEST_PATH = APPROVED_DIR / "cases.json"
 
 
-def test_empty_approved_manifest_is_valid() -> None:
+def test_approved_manifest_with_committed_images_is_valid() -> None:
     manifest = json.loads(APPROVED_MANIFEST_PATH.read_text(encoding="utf-8"))
 
     result = validate_approved_fixture_manifest(
         manifest,
         approved_dir=APPROVED_DIR,
+        require_existing_images=True,
     )
 
-    assert manifest == {"version": 1, "cases": []}
+    assert manifest["version"] == 1
+    assert {case["filename"] for case in manifest["cases"]} == {
+        "synthetic_default_white-bottom_start-01.png",
+        "synthetic_default_black-bottom_start-01.png",
+        "synthetic_default_white-bottom_kings-rook-01.png",
+        "synthetic_default_black-bottom_kings-rook-01.png",
+    }
     assert result.valid is True
     assert result.issues == ()
 

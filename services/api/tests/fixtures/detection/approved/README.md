@@ -1,14 +1,15 @@
 # Approved Detection Fixtures
 
-This folder is reserved for future approved screenshot fixtures.
+This folder holds approved detection fixture images and metadata.
 
-No images are added in 7.3 or 8.2.
+No images were added in 7.3 or 8.2. The first approved non-user synthetic fixture set is added in 9.2.
 
-`cases.json` is the active approved-fixture manifest. It is valid and empty until screenshots are explicitly approved.
+`cases.json` is the active approved-fixture manifest.
 
 ## Rules For Future Images
 
 - Add screenshots here only after explicit approval.
+- Add synthetic fixtures here only when generated from owned project assets and explicitly approved.
 - Do not add raw user uploads.
 - Do not add large datasets, archive dumps, or unclear-license images.
 - Do not add screenshots from chess sites, streams, books, courses, private messages, or user submissions without explicit approval.

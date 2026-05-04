@@ -31,9 +31,13 @@ This block measures behavior on approved fixtures only. It does not approve prod
 - No fixture files/images were added and the approved manifest remains empty.
 
 ### 9.2 Add first approved non-user fixture set
+- Status: implemented / ready for review.
 - Add only explicitly approved non-user fixture images.
 - Require source, licensing, approval, and expected metadata for every fixture.
 - Keep the fixture set small and measurement-focused.
+- Added four owned/generated synthetic PNG fixtures under `approved/`.
+- Updated `approved/cases.json` with complete metadata.
+- No upload/API behavior changed and no production accuracy claim is made.
 
 ### 9.3 Run decode/preprocess measurements on approved fixtures
 - Measure decode/preprocess behavior on approved fixtures.

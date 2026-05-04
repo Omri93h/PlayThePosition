@@ -43,6 +43,13 @@ These remain outside the currently approved BLOCK 09 fixture-intake and measurem
 
 ## Phase 4 — SEO and Growth
 
+- Footer/trust/legal/launch pages:
+  - About.
+  - How It Works.
+  - FAQ.
+  - Privacy Policy.
+  - Terms of Use.
+  - Contact.
 - Homepage demo video/GIF.
 - Feedback popup.
 - Public indexed position pages.
