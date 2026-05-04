@@ -7,6 +7,8 @@ This directory holds lightweight metadata for detection tests. Current fixtures 
 - `cases.json` is the active synthetic manifest used by current tests.
 - `cases.example.json` documents the future approved-fixture metadata shape.
 - `approved/` is the only future tracked location for approved screenshot fixtures.
+- `approved/cases.json` is the active approved-fixture manifest.
+  It is intentionally empty until screenshots are explicitly approved.
 - `raw/`, `large/`, and archive dumps are local-only and ignored by git.
 - Do not commit real screenshot images outside `approved/`.
 
@@ -59,6 +61,22 @@ Every fixture should include metadata for:
 - `notes`
 
 See `cases.example.json` for the future approved-fixture metadata shape. The existing `cases.json` remains the active synthetic test manifest.
+
+`approved/cases.json` must pass the approved fixture metadata validator before future tests depend on approved screenshots.
+
+Approved success cases require:
+
+- `id`
+- `filename`
+- `kind`
+- `source`
+- `style`
+- `orientation`: `white-bottom`, `black-bottom`, or `unknown`
+- `expected_fen`
+- `license.status`
+- `license.note`
+
+The validator rejects absolute paths, parent traversal, `raw/`, `large/`, dump/archive paths, and archive files.
 
 ## Acceptable Fixture Sources
 

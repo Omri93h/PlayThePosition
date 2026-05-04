@@ -15,10 +15,11 @@
 
 ## Current
 
-- Current focus: BLOCK 08 — Real Recognition Implementation Foundation planning.
+- Current focus: BLOCK 08 — Real Recognition Implementation Foundation, Feature 8.2 ready for review.
 - BLOCK 07 is completed as discovery/experiment-only.
 - Real image recognition implementation has not started.
 - Feature 8.1 is implemented / ready for review as an internal PNG/JPEG decode and preprocess boundary.
+- Feature 8.2 is implemented / ready for review as approved fixture metadata validation.
 - MVP hardening/polish is complete.
 - MVP readiness automated validation passed.
 - MVP is closed.
@@ -56,14 +57,14 @@
 
 ## Next
 
-- Review 8.1 PNG/JPEG decode and preprocess boundary.
+- Review 8.2 Approved fixture metadata validation.
 - Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.
-- Keep real recognition implementation, PNG/JPEG decode, and approved real fixtures deferred until explicitly approved.
+- Keep real recognition implementation and approved real fixtures deferred until explicitly approved.
 
 ## Planned In BLOCK 08
 
 - 8.1 PNG/JPEG decode and preprocess boundary — implemented / ready for review.
-- 8.2 Approved fixture metadata validation.
+- 8.2 Approved fixture metadata validation — implemented / ready for review.
 - 8.3 Detection orchestrator behind feature gate.
 - 8.4 Fixture-gated board detection path.
 - 8.5 Fallback/metadata contract planning.
@@ -72,7 +73,7 @@
 
 - Detection is scaffolded/synthetic and is not real-world screenshot accurate yet.
 - Real recognition implementation is not started.
-- PNG/JPEG decode for real detection experiments is not implemented.
+- PNG/JPEG decode/preprocess exists internally but is not wired into upload.
 - Approved real fixture images have not been added.
 - No engine or Stockfish analysis.
 - No legal move validation.

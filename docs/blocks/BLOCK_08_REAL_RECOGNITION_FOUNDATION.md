@@ -26,9 +26,12 @@ This block is foundation/measurement-gated only. It does not approve production-
 - Not wired into `/upload`; does not provide recognition accuracy.
 
 ### 8.2 Approved fixture metadata validation
+- Status: implemented / ready for review.
 - Add validation for approved fixture metadata before real fixture tests depend on it.
 - Keep approved fixtures curated and licensed.
 - Do not store raw user uploads.
+- Adds an active empty approved manifest and structural validator only.
+- No screenshots/images are added and no upload integration happens.
 
 ### 8.3 Detection orchestrator behind feature gate
 - Add an internal orchestrator that can call decode, board bounds, orientation, piece recognition, FEN generation, and confidence/failure shaping.

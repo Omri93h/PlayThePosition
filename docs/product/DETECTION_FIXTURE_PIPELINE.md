@@ -10,7 +10,7 @@ This document defines the future real screenshot fixture pipeline for BLOCK 07 d
   - Example metadata shape for future approved screenshots.
 - `services/api/tests/fixtures/detection/approved/`
   - The only future tracked location for approved screenshot fixtures.
-  - Empty for now except for its README.
+  - Contains an active empty `cases.json` manifest and README.
 - `services/api/tests/fixtures/detection/raw/`
   - Local-only experiments. Ignored by git.
 - `services/api/tests/fixtures/detection/large/`
@@ -53,18 +53,18 @@ Each approved fixture should include:
 - Do not include sensitive personal information.
 - Every approved fixture must have a licensing/approval note.
 
-## Validation Strategy For Later
+## Validation Strategy
 
-A later validation script may check:
+BLOCK 08 adds a lightweight approved-fixture metadata validator. It checks:
 
 - Required metadata fields.
-- Referenced image exists under `approved/`.
+- Referenced image paths resolve under `approved/`.
 - Referenced image does not live under `raw/` or `large/`.
 - Licensing/approval note is present.
-- File size is below an approved limit.
+- File size and dimensions are below approved limits when an image file exists and file validation is required.
 - Expected FEN, orientation, and failure/confidence fields are present.
 
-Do not add that validator until fixture integration is explicitly approved.
+The active approved manifest remains empty until real screenshots are explicitly approved.
 
 ## Future Test Consumption
 

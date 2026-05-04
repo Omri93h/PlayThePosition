@@ -4,7 +4,7 @@ Current Block/Area:
 BLOCK 08 — Real Recognition Implementation Foundation
 
 Current Feature:
-8.1 PNG/JPEG decode and preprocess boundary
+8.2 Approved fixture metadata validation
 
 Current Step:
 Implemented / ready for review
