@@ -87,6 +87,14 @@ Keep the current upload response stable until implementation is explicitly appro
 
 The staged backend/frontend integration plan is documented in `docs/product/DETECTION_INTEGRATION_PLAN.md`.
 
+Frontend implementation notes for that later work:
+
+- Store detection metadata separately from the editable/current FEN so user corrections remain authoritative.
+- Keep Detection details as secondary UI; the board and Edit Board recovery path stay primary.
+- Treat missing `detection` metadata as normal until the optional contract is approved and shipped.
+- Use "Detection estimate", "Needs review", and "Low confidence" for uncertain results.
+- Do not show raw uploaded images or crop previews unless explicitly approved later.
+
 ```json
 {
   "fen": "4k3/8/8/8/7r/3K4/8/8 w - - 0 1",

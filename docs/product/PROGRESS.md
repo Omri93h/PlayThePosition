@@ -15,13 +15,14 @@
 
 ## Current
 
-- Current focus: BLOCK 08 — Real Recognition Implementation Foundation, Feature 8.4 ready for review.
+- Current focus: BLOCK 08 — Real Recognition Implementation Foundation, Feature 8.5 ready for review.
 - BLOCK 07 is completed as discovery/experiment-only.
 - Real image recognition implementation has not started.
 - Feature 8.1 is implemented / ready for review as an internal PNG/JPEG decode and preprocess boundary.
 - Feature 8.2 is implemented / ready for review as approved fixture metadata validation.
 - Feature 8.3 is implemented / ready for review as an internal gated orchestrator boundary.
 - Feature 8.4 is implemented / ready for review as an internal fixture-gated board detection path.
+- Feature 8.5 is implemented / ready for review as fallback/metadata contract planning.
 - MVP hardening/polish is complete.
 - MVP readiness automated validation passed.
 - MVP is closed.
@@ -59,7 +60,7 @@
 
 ## Next
 
-- Review 8.4 Fixture-gated board detection path.
+- Review 8.5 Fallback/metadata contract planning and decide BLOCK 08 closeout.
 - Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.
 - Keep real recognition implementation and approved real fixtures deferred until explicitly approved.
 
@@ -69,7 +70,7 @@
 - 8.2 Approved fixture metadata validation — implemented / ready for review.
 - 8.3 Detection orchestrator behind feature gate — implemented / ready for review.
 - 8.4 Fixture-gated board detection path — implemented / ready for review.
-- 8.5 Fallback/metadata contract planning.
+- 8.5 Fallback/metadata contract planning — implemented / ready for review.
 
 ## Known MVP Limitations
 
@@ -78,6 +79,7 @@
 - PNG/JPEG decode/preprocess exists internally but is not wired into upload.
 - Detection orchestrator exists internally behind an explicit disabled-by-default gate and is not wired into upload.
 - Fixture-gated board bounds detection exists internally for generated test images and is not wired into upload.
+- Future optional detection metadata contract is documented only; `/upload` does not return it yet.
 - Approved real fixture images have not been added.
 - No engine or Stockfish analysis.
 - No legal move validation.

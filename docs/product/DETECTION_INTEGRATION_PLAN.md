@@ -78,7 +78,50 @@ This plan defines how Play The Position should replace scaffolded detection with
   - `source`
   - `confidence`
   - `message`
+- Existing clients can ignore the future `detection` object and continue reading the existing fields.
 - Contract changes should be additive, tested, and documented before frontend use.
+
+### Future Optional `detection` Object
+
+This is a docs-only future shape. BLOCK 08 / 8.5 does not add this to `/upload`, change the public API contract in code, or require frontend changes.
+
+```json
+{
+  "fen": "8/8/8/8/8/8/8/8 w - - 0 1",
+  "source": "placeholder",
+  "confidence": null,
+  "message": "Detection is not implemented yet.",
+  "detection": {
+    "status": "partial",
+    "source": "gated_detection_orchestrator",
+    "confidence": 0.42,
+    "stages": [
+      {
+        "stage": "preprocess",
+        "status": "success",
+        "confidence": 1.0
+      },
+      {
+        "stage": "grid",
+        "status": "success",
+        "confidence": 0.7
+      },
+      {
+        "stage": "piece_recognition",
+        "status": "partial",
+        "confidence": null
+      }
+    ],
+    "failure": {
+      "code": "stage_not_configured",
+      "message": "Piece recognition is not configured for this gated path.",
+      "stage": "piece_recognition",
+      "retryable": false,
+      "suggestion": "Review and correct the board manually with Edit Board."
+    }
+  }
+}
+```
 
 ## Fixture And Test Gates
 
@@ -96,6 +139,17 @@ Before changing user-facing detection behavior:
   - failure code, stage, retryable flag, and suggestion
 - Placeholder fallback is proven for failed, partial, or low-confidence detection.
 
+## Internal Fallback Contract
+
+These are internal orchestrator outcomes only. They do not change current `/upload` behavior and must stay behind explicit gates until a later approved integration feature.
+
+- Disabled detection: `status: "placeholder"`, placeholder FEN, no failure object, and a `pipeline` stage/source indicating the gate is disabled.
+- Decode failure: `status: "failed"`, placeholder FEN, failure at `preprocess`, and no detected FEN.
+- Board bounds failure: `status: "failed"`, placeholder FEN, failure at `grid`, and a board/grid failure reason.
+- Downstream missing stages: `status: "partial"`, placeholder FEN, `stage_not_configured`, and the missing stage name.
+- Low confidence: `status: "partial"`, placeholder FEN, `low_confidence`, and the stage/confidence that failed the threshold.
+- Complete gated success: `status: "success"`, `source: "gated_detection_orchestrator"` or equivalent internal gated source, and detected FEN only when all injected/gated stages complete safely and pass confidence requirements.
+
 ## Rollback And Fallback
 
 - Keep Edit Board as the primary recovery path.
@@ -107,7 +161,7 @@ Before changing user-facing detection behavior:
 
 ## Risks
 
-- PNG/JPEG decoding is not implemented in current experiments.
+- PNG/JPEG decode/preprocess exists internally but is not wired into `/upload`.
 - Approved real screenshot fixtures have not been added yet.
 - Upload currently bypasses `detect_position()`.
 - Screenshot styles vary heavily across sites, themes, devices, and board/piece styles.
@@ -121,3 +175,10 @@ Before changing user-facing detection behavior:
 - Backend/frontend boundaries are documented.
 - Fixture gates and fallback strategy are documented.
 - No code, tests, API contracts, upload behavior, dependencies, screenshots, or recognition implementation are changed.
+
+## 8.5 Done Definition
+
+- Internal fallback outcomes are documented for disabled, failed, partial, low-confidence, and gated success paths.
+- Future optional detection metadata is documented as additive and not returned by `/upload` yet.
+- Existing response fields remain the compatibility baseline: `fen`, `source`, `confidence`, and `message`.
+- No public API contract, upload behavior, frontend code, screenshots, fixtures, dependencies, or recognition implementation are changed.

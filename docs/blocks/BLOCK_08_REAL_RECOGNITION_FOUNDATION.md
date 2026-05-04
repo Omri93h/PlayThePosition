@@ -1,7 +1,7 @@
 # BLOCK 08 — Real Recognition Implementation Foundation
 
 ## Status
-In progress as a foundation block.
+In progress as a foundation block. Features 8.1 through 8.5 are implemented / ready for review.
 
 ## Purpose
 Start the safe foundation for replacing scaffolded detection with measured real-recognition building blocks.
@@ -51,9 +51,17 @@ This block is foundation/measurement-gated only. It does not approve production-
 - Not wired into `/upload`; no API/frontend/user-facing behavior changes.
 
 ### 8.5 Fallback/metadata contract planning
+- Status: implemented / ready for review.
 - Plan the additive optional detection metadata contract.
 - Preserve existing upload response fields.
 - Require fallback behavior before user-facing detection changes.
+- Documents internal fallback outcomes for disabled, failed, partial, low-confidence, and gated success paths.
+- No public API contract, `/upload` behavior, frontend code, screenshots/images, dependencies, or recognition implementation changed.
+
+## Closeout Readiness
+
+- BLOCK 08 is ready for closeout review after 8.5 review/checks.
+- Real recognition remains gated foundation work only; production-grade screenshot accuracy is not claimed.
 
 ## Guardrails
 - No raw user uploads are stored.

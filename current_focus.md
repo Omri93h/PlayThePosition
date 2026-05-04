@@ -4,7 +4,7 @@ Current Block/Area:
 BLOCK 08 — Real Recognition Implementation Foundation
 
 Current Feature:
-8.4 Fixture-gated board detection path
+8.5 Fallback/metadata contract planning
 
 Current Step:
 Implemented / ready for review
