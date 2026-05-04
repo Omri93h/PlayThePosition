@@ -7,7 +7,7 @@ Current Feature:
 8.1 PNG/JPEG decode and preprocess boundary
 
 Current Step:
-Plan only / not implemented
+Implemented / ready for review
 
 Rules:
 - Work only on the current feature.

@@ -1,7 +1,7 @@
 # BLOCK 08 — Real Recognition Implementation Foundation
 
 ## Status
-Planned foundation block. Implementation has not started.
+In progress as a foundation block.
 
 ## Purpose
 Start the safe foundation for replacing scaffolded detection with measured real-recognition building blocks.
@@ -20,9 +20,10 @@ This block is foundation/measurement-gated only. It does not approve production-
 ## Planned features
 
 ### 8.1 PNG/JPEG decode and preprocess boundary
+- Status: implemented / ready for review.
 - Add a safe backend image decode/preprocess boundary for uploaded PNG/JPEG bytes.
 - Keep behavior internal until explicitly wired.
-- Do not change `/upload` behavior during planning.
+- Not wired into `/upload`; does not provide recognition accuracy.
 
 ### 8.2 Approved fixture metadata validation
 - Add validation for approved fixture metadata before real fixture tests depend on it.
