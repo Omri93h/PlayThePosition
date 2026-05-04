@@ -1,7 +1,7 @@
 # BLOCK 09 — Real Recognition Fixture Intake and Measurements
 
 ## Status
-Planned. Implementation has not started.
+In progress as a fixture-intake and measurement block.
 
 ## Purpose
 Start controlled fixture intake and measured recognition experiments after the BLOCK 08 foundation.
@@ -23,9 +23,12 @@ This block measures behavior on approved fixtures only. It does not approve prod
 ## Planned features
 
 ### 9.1 Approved fixture intake checklist and first candidate selection
+- Status: implemented / ready for review.
 - Define the checklist for approving fixture candidates.
 - Identify the first small non-user fixture candidates.
 - Do not add images yet unless explicitly approved in a later execute step.
+- Checklist is documented in `docs/product/DETECTION_FIXTURE_INTAKE_CHECKLIST.md`.
+- No fixture files/images were added and the approved manifest remains empty.
 
 ### 9.2 Add first approved non-user fixture set
 - Add only explicitly approved non-user fixture images.

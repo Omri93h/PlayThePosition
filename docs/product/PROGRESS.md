@@ -16,10 +16,11 @@
 
 ## Current
 
-- Current focus: BLOCK 09 — Real Recognition Fixture Intake and Measurements, planning Feature 9.1.
+- Current focus: BLOCK 09 — Real Recognition Fixture Intake and Measurements, Feature 9.1 ready for review.
 - BLOCK 07 is completed as discovery/experiment-only.
 - BLOCK 08 is completed as foundation/measurement-gated only.
-- BLOCK 09 is defined as fixture intake and measurement work; implementation has not started.
+- BLOCK 09 is in progress as fixture intake and measurement work.
+- Feature 9.1 is implemented / ready for review as docs-only fixture intake checklist and first candidate selection.
 - Real image recognition implementation has not started.
 - MVP hardening/polish is complete.
 - MVP readiness automated validation passed.
@@ -66,14 +67,14 @@
 
 ## Next
 
-- Plan 9.1 Approved fixture intake checklist and first candidate selection.
+- Review 9.1 Approved fixture intake checklist and first candidate selection.
 - Do not add fixture images until explicitly approved.
 - Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.
 - Keep upload integration and production-grade recognition deferred until explicitly approved.
 
 ## Planned In BLOCK 09
 
-- 9.1 Approved fixture intake checklist and first candidate selection.
+- 9.1 Approved fixture intake checklist and first candidate selection — implemented / ready for review.
 - 9.2 Add first approved non-user fixture set.
 - 9.3 Run decode/preprocess measurements on approved fixtures.
 - 9.4 Run fixture-gated board-bounds measurements.
