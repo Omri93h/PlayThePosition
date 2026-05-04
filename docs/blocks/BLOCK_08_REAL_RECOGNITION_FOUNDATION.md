@@ -1,7 +1,7 @@
 # BLOCK 08 — Real Recognition Implementation Foundation
 
 ## Status
-In progress as a foundation block. Features 8.1 through 8.5 are implemented / ready for review.
+Completed as a foundation/measurement-gated block. Features 8.1 through 8.5 are complete.
 
 ## Purpose
 Start the safe foundation for replacing scaffolded detection with measured real-recognition building blocks.
@@ -20,13 +20,13 @@ This block is foundation/measurement-gated only. It does not approve production-
 ## Planned features
 
 ### 8.1 PNG/JPEG decode and preprocess boundary
-- Status: implemented / ready for review.
+- Status: complete.
 - Add a safe backend image decode/preprocess boundary for uploaded PNG/JPEG bytes.
 - Keep behavior internal until explicitly wired.
 - Not wired into `/upload`; does not provide recognition accuracy.
 
 ### 8.2 Approved fixture metadata validation
-- Status: implemented / ready for review.
+- Status: complete.
 - Add validation for approved fixture metadata before real fixture tests depend on it.
 - Keep approved fixtures curated and licensed.
 - Do not store raw user uploads.
@@ -34,7 +34,7 @@ This block is foundation/measurement-gated only. It does not approve production-
 - No screenshots/images are added and no upload integration happens.
 
 ### 8.3 Detection orchestrator behind feature gate
-- Status: implemented / ready for review.
+- Status: complete.
 - Add an internal orchestrator that can call decode, board bounds, orientation, piece recognition, FEN generation, and confidence/failure shaping.
 - Keep real-recognition execution gated and fallback-safe.
 - Defaults off behind an explicit config object.
@@ -42,7 +42,7 @@ This block is foundation/measurement-gated only. It does not approve production-
 - Uses injected stage hooks for unimplemented recognition stages.
 
 ### 8.4 Fixture-gated board detection path
-- Status: implemented / ready for review.
+- Status: complete.
 - Run the board detection path against approved fixtures only.
 - Report measurements, not accuracy claims.
 - Keep failures recoverable through Edit Board.
@@ -51,17 +51,21 @@ This block is foundation/measurement-gated only. It does not approve production-
 - Not wired into `/upload`; no API/frontend/user-facing behavior changes.
 
 ### 8.5 Fallback/metadata contract planning
-- Status: implemented / ready for review.
+- Status: complete.
 - Plan the additive optional detection metadata contract.
 - Preserve existing upload response fields.
 - Require fallback behavior before user-facing detection changes.
 - Documents internal fallback outcomes for disabled, failed, partial, low-confidence, and gated success paths.
 - No public API contract, `/upload` behavior, frontend code, screenshots/images, dependencies, or recognition implementation changed.
 
-## Closeout Readiness
+## Closeout Status
 
-- BLOCK 08 is ready for closeout review after 8.5 review/checks.
-- Real recognition remains gated foundation work only; production-grade screenshot accuracy is not claimed.
+- BLOCK 08 is complete as foundation/measurement-gated work only.
+- No real-world screenshot recognition was implemented.
+- No `/upload` behavior, public API behavior, or API contract changed.
+- No real screenshots, raw uploads, binary fixtures, or approved image fixtures were added.
+- Pillow is the only image dependency added.
+- Real recognition implementation, upload integration, approved real fixtures, and production-grade accuracy work remain deferred until explicitly approved.
 
 ## Guardrails
 - No raw user uploads are stored.
