@@ -1,6 +1,11 @@
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field
 
+from app.detection.grid import (
+    BoardBoundsDetectionSuccess,
+    GridDetectionFailure,
+    detect_board_bounds_from_decoded_image,
+)
 from app.detection.image import DecodedImage, ImageDecodeFailure, decode_image_bytes
 from app.detection.pipeline import PLACEHOLDER_FEN
 from app.detection.results import (
@@ -186,6 +191,36 @@ def run_detection_orchestrator(
     )
 
 
+def fixture_gated_board_bounds_stage(
+    image: DecodedImage,
+) -> DetectionStageOutput:
+    result = detect_board_bounds_from_decoded_image(image)
+
+    if isinstance(result, BoardBoundsDetectionSuccess):
+        bounds = result.bounds
+        return DetectionStageOutput(
+            stage="grid",
+            status="success",
+            source=result.source,
+            confidence=result.confidence,
+            payload={
+                "bounds": {
+                    "x": bounds.x,
+                    "y": bounds.y,
+                    "width": bounds.width,
+                    "height": bounds.height,
+                }
+            },
+        )
+
+    return DetectionStageOutput(
+        stage=result.stage,
+        status="failed",
+        source="fixture_gated_decoded_board_bounds",
+        failure=_grid_failure(result),
+    )
+
+
 def _run_required_stage(
     stage: DetectionStage,
     stages: list[DetectionStageOutput],
@@ -246,6 +281,17 @@ def _placeholder_result(
 
 
 def _decode_failure(failure: ImageDecodeFailure) -> DetectionFailure:
+    return _failure(
+        code=failure.code,
+        message=failure.message,
+        stage=failure.stage,
+        retryable=failure.retryable,
+        suggestion=failure.suggestion,
+        failure_reason=failure.failure_reason,
+    )
+
+
+def _grid_failure(failure: GridDetectionFailure) -> DetectionFailure:
     return _failure(
         code=failure.code,
         message=failure.message,

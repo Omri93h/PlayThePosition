@@ -4,7 +4,7 @@ Current Block/Area:
 BLOCK 08 — Real Recognition Implementation Foundation
 
 Current Feature:
-8.3 Detection orchestrator behind feature gate
+8.4 Fixture-gated board detection path
 
 Current Step:
 Implemented / ready for review

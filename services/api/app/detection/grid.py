@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 
+from app.detection.image import DecodedImage
 from app.detection.results import DetectionMetadata, DetectionStage
 
 RgbPixel = tuple[int, int, int]
@@ -114,6 +115,8 @@ def detect_board_bounds(image_bytes: bytes) -> BoardBoundsDetectionResult:
 
 def detect_board_bounds_from_image(
     image: PreprocessedImage,
+    *,
+    source: str = "synthetic_ppm_board_bounds",
 ) -> BoardBoundsDetectionResult:
     max_square_size = min(image.width, image.height) // 8
 
@@ -126,9 +129,34 @@ def detect_board_bounds_from_image(
                     return BoardBoundsDetectionSuccess(
                         bounds=BoardBounds(x=x, y=y, width=side, height=side),
                         confidence=0.7,
+                        source=source,
                     )
 
     return _grid_not_found()
+
+
+def detect_board_bounds_from_decoded_image(
+    image: DecodedImage,
+) -> BoardBoundsDetectionResult:
+    preprocessed = decoded_image_to_preprocessed_image(image)
+
+    return detect_board_bounds_from_image(
+        preprocessed,
+        source="fixture_gated_decoded_board_bounds",
+    )
+
+
+def decoded_image_to_preprocessed_image(image: DecodedImage) -> PreprocessedImage:
+    pixels = tuple(
+        tuple(image.pixels[index : index + image.channels][:3])
+        for index in range(0, len(image.pixels), image.channels)
+    )
+
+    return PreprocessedImage(
+        width=image.width,
+        height=image.height,
+        pixels=pixels,
+    )
 
 
 def detect_grid_from_image(image: PreprocessedImage) -> GridDetectionResult:

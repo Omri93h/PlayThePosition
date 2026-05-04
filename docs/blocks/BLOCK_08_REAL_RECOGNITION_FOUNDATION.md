@@ -42,9 +42,13 @@ This block is foundation/measurement-gated only. It does not approve production-
 - Uses injected stage hooks for unimplemented recognition stages.
 
 ### 8.4 Fixture-gated board detection path
+- Status: implemented / ready for review.
 - Run the board detection path against approved fixtures only.
 - Report measurements, not accuracy claims.
 - Keep failures recoverable through Edit Board.
+- Uses generated tiny PNG/JPEG images in tests only; no screenshots/images are committed.
+- Adds a decoded-image board-bounds adapter and explicit orchestrator hook.
+- Not wired into `/upload`; no API/frontend/user-facing behavior changes.
 
 ### 8.5 Fallback/metadata contract planning
 - Plan the additive optional detection metadata contract.

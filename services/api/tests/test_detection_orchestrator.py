@@ -6,6 +6,7 @@ from app.detection.orchestrator import (
     DetectionOrchestratorConfig,
     DetectionOrchestratorHooks,
     DetectionStageOutput,
+    fixture_gated_board_bounds_stage,
     run_detection_orchestrator,
 )
 from app.detection.pipeline import PLACEHOLDER_FEN
@@ -137,6 +138,35 @@ def test_low_confidence_success_uses_placeholder_fallback() -> None:
     assert result.failure.code == "low_confidence"
 
 
+def test_fixture_gated_board_bounds_hook_stops_without_downstream_stages() -> None:
+    result = run_detection_orchestrator(
+        make_board_png_bytes(square_size=8),
+        "image/png",
+        config=DetectionOrchestratorConfig(enabled=True),
+        hooks=DetectionOrchestratorHooks(
+            board_bounds=fixture_gated_board_bounds_stage,
+        ),
+    )
+
+    assert result.status == "partial"
+    assert result.fen == PLACEHOLDER_FEN
+    assert [stage.stage for stage in result.stages] == [
+        "preprocess",
+        "grid",
+        "pieces",
+    ]
+    assert result.stages[1].status == "success"
+    assert result.stages[1].payload["bounds"] == {
+        "x": 0,
+        "y": 0,
+        "width": 64,
+        "height": 64,
+    }
+    assert result.failure is not None
+    assert result.failure.code == "stage_not_configured"
+    assert result.failure.stage == "pieces"
+
+
 def successful_hooks(
     *,
     fen: str = "8/8/8/8/8/8/8/8 w - - 0 1",
@@ -176,6 +206,24 @@ def successful_hooks(
 
 def make_png_bytes() -> bytes:
     image = Image.new("RGB", (2, 2), color=(10, 20, 30))
+    buffer = BytesIO()
+    image.save(buffer, format="PNG")
+    return buffer.getvalue()
+
+
+def make_board_png_bytes(*, square_size: int) -> bytes:
+    light = (230, 238, 218)
+    dark = (42, 86, 55)
+    side = square_size * 8
+    image = Image.new("RGB", (side, side), color=light)
+    pixels = image.load()
+
+    for y in range(side):
+        for x in range(side):
+            square_x = x // square_size
+            square_y = y // square_size
+            pixels[x, y] = light if (square_x + square_y) % 2 == 0 else dark
+
     buffer = BytesIO()
     image.save(buffer, format="PNG")
     return buffer.getvalue()
