@@ -34,8 +34,12 @@ This block is foundation/measurement-gated only. It does not approve production-
 - No screenshots/images are added and no upload integration happens.
 
 ### 8.3 Detection orchestrator behind feature gate
+- Status: implemented / ready for review.
 - Add an internal orchestrator that can call decode, board bounds, orientation, piece recognition, FEN generation, and confidence/failure shaping.
 - Keep real-recognition execution gated and fallback-safe.
+- Defaults off behind an explicit config object.
+- Not wired into `/upload`; no API/frontend/user-facing behavior changes.
+- Uses injected stage hooks for unimplemented recognition stages.
 
 ### 8.4 Fixture-gated board detection path
 - Run the board detection path against approved fixtures only.

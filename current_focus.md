@@ -4,7 +4,7 @@ Current Block/Area:
 BLOCK 08 — Real Recognition Implementation Foundation
 
 Current Feature:
-8.2 Approved fixture metadata validation
+8.3 Detection orchestrator behind feature gate
 
 Current Step:
 Implemented / ready for review
