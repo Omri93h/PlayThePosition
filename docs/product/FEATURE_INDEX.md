@@ -91,9 +91,18 @@
 
 ## BLOCK 08 — Real Recognition Implementation Foundation
 
+- Status: complete.
+- 8.1 PNG/JPEG decode and preprocess boundary — complete
+- 8.2 Approved fixture metadata validation — complete
+- 8.3 Detection orchestrator behind feature gate — complete
+- 8.4 Fixture-gated board detection path — complete
+- 8.5 Fallback/metadata contract planning — complete
+
+## BLOCK 09 — Real Recognition Fixture Intake and Measurements
+
 - Status: planned.
-- 8.1 PNG/JPEG decode and preprocess boundary
-- 8.2 Approved fixture metadata validation
-- 8.3 Detection orchestrator behind feature gate
-- 8.4 Fixture-gated board detection path
-- 8.5 Fallback/metadata contract planning
+- 9.1 Approved fixture intake checklist and first candidate selection
+- 9.2 Add first approved non-user fixture set
+- 9.3 Run decode/preprocess measurements on approved fixtures
+- 9.4 Run fixture-gated board-bounds measurements
+- 9.5 Measurement report and next-step decision

@@ -1,13 +1,13 @@
 # Current Focus
 
 Current Block/Area:
-BLOCK 08 — Real Recognition Implementation Foundation
+BLOCK 09 — Real Recognition Fixture Intake and Measurements
 
 Current Feature:
-BLOCK 08 closeout
+9.1 Approved fixture intake checklist and first candidate selection
 
 Current Step:
-Completed / awaiting next approved planning step
+Plan only / not implemented
 
 Rules:
 - Work only on the current feature.

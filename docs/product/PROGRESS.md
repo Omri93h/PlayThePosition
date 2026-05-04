@@ -16,9 +16,10 @@
 
 ## Current
 
-- Current focus: awaiting approved roadmap planning after BLOCK 08 closeout.
+- Current focus: BLOCK 09 — Real Recognition Fixture Intake and Measurements, planning Feature 9.1.
 - BLOCK 07 is completed as discovery/experiment-only.
 - BLOCK 08 is completed as foundation/measurement-gated only.
+- BLOCK 09 is defined as fixture intake and measurement work; implementation has not started.
 - Real image recognition implementation has not started.
 - MVP hardening/polish is complete.
 - MVP readiness automated validation passed.
@@ -65,10 +66,18 @@
 
 ## Next
 
-- Await approved roadmap planning.
-- Do not start BLOCK 09 until explicitly approved.
+- Plan 9.1 Approved fixture intake checklist and first candidate selection.
+- Do not add fixture images until explicitly approved.
 - Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.
-- Keep real recognition implementation and approved real fixtures deferred until explicitly approved.
+- Keep upload integration and production-grade recognition deferred until explicitly approved.
+
+## Planned In BLOCK 09
+
+- 9.1 Approved fixture intake checklist and first candidate selection.
+- 9.2 Add first approved non-user fixture set.
+- 9.3 Run decode/preprocess measurements on approved fixtures.
+- 9.4 Run fixture-gated board-bounds measurements.
+- 9.5 Measurement report and next-step decision.
 
 ## Known MVP Limitations
 
@@ -81,6 +90,7 @@
 - Future optional detection metadata contract is documented only; `/upload` does not return it yet.
 - Approved real fixture images have not been added.
 - Production-grade recognition accuracy work remains deferred.
+- Upload integration remains deferred.
 - No engine or Stockfish analysis.
 - No legal move validation.
 - No auth or user accounts.
