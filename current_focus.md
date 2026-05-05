@@ -4,7 +4,7 @@ Current Block/Area:
 BLOCK 09 — Real Recognition Fixture Intake and Measurements
 
 Current Feature:
-9.4 Run fixture-gated board-bounds measurements
+9.5 Measurement report and next-step decision
 
 Current Step:
 Implemented / ready for review

@@ -56,9 +56,13 @@ This block measures behavior on approved fixtures only. It does not approve prod
 - Piece recognition measurements remain future 9.5 work or later.
 
 ### 9.5 Measurement report and next-step decision
+- Status: implemented / ready for review.
 - Summarize fixture results, blockers, and reliability gaps.
 - Decide whether to continue measurement work, improve board detection, or defer integration.
 - Keep upload integration and public behavior changes out of scope unless separately approved later.
+- Measurement summary and next-step decision are documented in `docs/product/DETECTION_MEASUREMENT_REPORT.md`.
+- Decision: BLOCK 09 can move to closeout review after this report.
+- Recommended next step: add a small approved non-synthetic or real-ish fixture set before upload integration.
 
 ## Guardrails
 - Approved non-user fixtures only.
