@@ -59,7 +59,11 @@
         "expected_format": "png",
         "expected_width": 512,
         "expected_height": 512,
-        "expected_mode": "RGB"
+        "expected_mode": "RGB",
+        "board_bounds_required": true,
+        "expected_board_bounds_confidence_min": 0.7,
+        "expected_board_bounds_stage": "grid",
+        "expected_board_bounds_source": "fixture_gated_decoded_board_bounds"
       },
       "expected_failure": null,
       "license": {
@@ -126,7 +130,11 @@
         "expected_format": "png",
         "expected_width": 512,
         "expected_height": 512,
-        "expected_mode": "RGB"
+        "expected_mode": "RGB",
+        "board_bounds_required": true,
+        "expected_board_bounds_confidence_min": 0.7,
+        "expected_board_bounds_stage": "grid",
+        "expected_board_bounds_source": "fixture_gated_decoded_board_bounds"
       },
       "expected_failure": null,
       "license": {
@@ -164,7 +172,11 @@
         "expected_format": "png",
         "expected_width": 512,
         "expected_height": 512,
-        "expected_mode": "RGB"
+        "expected_mode": "RGB",
+        "board_bounds_required": true,
+        "expected_board_bounds_confidence_min": 0.7,
+        "expected_board_bounds_stage": "grid",
+        "expected_board_bounds_source": "fixture_gated_decoded_board_bounds"
       },
       "expected_failure": null,
       "license": {
@@ -202,7 +214,11 @@
         "expected_format": "png",
         "expected_width": 512,
         "expected_height": 512,
-        "expected_mode": "RGB"
+        "expected_mode": "RGB",
+        "board_bounds_required": true,
+        "expected_board_bounds_confidence_min": 0.7,
+        "expected_board_bounds_stage": "grid",
+        "expected_board_bounds_source": "fixture_gated_decoded_board_bounds"
       },
       "expected_failure": null,
       "license": {

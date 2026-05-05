@@ -45,12 +45,15 @@ This block measures behavior on approved fixtures only. It does not approve prod
 - Record supported format, dimensions, decode success/failure, and failure reasons.
 - Do not wire results into `/upload`.
 - Measurements are documented in `docs/product/DETECTION_DECODE_MEASUREMENTS.md`.
-- Board-bounds measurement remains future 9.4 work.
+- Board-bounds measurements are handled separately in 9.4.
 
 ### 9.4 Run fixture-gated board-bounds measurements
+- Status: implemented / ready for review.
 - Run the internal fixture-gated board-bounds path on approved fixtures.
 - Record bounds, confidence, failure stage, and failure reason.
 - Report measurements only, not accuracy claims.
+- Measurements are documented in `docs/product/DETECTION_BOARD_BOUNDS_MEASUREMENTS.md`.
+- Piece recognition measurements remain future 9.5 work or later.
 
 ### 9.5 Measurement report and next-step decision
 - Summarize fixture results, blockers, and reliability gaps.

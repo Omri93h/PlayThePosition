@@ -219,10 +219,43 @@ def _region_has_checkerboard(
     if _color_distance(light_average, dark_average) < 35:
         return False
 
+    if not _candidate_edges_match_checkerboard(
+        image,
+        x_offset,
+        y_offset,
+        square_size,
+        light_average,
+        dark_average,
+    ):
+        return False
+
     if not _pixels_are_consistent(light_pixels, light_average):
         return False
 
     return _pixels_are_consistent(dark_pixels, dark_average)
+
+
+def _candidate_edges_match_checkerboard(
+    image: PreprocessedImage,
+    x_offset: int,
+    y_offset: int,
+    square_size: int,
+    light_average: RgbPixel,
+    dark_average: RgbPixel,
+) -> bool:
+    for row in range(8):
+        for column in range(8):
+            x = x_offset + column * square_size
+            y = y_offset + row * square_size
+
+            if x >= image.width or y >= image.height:
+                return False
+
+            expected = light_average if (row + column) % 2 == 0 else dark_average
+            if _color_distance(image.pixels[y * image.width + x], expected) > 55:
+                return False
+
+    return True
 
 
 def _parse_ppm(image_bytes: bytes) -> PreprocessResult:
@@ -311,11 +344,11 @@ def _sample_square_points(
     y_offset: int = 0,
 ) -> list[tuple[int, int, RgbPixel]]:
     samples: list[tuple[int, int, RgbPixel]] = []
+    edge_inset = square_size // 8
     local_offsets = sorted(
         {
-            0,
-            square_size // 2,
-            square_size - 1,
+            edge_inset,
+            square_size - 1 - edge_inset,
         }
     )
 

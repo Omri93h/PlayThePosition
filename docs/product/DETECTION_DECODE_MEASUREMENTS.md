@@ -28,5 +28,5 @@ These are decode/preprocess measurements only. They do not measure board recogni
 
 - The approved manifest is validated with existing images required.
 - The test suite asserts expected decode format, dimensions, mode, and byte-size constraints.
-- Board-bounds measurements remain future work for Feature 9.4.
+- Board-bounds measurements are tracked separately in `docs/product/DETECTION_BOARD_BOUNDS_MEASUREMENTS.md`.
 - `/upload` behavior and public API contracts are unchanged.

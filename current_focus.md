@@ -4,7 +4,7 @@ Current Block/Area:
 BLOCK 09 — Real Recognition Fixture Intake and Measurements
 
 Current Feature:
-9.3 Run decode/preprocess measurements on approved fixtures
+9.4 Run fixture-gated board-bounds measurements
 
 Current Step:
 Implemented / ready for review
