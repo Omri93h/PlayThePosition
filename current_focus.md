@@ -4,7 +4,7 @@ Current Block/Area:
 BLOCK 09 — Real Recognition Fixture Intake and Measurements
 
 Current Feature:
-9.2 Add first approved non-user fixture set
+9.3 Run decode/preprocess measurements on approved fixtures
 
 Current Step:
 Implemented / ready for review

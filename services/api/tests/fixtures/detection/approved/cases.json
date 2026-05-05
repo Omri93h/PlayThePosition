@@ -54,7 +54,12 @@
         "orientation_detected": "white-bottom",
         "piece_list_required": true,
         "fen_match_required": true,
-        "failure_reason_required": false
+        "failure_reason_required": false,
+        "decode_required": true,
+        "expected_format": "png",
+        "expected_width": 512,
+        "expected_height": 512,
+        "expected_mode": "RGB"
       },
       "expected_failure": null,
       "license": {
@@ -116,7 +121,12 @@
         "orientation_detected": "black-bottom",
         "piece_list_required": true,
         "fen_match_required": true,
-        "failure_reason_required": false
+        "failure_reason_required": false,
+        "decode_required": true,
+        "expected_format": "png",
+        "expected_width": 512,
+        "expected_height": 512,
+        "expected_mode": "RGB"
       },
       "expected_failure": null,
       "license": {
@@ -149,7 +159,12 @@
         "orientation_detected": "white-bottom",
         "piece_list_required": true,
         "fen_match_required": true,
-        "failure_reason_required": false
+        "failure_reason_required": false,
+        "decode_required": true,
+        "expected_format": "png",
+        "expected_width": 512,
+        "expected_height": 512,
+        "expected_mode": "RGB"
       },
       "expected_failure": null,
       "license": {
@@ -182,7 +197,12 @@
         "orientation_detected": "black-bottom",
         "piece_list_required": true,
         "fen_match_required": true,
-        "failure_reason_required": false
+        "failure_reason_required": false,
+        "decode_required": true,
+        "expected_format": "png",
+        "expected_width": 512,
+        "expected_height": 512,
+        "expected_mode": "RGB"
       },
       "expected_failure": null,
       "license": {

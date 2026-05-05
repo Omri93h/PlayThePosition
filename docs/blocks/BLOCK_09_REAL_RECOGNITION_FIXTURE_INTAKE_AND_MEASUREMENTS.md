@@ -40,9 +40,12 @@ This block measures behavior on approved fixtures only. It does not approve prod
 - No upload/API behavior changed and no production accuracy claim is made.
 
 ### 9.3 Run decode/preprocess measurements on approved fixtures
+- Status: implemented / ready for review.
 - Measure decode/preprocess behavior on approved fixtures.
 - Record supported format, dimensions, decode success/failure, and failure reasons.
 - Do not wire results into `/upload`.
+- Measurements are documented in `docs/product/DETECTION_DECODE_MEASUREMENTS.md`.
+- Board-bounds measurement remains future 9.4 work.
 
 ### 9.4 Run fixture-gated board-bounds measurements
 - Run the internal fixture-gated board-bounds path on approved fixtures.

@@ -16,12 +16,13 @@
 
 ## Current
 
-- Current focus: BLOCK 09 — Real Recognition Fixture Intake and Measurements, Feature 9.2 ready for review.
+- Current focus: BLOCK 09 — Real Recognition Fixture Intake and Measurements, Feature 9.3 ready for review.
 - BLOCK 07 is completed as discovery/experiment-only.
 - BLOCK 08 is completed as foundation/measurement-gated only.
 - BLOCK 09 is in progress as fixture intake and measurement work.
 - Feature 9.1 is implemented / ready for review as docs-only fixture intake checklist and first candidate selection.
 - Feature 9.2 is implemented / ready for review as the first approved non-user synthetic fixture set.
+- Feature 9.3 is implemented / ready for review as decode/preprocess measurements on approved fixtures.
 - Real image recognition implementation has not started.
 - MVP hardening/polish is complete.
 - MVP readiness automated validation passed.
@@ -68,8 +69,8 @@
 
 ## Next
 
-- Review 9.2 Add first approved non-user fixture set.
-- Do not run fixture measurements until explicitly approved in 9.3.
+- Review 9.3 Run decode/preprocess measurements on approved fixtures.
+- Do not run board-bounds measurements until explicitly approved in 9.4.
 - Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.
 - Keep upload integration and production-grade recognition deferred until explicitly approved.
 
@@ -77,7 +78,7 @@
 
 - 9.1 Approved fixture intake checklist and first candidate selection — implemented / ready for review.
 - 9.2 Add first approved non-user fixture set — implemented / ready for review.
-- 9.3 Run decode/preprocess measurements on approved fixtures.
+- 9.3 Run decode/preprocess measurements on approved fixtures — implemented / ready for review.
 - 9.4 Run fixture-gated board-bounds measurements.
 - 9.5 Measurement report and next-step decision.
 
@@ -87,6 +88,7 @@
 - Real recognition implementation is not started.
 - Upload integration for real recognition is not started.
 - PNG/JPEG decode/preprocess exists internally but is not wired into upload.
+- Decode/preprocess measurements are complete for the approved synthetic fixture set.
 - Detection orchestrator exists internally behind an explicit disabled-by-default gate and is not wired into upload.
 - Fixture-gated board bounds detection exists internally for generated test images and is not wired into upload.
 - Future optional detection metadata contract is documented only; `/upload` does not return it yet.
