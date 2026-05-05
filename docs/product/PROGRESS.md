@@ -13,18 +13,14 @@
 - BLOCK 06 — Polish and Hardening
 - BLOCK 07 — Real Image Recognition Discovery
 - BLOCK 08 — Real Recognition Implementation Foundation
+- BLOCK 09 — Real Recognition Fixture Intake and Measurements
 
 ## Current
 
-- Current focus: BLOCK 09 — Real Recognition Fixture Intake and Measurements, Feature 9.5 ready for review.
+- Current focus: awaiting approved roadmap planning after BLOCK 09 closeout.
 - BLOCK 07 is completed as discovery/experiment-only.
 - BLOCK 08 is completed as foundation/measurement-gated only.
-- BLOCK 09 is in progress as fixture intake and measurement work.
-- Feature 9.1 is implemented / ready for review as docs-only fixture intake checklist and first candidate selection.
-- Feature 9.2 is implemented / ready for review as the first approved non-user synthetic fixture set.
-- Feature 9.3 is implemented / ready for review as decode/preprocess measurements on approved fixtures.
-- Feature 9.4 is implemented / ready for review as fixture-gated board-bounds measurements on approved fixtures.
-- Feature 9.5 is implemented / ready for review as the measurement report and next-step decision.
+- BLOCK 09 is completed as fixture intake and measurement-only work.
 - Real image recognition implementation has not started.
 - MVP hardening/polish is complete.
 - MVP readiness automated validation passed.
@@ -71,19 +67,18 @@
 
 ## Next
 
-- Review 9.5 Measurement report and next-step decision.
-- BLOCK 09 can move to closeout review after 9.5 review.
+- Await approved roadmap planning.
 - Do not start BLOCK 10 until explicitly approved.
 - Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.
 - Keep upload integration and production-grade recognition deferred until explicitly approved.
 
-## Planned In BLOCK 09
+## Completed In BLOCK 09
 
-- 9.1 Approved fixture intake checklist and first candidate selection — implemented / ready for review.
-- 9.2 Add first approved non-user fixture set — implemented / ready for review.
-- 9.3 Run decode/preprocess measurements on approved fixtures — implemented / ready for review.
-- 9.4 Run fixture-gated board-bounds measurements — implemented / ready for review.
-- 9.5 Measurement report and next-step decision — implemented / ready for review.
+- 9.1 Approved fixture intake checklist and first candidate selection.
+- 9.2 Add first approved non-user fixture set.
+- 9.3 Run decode/preprocess measurements on approved fixtures.
+- 9.4 Run fixture-gated board-bounds measurements.
+- 9.5 Measurement report and next-step decision.
 
 ## Known MVP Limitations
 
@@ -100,12 +95,14 @@
 - Approved synthetic non-user fixture images have been added; approved real screenshot fixtures have not been added.
 - Production-grade recognition accuracy work remains deferred.
 - Upload integration remains deferred.
+- Public API changes for real recognition remain deferred.
 - No engine or Stockfish analysis.
 - No legal move validation.
 - No auth or user accounts.
 - No payments, subscriptions, or premium gating.
 - No external Chess.com/Lichess link-out.
 - No SEO or distribution work.
+- Approved non-synthetic or real-ish fixture intake remains future work until explicitly approved.
 
 ## Later / Deferred
 

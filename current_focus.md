@@ -4,10 +4,10 @@ Current Block/Area:
 BLOCK 09 — Real Recognition Fixture Intake and Measurements
 
 Current Feature:
-9.5 Measurement report and next-step decision
+BLOCK 09 closeout
 
 Current Step:
-Implemented / ready for review
+Completed / awaiting next approved planning step
 
 Rules:
 - Work only on the current feature.

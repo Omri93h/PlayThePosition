@@ -1,7 +1,18 @@
 # BLOCK 09 — Real Recognition Fixture Intake and Measurements
 
 ## Status
-In progress as a fixture-intake and measurement block.
+Completed as a fixture-intake and measurement-only block.
+
+## Completion Note
+
+BLOCK 09 is complete as controlled fixture intake and measurement work only. Features 9.1 through 9.5 are complete.
+
+- Approved fixtures are owned/generated synthetic fixtures only.
+- Decode/preprocess measurements were completed on synthetic fixtures only.
+- Fixture-gated board-bounds measurements were completed on synthetic fixtures only.
+- No `/upload` behavior, public API behavior, or API contract changed.
+- No real-world or production-grade recognition accuracy is claimed.
+- Next recommended recognition step: add a small approved non-synthetic or real-ish fixture set before upload integration.
 
 ## Purpose
 Start controlled fixture intake and measured recognition experiments after the BLOCK 08 foundation.
@@ -23,7 +34,7 @@ This block measures behavior on approved fixtures only. It does not approve prod
 ## Planned features
 
 ### 9.1 Approved fixture intake checklist and first candidate selection
-- Status: implemented / ready for review.
+- Status: complete.
 - Define the checklist for approving fixture candidates.
 - Identify the first small non-user fixture candidates.
 - Do not add images yet unless explicitly approved in a later execute step.
@@ -31,7 +42,7 @@ This block measures behavior on approved fixtures only. It does not approve prod
 - No fixture files/images were added and the approved manifest remains empty.
 
 ### 9.2 Add first approved non-user fixture set
-- Status: implemented / ready for review.
+- Status: complete.
 - Add only explicitly approved non-user fixture images.
 - Require source, licensing, approval, and expected metadata for every fixture.
 - Keep the fixture set small and measurement-focused.
@@ -40,7 +51,7 @@ This block measures behavior on approved fixtures only. It does not approve prod
 - No upload/API behavior changed and no production accuracy claim is made.
 
 ### 9.3 Run decode/preprocess measurements on approved fixtures
-- Status: implemented / ready for review.
+- Status: complete.
 - Measure decode/preprocess behavior on approved fixtures.
 - Record supported format, dimensions, decode success/failure, and failure reasons.
 - Do not wire results into `/upload`.
@@ -48,7 +59,7 @@ This block measures behavior on approved fixtures only. It does not approve prod
 - Board-bounds measurements are handled separately in 9.4.
 
 ### 9.4 Run fixture-gated board-bounds measurements
-- Status: implemented / ready for review.
+- Status: complete.
 - Run the internal fixture-gated board-bounds path on approved fixtures.
 - Record bounds, confidence, failure stage, and failure reason.
 - Report measurements only, not accuracy claims.
@@ -56,7 +67,7 @@ This block measures behavior on approved fixtures only. It does not approve prod
 - Piece recognition measurements remain future 9.5 work or later.
 
 ### 9.5 Measurement report and next-step decision
-- Status: implemented / ready for review.
+- Status: complete.
 - Summarize fixture results, blockers, and reliability gaps.
 - Decide whether to continue measurement work, improve board detection, or defer integration.
 - Keep upload integration and public behavior changes out of scope unless separately approved later.
