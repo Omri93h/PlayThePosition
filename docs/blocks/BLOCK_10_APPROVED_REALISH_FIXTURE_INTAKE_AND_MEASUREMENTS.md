@@ -23,9 +23,12 @@ This block continues measurement-only recognition work. It does not approve prod
 ## Planned features
 
 ### 10.1 Fixture source approval and candidate selection
+- Status: implemented / ready for review.
 - Decide which real-ish non-user fixture candidates are eligible.
 - Record source, ownership/licensing, privacy, expected position, and approval status before adding images.
 - Prefer owned/generated/hand-created approximations if external screenshots are not cleanly approved.
+- Source approval and candidate selection are documented in `docs/product/DETECTION_REALISH_FIXTURE_SOURCE_APPROVAL.md`.
+- No images or approved manifest entries are added in 10.1.
 
 ### 10.2 Add first approved real-ish non-user fixture set
 - Add only explicitly approved and licensed fixtures.

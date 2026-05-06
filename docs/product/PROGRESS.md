@@ -17,12 +17,12 @@
 
 ## Current
 
-- Current focus: BLOCK 10 planning, Feature 10.1 Fixture source approval and candidate selection.
+- Current focus: BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements, Feature 10.1 ready for review.
 - BLOCK 07 is completed as discovery/experiment-only.
 - BLOCK 08 is completed as foundation/measurement-gated only.
 - BLOCK 09 is completed as fixture intake and measurement-only work.
 - BLOCK 10 is planned as approved real-ish fixture intake and measurement work.
-- BLOCK 10 implementation has not started.
+- Feature 10.1 is implemented / ready for review as docs-only fixture source approval and candidate selection.
 - Real image recognition implementation has not started.
 - MVP hardening/polish is complete.
 - MVP readiness automated validation passed.
@@ -69,14 +69,14 @@
 
 ## Next
 
-- Plan BLOCK 10 / Feature 10.1 Fixture source approval and candidate selection.
+- Review 10.1 Fixture source approval and candidate selection.
 - Do not add real-ish fixtures until explicitly approved in 10.2.
 - Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.
 - Keep upload integration and production-grade recognition deferred until explicitly approved.
 
 ## Planned In BLOCK 10
 
-- 10.1 Fixture source approval and candidate selection.
+- 10.1 Fixture source approval and candidate selection — implemented / ready for review.
 - 10.2 Add first approved real-ish non-user fixture set.
 - 10.3 Run decode/preprocess measurements on real-ish fixtures.
 - 10.4 Run board-bounds measurements on real-ish fixtures.

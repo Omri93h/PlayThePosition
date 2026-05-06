@@ -7,7 +7,7 @@ Current Feature:
 10.1 Fixture source approval and candidate selection
 
 Current Step:
-Plan only / not implemented
+Implemented / ready for review
 
 Rules:
 - Work only on the current feature.
