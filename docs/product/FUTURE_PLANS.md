@@ -8,6 +8,7 @@ These remain outside the currently approved BLOCK 10 real-ish fixture-intake and
 - BLOCK 08 covers the approved recognition-foundation slice only: decode/preprocess boundary, approved fixture validation, gated orchestration, fixture-gated board detection, and fallback/metadata planning.
 - BLOCK 09 covers the approved fixture-intake and measurement slice only: approved non-user fixture candidate selection, first approved fixture set after explicit approval, decode/preprocess measurements, board-bounds measurements, and a next-step decision.
 - BLOCK 10 covers the approved real-ish fixture measurement slice only: fixture source approval, a tiny approved non-user real-ish fixture set, decode/preprocess measurements, board-bounds measurements, and comparison against BLOCK 09 synthetic-only measurements.
+- After BLOCK 10, the next recognition work should move toward actual piece recognition implementation experiments, likely as a future BLOCK 11, only after explicit approval.
 - Production-grade real-world screenshot recognition accuracy remains future work until measured and explicitly approved.
 - Upload integration for real recognition remains future work until explicitly approved.
 - Detection debug/inspection view implementation remains unstarted until approved.
@@ -23,7 +24,12 @@ These remain outside the currently approved BLOCK 10 real-ish fixture-intake and
 ## Phase 3 — Engine Analysis
 
 - Analysis mode with legal move dots.
-- Selecting or pressing a piece should show all legal moves.
+- Play mode legal moves should select a piece on first click or press.
+- The selected square should receive a stroke/highlight.
+- Legal destination squares should be shown for the selected piece.
+- Clicking or pressing the same selected square should cancel selection.
+- Clicking or pressing a legal destination should move the selected piece.
+- Future implementation should use frontend chess rules such as `chess.js` or an equivalent approved library.
 - Validate side-to-move legality for positions where check state constrains whose turn it can be.
 - Engine bar / Stockfish.
 - Best move.

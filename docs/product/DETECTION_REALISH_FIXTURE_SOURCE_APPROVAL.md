@@ -77,8 +77,9 @@ These candidates are proposed for a later approved 10.2 implementation. No image
 
 ### `owned_lichess-like_white-bottom_middlegame-01.png`
 
-- Position: exact small known middlegame FEN must be chosen before implementation.
+- Position: small known middlegame with both sides developed and castled.
 - Orientation: `white-bottom`.
+- FEN: `r2q1rk1/pp2bppp/2n1bn2/2pp4/3P4/2PBPN2/PP1BPPP1/R2Q1RK1 w - - 0 1`.
 - Source/style: `owned` / `lichess-like`.
 - License note: owned hand-created approximation; no copied Lichess assets.
 
@@ -112,8 +113,8 @@ Every future approved real-ish fixture must include:
 - `license.note`
 - `notes`
 
-## Explicit No-Image Rule
+## 10.1 No-Image Rule
 
 Feature 10.1 does not add images or manifest entries.
 
-Images and approved manifest updates wait for a separately approved 10.2 implementation.
+Images and approved manifest updates belong to the separately approved 10.2 implementation.

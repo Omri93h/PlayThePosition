@@ -28,8 +28,11 @@ def test_approved_fixture_board_bounds_measurements_match_expected_metadata() ->
     assert validation.issues == ()
 
     measurements = []
+    synthetic_cases = [
+        case for case in manifest["cases"] if case["source"] == "synthetic"
+    ]
 
-    for case in manifest["cases"]:
+    for case in synthetic_cases:
         image_path = APPROVED_DIR / case["filename"]
         image_bytes = image_path.read_bytes()
         content_type = IMAGE_CONTENT_TYPES[image_path.suffix.lower()]

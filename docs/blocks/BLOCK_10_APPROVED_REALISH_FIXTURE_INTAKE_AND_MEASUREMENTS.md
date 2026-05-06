@@ -1,7 +1,7 @@
 # BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements
 
 ## Status
-Planned as the current approved real-ish fixture-intake and measurement block.
+In progress as the current approved real-ish fixture-intake and measurement block.
 
 ## Purpose
 Add a tiny approved non-user / real-ish fixture set and measure it before upload integration.
@@ -31,9 +31,15 @@ This block continues measurement-only recognition work. It does not approve prod
 - No images or approved manifest entries are added in 10.1.
 
 ### 10.2 Add first approved real-ish non-user fixture set
+- Status: implemented / ready for review.
 - Add only explicitly approved and licensed fixtures.
 - Keep the fixture set tiny and measurement-focused.
 - Do not add raw user uploads, dumps, broad datasets, or unclear-license screenshots.
+- Added four owned/generated real-ish PNG fixtures under the approved fixture path.
+- Updated approved fixture metadata with ownership/licensing notes, expected FENs, expected pieces, board bounds, and decode/board-bounds measurement expectations.
+- Added deterministic fixture-generation tooling under `tooling/scripts/`.
+- No copied Chess.com or Lichess screenshots/assets were used.
+- No upload/API behavior changed and no recognition accuracy is claimed.
 
 ### 10.3 Run decode/preprocess measurements on real-ish fixtures
 - Measure decode/preprocess behavior on the approved real-ish fixture set.
