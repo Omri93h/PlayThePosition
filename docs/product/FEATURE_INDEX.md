@@ -100,9 +100,18 @@
 
 ## BLOCK 09 — Real Recognition Fixture Intake and Measurements
 
+- Status: complete.
+- 9.1 Approved fixture intake checklist and first candidate selection — complete
+- 9.2 Add first approved non-user fixture set — complete
+- 9.3 Run decode/preprocess measurements on approved fixtures — complete
+- 9.4 Run fixture-gated board-bounds measurements — complete
+- 9.5 Measurement report and next-step decision — complete
+
+## BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements
+
 - Status: planned.
-- 9.1 Approved fixture intake checklist and first candidate selection
-- 9.2 Add first approved non-user fixture set
-- 9.3 Run decode/preprocess measurements on approved fixtures
-- 9.4 Run fixture-gated board-bounds measurements
-- 9.5 Measurement report and next-step decision
+- 10.1 Fixture source approval and candidate selection
+- 10.2 Add first approved real-ish non-user fixture set
+- 10.3 Run decode/preprocess measurements on real-ish fixtures
+- 10.4 Run board-bounds measurements on real-ish fixtures
+- 10.5 Measurement comparison report and next-step decision

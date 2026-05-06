@@ -13,18 +13,20 @@
 9. BLOCK 07 — Real Image Recognition Discovery
 10. BLOCK 08 — Real Recognition Implementation Foundation
 11. BLOCK 09 — Real Recognition Fixture Intake and Measurements
+12. BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements
 
 ## Status
 
 - BLOCK 06 is completed.
 - BLOCK 07 is completed as discovery/experiment-only.
 - BLOCK 08 is completed as foundation/measurement-gated only.
-- BLOCK 09 is planned as the current fixture-intake and measurement block.
-- Current step is 9.1 Approved fixture intake checklist and first candidate selection.
-- BLOCK 09 implementation has not started.
+- BLOCK 09 is completed as fixture-intake and measurement-only work.
+- BLOCK 10 is planned as the current approved real-ish fixture-intake and measurement block.
+- Current step is 10.1 Fixture source approval and candidate selection.
+- BLOCK 10 implementation has not started.
 
 ## Rules
 - Work block-by-block.
 - Complete the current feature before starting the next one.
-- Do not turn BLOCK 09 fixture measurements into production detection claims without explicit approval.
-- Do not build upload integration, engine, legal moves, auth/accounts, payments, premium link-out, or SEO during BLOCK 09 fixture-intake work.
+- Do not turn fixture measurements into production detection claims without explicit approval.
+- Do not build upload integration, engine, legal moves, auth/accounts, payments, premium link-out, or SEO during BLOCK 10 fixture-intake work.

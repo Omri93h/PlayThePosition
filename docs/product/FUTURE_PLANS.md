@@ -1,12 +1,13 @@
 # Future Plans — Post-MVP
 
-These remain outside the currently approved BLOCK 09 fixture-intake and measurement scope unless explicitly moved into scope.
+These remain outside the currently approved BLOCK 10 real-ish fixture-intake and measurement scope unless explicitly moved into scope.
 
 ## Future — Detection Accuracy
 
 - BLOCK 07 covers discovery/planning for the path toward real screenshot recognition.
 - BLOCK 08 covers the approved recognition-foundation slice only: decode/preprocess boundary, approved fixture validation, gated orchestration, fixture-gated board detection, and fallback/metadata planning.
 - BLOCK 09 covers the approved fixture-intake and measurement slice only: approved non-user fixture candidate selection, first approved fixture set after explicit approval, decode/preprocess measurements, board-bounds measurements, and a next-step decision.
+- BLOCK 10 covers the approved real-ish fixture measurement slice only: fixture source approval, a tiny approved non-user real-ish fixture set, decode/preprocess measurements, board-bounds measurements, and comparison against BLOCK 09 synthetic-only measurements.
 - Production-grade real-world screenshot recognition accuracy remains future work until measured and explicitly approved.
 - Upload integration for real recognition remains future work until explicitly approved.
 - Detection debug/inspection view implementation remains unstarted until approved.

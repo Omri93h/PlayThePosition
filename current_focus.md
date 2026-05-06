@@ -1,13 +1,13 @@
 # Current Focus
 
 Current Block/Area:
-BLOCK 09 — Real Recognition Fixture Intake and Measurements
+BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements
 
 Current Feature:
-BLOCK 09 closeout
+10.1 Fixture source approval and candidate selection
 
 Current Step:
-Completed / awaiting next approved planning step
+Plan only / not implemented
 
 Rules:
 - Work only on the current feature.
