@@ -94,6 +94,8 @@ Do not commit automatically. Do not delete files without explicit approval. Do n
 ## Output rules
 Be concise. Do not print full files, long logs, or repeated summaries. Return only changed files, check results, blockers, self-review, git status, suggested commit message, and next step. When commands produce long output, summarize only failures or final status. Do not paste full command logs unless there is a failure that needs debugging.
 
+When handing work back to Omri after implementation or important docs/state changes, follow `docs/product/ASSISTANT_WORKFLOW.md`: Git commands first, then exactly one next Codex prompt when safe. Do not provide Git commands for PLAN-only responses with no file changes.
+
 ## Out-of-scope until MVP completion
 - User accounts
 - Saved collections

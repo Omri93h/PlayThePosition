@@ -13,6 +13,8 @@ For new chat/session handoff, read `docs/product/NEXT_AGENT_BOOTSTRAP.md` after 
 - Do not print full files unless explicitly requested.
 - Summarize long command output; paste detailed logs only when a failure needs debugging.
 - After implementation or important docs/state changes, provide Git commands first, then any next Codex prompt.
+- When providing a next Codex prompt after Git commands, provide exactly one prompt.
+- Do not include parallel, optional, backup, or later prompts for unrelated tasks.
 - For PLAN-only Codex responses with no file changes, do not provide Git commands.
 
 ## Roles
@@ -75,6 +77,13 @@ After the commit/push command section, ChatGPT should include the next Codex pro
 
 When ChatGPT gives both Git commands and a next Codex prompt in the same response, the Git command section must always come first. The next Codex prompt must come only after those commands. Never put Git commands after a Codex prompt.
 
+After implementation or important docs/state changes, the response format is:
+
+1. Git commands first.
+2. Exactly one next Codex prompt when it is safe to continue.
+
+For PLAN-only Codex responses with no file changes, do not provide Git commands.
+
 Git commands must always match the latest Codex response and the exact changed files from that response.
 
 Omri does not need to paste successful commit output every time. If commit, push, or checks fail, Omri will paste the error and ChatGPT gives a fix prompt.
@@ -89,5 +98,9 @@ Do not require Omri to paste successful Git output before moving to the next saf
 - Avoid docs-only state churn unless repairing source-of-truth docs, planning roadmap, or closing a block.
 - Fix manual-validation issues inside the current uncommitted feature before committing.
 - Manual validation checkpoints must happen when UI or product quality needs review.
+- Branding, logo, and UI polish feedback should go to backlog/future work unless it is the active approved task.
+- If a non-active issue is raised during a block, capture it as backlog/future work or mention it briefly; do not provide a separate Codex prompt for it.
+- Do not generate, create, or edit images unless Omri explicitly asks to generate, create, or edit an image.
+- Treat screenshot/image feedback as product or UI feedback, not as an image-generation request.
 - Do not blindly continue into future blocks.
 - Do not mark a block complete until implementation, automated checks, review, and any needed manual validation are done.

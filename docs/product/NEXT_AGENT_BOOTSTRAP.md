@@ -47,13 +47,21 @@ git status
 
 - If safe to continue, include the next Codex prompt in the same answer after the Git command section.
 - Git command section must always come before the next Codex prompt.
+- After implementation or important docs/state changes, give Git commands first, then exactly one next Codex prompt when it is safe to continue.
 - Never put Git commands after a Codex prompt.
+- Never provide more than one Codex prompt in a single response.
+- Do not include parallel, optional, backup, or later prompts for unrelated tasks.
+- For PLAN-only Codex responses with no file changes, do not provide Git commands.
 - Do not say “commit X first if you didn’t already.”
 - Assume Omri commits when commands are given.
 - Do not require Omri to paste successful Git output every time; he will paste errors if needed.
 - If checks fail, scope expands, docs overclaim, or unrelated files changed: do not commit; give a narrow fix prompt.
 - Do not start next features or blocks until source-of-truth docs are correct.
 - Manual validation is needed only when UI/product judgment matters.
+- Branding/logo/UI polish belongs in backlog or a future block unless it is the active approved task.
+- If a non-active issue is raised during a block, capture it as backlog/future work or mention it briefly; do not provide a separate Codex prompt.
+- Do not generate, create, or edit images unless Omri explicitly asks for image generation, creation, or editing.
+- Treat screenshot/image feedback as product or UI feedback, not an image-generation request.
 
 ## Current Continuation Point
 
