@@ -109,9 +109,9 @@
 
 ## BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements
 
-- Status: in progress.
+- Status: complete.
 - 10.1 Fixture source approval and candidate selection — complete
 - 10.2 Add first approved real-ish non-user fixture set — complete
 - 10.3 Run decode/preprocess measurements on real-ish fixtures — complete
 - 10.4 Run board-bounds measurements on real-ish fixtures — complete
-- 10.5 Measurement comparison report and next-step decision — implemented / ready for review
+- 10.5 Measurement comparison report and next-step decision — complete

@@ -21,12 +21,12 @@
 - BLOCK 07 is completed as discovery/experiment-only.
 - BLOCK 08 is completed as foundation/measurement-gated only.
 - BLOCK 09 is completed as fixture-intake and measurement-only work.
-- BLOCK 10 is the current in-progress approved real-ish fixture-intake and measurement block.
-- Current step is BLOCK 10 closeout review after 10.5.
-- BLOCK 10 is not complete.
+- BLOCK 10 is completed as approved real-ish fixture-intake and measurement-only work.
+- Current step is awaiting approved BLOCK 11 planning.
+- Recommended next block is internal/test-only piece-recognition measurement/experiments using approved fixtures.
 
 ## Rules
 - Work block-by-block.
 - Complete the current feature before starting the next one.
 - Do not turn fixture measurements into production detection claims without explicit approval.
-- Do not build upload integration, engine, legal moves, auth/accounts, payments, premium link-out, or SEO during BLOCK 10 fixture-intake work.
+- Do not build upload integration, engine, legal moves, auth/accounts, payments, premium link-out, or SEO without explicit approval.

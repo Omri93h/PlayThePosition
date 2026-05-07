@@ -1,7 +1,9 @@
 # BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements
 
 ## Status
-In progress as the current approved real-ish fixture-intake and measurement block.
+Completed as approved real-ish fixture-intake and measurement-only work.
+
+BLOCK 10 is complete based on fixture intake, decode/preprocess measurements, board-bounds measurements, the comparison report, and closeout review. It does not implement upload/API integration, piece recognition, square mapping measurement, production-grade recognition, or real-world screenshot accuracy.
 
 ## Purpose
 Add a tiny approved non-user / real-ish fixture set and measure it before upload integration.
@@ -62,14 +64,27 @@ This block continues measurement-only recognition work. It does not approve prod
 - No upload/API behavior changed and no recognition accuracy is claimed.
 
 ### 10.5 Measurement comparison report and next-step decision
-- Status: implemented / ready for review.
+- Status: complete.
 - Compare real-ish fixture measurements against the BLOCK 09 synthetic-only measurements.
 - Record blockers and reliability gaps.
 - Decide whether to add more fixtures, improve board-bounds detection, measure piece recognition, defer integration, or plan a later gated upload integration step.
 - Comparison and next-step decision are documented in `docs/product/DETECTION_BLOCK_10_MEASUREMENT_COMPARISON.md`.
-- BLOCK 10 can move to closeout review after 10.5.
+- BLOCK 10 closeout review passed.
 - Recommended next technical direction after BLOCK 10 is a future piece-recognition measurement/experiment block using approved fixtures only.
 - Upload/API integration remains deferred.
+
+## Closeout Status
+
+- BLOCK 10 is complete as fixture-intake and measurement-only work.
+- Features 10.1 through 10.5 are complete.
+- Approved real-ish fixtures are owned/generated; no copied Chess.com or Lichess screenshots/assets, raw user uploads, broad datasets, or unclear-license images were added.
+- Decode/preprocess and board-bounds measurements were completed for the approved real-ish fixture set.
+- Measurement comparison against BLOCK 09 synthetic-only fixtures is documented.
+- No upload/API behavior changed.
+- No public API contract changed.
+- No piece recognition or square mapping measurement was implemented.
+- No production-grade or real-world recognition accuracy claim is made.
+- Recommended next block is internal/test-only piece-recognition measurement/experiments using approved fixtures.
 
 ## Guardrails
 - Fixtures must be non-user and explicitly approved/licensed.

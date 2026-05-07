@@ -1,13 +1,13 @@
 # Current Focus
 
 Current Block/Area:
-BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements
+Post-BLOCK 10 roadmap planning
 
 Current Feature:
-10.5 Measurement comparison report and next-step decision
+BLOCK 11 planning — internal/test-only piece-recognition measurements
 
 Current Step:
-Implemented / ready for BLOCK 10 closeout review
+BLOCK 10 completed / awaiting approved BLOCK 11 definition
 
 Rules:
 - Work only on the current feature.
@@ -15,4 +15,6 @@ Rules:
 - Do not implement image recognition yet.
 - Do not add CV/ML dependencies yet.
 - Do not claim real-world screenshot detection accuracy.
+- Do not start upload/API integration.
+- Do not start piece recognition implementation before BLOCK 11 is explicitly approved.
 - Do not start engine, legal moves, auth/accounts, payments, link-out, or SEO.

@@ -14,19 +14,20 @@
 - BLOCK 07 — Real Image Recognition Discovery
 - BLOCK 08 — Real Recognition Implementation Foundation
 - BLOCK 09 — Real Recognition Fixture Intake and Measurements
+- BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements
 
 ## Current
 
-- Current focus: BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements, Feature 10.5 ready for review.
+- Current focus: post-BLOCK 10 roadmap planning, awaiting approved BLOCK 11 definition.
 - BLOCK 07 is completed as discovery/experiment-only.
 - BLOCK 08 is completed as foundation/measurement-gated only.
 - BLOCK 09 is completed as fixture intake and measurement-only work.
-- BLOCK 10 is in progress as approved real-ish fixture intake and measurement work.
+- BLOCK 10 is completed as approved real-ish fixture intake and measurement-only work.
 - Feature 10.1 is complete/committed as docs-only fixture source approval and candidate selection.
 - Feature 10.2 is complete/committed as fixture/test tooling with four owned/generated real-ish fixtures and approved metadata.
 - Feature 10.3 is complete/committed as decode/preprocess measurements on the owned/generated real-ish fixture set.
 - Feature 10.4 is complete/committed as fixture-gated board-bounds measurements on the owned/generated real-ish fixture set.
-- Feature 10.5 is implemented / ready for review as measurement comparison report and next-step decision.
+- Feature 10.5 is complete as measurement comparison report and next-step decision.
 - Real image recognition implementation has not started.
 - MVP hardening/polish is complete.
 - MVP readiness automated validation passed.
@@ -73,19 +74,19 @@
 
 ## Next
 
-- Review 10.5 Measurement comparison report and next-step decision.
-- Next process step is BLOCK 10 closeout review.
-- Do not mark BLOCK 10 complete until closeout is reviewed and approved.
+- Define the next approved roadmap/block step.
+- Recommended next block is BLOCK 11 — internal/test-only piece-recognition measurement/experiments using approved fixtures.
+- Do not start BLOCK 11 implementation until its scope is explicitly approved and documented.
 - Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.
 - Keep upload integration and production-grade recognition deferred until explicitly approved.
 
-## Planned In BLOCK 10
+## Completed In BLOCK 10
 
 - 10.1 Fixture source approval and candidate selection — complete/committed.
 - 10.2 Add first approved real-ish non-user fixture set — complete/committed.
 - 10.3 Run decode/preprocess measurements on real-ish fixtures — complete/committed.
 - 10.4 Run board-bounds measurements on real-ish fixtures — complete/committed.
-- 10.5 Measurement comparison report and next-step decision — implemented / ready for review.
+- 10.5 Measurement comparison report and next-step decision — complete.
 
 ## Completed In BLOCK 09
 
@@ -120,7 +121,8 @@
 - No payments, subscriptions, or premium gating.
 - No external Chess.com/Lichess link-out.
 - No SEO or distribution work.
-- BLOCK 10 measurement comparison and next-step decision are implemented / ready for review.
+- BLOCK 10 measurement comparison and next-step decision are complete.
+- BLOCK 10 is complete as approved real-ish fixture-intake and measurement-only work.
 - Recommended next technical direction after BLOCK 10 is a future piece-recognition measurement/experiment block using approved fixtures only.
 
 ## Later / Deferred
