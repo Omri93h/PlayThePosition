@@ -146,9 +146,11 @@ export function App() {
           className="flex flex-row items-center justify-between gap-4"
           data-testid="app-header"
         >
-          <p className="text-sm font-medium uppercase tracking-wide text-emerald-300">
-            Play The Position
-          </p>
+          <img
+            src="/brand/logo-horizontal-dark.png"
+            alt="Play The Position"
+            className="h-12 w-auto max-w-[11rem] rounded-lg object-contain sm:h-14 sm:max-w-[13rem]"
+          />
           {showHeaderUploadAction ? (
             <div className="flex flex-col items-end gap-1">
               <button
