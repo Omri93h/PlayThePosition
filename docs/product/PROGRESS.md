@@ -17,15 +17,15 @@
 
 ## Current
 
-- Current focus: BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements, Feature 10.4 ready for review.
+- Current focus: BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements, Feature 10.5 planning / implementation.
 - BLOCK 07 is completed as discovery/experiment-only.
 - BLOCK 08 is completed as foundation/measurement-gated only.
 - BLOCK 09 is completed as fixture intake and measurement-only work.
-- BLOCK 10 is planned as approved real-ish fixture intake and measurement work.
-- Feature 10.1 is implemented / ready for review as docs-only fixture source approval and candidate selection.
-- Feature 10.2 is implemented / ready for review as fixture/test tooling with four owned/generated real-ish fixtures and approved metadata.
-- Feature 10.3 is implemented / ready for review as decode/preprocess measurements on the owned/generated real-ish fixture set.
-- Feature 10.4 is implemented / ready for review as fixture-gated board-bounds measurements on the owned/generated real-ish fixture set.
+- BLOCK 10 is in progress as approved real-ish fixture intake and measurement work.
+- Feature 10.1 is complete/committed as docs-only fixture source approval and candidate selection.
+- Feature 10.2 is complete/committed as fixture/test tooling with four owned/generated real-ish fixtures and approved metadata.
+- Feature 10.3 is complete/committed as decode/preprocess measurements on the owned/generated real-ish fixture set.
+- Feature 10.4 is complete/committed as fixture-gated board-bounds measurements on the owned/generated real-ish fixture set.
 - Real image recognition implementation has not started.
 - MVP hardening/polish is complete.
 - MVP readiness automated validation passed.
@@ -72,18 +72,18 @@
 
 ## Next
 
-- Review 10.4 Run board-bounds measurements on real-ish fixtures.
-- Do not start the measurement comparison report / next-step decision until explicitly approved in 10.5.
+- Plan / implement 10.5 Measurement comparison report and next-step decision.
+- Do not mark BLOCK 10 complete until 10.5 is implemented, reviewed, and approved for closeout.
 - Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.
 - Keep upload integration and production-grade recognition deferred until explicitly approved.
 
 ## Planned In BLOCK 10
 
-- 10.1 Fixture source approval and candidate selection — implemented / ready for review.
-- 10.2 Add first approved real-ish non-user fixture set — implemented / ready for review.
-- 10.3 Run decode/preprocess measurements on real-ish fixtures — implemented / ready for review.
-- 10.4 Run board-bounds measurements on real-ish fixtures — implemented / ready for review.
-- 10.5 Measurement comparison report and next-step decision.
+- 10.1 Fixture source approval and candidate selection — complete/committed.
+- 10.2 Add first approved real-ish non-user fixture set — complete/committed.
+- 10.3 Run decode/preprocess measurements on real-ish fixtures — complete/committed.
+- 10.4 Run board-bounds measurements on real-ish fixtures — complete/committed.
+- 10.5 Measurement comparison report and next-step decision — current/planned.
 
 ## Completed In BLOCK 09
 
@@ -118,7 +118,7 @@
 - No payments, subscriptions, or premium gating.
 - No external Chess.com/Lichess link-out.
 - No SEO or distribution work.
-- Measurement comparison and next-step decision remain future work until explicitly approved in 10.5.
+- Measurement comparison and next-step decision are current/planned in 10.5.
 
 ## Later / Deferred
 

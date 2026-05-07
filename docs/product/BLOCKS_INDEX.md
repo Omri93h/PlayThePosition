@@ -21,9 +21,9 @@
 - BLOCK 07 is completed as discovery/experiment-only.
 - BLOCK 08 is completed as foundation/measurement-gated only.
 - BLOCK 09 is completed as fixture-intake and measurement-only work.
-- BLOCK 10 is planned as the current approved real-ish fixture-intake and measurement block.
-- Current step is 10.1 Fixture source approval and candidate selection.
-- BLOCK 10 implementation has not started.
+- BLOCK 10 is the current in-progress approved real-ish fixture-intake and measurement block.
+- Current step is 10.5 Measurement comparison report and next-step decision.
+- BLOCK 10 is not complete.
 
 ## Rules
 - Work block-by-block.

@@ -4,10 +4,10 @@ Current Block/Area:
 BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements
 
 Current Feature:
-10.4 Run board-bounds measurements on real-ish fixtures
+10.5 Measurement comparison report and next-step decision
 
 Current Step:
-Implemented / ready for review
+Plan / implement 10.5 only
 
 Rules:
 - Work only on the current feature.

@@ -23,7 +23,7 @@ This block continues measurement-only recognition work. It does not approve prod
 ## Planned features
 
 ### 10.1 Fixture source approval and candidate selection
-- Status: implemented / ready for review.
+- Status: complete/committed.
 - Decide which real-ish non-user fixture candidates are eligible.
 - Record source, ownership/licensing, privacy, expected position, and approval status before adding images.
 - Prefer owned/generated/hand-created approximations if external screenshots are not cleanly approved.
@@ -31,7 +31,7 @@ This block continues measurement-only recognition work. It does not approve prod
 - No images or approved manifest entries are added in 10.1.
 
 ### 10.2 Add first approved real-ish non-user fixture set
-- Status: implemented / ready for review.
+- Status: complete/committed.
 - Add only explicitly approved and licensed fixtures.
 - Keep the fixture set tiny and measurement-focused.
 - Do not add raw user uploads, dumps, broad datasets, or unclear-license screenshots.
@@ -42,17 +42,17 @@ This block continues measurement-only recognition work. It does not approve prod
 - No upload/API behavior changed and no recognition accuracy is claimed.
 
 ### 10.3 Run decode/preprocess measurements on real-ish fixtures
-- Status: implemented / ready for review.
+- Status: complete/committed.
 - Measure decode/preprocess behavior on the approved real-ish fixture set.
 - Record supported format, dimensions, decode success/failure, and failure reasons.
 - Do not wire results into `/upload`.
 - Measurements are documented in `docs/product/DETECTION_REALISH_DECODE_MEASUREMENTS.md`.
 - All four owned/generated real-ish fixtures decode successfully through the internal decode boundary.
-- Board-bounds measurements remain future work for 10.4.
+- Board-bounds measurements are covered separately in 10.4.
 - No upload/API behavior changed and no recognition accuracy is claimed.
 
 ### 10.4 Run board-bounds measurements on real-ish fixtures
-- Status: implemented / ready for review.
+- Status: complete/committed.
 - Run the internal fixture-gated board-bounds path on approved real-ish fixtures.
 - Record detected/not detected, bounds, confidence, failure stage, and failure reason.
 - Report measurements only, not accuracy claims.
@@ -62,6 +62,7 @@ This block continues measurement-only recognition work. It does not approve prod
 - No upload/API behavior changed and no recognition accuracy is claimed.
 
 ### 10.5 Measurement comparison report and next-step decision
+- Status: current/planned; not implemented.
 - Compare real-ish fixture measurements against the BLOCK 09 synthetic-only measurements.
 - Record blockers and reliability gaps.
 - Decide whether to add more fixtures, improve board-bounds detection, measure piece recognition, defer integration, or plan a later gated upload integration step.

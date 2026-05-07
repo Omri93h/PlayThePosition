@@ -58,8 +58,8 @@ git status
 ## Current Continuation Point
 
 - Project is in BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements.
-- Feature 10.4 — real-ish board-bounds measurements was implemented and should be committed if not already committed.
-- After the 10.4 commit, next planned work is Feature 10.5 — Measurement comparison report and next-step decision.
+- Features 10.1 through 10.4 are complete/committed.
+- Current planned work is Feature 10.5 — Measurement comparison report and next-step decision.
 - BLOCK 10 is not complete.
 - No upload/API integration has started.
 - No production recognition accuracy claim has been made.
