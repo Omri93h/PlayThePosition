@@ -130,7 +130,7 @@
 - Status: in progress.
 - 12.1 Role/color classifier contract — implemented / ready for review
 - 12.2 Fixture signal audit for role/color feasibility — implemented / ready for review
-- 12.3 Test-only color classifier experiment — planned
+- 12.3 Test-only color classifier experiment — implemented / ready for review
 - 12.4 Test-only role classifier experiment — planned
 - 12.5 Role/color measurement tests and report — planned
 - 12.6 Closeout / next-step decision — planned

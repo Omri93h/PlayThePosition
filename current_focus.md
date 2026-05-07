@@ -4,7 +4,7 @@ Current Block/Area:
 BLOCK 12 — Internal Role/Color Classifier Experiment
 
 Current Feature:
-12.2 Fixture signal audit for role/color feasibility
+12.3 Test-only color classifier experiment
 
 Current Step:
 Implemented / ready for review
@@ -12,7 +12,8 @@ Implemented / ready for review
 Rules:
 - Work only on the current feature.
 - Do not jump ahead.
-- Do not implement classifier code yet.
+- Do not implement role classifier code yet.
+- Do not broaden the color classifier beyond approved-fixture test measurement.
 - Do not add CV/ML dependencies yet.
 - Do not claim real-world screenshot detection accuracy.
 - Do not start upload/API integration.

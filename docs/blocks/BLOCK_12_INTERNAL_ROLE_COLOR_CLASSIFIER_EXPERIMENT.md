@@ -48,11 +48,12 @@ This block does not approve upload integration, public API changes, product UI c
 - Does not change fixture images.
 
 ### 12.3 Test-only color classifier experiment
-- Status: planned.
-- Implement a fixture-gated color classifier for occupied squares only.
-- Use existing `board_bounds`, square mapping, occupancy sampling, and `expected_pieces`.
-- Prefer deterministic marker/color sampling over broader image recognition.
-- Return `not_measured` for ambiguous or unsupported samples.
+- Status: implemented / ready for review.
+- Implements a fixture-gated color classifier for occupied squares only.
+- Uses existing `board_bounds`, square mapping, occupancy sampling, `expected_pieces`, and 12.2 signal audit samples.
+- Records 159 correct color classifications and 8 ambiguous rows across 167 approved occupied squares in `docs/product/DETECTION_COLOR_CLASSIFIER_EXPERIMENT.md`.
+- Keeps role classification unsupported / not measured.
+- Returns `ambiguous`, `not_measured`, or `unsupported` instead of guessing where signal is unclear.
 
 ### 12.4 Test-only role classifier experiment
 - Status: planned.
