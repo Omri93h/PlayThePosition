@@ -18,7 +18,7 @@
 
 ## Current
 
-- Current focus: BLOCK 11 — Internal Piece-Recognition Measurement Experiments, Feature 11.3 ready for review.
+- Current focus: BLOCK 11 — Internal Piece-Recognition Measurement Experiments, Feature 11.4 ready for review.
 - BLOCK 07 is completed as discovery/experiment-only.
 - BLOCK 08 is completed as foundation/measurement-gated only.
 - BLOCK 09 is completed as fixture intake and measurement-only work.
@@ -27,6 +27,7 @@
 - Feature 11.1 is implemented / ready for review as BLOCK 11 definition and measurement contract.
 - Feature 11.2 is implemented / ready for review as approved fixture expected-piece metadata audit.
 - Feature 11.3 is implemented / ready for review as test-only square sampling / piece marker extraction experiment.
+- Feature 11.4 is implemented / ready for review as piece-recognition measurement tests and report.
 - Feature 10.1 is complete/committed as docs-only fixture source approval and candidate selection.
 - Feature 10.2 is complete/committed as fixture/test tooling with four owned/generated real-ish fixtures and approved metadata.
 - Feature 10.3 is complete/committed as decode/preprocess measurements on the owned/generated real-ish fixture set.
@@ -78,8 +79,8 @@
 
 ## Next
 
-- Review Feature 11.3 — Test-only square sampling / piece marker extraction experiment.
-- Next planned feature is 11.4 — Piece-recognition measurement tests and report.
+- Review Feature 11.4 — Piece-recognition measurement tests and report.
+- Next planned feature is 11.5 — Measurement comparison, blockers, and next-step decision.
 - Keep BLOCK 11 internal/test-only.
 - Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.
 - Keep upload integration and production-grade recognition deferred until explicitly approved.
@@ -89,7 +90,7 @@
 - 11.1 BLOCK 11 definition and measurement contract — implemented / ready for review.
 - 11.2 Approved fixture expected-piece metadata audit — implemented / ready for review.
 - 11.3 Test-only square sampling / piece marker extraction experiment — implemented / ready for review.
-- 11.4 Piece-recognition measurement tests and report — planned.
+- 11.4 Piece-recognition measurement tests and report — implemented / ready for review.
 - 11.5 Measurement comparison, blockers, and next-step decision — planned.
 
 ## Completed In BLOCK 10
@@ -136,6 +137,7 @@
 - BLOCK 10 measurement comparison and next-step decision are complete.
 - BLOCK 10 is complete as approved real-ish fixture-intake and measurement-only work.
 - Recommended next technical direction after BLOCK 10 is a future piece-recognition measurement/experiment block using approved fixtures only.
+- BLOCK 11 piece-recognition measurement currently measures occupancy only; role/color recognition remains unsupported and not measured.
 
 ## Later / Deferred
 

@@ -67,13 +67,13 @@ git status
 
 - Project is in BLOCK 11 — Internal Piece-Recognition Measurement Experiments.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
-- Current feature is 11.3 — Test-only square sampling / piece marker extraction experiment.
-- Features 11.1 through 11.3 are implemented / ready for review.
-- Next planned feature is 11.4 — Piece-recognition measurement tests and report.
+- Current feature is 11.4 — Piece-recognition measurement tests and report.
+- Features 11.1 through 11.4 are implemented / ready for review.
+- Next planned feature is 11.5 — Measurement comparison, blockers, and next-step decision.
 - BLOCK 11 must remain internal/test-only.
 - No upload/API integration has started.
 - No production recognition accuracy claim has been made.
-- No role/color piece recognition measurement or implementation has started.
+- Current BLOCK 11 measurement compares occupancy only; role/color piece recognition remains unsupported and not implemented.
 
 ## Important Future Notes
 

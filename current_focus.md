@@ -4,7 +4,7 @@ Current Block/Area:
 BLOCK 11 — Internal Piece-Recognition Measurement Experiments
 
 Current Feature:
-11.3 Test-only square sampling / piece marker extraction experiment
+11.4 Piece-recognition measurement tests and report
 
 Current Step:
 Implemented / ready for review

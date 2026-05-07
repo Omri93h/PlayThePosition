@@ -53,7 +53,7 @@ This block does not approve upload integration, public API changes, product UI c
 - Invalid bounds and unsupported orientations return `not_measured` rows instead of crashing.
 
 ### 11.4 Piece-recognition measurement tests and report
-- Status: planned.
+- Status: implemented / ready for review.
 - Compare expected pieces against detected pieces.
 - Record per-square outcomes:
   - expected piece
@@ -64,6 +64,10 @@ This block does not approve upload integration, public API changes, product UI c
   - extra
 - Record per-position summaries.
 - Publish a concise measurement report.
+- Measurement report is documented in `docs/product/DETECTION_PIECE_RECOGNITION_MEASUREMENTS.md`.
+- Current measurements compare expected occupied squares against 11.3 square-sampling occupancy output.
+- Role/color recognition remains unsupported and is reported as `not_measured` with `role_color_not_supported`.
+- No upload/API behavior, UI behavior, fixture image, or production recognition behavior changed.
 
 ### 11.5 Measurement comparison, blockers, and next-step decision
 - Status: planned.

@@ -24,7 +24,7 @@
 - BLOCK 09 is completed as fixture-intake and measurement-only work.
 - BLOCK 10 is completed as approved real-ish fixture-intake and measurement-only work.
 - BLOCK 11 is the current planned internal/test-only piece-recognition measurement block.
-- Current step is 11.1 BLOCK 11 definition and measurement contract.
+- Current step is 11.4 Piece-recognition measurement tests and report.
 
 ## Rules
 - Work block-by-block.

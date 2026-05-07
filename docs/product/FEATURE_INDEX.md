@@ -122,5 +122,5 @@
 - 11.1 BLOCK 11 definition and measurement contract — implemented / ready for review
 - 11.2 Approved fixture expected-piece metadata audit — implemented / ready for review
 - 11.3 Test-only square sampling / piece marker extraction experiment — implemented / ready for review
-- 11.4 Piece-recognition measurement tests and report — planned
+- 11.4 Piece-recognition measurement tests and report — implemented / ready for review
 - 11.5 Measurement comparison, blockers, and next-step decision — planned
