@@ -84,6 +84,6 @@ Upload/API integration remains deferred until complete piece identity can be mea
 
 ## 12.6 Result
 
-Feature 12.6 is implemented / ready for review.
+Feature 12.6 is complete.
 
-BLOCK 12 remains in progress and ready for closeout review. No BLOCK 13 work, upload/API integration, product UI change, fixture change, role classifier implementation, or production accuracy claim was added.
+BLOCK 12 closeout is complete as internal/test-only, approved-fixture-only measurement work. No BLOCK 13 work, upload/API integration, product UI change, fixture change, role classifier implementation, or production accuracy claim was added.

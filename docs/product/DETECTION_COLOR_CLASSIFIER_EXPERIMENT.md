@@ -91,6 +91,6 @@ Feature 12.3 supports moving forward to the next approved BLOCK 12 step, with ca
 
 ## 12.3 Result
 
-Feature 12.3 is implemented / ready for review.
+Feature 12.3 is complete.
 
-BLOCK 12 remains in progress.
+BLOCK 12 closeout is complete. Role classification, upload/API integration, product UI changes, fixture changes, and production accuracy claims remain out of scope.

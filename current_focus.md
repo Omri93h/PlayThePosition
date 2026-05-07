@@ -4,10 +4,10 @@ Current Block/Area:
 BLOCK 12 — Internal Role/Color Classifier Experiment
 
 Current Feature:
-12.6 Measurement comparison, blockers, and next-step decision
+BLOCK 12 closeout
 
 Current Step:
-Implemented / ready for review
+Completed / awaiting approved next planning step
 
 Rules:
 - Work only on the current feature.

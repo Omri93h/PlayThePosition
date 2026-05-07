@@ -98,6 +98,6 @@ Future role work should be explicitly replanned. Likely safe directions are:
 
 ## 12.4 Result
 
-Feature 12.4 is implemented / ready for review as a blocked/deferred role-classifier decision.
+Feature 12.4 is complete as a blocked/deferred role-classifier decision.
 
-BLOCK 12 remains in progress. No role classifier code, fixture changes, upload/API integration, product UI changes, or production accuracy claims were added.
+BLOCK 12 closeout is complete. No role classifier code, fixture changes, upload/API integration, product UI changes, or production accuracy claims were added by this feature.

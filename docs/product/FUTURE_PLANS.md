@@ -1,6 +1,6 @@
 # Future Plans — Post-MVP
 
-These remain outside the currently active BLOCK 12 / 12.6 review step unless explicitly moved into scope.
+These remain outside the current awaiting-approved-planning state unless explicitly moved into scope.
 
 ## Future — Detection Accuracy
 
@@ -9,8 +9,9 @@ These remain outside the currently active BLOCK 12 / 12.6 review step unless exp
 - BLOCK 09 covers the approved fixture-intake and measurement slice only: approved non-user fixture candidate selection, first approved fixture set after explicit approval, decode/preprocess measurements, board-bounds measurements, and a next-step decision.
 - BLOCK 10 covers the approved real-ish fixture measurement slice only: fixture source approval, a tiny approved non-user real-ish fixture set, decode/preprocess measurements, board-bounds measurements, and comparison against BLOCK 09 synthetic-only measurements.
 - BLOCK 11 covers internal/test-only occupancy measurement against expected fixture pieces. Role/color piece recognition remains unsupported.
-- BLOCK 12 covers the internal/test-only role/color classifier experiment using approved fixtures only. Current results show occupancy works on approved fixtures, color partially works, role remains blocked/deferred, and upload/API integration remains deferred.
+- BLOCK 12 covers the completed internal/test-only role/color classifier experiment using approved fixtures only. Current results show occupancy works on approved fixtures, color partially works, role remains blocked/deferred, and upload/API integration remains deferred.
 - BLOCK 13 is planned for recognition orchestration and FEN reconstruction: board bounds → squares → occupancy → role/color → FEN. It remains blocked until role identity is measurable or the roadmap is explicitly replanned around the blocker.
+- Recommended next recognition work is an intermediate approved role-signal strategy and revised role-classifier block before current FEN reconstruction work.
 - BLOCK 14 is planned for upload/API integration behind an internal/dev gate only after approved-fixture FEN reconstruction works.
 - BLOCK 15 is planned for board interaction and game mode fixes.
 - BLOCK 16 is planned for user-facing analyze flow polish.

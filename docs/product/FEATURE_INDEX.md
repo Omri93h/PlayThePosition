@@ -127,17 +127,17 @@
 
 ## BLOCK 12 — Internal Role/Color Classifier Experiment
 
-- Status: in progress.
-- 12.1 Role/color classifier contract — implemented / ready for review
-- 12.2 Fixture signal audit for role/color feasibility — implemented / ready for review
-- 12.3 Test-only color classifier experiment — implemented / ready for review
-- 12.4 Test-only role classifier experiment — implemented / ready for review as blocked/deferred
-- 12.5 Role/color measurement tests and report — implemented / ready for review
-- 12.6 Measurement comparison, blockers, and next-step decision — implemented / ready for review
+- Status: complete.
+- 12.1 Role/color classifier contract — complete
+- 12.2 Fixture signal audit for role/color feasibility — complete
+- 12.3 Test-only color classifier experiment — complete
+- 12.4 Test-only role classifier experiment — complete as blocked/deferred
+- 12.5 Role/color measurement tests and report — complete
+- 12.6 Measurement comparison, blockers, and next-step decision — complete
 
 ## BLOCK 13 — Recognition Orchestration + FEN Reconstruction
 
-- Status: planned.
+- Status: planned but blocked pending role identity measurement or explicit roadmap replan.
 - 13.1 Recognition pipeline contract: board bounds → squares → occupancy → role/color → FEN — planned
 - 13.2 Internal FEN builder from measured pieces — planned
 - 13.3 Side-to-move integration — planned

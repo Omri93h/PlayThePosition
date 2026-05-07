@@ -90,6 +90,6 @@ BLOCK 13 recognition orchestration and FEN reconstruction should not start until
 
 ## 12.5 Result
 
-Feature 12.5 is implemented / ready for review.
+Feature 12.5 is complete.
 
-BLOCK 12 remains in progress. No role classifier code, fixture changes, upload/API integration, product UI changes, or production accuracy claims were added.
+BLOCK 12 closeout is complete. No role classifier code, fixture changes, upload/API integration, product UI changes, or production accuracy claims were added by this feature.

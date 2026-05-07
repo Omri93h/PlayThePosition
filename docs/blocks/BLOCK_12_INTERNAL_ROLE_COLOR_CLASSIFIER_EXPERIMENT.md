@@ -2,7 +2,7 @@
 
 ## Status
 
-In progress as the current internal/test-only role/color classifier experiment block.
+Completed as an internal/test-only, approved-fixture-only role/color classifier experiment block.
 
 BLOCK 12 should extend BLOCK 11 from occupancy-only measurement toward fixture-measured piece identity. It must remain approved-fixture-only, internal/test-only, and measurement-only until explicitly approved otherwise.
 
@@ -34,21 +34,21 @@ This block does not approve upload integration, public API changes, product UI c
 ## Planned Features
 
 ### 12.1 Role/color classifier contract
-- Status: implemented / ready for review.
+- Status: complete.
 - Defines the internal/test-only role/color classifier measurement contract in `docs/product/DETECTION_ROLE_COLOR_CLASSIFIER_CONTRACT.md`.
 - Extends the BLOCK 11 output shape for expected vs detected piece role/color.
 - Keeps unsupported or ambiguous samples as `not_measured`, `unsupported`, or `ambiguous`, not guesses.
 - Keeps upload/API integration deferred.
 
 ### 12.2 Fixture signal audit for role/color feasibility
-- Status: implemented / ready for review.
+- Status: complete.
 - Audits approved fixture images and metadata for role/color signal feasibility in `docs/product/DETECTION_ROLE_COLOR_SIGNAL_AUDIT.md`.
 - Confirms color signal is feasible for a future internal/test-only color classifier experiment.
 - Records role signal as ambiguous or unsupported under the current audit.
 - Does not change fixture images.
 
 ### 12.3 Test-only color classifier experiment
-- Status: implemented / ready for review.
+- Status: complete.
 - Implements a fixture-gated color classifier for occupied squares only.
 - Uses existing `board_bounds`, square mapping, occupancy sampling, `expected_pieces`, and 12.2 signal audit samples.
 - Records 159 correct color classifications and 8 ambiguous rows across 167 approved occupied squares in `docs/product/DETECTION_COLOR_CLASSIFIER_EXPERIMENT.md`.
@@ -56,7 +56,7 @@ This block does not approve upload integration, public API changes, product UI c
 - Returns `ambiguous`, `not_measured`, or `unsupported` instead of guessing where signal is unclear.
 
 ### 12.4 Test-only role classifier experiment
-- Status: implemented / ready for review as a blocked/deferred decision.
+- Status: complete as a blocked/deferred decision.
 - Records the role classifier decision in `docs/product/DETECTION_ROLE_CLASSIFIER_DECISION.md`.
 - Does not implement a broad role classifier because current approved fixture role signals are ambiguous or unsupported.
 - Keeps role output as `not_measured`, `unsupported`, or `ambiguous`.
@@ -64,7 +64,7 @@ This block does not approve upload integration, public API changes, product UI c
 - Does not infer role from board position, FEN, expected metadata, filename, style, starting position, or chess rules.
 
 ### 12.5 Role/color measurement tests and report
-- Status: implemented / ready for review.
+- Status: complete.
 - Publishes the combined internal measurement report in `docs/product/DETECTION_ROLE_COLOR_MEASUREMENT_REPORT.md`.
 - Combines BLOCK 11 occupancy measurement, Feature 12.3 color classifier results, and Feature 12.4 role blocked/deferred decision.
 - Records 167 sampled occupied squares, 159 correct color classifications, 8 ambiguous color rows, and 0 combined role/color successes.
@@ -72,7 +72,7 @@ This block does not approve upload integration, public API changes, product UI c
 - Reports failures and blockers as measurements, not accuracy claims.
 
 ### 12.6 Closeout / next-step decision
-- Status: implemented / ready for review.
+- Status: complete.
 - Publishes the final BLOCK 12 measurement comparison in `docs/product/DETECTION_BLOCK_12_MEASUREMENT_COMPARISON.md`.
 - Records occupancy as working on approved fixtures, color as partially working with explicit ambiguity, and role classification as blocked/deferred.
 - Records combined role/color success as unavailable.
@@ -139,3 +139,19 @@ Per-fixture summaries should include:
 - Role/color measurement report is created.
 - Next-step decision is recorded.
 - No upload behavior, public API contract, UI change, fixture image change, production accuracy claim, engine, legal moves, auth, payments, external link-out, or SEO work is added.
+
+## Closeout Decision
+
+BLOCK 12 is complete as measurement-only work.
+
+Final result:
+
+- Occupancy works on approved fixtures: 167 / 167 sampled occupied, 0 missing, 0 extra.
+- Color partially works on approved fixtures: 159 correct, 8 ambiguous, 0 wrong.
+- Role classification remains blocked/deferred with no detected role.
+- Combined role/color success is unavailable.
+- Piece identity is not recognized.
+- BLOCK 13 FEN reconstruction remains blocked until role identity is measurable or the roadmap is explicitly replanned.
+- Upload/API integration remains blocked.
+
+The recommended next block is an intermediate approved role-signal strategy and revised role-classifier block before current FEN reconstruction work.

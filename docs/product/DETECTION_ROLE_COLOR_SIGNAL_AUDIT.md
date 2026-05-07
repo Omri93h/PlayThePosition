@@ -94,6 +94,6 @@ Feature 12.4 should not claim broad role classification from the current audit. 
 
 ## 12.2 Result
 
-Feature 12.2 is implemented / ready for review.
+Feature 12.2 is complete.
 
-BLOCK 12 remains in progress. No classifier implementation, fixture changes, upload/API integration, product UI changes, or production accuracy claims were added.
+BLOCK 12 closeout is complete. No classifier implementation, fixture changes, upload/API integration, product UI changes, or production accuracy claims were added by this feature.
