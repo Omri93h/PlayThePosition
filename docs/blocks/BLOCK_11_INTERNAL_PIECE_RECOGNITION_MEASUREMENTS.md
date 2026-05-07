@@ -28,10 +28,11 @@ This block does not approve upload integration, public API changes, product UI c
 ## Planned features
 
 ### 11.1 BLOCK 11 definition and measurement contract
-- Status: planned.
+- Status: implemented / ready for review.
 - Define expected-vs-detected piece measurement outputs.
 - Keep measurement records internal/test-only.
 - Document boundaries between board bounds, square mapping, piece recognition, FEN generation, and upload/API integration.
+- Measurement contract is documented in `docs/product/DETECTION_PIECE_RECOGNITION_MEASUREMENT_CONTRACT.md`.
 
 ### 11.2 Approved fixture expected-piece metadata audit
 - Status: planned.
@@ -75,6 +76,7 @@ Each measured fixture should produce internal/test-only records with:
 - expected piece/color or empty
 - detected piece/color or empty
 - result: correct / wrong / missing / extra
+- not_measured status for skipped or unsupported square/fixture measurements
 - confidence when available
 - failure reason when available
 - source stage
@@ -87,6 +89,7 @@ Position summaries should include:
 - wrong count
 - missing count
 - extra count
+- not_measured count
 - notes/blockers
 
 ## Guardrails
