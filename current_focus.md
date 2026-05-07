@@ -4,7 +4,7 @@ Current Block/Area:
 BLOCK 12 — Internal Role/Color Classifier Experiment
 
 Current Feature:
-12.3 Test-only color classifier experiment
+12.4 Test-only role classifier experiment
 
 Current Step:
 Implemented / ready for review
@@ -12,7 +12,7 @@ Implemented / ready for review
 Rules:
 - Work only on the current feature.
 - Do not jump ahead.
-- Do not implement role classifier code yet.
+- Do not implement role classifier code without a new approved plan.
 - Do not broaden the color classifier beyond approved-fixture test measurement.
 - Do not add CV/ML dependencies yet.
 - Do not claim real-world screenshot detection accuracy.

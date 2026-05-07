@@ -56,11 +56,12 @@ This block does not approve upload integration, public API changes, product UI c
 - Returns `ambiguous`, `not_measured`, or `unsupported` instead of guessing where signal is unclear.
 
 ### 12.4 Test-only role classifier experiment
-- Status: planned.
-- Implement a fixture-gated role classifier for occupied squares only.
-- Start with fixture-specific marker sampling only if the signal is clear.
-- Return `not_measured` for ambiguous or unsupported role samples.
-- Do not infer role from board position or FEN.
+- Status: implemented / ready for review as a blocked/deferred decision.
+- Records the role classifier decision in `docs/product/DETECTION_ROLE_CLASSIFIER_DECISION.md`.
+- Does not implement a broad role classifier because current approved fixture role signals are ambiguous or unsupported.
+- Keeps role output as `not_measured`, `unsupported`, or `ambiguous`.
+- Keeps color classifier output separate from full piece identity.
+- Does not infer role from board position, FEN, expected metadata, filename, style, starting position, or chess rules.
 
 ### 12.5 Role/color measurement tests and report
 - Status: planned.
