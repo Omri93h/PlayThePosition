@@ -1,6 +1,6 @@
 # Future Plans — Post-MVP
 
-These remain outside the current awaiting-approved-planning state unless explicitly moved into scope.
+These remain outside the currently active BLOCK 13 / 13.1 planning step unless explicitly moved into scope.
 
 ## Future — Detection Accuracy
 
@@ -10,16 +10,16 @@ These remain outside the current awaiting-approved-planning state unless explici
 - BLOCK 10 covers the approved real-ish fixture measurement slice only: fixture source approval, a tiny approved non-user real-ish fixture set, decode/preprocess measurements, board-bounds measurements, and comparison against BLOCK 09 synthetic-only measurements.
 - BLOCK 11 covers internal/test-only occupancy measurement against expected fixture pieces. Role/color piece recognition remains unsupported.
 - BLOCK 12 covers the completed internal/test-only role/color classifier experiment using approved fixtures only. Current results show occupancy works on approved fixtures, color partially works, role remains blocked/deferred, and upload/API integration remains deferred.
-- BLOCK 13 is planned for recognition orchestration and FEN reconstruction: board bounds → squares → occupancy → role/color → FEN. It remains blocked until role identity is measurable or the roadmap is explicitly replanned around the blocker.
-- Recommended next recognition work is an intermediate approved role-signal strategy and revised role-classifier block before current FEN reconstruction work.
-- BLOCK 14 is planned for upload/API integration behind an internal/dev gate only after approved-fixture FEN reconstruction works.
-- BLOCK 15 is planned for board interaction and game mode fixes.
-- BLOCK 16 is planned for user-facing analyze flow polish.
+- BLOCK 13 covers the planned approved role-signal fixture strategy and revised role-classifier work before FEN reconstruction.
+- BLOCK 14 is deferred for recognition orchestration and FEN reconstruction: board bounds → squares → occupancy → role/color → FEN. It remains blocked until role identity is measurable from approved fixture image signal.
+- BLOCK 15 is planned for upload/API integration behind an internal/dev gate only after approved-fixture FEN reconstruction works.
+- BLOCK 16 is planned for board interaction and game mode fixes.
+- BLOCK 17 is planned for user-facing analyze flow polish.
 - Production-grade real-world screenshot recognition accuracy remains future work until measured and explicitly approved.
 - Upload integration for real recognition remains future work until explicitly approved.
 - Detection debug/inspection view implementation remains unstarted until approved.
 
-## Approved Roadmap — BLOCKS 12–16
+## Approved Roadmap — BLOCKS 12–17
 
 ### BLOCK 12 — Internal Role/Color Classifier Experiment
 
@@ -34,55 +34,69 @@ Goal: make piece recognition detect piece color and role on approved fixtures on
 
 Gate: if role/color cannot be identified reliably on controlled fixtures, do not start FEN reconstruction or upload/API integration.
 
-### BLOCK 13 — Recognition Orchestration + FEN Reconstruction
+### BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier
+
+Goal: make role identity measurable on approved fixtures before FEN reconstruction.
+
+- 13.1 BLOCK 13 definition and role-signal strategy contract.
+- 13.2 Approved fixture role-signal design rules.
+- 13.3 Add owned role-signal fixture set.
+- 13.4 Fixture signal audit v2 for role separability.
+- 13.5 Revised test-only role classifier experiment.
+- 13.6 Role classifier measurement report and next-step decision.
+- 13.7 BLOCK 13 closeout review.
+
+Gate: FEN reconstruction remains blocked unless role identity becomes measurable from approved fixture image signal without forbidden shortcuts.
+
+### BLOCK 14 — Recognition Orchestration + FEN Reconstruction
 
 Goal: turn detection outputs into internal board state and FEN.
 
-- 13.1 Recognition pipeline contract: board bounds → squares → occupancy → role/color → FEN.
-- 13.2 Internal FEN builder from measured pieces.
-- 13.3 Side-to-move integration.
-- 13.4 Error states: missing king, duplicate kings, invalid board, unknown pieces.
-- 13.5 Internal tests against approved fixtures.
-- 13.6 Report: FEN reconstruction readiness.
+- 14.1 Recognition pipeline contract: board bounds → squares → occupancy → role/color → FEN.
+- 14.2 Internal FEN builder from measured pieces.
+- 14.3 Side-to-move integration.
+- 14.4 Error states: missing king, duplicate kings, invalid board, unknown pieces.
+- 14.5 Internal tests against approved fixtures.
+- 14.6 Report: FEN reconstruction readiness.
 
-Gate: must generate correct FEN from approved fixtures before upload integration. Current BLOCK 12 evidence blocks this work until role identity is measurable or the roadmap is explicitly replanned around the role blocker.
+Gate: must generate correct FEN from approved fixtures before upload integration. Current BLOCK 12 evidence blocks this work until BLOCK 13 proves role identity is measurable or the roadmap is explicitly replanned around the role blocker.
 
-### BLOCK 14 — Upload/API Integration Behind Internal Gate
+### BLOCK 15 — Upload/API Integration Behind Internal Gate
 
 Goal: connect uploaded image → recognition result behind an internal/dev gate.
 
-- 14.1 API contract for uploaded image recognition.
-- 14.2 Backend endpoint behind dev/internal flag.
-- 14.3 Frontend upload flow uses backend result.
-- 14.4 Failure fallback: manual board/edit mode.
-- 14.5 Debug inspection view showing detected board bounds, detected pieces, confidence/failure reasons, and generated FEN.
-- 14.6 Internal QA report.
+- 15.1 API contract for uploaded image recognition.
+- 15.2 Backend endpoint behind dev/internal flag.
+- 15.3 Frontend upload flow uses backend result.
+- 15.4 Failure fallback: manual board/edit mode.
+- 15.5 Debug inspection view showing detected board bounds, detected pieces, confidence/failure reasons, and generated FEN.
+- 15.6 Internal QA report.
 
 Gate: if real uploaded screenshots fail badly, keep it internal and improve detection.
 
-### BLOCK 15 — Board Interaction / Game Mode Fixes
+### BLOCK 16 — Board Interaction / Game Mode Fixes
 
 Goal: make the board usable after loading/editing.
 
-- 15.1 Define Play/Edit/Analyze mode behavior.
-- 15.2 Allow legal piece movement in game mode.
-- 15.3 Show legal moves when selecting a piece.
-- 15.4 Handle captures, promotion, castling, and en passant if needed.
-- 15.5 Board state sync with FEN.
-- 15.6 Tests for legal move UI behavior.
+- 16.1 Define Play/Edit/Analyze mode behavior.
+- 16.2 Allow legal piece movement in game mode.
+- 16.3 Show legal moves when selecting a piece.
+- 16.4 Handle captures, promotion, castling, and en passant if needed.
+- 16.5 Board state sync with FEN.
+- 16.6 Tests for legal move UI behavior.
 
 Gate: user can load/edit a position and actually play from it.
 
-### BLOCK 16 — User-Facing Analyze Flow Polish
+### BLOCK 17 — User-Facing Analyze Flow Polish
 
 Goal: make the core user journey feel like a real product.
 
-- 16.1 Upload → detected board → review/edit → analyze flow.
-- 16.2 Clear route/path after upload, for example `/position/:id`, not subdomain.
-- 16.3 Logo click goes home/upload.
-- 16.4 Fix logo/header polish.
-- 16.5 Chess.com analyze link behavior.
-- 16.6 Shareable result page / preview basics.
+- 17.1 Upload → detected board → review/edit → analyze flow.
+- 17.2 Clear route/path after upload, for example `/position/:id`, not subdomain.
+- 17.3 Logo click goes home/upload.
+- 17.4 Fix logo/header polish.
+- 17.5 Chess.com analyze link behavior.
+- 17.6 Shareable result page / preview basics.
 
 Gate: user can upload, fix mistakes, move pieces, analyze, and share.
 

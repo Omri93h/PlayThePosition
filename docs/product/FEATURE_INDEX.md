@@ -135,42 +135,53 @@
 - 12.5 Role/color measurement tests and report — complete
 - 12.6 Measurement comparison, blockers, and next-step decision — complete
 
-## BLOCK 13 — Recognition Orchestration + FEN Reconstruction
+## BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier
 
-- Status: planned but blocked pending role identity measurement or explicit roadmap replan.
-- 13.1 Recognition pipeline contract: board bounds → squares → occupancy → role/color → FEN — planned
-- 13.2 Internal FEN builder from measured pieces — planned
-- 13.3 Side-to-move integration — planned
-- 13.4 Error states: missing king, duplicate kings, invalid board, unknown pieces — planned
-- 13.5 Internal tests against approved fixtures — planned
-- 13.6 Report: FEN reconstruction readiness — planned
+- Status: current / planned.
+- 13.1 BLOCK 13 definition and role-signal strategy contract — planned
+- 13.2 Approved fixture role-signal design rules — planned
+- 13.3 Add owned role-signal fixture set — planned
+- 13.4 Fixture signal audit v2 for role separability — planned
+- 13.5 Revised test-only role classifier experiment — planned
+- 13.6 Role classifier measurement report and next-step decision — planned
+- 13.7 BLOCK 13 closeout review — planned
 
-## BLOCK 14 — Upload/API Integration Behind Internal Gate
+## BLOCK 14 — Recognition Orchestration + FEN Reconstruction
 
-- Status: planned.
-- 14.1 API contract for uploaded image recognition — planned
-- 14.2 Backend endpoint behind dev/internal flag — planned
-- 14.3 Frontend upload flow uses backend result — planned
-- 14.4 Failure fallback: manual board/edit mode — planned
-- 14.5 Debug inspection view showing detected board bounds, detected pieces, confidence/failure reasons, and generated FEN — planned
-- 14.6 Internal QA report — planned
+- Status: deferred pending BLOCK 13 gates.
+- 14.1 Recognition pipeline contract: board bounds → squares → occupancy → role/color → FEN — planned
+- 14.2 Internal FEN builder from measured pieces — planned
+- 14.3 Side-to-move integration — planned
+- 14.4 Error states: missing king, duplicate kings, invalid board, unknown pieces — planned
+- 14.5 Internal tests against approved fixtures — planned
+- 14.6 Report: FEN reconstruction readiness — planned
 
-## BLOCK 15 — Board Interaction / Game Mode Fixes
-
-- Status: planned.
-- 15.1 Define Play/Edit/Analyze mode behavior — planned
-- 15.2 Allow legal piece movement in game mode — planned
-- 15.3 Show legal moves when selecting a piece — planned
-- 15.4 Handle captures, promotion, castling, and en passant if needed — planned
-- 15.5 Board state sync with FEN — planned
-- 15.6 Tests for legal move UI behavior — planned
-
-## BLOCK 16 — User-Facing Analyze Flow Polish
+## BLOCK 15 — Upload/API Integration Behind Internal Gate
 
 - Status: planned.
-- 16.1 Upload → detected board → review/edit → analyze flow — planned
-- 16.2 Clear route/path after upload, for example /position/:id, not subdomain — planned
-- 16.3 Logo click goes home/upload — planned
-- 16.4 Fix logo/header polish — planned
-- 16.5 Chess.com analyze link behavior — planned
-- 16.6 Shareable result page / preview basics — planned
+- 15.1 API contract for uploaded image recognition — planned
+- 15.2 Backend endpoint behind dev/internal flag — planned
+- 15.3 Frontend upload flow uses backend result — planned
+- 15.4 Failure fallback: manual board/edit mode — planned
+- 15.5 Debug inspection view showing detected board bounds, detected pieces, confidence/failure reasons, and generated FEN — planned
+- 15.6 Internal QA report — planned
+
+## BLOCK 16 — Board Interaction / Game Mode Fixes
+
+- Status: planned.
+- 16.1 Define Play/Edit/Analyze mode behavior — planned
+- 16.2 Allow legal piece movement in game mode — planned
+- 16.3 Show legal moves when selecting a piece — planned
+- 16.4 Handle captures, promotion, castling, and en passant if needed — planned
+- 16.5 Board state sync with FEN — planned
+- 16.6 Tests for legal move UI behavior — planned
+
+## BLOCK 17 — User-Facing Analyze Flow Polish
+
+- Status: planned.
+- 17.1 Upload → detected board → review/edit → analyze flow — planned
+- 17.2 Clear route/path after upload, for example /position/:id, not subdomain — planned
+- 17.3 Logo click goes home/upload — planned
+- 17.4 Fix logo/header polish — planned
+- 17.5 Chess.com analyze link behavior — planned
+- 17.6 Shareable result page / preview basics — planned

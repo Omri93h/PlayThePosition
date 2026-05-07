@@ -76,7 +76,7 @@ This block does not approve upload integration, public API changes, product UI c
 - Publishes the final BLOCK 12 measurement comparison in `docs/product/DETECTION_BLOCK_12_MEASUREMENT_COMPARISON.md`.
 - Records occupancy as working on approved fixtures, color as partially working with explicit ambiguity, and role classification as blocked/deferred.
 - Records combined role/color success as unavailable.
-- Blocks BLOCK 13 FEN reconstruction and upload/API integration until role identity is measurable or the roadmap is explicitly replanned around the blocker.
+- Blocks FEN reconstruction and upload/API integration until role identity is measurable or the roadmap is explicitly replanned around the blocker.
 - Recommends improved approved fixture role signals, a revised role classifier approach, or a dedicated role-fixture/marker strategy before current BLOCK 13 work begins.
 
 ## Classifier Direction
@@ -151,7 +151,7 @@ Final result:
 - Role classification remains blocked/deferred with no detected role.
 - Combined role/color success is unavailable.
 - Piece identity is not recognized.
-- BLOCK 13 FEN reconstruction remains blocked until role identity is measurable or the roadmap is explicitly replanned.
+- FEN reconstruction remains blocked until role identity is measurable or the roadmap is explicitly replanned.
 - Upload/API integration remains blocked.
 
-The recommended next block is an intermediate approved role-signal strategy and revised role-classifier block before current FEN reconstruction work.
+The recommended next block is BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier before current FEN reconstruction work.

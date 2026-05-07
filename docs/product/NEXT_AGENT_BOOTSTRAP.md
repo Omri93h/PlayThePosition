@@ -66,30 +66,33 @@ git status
 ## Current Continuation Point
 
 - Project has completed BLOCK 12 — Internal Role/Color Classifier Experiment.
+- Project is now in BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only measurement work.
-- Current step is awaiting approved next roadmap planning.
+- Current feature is 13.1 — BLOCK 13 definition and role-signal strategy contract.
+- Current step is plan only / not implemented.
 - BLOCK 12 stayed internal/test-only and approved-fixture-only.
 - No upload/API integration has started.
 - No production recognition accuracy claim has been made.
 - Current BLOCK 11 measurement compares occupancy only; role/color piece recognition remains unsupported and not implemented.
-- BLOCK 12 is planned to explore role/color classification with fixture-specific marker/color sampling over approved fixtures only.
+- BLOCK 12 explored role/color classification with fixture-specific marker/color sampling over approved fixtures only.
 - The 12.1 role/color classifier contract is documented.
 - The 12.2 fixture signal audit is documented; color signal is feasible for a future test-only color classifier, while role signal remains ambiguous or unsupported.
 - The 12.3 test-only color classifier experiment is documented and implemented: 159 of 167 approved occupied squares classify correctly, with 8 ambiguous rows kept explicit.
 - The 12.4 role classifier decision is documented and implemented as blocked/deferred on current approved fixtures.
 - Role classification remains unavailable because current role signals are ambiguous or unsupported.
 - The 12.5 role/color measurement report is documented and implemented: occupancy and color are measured on approved fixtures, role remains blocked/deferred, combined role/color success is unavailable, and FEN/upload integration remain blocked.
-- The 12.6 BLOCK 12 measurement comparison is documented and implemented: occupancy works on approved fixtures, color partially works with 159 correct and 8 ambiguous rows, role remains blocked/deferred, piece identity is not recognized, and BLOCK 13/upload integration remain blocked.
+- The 12.6 BLOCK 12 measurement comparison is documented and implemented: occupancy works on approved fixtures, color partially works with 159 correct and 8 ambiguous rows, role remains blocked/deferred, piece identity is not recognized, and FEN/upload integration remain blocked.
 - BLOCK 12 closeout is complete.
-- Next recommended block is an intermediate approved role-signal strategy and revised role-classifier block before current FEN reconstruction work.
+- BLOCK 13 is the intermediate approved role-signal strategy and revised role-classifier block before current FEN reconstruction work.
 - Approved roadmap after BLOCK 12:
-  - BLOCK 13 — Recognition Orchestration + FEN Reconstruction.
-  - BLOCK 14 — Upload/API Integration Behind Internal Gate.
-  - BLOCK 15 — Board Interaction / Game Mode Fixes.
-  - BLOCK 16 — User-Facing Analyze Flow Polish.
+  - BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
+  - BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
+  - BLOCK 15 — Upload/API Integration Behind Internal Gate.
+  - BLOCK 16 — Board Interaction / Game Mode Fixes.
+  - BLOCK 17 — User-Facing Analyze Flow Polish.
 - Upload/API integration remains deferred.
-- BLOCK 13 FEN reconstruction should not start until role identity is measurable or the roadmap is explicitly replanned around the current blocker.
+- BLOCK 14 FEN reconstruction should not start until BLOCK 13 proves role identity is measurable or the roadmap is explicitly replanned around the current blocker.
 
 ## Important Future Notes
 

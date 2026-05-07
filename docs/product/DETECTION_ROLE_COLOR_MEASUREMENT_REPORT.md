@@ -53,7 +53,7 @@ Piece identity is not recognized. Full piece identity would require both color a
 
 Upload/API integration remains blocked and unchanged.
 
-BLOCK 13 FEN reconstruction remains blocked until role identity is measurable.
+FEN reconstruction remains blocked until role identity is measurable.
 
 ## Per-Stage Status
 
@@ -86,7 +86,7 @@ The likely next-step decision after BLOCK 12 should be one of:
 - design a revised internal role-classifier strategy using measurable image signal
 - keep role classification unsupported and prevent FEN reconstruction or upload/API integration from proceeding
 
-BLOCK 13 recognition orchestration and FEN reconstruction should not start until role identity is measurable or explicitly replanned around the current blocker.
+Recognition orchestration and FEN reconstruction should not start until role identity is measurable or explicitly replanned around the current blocker.
 
 ## 12.5 Result
 

@@ -44,7 +44,7 @@ Role classification is not implemented and remains blocked. Current approved fix
 
 Piece identity is not recognized. Full piece identity requires both color and role to be measured from image signal.
 
-BLOCK 13 FEN reconstruction remains blocked. FEN reconstruction needs piece roles, not only occupancy and color.
+FEN reconstruction remains blocked. FEN reconstruction needs piece roles, not only occupancy and color.
 
 Upload/API integration remains blocked. Current work is fixture-only, cannot produce complete detected FEN, and is not wired into `/upload` or public API behavior.
 
@@ -58,7 +58,7 @@ Upload/API integration remains blocked. Current work is fixture-only, cannot pro
 | Color | measured in BLOCK 12 | partial success with explicit ambiguity |
 | Role | blocked/deferred | no role classifier success |
 | Piece identity | unavailable | not recognized |
-| FEN reconstruction | blocked | do not start BLOCK 13 until role identity is measurable or roadmap is replanned |
+| FEN reconstruction | blocked | do not start until role identity is measurable or roadmap is replanned |
 | Upload/API integration | blocked | do not start upload integration |
 
 ## Blockers
@@ -74,7 +74,7 @@ Upload/API integration remains blocked. Current work is fixture-only, cannot pro
 
 Feature 12.6 records that BLOCK 12 should proceed to closeout review, but BLOCK 12 should not be marked complete by this report alone.
 
-The next safest technical step is not the current BLOCK 13 FEN reconstruction plan. Before BLOCK 13 begins, the roadmap should be revised or an intermediate approved block should improve the role signal problem. Safe next directions include:
+The next safest technical step is not FEN reconstruction. Before FEN reconstruction begins, the roadmap should include an approved block to improve the role signal problem. Safe next directions include:
 
 - improve approved fixture role signals
 - revise the role classifier approach around measurable image signal

@@ -1,13 +1,13 @@
 # Current Focus
 
 Current Block/Area:
-BLOCK 12 — Internal Role/Color Classifier Experiment
+BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier
 
 Current Feature:
-BLOCK 12 closeout
+13.1 BLOCK 13 definition and role-signal strategy contract
 
 Current Step:
-Completed / awaiting approved next planning step
+Plan only / not implemented
 
 Rules:
 - Work only on the current feature.
@@ -16,7 +16,8 @@ Rules:
 - Do not broaden the color classifier beyond approved-fixture test measurement.
 - Do not add CV/ML dependencies yet.
 - Do not claim real-world screenshot detection accuracy.
+- Do not start FEN reconstruction.
 - Do not start upload/API integration.
-- Keep role/color classifier work internal/test-only and approved-fixture-only.
+- Keep role-signal and classifier work internal/test-only and approved-fixture-only.
 - Do not add or modify fixture images.
 - Do not start engine, legal moves, auth/accounts, payments, link-out, or SEO.
