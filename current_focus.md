@@ -4,7 +4,7 @@ Current Block/Area:
 BLOCK 11 — Internal Piece-Recognition Measurement Experiments
 
 Current Feature:
-11.2 Approved fixture expected-piece metadata audit
+11.3 Test-only square sampling / piece marker extraction experiment
 
 Current Step:
 Implemented / ready for review

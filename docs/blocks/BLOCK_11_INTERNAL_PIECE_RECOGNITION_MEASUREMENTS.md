@@ -43,10 +43,14 @@ This block does not approve upload integration, public API changes, product UI c
 - Existing approved fixtures are ready for 11.3.
 
 ### 11.3 Test-only square sampling / piece marker extraction experiment
-- Status: planned.
+- Status: implemented / ready for review.
 - Design a controlled test-only way to sample fixture squares or extract owned fixture markers.
 - Keep this separate from production upload flow.
 - Do not claim real image recognition accuracy from this experiment.
+- Added an internal/test-only square sampling helper that derives 64 square regions from approved fixture `board_bounds`.
+- The helper classifies squares as `empty`, `occupied`, or `not_measured`.
+- The helper does not classify piece role or color.
+- Invalid bounds and unsupported orientations return `not_measured` rows instead of crashing.
 
 ### 11.4 Piece-recognition measurement tests and report
 - Status: planned.
