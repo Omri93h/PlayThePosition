@@ -2,7 +2,7 @@
 
 ## Status
 
-Planned as the current internal/test-only role/color classifier experiment block.
+In progress as the current internal/test-only role/color classifier experiment block.
 
 BLOCK 12 should extend BLOCK 11 from occupancy-only measurement toward fixture-measured piece identity. It must remain approved-fixture-only, internal/test-only, and measurement-only until explicitly approved otherwise.
 
@@ -34,11 +34,11 @@ This block does not approve upload integration, public API changes, product UI c
 ## Planned Features
 
 ### 12.1 Role/color classifier contract
-- Status: planned.
-- Define the internal/test-only role/color classifier measurement contract.
-- Extend the BLOCK 11 output shape for expected vs detected piece role/color.
-- Keep unsupported or ambiguous samples as `not_measured`, not guesses.
-- Keep upload/API integration deferred.
+- Status: implemented / ready for review.
+- Defines the internal/test-only role/color classifier measurement contract in `docs/product/DETECTION_ROLE_COLOR_CLASSIFIER_CONTRACT.md`.
+- Extends the BLOCK 11 output shape for expected vs detected piece role/color.
+- Keeps unsupported or ambiguous samples as `not_measured`, `unsupported`, or `ambiguous`, not guesses.
+- Keeps upload/API integration deferred.
 
 ### 12.2 Fixture signal audit for role/color feasibility
 - Status: planned.
@@ -91,14 +91,17 @@ Template matching, broader image-feature classifiers, CV/ML dependencies, or pro
 
 ## Measurement Contract
 
+The detailed 12.1 contract is documented in `docs/product/DETECTION_ROLE_COLOR_CLASSIFIER_CONTRACT.md`.
+
 Each measured occupied square should extend the BLOCK 11 measurement row with:
 
 - expected piece role
 - expected piece color
 - detected piece role or `null`
 - detected piece color or `null`
-- role result: `correct` / `wrong` / `not_measured`
-- color result: `correct` / `wrong` / `not_measured`
+- role result: `correct` / `wrong` / `missing` / `extra` / `not_measured` / `unsupported` / `ambiguous`
+- color result: `correct` / `wrong` / `missing` / `extra` / `not_measured` / `unsupported` / `ambiguous`
+- combined role/color result
 - confidence when available
 - failure reason when unavailable or ambiguous
 - source stage

@@ -7,7 +7,7 @@ Current Feature:
 12.1 Role/color classifier contract
 
 Current Step:
-Plan only / not implemented
+Implemented / ready for review
 
 Rules:
 - Work only on the current feature.
