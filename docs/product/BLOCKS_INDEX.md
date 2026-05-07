@@ -15,6 +15,7 @@
 11. BLOCK 09 — Real Recognition Fixture Intake and Measurements
 12. BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements
 13. BLOCK 11 — Internal Piece-Recognition Measurement Experiments
+14. BLOCK 12 — Internal Role/Color Classifier Experiment
 
 ## Status
 
@@ -24,7 +25,8 @@
 - BLOCK 09 is completed as fixture-intake and measurement-only work.
 - BLOCK 10 is completed as approved real-ish fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only piece-recognition measurement work.
-- Current step is awaiting approved roadmap planning.
+- BLOCK 12 is the current planned internal/test-only role/color classifier experiment block.
+- Current step is 12.1 BLOCK 12 definition and role/color classifier contract.
 
 ## Rules
 - Work block-by-block.

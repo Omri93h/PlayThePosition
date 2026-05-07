@@ -1,6 +1,6 @@
 # Future Plans — Post-MVP
 
-These remain outside completed BLOCK 11 internal/test-only measurement work unless explicitly moved into scope.
+These remain outside the currently planned BLOCK 12 internal/test-only role/color classifier experiment unless explicitly moved into scope.
 
 ## Future — Detection Accuracy
 
@@ -9,7 +9,7 @@ These remain outside completed BLOCK 11 internal/test-only measurement work unle
 - BLOCK 09 covers the approved fixture-intake and measurement slice only: approved non-user fixture candidate selection, first approved fixture set after explicit approval, decode/preprocess measurements, board-bounds measurements, and a next-step decision.
 - BLOCK 10 covers the approved real-ish fixture measurement slice only: fixture source approval, a tiny approved non-user real-ish fixture set, decode/preprocess measurements, board-bounds measurements, and comparison against BLOCK 09 synthetic-only measurements.
 - BLOCK 11 covers internal/test-only occupancy measurement against expected fixture pieces. Role/color piece recognition remains unsupported.
-- After BLOCK 11, the next recognition work should move toward an internal/test-only role/color classifier experiment block using approved fixtures only, likely as a future BLOCK 12, only after explicit approval.
+- BLOCK 12 covers the planned internal/test-only role/color classifier experiment using approved fixtures only. Upload/API integration remains deferred.
 - Production-grade real-world screenshot recognition accuracy remains future work until measured and explicitly approved.
 - Upload integration for real recognition remains future work until explicitly approved.
 - Detection debug/inspection view implementation remains unstarted until approved.

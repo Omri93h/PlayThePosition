@@ -124,3 +124,13 @@
 - 11.3 Test-only square sampling / piece marker extraction experiment — complete
 - 11.4 Piece-recognition measurement tests and report — complete
 - 11.5 Measurement comparison, blockers, and next-step decision — complete
+
+## BLOCK 12 — Internal Role/Color Classifier Experiment
+
+- Status: planned.
+- 12.1 BLOCK 12 definition and role/color classifier contract — planned
+- 12.2 Fixture signal audit for role/color feasibility — planned
+- 12.3 Test-only color classifier experiment — planned
+- 12.4 Test-only role classifier experiment — planned
+- 12.5 Role/color measurement tests and report — planned
+- 12.6 Measurement comparison, blockers, and next-step decision — planned

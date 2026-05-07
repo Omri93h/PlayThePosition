@@ -19,12 +19,19 @@
 
 ## Current
 
-- Current focus: BLOCK 11 closeout completed; awaiting approved roadmap planning.
+- Current focus: BLOCK 12 — Internal Role/Color Classifier Experiment, Feature 12.1 planned / not implemented.
 - BLOCK 07 is completed as discovery/experiment-only.
 - BLOCK 08 is completed as foundation/measurement-gated only.
 - BLOCK 09 is completed as fixture intake and measurement-only work.
 - BLOCK 10 is completed as approved real-ish fixture intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only piece-recognition measurement work.
+- BLOCK 12 is planned as internal/test-only role/color classifier experiment work.
+- Feature 12.1 is planned as BLOCK 12 definition and role/color classifier contract.
+- Feature 12.2 is planned as fixture signal audit for role/color feasibility.
+- Feature 12.3 is planned as test-only color classifier experiment.
+- Feature 12.4 is planned as test-only role classifier experiment.
+- Feature 12.5 is planned as role/color measurement tests and report.
+- Feature 12.6 is planned as measurement comparison, blockers, and next-step decision.
 - Feature 11.1 is complete as BLOCK 11 definition and measurement contract.
 - Feature 11.2 is complete as approved fixture expected-piece metadata audit.
 - Feature 11.3 is complete as test-only square sampling / piece marker extraction experiment.
@@ -81,8 +88,8 @@
 
 ## Next
 
-- Choose the next approved roadmap step.
-- Recommended next block is future BLOCK 12 — Internal Role/Color Classifier Experiment, test-only and approved-fixture-only.
+- Plan Feature 12.1 — BLOCK 12 definition and role/color classifier contract.
+- Keep BLOCK 12 internal/test-only and approved-fixture-only.
 - Keep BLOCK 11 internal/test-only.
 - Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.
 - Keep upload integration and production-grade recognition deferred until explicitly approved.
@@ -94,6 +101,15 @@
 - 11.3 Test-only square sampling / piece marker extraction experiment.
 - 11.4 Piece-recognition measurement tests and report.
 - 11.5 Measurement comparison, blockers, and next-step decision.
+
+## Planned In BLOCK 12
+
+- 12.1 BLOCK 12 definition and role/color classifier contract — planned.
+- 12.2 Fixture signal audit for role/color feasibility — planned.
+- 12.3 Test-only color classifier experiment — planned.
+- 12.4 Test-only role classifier experiment — planned.
+- 12.5 Role/color measurement tests and report — planned.
+- 12.6 Measurement comparison, blockers, and next-step decision — planned.
 
 ## Completed In BLOCK 10
 
@@ -142,6 +158,7 @@
 - BLOCK 11 piece-recognition measurement currently measures occupancy only; role/color recognition remains unsupported and not measured.
 - BLOCK 11 measurement comparison recommends a future internal/test-only role/color classifier experiment block before any upload/API integration.
 - BLOCK 11 is complete as internal/test-only measurement work.
+- BLOCK 12 is planned to explore role/color classification internally against approved fixtures only; no classifier implementation has started.
 
 ## Later / Deferred
 

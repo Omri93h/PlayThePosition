@@ -68,12 +68,15 @@ git status
 - Project is in BLOCK 11 — Internal Piece-Recognition Measurement Experiments.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only measurement work.
-- Current step is awaiting approved roadmap planning.
-- BLOCK 11 must remain internal/test-only.
+- Project is now moving into BLOCK 12 — Internal Role/Color Classifier Experiment.
+- Current feature is 12.1 — BLOCK 12 definition and role/color classifier contract.
+- Current step is plan only / not implemented.
+- BLOCK 12 must remain internal/test-only and approved-fixture-only.
 - No upload/API integration has started.
 - No production recognition accuracy claim has been made.
 - Current BLOCK 11 measurement compares occupancy only; role/color piece recognition remains unsupported and not implemented.
-- Recommended next technical direction after BLOCK 11 is a future internal/test-only role/color classifier experiment block using approved fixtures only.
+- BLOCK 12 is planned to explore role/color classification with fixture-specific marker/color sampling over approved fixtures only.
+- No classifier implementation has started yet.
 
 ## Important Future Notes
 
