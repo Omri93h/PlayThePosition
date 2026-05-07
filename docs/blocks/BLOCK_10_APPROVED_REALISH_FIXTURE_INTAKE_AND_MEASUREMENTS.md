@@ -42,9 +42,14 @@ This block continues measurement-only recognition work. It does not approve prod
 - No upload/API behavior changed and no recognition accuracy is claimed.
 
 ### 10.3 Run decode/preprocess measurements on real-ish fixtures
+- Status: implemented / ready for review.
 - Measure decode/preprocess behavior on the approved real-ish fixture set.
 - Record supported format, dimensions, decode success/failure, and failure reasons.
 - Do not wire results into `/upload`.
+- Measurements are documented in `docs/product/DETECTION_REALISH_DECODE_MEASUREMENTS.md`.
+- All four owned/generated real-ish fixtures decode successfully through the internal decode boundary.
+- Board-bounds measurements remain future work for 10.4.
+- No upload/API behavior changed and no recognition accuracy is claimed.
 
 ### 10.4 Run board-bounds measurements on real-ish fixtures
 - Run the internal fixture-gated board-bounds path on approved real-ish fixtures.
