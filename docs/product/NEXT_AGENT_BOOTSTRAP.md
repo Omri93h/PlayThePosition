@@ -57,11 +57,11 @@ git status
 
 ## Current Continuation Point
 
-- Project is after BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements.
-- Features 10.1 through 10.5 are complete.
+- Project is in BLOCK 11 — Internal Piece-Recognition Measurement Experiments.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
-- Next process step is approved BLOCK 11 planning.
-- Recommended BLOCK 11 direction is internal/test-only piece-recognition measurement/experiments using approved fixtures.
+- Current feature is 11.1 — BLOCK 11 definition and measurement contract.
+- BLOCK 11 is planned only; implementation has not started.
+- BLOCK 11 must remain internal/test-only.
 - No upload/API integration has started.
 - No production recognition accuracy claim has been made.
 - No piece recognition measurement or implementation has started.

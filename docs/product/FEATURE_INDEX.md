@@ -115,3 +115,12 @@
 - 10.3 Run decode/preprocess measurements on real-ish fixtures — complete
 - 10.4 Run board-bounds measurements on real-ish fixtures — complete
 - 10.5 Measurement comparison report and next-step decision — complete
+
+## BLOCK 11 — Internal Piece-Recognition Measurement Experiments
+
+- Status: planned.
+- 11.1 BLOCK 11 definition and measurement contract — planned
+- 11.2 Approved fixture expected-piece metadata audit — planned
+- 11.3 Test-only square sampling / piece marker extraction experiment — planned
+- 11.4 Piece-recognition measurement tests and report — planned
+- 11.5 Measurement comparison, blockers, and next-step decision — planned

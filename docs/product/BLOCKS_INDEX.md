@@ -14,6 +14,7 @@
 10. BLOCK 08 — Real Recognition Implementation Foundation
 11. BLOCK 09 — Real Recognition Fixture Intake and Measurements
 12. BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements
+13. BLOCK 11 — Internal Piece-Recognition Measurement Experiments
 
 ## Status
 
@@ -22,8 +23,8 @@
 - BLOCK 08 is completed as foundation/measurement-gated only.
 - BLOCK 09 is completed as fixture-intake and measurement-only work.
 - BLOCK 10 is completed as approved real-ish fixture-intake and measurement-only work.
-- Current step is awaiting approved BLOCK 11 planning.
-- Recommended next block is internal/test-only piece-recognition measurement/experiments using approved fixtures.
+- BLOCK 11 is the current planned internal/test-only piece-recognition measurement block.
+- Current step is 11.1 BLOCK 11 definition and measurement contract.
 
 ## Rules
 - Work block-by-block.

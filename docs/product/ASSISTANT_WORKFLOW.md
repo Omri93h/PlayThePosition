@@ -12,6 +12,8 @@ For new chat/session handoff, read `docs/product/NEXT_AGENT_BOOTSTRAP.md` after 
 - Give exact commands, not vague instructions.
 - Do not print full files unless explicitly requested.
 - Summarize long command output; paste detailed logs only when a failure needs debugging.
+- After implementation or important docs/state changes, provide Git commands first, then any next Codex prompt.
+- For PLAN-only Codex responses with no file changes, do not provide Git commands.
 
 ## Roles
 
@@ -76,6 +78,8 @@ When ChatGPT gives both Git commands and a next Codex prompt in the same respons
 Git commands must always match the latest Codex response and the exact changed files from that response.
 
 Omri does not need to paste successful commit output every time. If commit, push, or checks fail, Omri will paste the error and ChatGPT gives a fix prompt.
+
+Do not require Omri to paste successful Git output before moving to the next safe prompt; he will paste errors if something fails.
 
 ## Stop Rules
 
