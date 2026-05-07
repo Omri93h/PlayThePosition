@@ -4,7 +4,7 @@ Current Block/Area:
 BLOCK 11 — Internal Piece-Recognition Measurement Experiments
 
 Current Feature:
-11.4 Piece-recognition measurement tests and report
+11.5 Measurement comparison, blockers, and next-step decision
 
 Current Step:
 Implemented / ready for review

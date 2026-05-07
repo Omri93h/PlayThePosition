@@ -70,10 +70,15 @@ This block does not approve upload integration, public API changes, product UI c
 - No upload/API behavior, UI behavior, fixture image, or production recognition behavior changed.
 
 ### 11.5 Measurement comparison, blockers, and next-step decision
-- Status: planned.
+- Status: implemented / ready for review.
 - Summarize piece-recognition measurement outcomes.
 - Record blockers and limitations.
 - Decide whether the next safe step is more fixture coverage, improved sampling/recognition experiments, or a later gated integration plan.
+- Comparison and decision report is documented in `docs/product/DETECTION_BLOCK_11_MEASUREMENT_COMPARISON.md`.
+- Current approved fixtures support occupancy comparison only.
+- Role/color piece recognition remains unsupported, not implemented, and not claimed.
+- Recommended next safest technical step is a future internal/test-only role/color classifier experiment block using approved fixtures only.
+- Upload/API integration remains deferred and unchanged.
 
 ## Measurement contract
 
