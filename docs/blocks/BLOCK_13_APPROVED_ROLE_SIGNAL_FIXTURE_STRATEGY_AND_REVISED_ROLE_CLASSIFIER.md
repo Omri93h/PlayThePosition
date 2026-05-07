@@ -34,8 +34,8 @@ BLOCK 12 proved that occupancy works on approved fixtures and color classificati
 ## Planned Features
 
 ### 13.1 BLOCK 13 definition and role-signal strategy contract
-- Status: planned.
-- Define the role-signal strategy, classifier boundaries, allowed signals, forbidden shortcuts, and measurement contract before any role classifier implementation.
+- Status: implemented / ready for review.
+- Defines the role-signal strategy, classifier boundaries, allowed signals, forbidden shortcuts, and measurement contract in `docs/product/DETECTION_ROLE_SIGNAL_STRATEGY_CONTRACT.md`.
 - Keep FEN reconstruction and upload/API integration deferred.
 
 ### 13.2 Approved fixture role-signal design rules

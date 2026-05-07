@@ -70,7 +70,7 @@ git status
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only measurement work.
 - Current feature is 13.1 — BLOCK 13 definition and role-signal strategy contract.
-- Current step is plan only / not implemented.
+- Current step is implemented / ready for review.
 - BLOCK 12 stayed internal/test-only and approved-fixture-only.
 - No upload/API integration has started.
 - No production recognition accuracy claim has been made.
@@ -85,6 +85,8 @@ git status
 - The 12.6 BLOCK 12 measurement comparison is documented and implemented: occupancy works on approved fixtures, color partially works with 159 correct and 8 ambiguous rows, role remains blocked/deferred, piece identity is not recognized, and FEN/upload integration remain blocked.
 - BLOCK 12 closeout is complete.
 - BLOCK 13 is the intermediate approved role-signal strategy and revised role-classifier block before current FEN reconstruction work.
+- The 13.1 role-signal strategy contract is documented in `docs/product/DETECTION_ROLE_SIGNAL_STRATEGY_CONTRACT.md`.
+- Next planned feature is 13.2 — Approved fixture role-signal design rules.
 - Approved roadmap after BLOCK 12:
   - BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
   - BLOCK 14 — Recognition Orchestration + FEN Reconstruction.

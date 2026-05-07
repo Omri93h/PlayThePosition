@@ -138,7 +138,7 @@
 ## BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier
 
 - Status: current / planned.
-- 13.1 BLOCK 13 definition and role-signal strategy contract — planned
+- 13.1 BLOCK 13 definition and role-signal strategy contract — implemented / ready for review
 - 13.2 Approved fixture role-signal design rules — planned
 - 13.3 Add owned role-signal fixture set — planned
 - 13.4 Fixture signal audit v2 for role separability — planned
