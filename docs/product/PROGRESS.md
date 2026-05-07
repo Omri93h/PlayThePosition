@@ -17,7 +17,7 @@
 
 ## Current
 
-- Current focus: BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements, Feature 10.3 ready for review.
+- Current focus: BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements, Feature 10.4 ready for review.
 - BLOCK 07 is completed as discovery/experiment-only.
 - BLOCK 08 is completed as foundation/measurement-gated only.
 - BLOCK 09 is completed as fixture intake and measurement-only work.
@@ -25,6 +25,7 @@
 - Feature 10.1 is implemented / ready for review as docs-only fixture source approval and candidate selection.
 - Feature 10.2 is implemented / ready for review as fixture/test tooling with four owned/generated real-ish fixtures and approved metadata.
 - Feature 10.3 is implemented / ready for review as decode/preprocess measurements on the owned/generated real-ish fixture set.
+- Feature 10.4 is implemented / ready for review as fixture-gated board-bounds measurements on the owned/generated real-ish fixture set.
 - Real image recognition implementation has not started.
 - MVP hardening/polish is complete.
 - MVP readiness automated validation passed.
@@ -71,8 +72,8 @@
 
 ## Next
 
-- Review 10.3 Run decode/preprocess measurements on real-ish fixtures.
-- Do not run board-bounds measurements on real-ish fixtures until explicitly approved in 10.4.
+- Review 10.4 Run board-bounds measurements on real-ish fixtures.
+- Do not start the measurement comparison report / next-step decision until explicitly approved in 10.5.
 - Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.
 - Keep upload integration and production-grade recognition deferred until explicitly approved.
 
@@ -81,7 +82,7 @@
 - 10.1 Fixture source approval and candidate selection — implemented / ready for review.
 - 10.2 Add first approved real-ish non-user fixture set — implemented / ready for review.
 - 10.3 Run decode/preprocess measurements on real-ish fixtures — implemented / ready for review.
-- 10.4 Run board-bounds measurements on real-ish fixtures.
+- 10.4 Run board-bounds measurements on real-ish fixtures — implemented / ready for review.
 - 10.5 Measurement comparison report and next-step decision.
 
 ## Completed In BLOCK 09
@@ -103,6 +104,7 @@
 - BLOCK 09 measurement report is complete and recommends adding a small approved non-synthetic or real-ish fixture set before upload integration.
 - BLOCK 10 has added a tiny owned/generated real-ish fixture set for future measurement.
 - Decode/preprocess measurements are complete for the approved real-ish fixture set.
+- Fixture-gated board-bounds measurements are complete for the approved real-ish fixture set.
 - Detection orchestrator exists internally behind an explicit disabled-by-default gate and is not wired into upload.
 - Fixture-gated board bounds detection exists internally for generated test images and is not wired into upload.
 - Future optional detection metadata contract is documented only; `/upload` does not return it yet.
@@ -116,7 +118,7 @@
 - No payments, subscriptions, or premium gating.
 - No external Chess.com/Lichess link-out.
 - No SEO or distribution work.
-- Board-bounds measurements on the real-ish fixture set remain future work until explicitly approved.
+- Measurement comparison and next-step decision remain future work until explicitly approved in 10.5.
 
 ## Later / Deferred
 

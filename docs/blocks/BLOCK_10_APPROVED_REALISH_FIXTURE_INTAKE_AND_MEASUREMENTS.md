@@ -52,9 +52,14 @@ This block continues measurement-only recognition work. It does not approve prod
 - No upload/API behavior changed and no recognition accuracy is claimed.
 
 ### 10.4 Run board-bounds measurements on real-ish fixtures
+- Status: implemented / ready for review.
 - Run the internal fixture-gated board-bounds path on approved real-ish fixtures.
 - Record detected/not detected, bounds, confidence, failure stage, and failure reason.
 - Report measurements only, not accuracy claims.
+- Measurements are documented in `docs/product/DETECTION_REALISH_BOARD_BOUNDS_MEASUREMENTS.md`.
+- All four owned/generated real-ish fixtures produced board bounds matching expected metadata.
+- Piece recognition measurements remain future work.
+- No upload/API behavior changed and no recognition accuracy is claimed.
 
 ### 10.5 Measurement comparison report and next-step decision
 - Compare real-ish fixture measurements against the BLOCK 09 synthetic-only measurements.

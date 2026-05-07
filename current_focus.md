@@ -4,7 +4,7 @@ Current Block/Area:
 BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements
 
 Current Feature:
-10.3 Run decode/preprocess measurements on real-ish fixtures
+10.4 Run board-bounds measurements on real-ish fixtures
 
 Current Step:
 Implemented / ready for review
