@@ -65,11 +65,10 @@ git status
 
 ## Current Continuation Point
 
-- Project is in BLOCK 11 — Internal Piece-Recognition Measurement Experiments.
+- Project is in BLOCK 12 — Internal Role/Color Classifier Experiment.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only measurement work.
-- Project is now moving into BLOCK 12 — Internal Role/Color Classifier Experiment.
-- Current feature is 12.5 — Role/color measurement tests and report.
+- Current feature is 12.6 — Measurement comparison, blockers, and next-step decision.
 - Current step is implemented / ready for review.
 - BLOCK 12 must remain internal/test-only and approved-fixture-only.
 - No upload/API integration has started.
@@ -82,13 +81,15 @@ git status
 - The 12.4 role classifier decision is documented and implemented as blocked/deferred on current approved fixtures.
 - Role classification remains unavailable because current role signals are ambiguous or unsupported.
 - The 12.5 role/color measurement report is documented and implemented: occupancy and color are measured on approved fixtures, role remains blocked/deferred, combined role/color success is unavailable, and FEN/upload integration remain blocked.
-- Next planned feature is 12.6 — Closeout / next-step decision.
+- The 12.6 BLOCK 12 measurement comparison is documented and implemented: occupancy works on approved fixtures, color partially works with 159 correct and 8 ambiguous rows, role remains blocked/deferred, piece identity is not recognized, and BLOCK 13/upload integration remain blocked.
+- Next planned step is BLOCK 12 closeout review.
 - Approved roadmap after BLOCK 12:
   - BLOCK 13 — Recognition Orchestration + FEN Reconstruction.
   - BLOCK 14 — Upload/API Integration Behind Internal Gate.
   - BLOCK 15 — Board Interaction / Game Mode Fixes.
   - BLOCK 16 — User-Facing Analyze Flow Polish.
-- Upload/API integration remains deferred until BLOCK 12 and BLOCK 13 gates pass.
+- Upload/API integration remains deferred.
+- BLOCK 13 FEN reconstruction should not start until role identity is measurable or the roadmap is explicitly replanned around the current blocker.
 
 ## Important Future Notes
 

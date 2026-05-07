@@ -30,11 +30,11 @@
 - BLOCK 10 is completed as approved real-ish fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only piece-recognition measurement work.
 - BLOCK 12 is the current in-progress internal/test-only role/color classifier experiment block.
-- BLOCK 13 is planned for internal recognition orchestration and FEN reconstruction after BLOCK 12 gates pass.
+- BLOCK 13 is planned for internal recognition orchestration and FEN reconstruction, but it remains blocked until role identity is measurable or the roadmap is explicitly replanned around the blocker.
 - BLOCK 14 is planned for upload/API integration behind an internal gate after approved-fixture FEN reconstruction works.
 - BLOCK 15 is planned for board interaction and game-mode fixes.
 - BLOCK 16 is planned for user-facing analyze flow polish.
-- Current step is 12.5 role/color measurement tests and report implemented / ready for review.
+- Current step is 12.6 measurement comparison, blockers, and next-step decision implemented / ready for review.
 
 ## Rules
 - Work block-by-block.

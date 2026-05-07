@@ -133,7 +133,7 @@
 - 12.3 Test-only color classifier experiment — implemented / ready for review
 - 12.4 Test-only role classifier experiment — implemented / ready for review as blocked/deferred
 - 12.5 Role/color measurement tests and report — implemented / ready for review
-- 12.6 Closeout / next-step decision — planned
+- 12.6 Measurement comparison, blockers, and next-step decision — implemented / ready for review
 
 ## BLOCK 13 — Recognition Orchestration + FEN Reconstruction
 

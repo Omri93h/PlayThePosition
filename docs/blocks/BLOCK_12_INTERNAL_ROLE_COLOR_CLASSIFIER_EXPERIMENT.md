@@ -72,10 +72,12 @@ This block does not approve upload integration, public API changes, product UI c
 - Reports failures and blockers as measurements, not accuracy claims.
 
 ### 12.6 Closeout / next-step decision
-- Status: planned.
-- Summarize BLOCK 12 measurement outcomes.
-- Record role/color classifier blockers and limitations.
-- Decide whether the next safe step is improved fixture signals, more approved fixtures, a revised classifier approach, or a later gated integration plan.
+- Status: implemented / ready for review.
+- Publishes the final BLOCK 12 measurement comparison in `docs/product/DETECTION_BLOCK_12_MEASUREMENT_COMPARISON.md`.
+- Records occupancy as working on approved fixtures, color as partially working with explicit ambiguity, and role classification as blocked/deferred.
+- Records combined role/color success as unavailable.
+- Blocks BLOCK 13 FEN reconstruction and upload/API integration until role identity is measurable or the roadmap is explicitly replanned around the blocker.
+- Recommends improved approved fixture role signals, a revised role classifier approach, or a dedicated role-fixture/marker strategy before current BLOCK 13 work begins.
 
 ## Classifier Direction
 

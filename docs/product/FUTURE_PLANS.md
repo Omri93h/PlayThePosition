@@ -1,6 +1,6 @@
 # Future Plans — Post-MVP
 
-These remain outside the currently active BLOCK 12 / 12.1 planning step unless explicitly moved into scope.
+These remain outside the currently active BLOCK 12 / 12.6 review step unless explicitly moved into scope.
 
 ## Future — Detection Accuracy
 
@@ -9,8 +9,8 @@ These remain outside the currently active BLOCK 12 / 12.1 planning step unless e
 - BLOCK 09 covers the approved fixture-intake and measurement slice only: approved non-user fixture candidate selection, first approved fixture set after explicit approval, decode/preprocess measurements, board-bounds measurements, and a next-step decision.
 - BLOCK 10 covers the approved real-ish fixture measurement slice only: fixture source approval, a tiny approved non-user real-ish fixture set, decode/preprocess measurements, board-bounds measurements, and comparison against BLOCK 09 synthetic-only measurements.
 - BLOCK 11 covers internal/test-only occupancy measurement against expected fixture pieces. Role/color piece recognition remains unsupported.
-- BLOCK 12 covers the planned internal/test-only role/color classifier experiment using approved fixtures only. Upload/API integration remains deferred.
-- BLOCK 13 is planned for recognition orchestration and FEN reconstruction: board bounds → squares → occupancy → role/color → FEN.
+- BLOCK 12 covers the internal/test-only role/color classifier experiment using approved fixtures only. Current results show occupancy works on approved fixtures, color partially works, role remains blocked/deferred, and upload/API integration remains deferred.
+- BLOCK 13 is planned for recognition orchestration and FEN reconstruction: board bounds → squares → occupancy → role/color → FEN. It remains blocked until role identity is measurable or the roadmap is explicitly replanned around the blocker.
 - BLOCK 14 is planned for upload/API integration behind an internal/dev gate only after approved-fixture FEN reconstruction works.
 - BLOCK 15 is planned for board interaction and game mode fixes.
 - BLOCK 16 is planned for user-facing analyze flow polish.
@@ -31,7 +31,7 @@ Goal: make piece recognition detect piece color and role on approved fixtures on
 - 12.5 Role/color measurement report.
 - 12.6 Closeout / next-step decision.
 
-Gate: if role/color cannot be identified reliably on controlled fixtures, do not start upload/API integration.
+Gate: if role/color cannot be identified reliably on controlled fixtures, do not start FEN reconstruction or upload/API integration.
 
 ### BLOCK 13 — Recognition Orchestration + FEN Reconstruction
 
@@ -44,7 +44,7 @@ Goal: turn detection outputs into internal board state and FEN.
 - 13.5 Internal tests against approved fixtures.
 - 13.6 Report: FEN reconstruction readiness.
 
-Gate: must generate correct FEN from approved fixtures before upload integration.
+Gate: must generate correct FEN from approved fixtures before upload integration. Current BLOCK 12 evidence blocks this work until role identity is measurable or the roadmap is explicitly replanned around the role blocker.
 
 ### BLOCK 14 — Upload/API Integration Behind Internal Gate
 
