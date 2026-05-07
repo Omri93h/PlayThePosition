@@ -59,7 +59,8 @@ git status
 
 - Project is in BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements.
 - Features 10.1 through 10.4 are complete/committed.
-- Current planned work is Feature 10.5 — Measurement comparison report and next-step decision.
+- Feature 10.5 — Measurement comparison report and next-step decision is implemented / ready for review.
+- Next process step is BLOCK 10 closeout review.
 - BLOCK 10 is not complete.
 - No upload/API integration has started.
 - No production recognition accuracy claim has been made.

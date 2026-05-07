@@ -62,10 +62,14 @@ This block continues measurement-only recognition work. It does not approve prod
 - No upload/API behavior changed and no recognition accuracy is claimed.
 
 ### 10.5 Measurement comparison report and next-step decision
-- Status: current/planned; not implemented.
+- Status: implemented / ready for review.
 - Compare real-ish fixture measurements against the BLOCK 09 synthetic-only measurements.
 - Record blockers and reliability gaps.
 - Decide whether to add more fixtures, improve board-bounds detection, measure piece recognition, defer integration, or plan a later gated upload integration step.
+- Comparison and next-step decision are documented in `docs/product/DETECTION_BLOCK_10_MEASUREMENT_COMPARISON.md`.
+- BLOCK 10 can move to closeout review after 10.5.
+- Recommended next technical direction after BLOCK 10 is a future piece-recognition measurement/experiment block using approved fixtures only.
+- Upload/API integration remains deferred.
 
 ## Guardrails
 - Fixtures must be non-user and explicitly approved/licensed.

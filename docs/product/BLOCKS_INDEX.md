@@ -22,7 +22,7 @@
 - BLOCK 08 is completed as foundation/measurement-gated only.
 - BLOCK 09 is completed as fixture-intake and measurement-only work.
 - BLOCK 10 is the current in-progress approved real-ish fixture-intake and measurement block.
-- Current step is 10.5 Measurement comparison report and next-step decision.
+- Current step is BLOCK 10 closeout review after 10.5.
 - BLOCK 10 is not complete.
 
 ## Rules

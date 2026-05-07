@@ -114,4 +114,4 @@
 - 10.2 Add first approved real-ish non-user fixture set — complete
 - 10.3 Run decode/preprocess measurements on real-ish fixtures — complete
 - 10.4 Run board-bounds measurements on real-ish fixtures — complete
-- 10.5 Measurement comparison report and next-step decision — current/planned
+- 10.5 Measurement comparison report and next-step decision — implemented / ready for review

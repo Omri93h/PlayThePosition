@@ -17,7 +17,7 @@
 
 ## Current
 
-- Current focus: BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements, Feature 10.5 planning / implementation.
+- Current focus: BLOCK 10 — Approved Real-Ish Fixture Intake and Measurements, Feature 10.5 ready for review.
 - BLOCK 07 is completed as discovery/experiment-only.
 - BLOCK 08 is completed as foundation/measurement-gated only.
 - BLOCK 09 is completed as fixture intake and measurement-only work.
@@ -26,6 +26,7 @@
 - Feature 10.2 is complete/committed as fixture/test tooling with four owned/generated real-ish fixtures and approved metadata.
 - Feature 10.3 is complete/committed as decode/preprocess measurements on the owned/generated real-ish fixture set.
 - Feature 10.4 is complete/committed as fixture-gated board-bounds measurements on the owned/generated real-ish fixture set.
+- Feature 10.5 is implemented / ready for review as measurement comparison report and next-step decision.
 - Real image recognition implementation has not started.
 - MVP hardening/polish is complete.
 - MVP readiness automated validation passed.
@@ -72,8 +73,9 @@
 
 ## Next
 
-- Plan / implement 10.5 Measurement comparison report and next-step decision.
-- Do not mark BLOCK 10 complete until 10.5 is implemented, reviewed, and approved for closeout.
+- Review 10.5 Measurement comparison report and next-step decision.
+- Next process step is BLOCK 10 closeout review.
+- Do not mark BLOCK 10 complete until closeout is reviewed and approved.
 - Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.
 - Keep upload integration and production-grade recognition deferred until explicitly approved.
 
@@ -83,7 +85,7 @@
 - 10.2 Add first approved real-ish non-user fixture set — complete/committed.
 - 10.3 Run decode/preprocess measurements on real-ish fixtures — complete/committed.
 - 10.4 Run board-bounds measurements on real-ish fixtures — complete/committed.
-- 10.5 Measurement comparison report and next-step decision — current/planned.
+- 10.5 Measurement comparison report and next-step decision — implemented / ready for review.
 
 ## Completed In BLOCK 09
 
@@ -118,7 +120,8 @@
 - No payments, subscriptions, or premium gating.
 - No external Chess.com/Lichess link-out.
 - No SEO or distribution work.
-- Measurement comparison and next-step decision are current/planned in 10.5.
+- BLOCK 10 measurement comparison and next-step decision are implemented / ready for review.
+- Recommended next technical direction after BLOCK 10 is a future piece-recognition measurement/experiment block using approved fixtures only.
 
 ## Later / Deferred
 
