@@ -4,7 +4,7 @@ Current Block/Area:
 BLOCK 12 — Internal Role/Color Classifier Experiment
 
 Current Feature:
-12.1 Role/color classifier contract
+12.2 Fixture signal audit for role/color feasibility
 
 Current Step:
 Implemented / ready for review

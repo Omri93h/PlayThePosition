@@ -41,11 +41,11 @@ This block does not approve upload integration, public API changes, product UI c
 - Keeps upload/API integration deferred.
 
 ### 12.2 Fixture signal audit for role/color feasibility
-- Status: planned.
-- Audit approved fixture images and metadata for role/color signal feasibility.
-- Confirm which fixture groups can be measured without adding or editing images.
-- Record blockers where fixture art is not distinguishable enough.
-- Do not change fixture images.
+- Status: implemented / ready for review.
+- Audits approved fixture images and metadata for role/color signal feasibility in `docs/product/DETECTION_ROLE_COLOR_SIGNAL_AUDIT.md`.
+- Confirms color signal is feasible for a future internal/test-only color classifier experiment.
+- Records role signal as ambiguous or unsupported under the current audit.
+- Does not change fixture images.
 
 ### 12.3 Test-only color classifier experiment
 - Status: planned.

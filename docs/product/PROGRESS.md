@@ -19,7 +19,7 @@
 
 ## Current
 
-- Current focus: BLOCK 12 — Internal Role/Color Classifier Experiment, Feature 12.1 implemented / ready for review.
+- Current focus: BLOCK 12 — Internal Role/Color Classifier Experiment, Feature 12.2 implemented / ready for review.
 - BLOCK 07 is completed as discovery/experiment-only.
 - BLOCK 08 is completed as foundation/measurement-gated only.
 - BLOCK 09 is completed as fixture intake and measurement-only work.
@@ -27,7 +27,7 @@
 - BLOCK 11 is completed as internal/test-only piece-recognition measurement work.
 - BLOCK 12 is in progress as internal/test-only role/color classifier experiment work.
 - Feature 12.1 is implemented / ready for review as the role/color classifier contract.
-- Feature 12.2 is planned as fixture signal audit for role/color feasibility.
+- Feature 12.2 is implemented / ready for review as fixture signal audit for role/color feasibility.
 - Feature 12.3 is planned as test-only color classifier experiment.
 - Feature 12.4 is planned as test-only role classifier experiment.
 - Feature 12.5 is planned as role/color measurement tests and report.
@@ -88,8 +88,8 @@
 
 ## Next
 
-- Review Feature 12.1 — Role/color classifier contract.
-- Next planned feature is 12.2 — Fixture signal audit for role/color feasibility.
+- Review Feature 12.2 — Fixture signal audit for role/color feasibility.
+- Next planned feature is 12.3 — Test-only color classifier experiment.
 - Keep BLOCK 12 internal/test-only and approved-fixture-only.
 - Approved roadmap after BLOCK 12 runs through BLOCK 16: recognition orchestration/FEN reconstruction, internally gated upload/API integration, board interaction/game mode fixes, and user-facing analyze flow polish.
 - Keep BLOCK 11 internal/test-only.
@@ -107,7 +107,7 @@
 ## Planned In BLOCK 12
 
 - 12.1 Role/color classifier contract — implemented / ready for review.
-- 12.2 Fixture signal audit for role/color feasibility — planned.
+- 12.2 Fixture signal audit for role/color feasibility — implemented / ready for review.
 - 12.3 Test-only color classifier experiment — planned.
 - 12.4 Test-only role classifier experiment — planned.
 - 12.5 Role/color measurement tests and report — planned.
@@ -168,7 +168,9 @@
 - BLOCK 11 measurement comparison recommends a future internal/test-only role/color classifier experiment block before any upload/API integration.
 - BLOCK 11 is complete as internal/test-only measurement work.
 - BLOCK 12 is in progress to explore role/color classification internally against approved fixtures only.
-- BLOCK 12 role/color classifier contract is documented; classifier implementation has not started.
+- BLOCK 12 role/color classifier contract is documented.
+- BLOCK 12 fixture signal audit is complete: color signal is feasible for a test-only color classifier experiment; role signal remains ambiguous or unsupported.
+- Classifier implementation has not started.
 
 ## Later / Deferred
 
