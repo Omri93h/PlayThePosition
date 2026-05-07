@@ -35,10 +35,12 @@ This block does not approve upload integration, public API changes, product UI c
 - Measurement contract is documented in `docs/product/DETECTION_PIECE_RECOGNITION_MEASUREMENT_CONTRACT.md`.
 
 ### 11.2 Approved fixture expected-piece metadata audit
-- Status: planned.
+- Status: implemented / ready for review.
 - Verify approved fixture metadata has expected pieces for every measured position.
 - Identify whether existing approved fixtures are enough for first measurements.
 - Do not add fixtures unless a later approved feature explicitly requires them.
+- Audit is documented in `docs/product/DETECTION_EXPECTED_PIECE_METADATA_AUDIT.md`.
+- Existing approved fixtures are ready for 11.3.
 
 ### 11.3 Test-only square sampling / piece marker extraction experiment
 - Status: planned.

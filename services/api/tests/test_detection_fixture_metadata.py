@@ -135,6 +135,94 @@ def test_missing_expected_fen_for_success_case_fails() -> None:
     assert "missing_expected_fen" in issue_codes(result)
 
 
+def test_missing_expected_pieces_fails() -> None:
+    case = valid_success_case()
+    del case["expected_pieces"]
+
+    result = validate_approved_fixture_manifest(
+        {"version": 1, "cases": [case]},
+        approved_dir=APPROVED_DIR,
+    )
+
+    assert "missing_required_field" in issue_codes(result)
+
+
+def test_invalid_expected_piece_square_fails() -> None:
+    case = valid_success_case()
+    case["expected_pieces"][0]["square"] = "i9"
+
+    result = validate_approved_fixture_manifest(
+        {"version": 1, "cases": [case]},
+        approved_dir=APPROVED_DIR,
+    )
+
+    assert "invalid_expected_piece_square" in issue_codes(result)
+
+
+def test_invalid_expected_piece_role_or_color_fails() -> None:
+    case = valid_success_case()
+    case["expected_pieces"][0]["piece"] = "archer"
+    case["expected_pieces"][1]["color"] = "green"
+
+    result = validate_approved_fixture_manifest(
+        {"version": 1, "cases": [case]},
+        approved_dir=APPROVED_DIR,
+    )
+
+    assert issue_codes(result) == {
+        "invalid_expected_piece_color",
+        "invalid_expected_piece_role",
+    }
+
+
+def test_duplicate_expected_piece_square_fails() -> None:
+    case = valid_success_case()
+    case["expected_pieces"][1]["square"] = case["expected_pieces"][0]["square"]
+
+    result = validate_approved_fixture_manifest(
+        {"version": 1, "cases": [case]},
+        approved_dir=APPROVED_DIR,
+    )
+
+    assert "duplicate_expected_piece_square" in issue_codes(result)
+
+
+def test_expected_pieces_must_match_expected_fen_occupied_squares() -> None:
+    case = valid_success_case()
+    case["expected_pieces"] = case["expected_pieces"][:1]
+
+    result = validate_approved_fixture_manifest(
+        {"version": 1, "cases": [case]},
+        approved_dir=APPROVED_DIR,
+    )
+
+    assert "expected_pieces_fen_mismatch" in issue_codes(result)
+
+
+def test_expected_piece_role_and_color_must_match_expected_fen() -> None:
+    case = valid_success_case()
+    case["expected_pieces"][0]["color"] = "black"
+
+    result = validate_approved_fixture_manifest(
+        {"version": 1, "cases": [case]},
+        approved_dir=APPROVED_DIR,
+    )
+
+    assert "expected_pieces_fen_mismatch" in issue_codes(result)
+
+
+def test_invalid_fen_piece_placement_fails() -> None:
+    case = valid_success_case()
+    case["expected_fen"] = "9/8/8/8/8/8/8/4K3 w - - 0 1"
+
+    result = validate_approved_fixture_manifest(
+        {"version": 1, "cases": [case]},
+        approved_dir=APPROVED_DIR,
+    )
+
+    assert "invalid_expected_fen" in issue_codes(result)
+
+
 def test_existing_temporary_image_file_is_decoded_when_required(
     tmp_path: Path,
 ) -> None:

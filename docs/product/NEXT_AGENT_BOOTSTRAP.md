@@ -59,9 +59,9 @@ git status
 
 - Project is in BLOCK 11 — Internal Piece-Recognition Measurement Experiments.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
-- Current feature is 11.1 — BLOCK 11 definition and measurement contract.
-- Feature 11.1 is implemented / ready for review.
-- Next planned feature is 11.2 — Approved fixture expected-piece metadata audit.
+- Current feature is 11.2 — Approved fixture expected-piece metadata audit.
+- Features 11.1 and 11.2 are implemented / ready for review.
+- Next planned feature is 11.3 — Test-only square sampling / piece marker extraction experiment.
 - BLOCK 11 must remain internal/test-only.
 - No upload/API integration has started.
 - No production recognition accuracy claim has been made.

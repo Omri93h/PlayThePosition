@@ -18,13 +18,14 @@
 
 ## Current
 
-- Current focus: BLOCK 11 — Internal Piece-Recognition Measurement Experiments, Feature 11.1 ready for review.
+- Current focus: BLOCK 11 — Internal Piece-Recognition Measurement Experiments, Feature 11.2 ready for review.
 - BLOCK 07 is completed as discovery/experiment-only.
 - BLOCK 08 is completed as foundation/measurement-gated only.
 - BLOCK 09 is completed as fixture intake and measurement-only work.
 - BLOCK 10 is completed as approved real-ish fixture intake and measurement-only work.
 - BLOCK 11 is planned as internal/test-only piece-recognition measurement work.
 - Feature 11.1 is implemented / ready for review as BLOCK 11 definition and measurement contract.
+- Feature 11.2 is implemented / ready for review as approved fixture expected-piece metadata audit.
 - Feature 10.1 is complete/committed as docs-only fixture source approval and candidate selection.
 - Feature 10.2 is complete/committed as fixture/test tooling with four owned/generated real-ish fixtures and approved metadata.
 - Feature 10.3 is complete/committed as decode/preprocess measurements on the owned/generated real-ish fixture set.
@@ -76,8 +77,8 @@
 
 ## Next
 
-- Review Feature 11.1 — BLOCK 11 definition and measurement contract.
-- Next planned feature is 11.2 — Approved fixture expected-piece metadata audit.
+- Review Feature 11.2 — Approved fixture expected-piece metadata audit.
+- Next planned feature is 11.3 — Test-only square sampling / piece marker extraction experiment.
 - Keep BLOCK 11 internal/test-only.
 - Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.
 - Keep upload integration and production-grade recognition deferred until explicitly approved.
@@ -85,7 +86,7 @@
 ## Planned In BLOCK 11
 
 - 11.1 BLOCK 11 definition and measurement contract — implemented / ready for review.
-- 11.2 Approved fixture expected-piece metadata audit — planned.
+- 11.2 Approved fixture expected-piece metadata audit — implemented / ready for review.
 - 11.3 Test-only square sampling / piece marker extraction experiment — planned.
 - 11.4 Piece-recognition measurement tests and report — planned.
 - 11.5 Measurement comparison, blockers, and next-step decision — planned.
