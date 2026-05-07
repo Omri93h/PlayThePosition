@@ -33,7 +33,7 @@ This block does not approve upload integration, public API changes, product UI c
 
 ## Planned Features
 
-### 12.1 BLOCK 12 definition and role/color classifier contract
+### 12.1 Role/color classifier contract
 - Status: planned.
 - Define the internal/test-only role/color classifier measurement contract.
 - Extend the BLOCK 11 output shape for expected vs detected piece role/color.
@@ -68,7 +68,7 @@ This block does not approve upload integration, public API changes, product UI c
 - Publish a concise internal measurement report.
 - Report failures as measurements, not accuracy claims.
 
-### 12.6 Measurement comparison, blockers, and next-step decision
+### 12.6 Closeout / next-step decision
 - Status: planned.
 - Summarize BLOCK 12 measurement outcomes.
 - Record role/color classifier blockers and limitations.

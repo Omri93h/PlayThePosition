@@ -69,7 +69,7 @@ git status
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only measurement work.
 - Project is now moving into BLOCK 12 — Internal Role/Color Classifier Experiment.
-- Current feature is 12.1 — BLOCK 12 definition and role/color classifier contract.
+- Current feature is 12.1 — Role/color classifier contract.
 - Current step is plan only / not implemented.
 - BLOCK 12 must remain internal/test-only and approved-fixture-only.
 - No upload/API integration has started.
@@ -77,6 +77,12 @@ git status
 - Current BLOCK 11 measurement compares occupancy only; role/color piece recognition remains unsupported and not implemented.
 - BLOCK 12 is planned to explore role/color classification with fixture-specific marker/color sampling over approved fixtures only.
 - No classifier implementation has started yet.
+- Approved roadmap after BLOCK 12:
+  - BLOCK 13 — Recognition Orchestration + FEN Reconstruction.
+  - BLOCK 14 — Upload/API Integration Behind Internal Gate.
+  - BLOCK 15 — Board Interaction / Game Mode Fixes.
+  - BLOCK 16 — User-Facing Analyze Flow Polish.
+- Upload/API integration remains deferred until BLOCK 12 and BLOCK 13 gates pass.
 
 ## Important Future Notes
 

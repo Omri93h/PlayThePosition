@@ -26,12 +26,12 @@
 - BLOCK 10 is completed as approved real-ish fixture intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only piece-recognition measurement work.
 - BLOCK 12 is planned as internal/test-only role/color classifier experiment work.
-- Feature 12.1 is planned as BLOCK 12 definition and role/color classifier contract.
+- Feature 12.1 is planned as role/color classifier contract.
 - Feature 12.2 is planned as fixture signal audit for role/color feasibility.
 - Feature 12.3 is planned as test-only color classifier experiment.
 - Feature 12.4 is planned as test-only role classifier experiment.
 - Feature 12.5 is planned as role/color measurement tests and report.
-- Feature 12.6 is planned as measurement comparison, blockers, and next-step decision.
+- Feature 12.6 is planned as closeout / next-step decision.
 - Feature 11.1 is complete as BLOCK 11 definition and measurement contract.
 - Feature 11.2 is complete as approved fixture expected-piece metadata audit.
 - Feature 11.3 is complete as test-only square sampling / piece marker extraction experiment.
@@ -88,8 +88,9 @@
 
 ## Next
 
-- Plan Feature 12.1 — BLOCK 12 definition and role/color classifier contract.
+- Plan Feature 12.1 — Role/color classifier contract.
 - Keep BLOCK 12 internal/test-only and approved-fixture-only.
+- Approved roadmap after BLOCK 12 runs through BLOCK 16: recognition orchestration/FEN reconstruction, internally gated upload/API integration, board interaction/game mode fixes, and user-facing analyze flow polish.
 - Keep BLOCK 11 internal/test-only.
 - Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.
 - Keep upload integration and production-grade recognition deferred until explicitly approved.
@@ -104,12 +105,19 @@
 
 ## Planned In BLOCK 12
 
-- 12.1 BLOCK 12 definition and role/color classifier contract — planned.
+- 12.1 Role/color classifier contract — planned.
 - 12.2 Fixture signal audit for role/color feasibility — planned.
 - 12.3 Test-only color classifier experiment — planned.
 - 12.4 Test-only role classifier experiment — planned.
 - 12.5 Role/color measurement tests and report — planned.
-- 12.6 Measurement comparison, blockers, and next-step decision — planned.
+- 12.6 Closeout / next-step decision — planned.
+
+## Planned Roadmap After BLOCK 12
+
+- BLOCK 13 — Recognition Orchestration + FEN Reconstruction.
+- BLOCK 14 — Upload/API Integration Behind Internal Gate.
+- BLOCK 15 — Board Interaction / Game Mode Fixes.
+- BLOCK 16 — User-Facing Analyze Flow Polish.
 
 ## Completed In BLOCK 10
 
