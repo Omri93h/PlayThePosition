@@ -64,11 +64,12 @@ This block does not approve upload integration, public API changes, product UI c
 - Does not infer role from board position, FEN, expected metadata, filename, style, starting position, or chess rules.
 
 ### 12.5 Role/color measurement tests and report
-- Status: planned.
-- Compare expected piece role/color against detected role/color.
-- Record `correct`, `wrong`, `missing`, `extra`, and `not_measured` outcomes.
-- Publish a concise internal measurement report.
-- Report failures as measurements, not accuracy claims.
+- Status: implemented / ready for review.
+- Publishes the combined internal measurement report in `docs/product/DETECTION_ROLE_COLOR_MEASUREMENT_REPORT.md`.
+- Combines BLOCK 11 occupancy measurement, Feature 12.3 color classifier results, and Feature 12.4 role blocked/deferred decision.
+- Records 167 sampled occupied squares, 159 correct color classifications, 8 ambiguous color rows, and 0 combined role/color successes.
+- Keeps role classification blocked/deferred and upload/API integration blocked.
+- Reports failures and blockers as measurements, not accuracy claims.
 
 ### 12.6 Closeout / next-step decision
 - Status: planned.

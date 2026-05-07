@@ -19,7 +19,7 @@
 
 ## Current
 
-- Current focus: BLOCK 12 — Internal Role/Color Classifier Experiment, Feature 12.4 implemented / ready for review.
+- Current focus: BLOCK 12 — Internal Role/Color Classifier Experiment, Feature 12.5 implemented / ready for review.
 - BLOCK 07 is completed as discovery/experiment-only.
 - BLOCK 08 is completed as foundation/measurement-gated only.
 - BLOCK 09 is completed as fixture intake and measurement-only work.
@@ -30,7 +30,7 @@
 - Feature 12.2 is implemented / ready for review as fixture signal audit for role/color feasibility.
 - Feature 12.3 is implemented / ready for review as test-only color classifier experiment.
 - Feature 12.4 is implemented / ready for review as a blocked/deferred role classifier decision.
-- Feature 12.5 is planned as role/color measurement tests and report.
+- Feature 12.5 is implemented / ready for review as role/color measurement tests and report.
 - Feature 12.6 is planned as closeout / next-step decision.
 - Feature 11.1 is complete as BLOCK 11 definition and measurement contract.
 - Feature 11.2 is complete as approved fixture expected-piece metadata audit.
@@ -88,8 +88,8 @@
 
 ## Next
 
-- Review Feature 12.4 — Test-only role classifier blocked/deferred decision.
-- Next planned feature is 12.5 — Role/color measurement tests and report.
+- Review Feature 12.5 — Role/color measurement tests and report.
+- Next planned feature is 12.6 — Closeout / next-step decision.
 - Keep BLOCK 12 internal/test-only and approved-fixture-only.
 - Approved roadmap after BLOCK 12 runs through BLOCK 16: recognition orchestration/FEN reconstruction, internally gated upload/API integration, board interaction/game mode fixes, and user-facing analyze flow polish.
 - Keep BLOCK 11 internal/test-only.
@@ -110,7 +110,7 @@
 - 12.2 Fixture signal audit for role/color feasibility — implemented / ready for review.
 - 12.3 Test-only color classifier experiment — implemented / ready for review.
 - 12.4 Test-only role classifier experiment — implemented / ready for review as blocked/deferred.
-- 12.5 Role/color measurement tests and report — planned.
+- 12.5 Role/color measurement tests and report — implemented / ready for review.
 - 12.6 Closeout / next-step decision — planned.
 
 ## Planned Roadmap After BLOCK 12
@@ -172,6 +172,7 @@
 - BLOCK 12 fixture signal audit is complete: color signal is feasible for a test-only color classifier experiment; role signal remains ambiguous or unsupported.
 - BLOCK 12 test-only color classifier experiment is complete: 159 of 167 approved occupied squares classify correctly, with 8 ambiguous rows kept explicit.
 - BLOCK 12 role classifier decision is complete: role classification is blocked/deferred on current approved fixtures because role signals are ambiguous or unsupported.
+- BLOCK 12 role/color measurement report is complete: occupancy and color are measured on approved fixtures, role remains blocked/deferred, combined role/color success is unavailable, and FEN/upload integration remain blocked.
 
 ## Later / Deferred
 

@@ -69,7 +69,7 @@ git status
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only measurement work.
 - Project is now moving into BLOCK 12 — Internal Role/Color Classifier Experiment.
-- Current feature is 12.4 — Test-only role classifier experiment.
+- Current feature is 12.5 — Role/color measurement tests and report.
 - Current step is implemented / ready for review.
 - BLOCK 12 must remain internal/test-only and approved-fixture-only.
 - No upload/API integration has started.
@@ -81,7 +81,8 @@ git status
 - The 12.3 test-only color classifier experiment is documented and implemented: 159 of 167 approved occupied squares classify correctly, with 8 ambiguous rows kept explicit.
 - The 12.4 role classifier decision is documented and implemented as blocked/deferred on current approved fixtures.
 - Role classification remains unavailable because current role signals are ambiguous or unsupported.
-- Next planned feature is 12.5 — Role/color measurement tests and report.
+- The 12.5 role/color measurement report is documented and implemented: occupancy and color are measured on approved fixtures, role remains blocked/deferred, combined role/color success is unavailable, and FEN/upload integration remain blocked.
+- Next planned feature is 12.6 — Closeout / next-step decision.
 - Approved roadmap after BLOCK 12:
   - BLOCK 13 — Recognition Orchestration + FEN Reconstruction.
   - BLOCK 14 — Upload/API Integration Behind Internal Gate.

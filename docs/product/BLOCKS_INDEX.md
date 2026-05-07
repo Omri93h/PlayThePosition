@@ -34,7 +34,7 @@
 - BLOCK 14 is planned for upload/API integration behind an internal gate after approved-fixture FEN reconstruction works.
 - BLOCK 15 is planned for board interaction and game-mode fixes.
 - BLOCK 16 is planned for user-facing analyze flow polish.
-- Current step is 12.4 test-only role classifier blocked/deferred decision implemented / ready for review.
+- Current step is 12.5 role/color measurement tests and report implemented / ready for review.
 
 ## Rules
 - Work block-by-block.
