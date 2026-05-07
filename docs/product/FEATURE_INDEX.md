@@ -118,9 +118,9 @@
 
 ## BLOCK 11 — Internal Piece-Recognition Measurement Experiments
 
-- Status: planned.
-- 11.1 BLOCK 11 definition and measurement contract — implemented / ready for review
-- 11.2 Approved fixture expected-piece metadata audit — implemented / ready for review
-- 11.3 Test-only square sampling / piece marker extraction experiment — implemented / ready for review
-- 11.4 Piece-recognition measurement tests and report — implemented / ready for review
-- 11.5 Measurement comparison, blockers, and next-step decision — implemented / ready for review
+- Status: complete.
+- 11.1 BLOCK 11 definition and measurement contract — complete
+- 11.2 Approved fixture expected-piece metadata audit — complete
+- 11.3 Test-only square sampling / piece marker extraction experiment — complete
+- 11.4 Piece-recognition measurement tests and report — complete
+- 11.5 Measurement comparison, blockers, and next-step decision — complete

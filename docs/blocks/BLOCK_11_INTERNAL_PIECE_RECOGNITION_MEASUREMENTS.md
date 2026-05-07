@@ -1,9 +1,9 @@
 # BLOCK 11 — Internal Piece-Recognition Measurement Experiments
 
 ## Status
-Planned as the current internal/test-only piece-recognition measurement block.
+Completed as an internal/test-only piece-recognition measurement block.
 
-BLOCK 11 should measure whether approved fixtures can support expected-vs-detected piece-recognition experiments. It must remain internal and test-only until explicitly approved otherwise.
+BLOCK 11 measured whether approved fixtures can support expected-vs-detected piece-recognition experiments. It remained internal and test-only.
 
 ## Purpose
 Explore piece-recognition feasibility using approved fixture metadata and controlled measurement outputs.
@@ -28,14 +28,14 @@ This block does not approve upload integration, public API changes, product UI c
 ## Planned features
 
 ### 11.1 BLOCK 11 definition and measurement contract
-- Status: implemented / ready for review.
+- Status: complete.
 - Define expected-vs-detected piece measurement outputs.
 - Keep measurement records internal/test-only.
 - Document boundaries between board bounds, square mapping, piece recognition, FEN generation, and upload/API integration.
 - Measurement contract is documented in `docs/product/DETECTION_PIECE_RECOGNITION_MEASUREMENT_CONTRACT.md`.
 
 ### 11.2 Approved fixture expected-piece metadata audit
-- Status: implemented / ready for review.
+- Status: complete.
 - Verify approved fixture metadata has expected pieces for every measured position.
 - Identify whether existing approved fixtures are enough for first measurements.
 - Do not add fixtures unless a later approved feature explicitly requires them.
@@ -43,7 +43,7 @@ This block does not approve upload integration, public API changes, product UI c
 - Existing approved fixtures are ready for 11.3.
 
 ### 11.3 Test-only square sampling / piece marker extraction experiment
-- Status: implemented / ready for review.
+- Status: complete.
 - Design a controlled test-only way to sample fixture squares or extract owned fixture markers.
 - Keep this separate from production upload flow.
 - Do not claim real image recognition accuracy from this experiment.
@@ -53,7 +53,7 @@ This block does not approve upload integration, public API changes, product UI c
 - Invalid bounds and unsupported orientations return `not_measured` rows instead of crashing.
 
 ### 11.4 Piece-recognition measurement tests and report
-- Status: implemented / ready for review.
+- Status: complete.
 - Compare expected pieces against detected pieces.
 - Record per-square outcomes:
   - expected piece
@@ -70,7 +70,7 @@ This block does not approve upload integration, public API changes, product UI c
 - No upload/API behavior, UI behavior, fixture image, or production recognition behavior changed.
 
 ### 11.5 Measurement comparison, blockers, and next-step decision
-- Status: implemented / ready for review.
+- Status: complete.
 - Summarize piece-recognition measurement outcomes.
 - Record blockers and limitations.
 - Decide whether the next safe step is more fixture coverage, improved sampling/recognition experiments, or a later gated integration plan.
@@ -123,3 +123,15 @@ Position summaries should include:
 - Piece-recognition measurement report is created.
 - Next-step decision is recorded.
 - No upload behavior, public API contract, UI change, production accuracy claim, engine, legal moves, auth, payments, external link-out, or SEO work is added.
+
+## Closeout
+
+BLOCK 11 is complete as internal/test-only measurement work.
+
+- Features 11.1 through 11.5 are complete.
+- Current approved fixtures support occupancy comparison only.
+- Role/color piece recognition remains unsupported, not implemented, and not claimed.
+- Upload/API integration remains deferred and unchanged.
+- Product UI remains unchanged.
+- No fixture images were added or modified during closeout.
+- Recommended next block: future BLOCK 12 — Internal Role/Color Classifier Experiment, test-only and approved-fixture-only.

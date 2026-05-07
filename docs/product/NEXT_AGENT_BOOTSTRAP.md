@@ -67,9 +67,8 @@ git status
 
 - Project is in BLOCK 11 — Internal Piece-Recognition Measurement Experiments.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
-- Current feature is 11.5 — Measurement comparison, blockers, and next-step decision.
-- Features 11.1 through 11.5 are implemented / ready for review.
-- Next planned step is BLOCK 11 closeout review.
+- BLOCK 11 is completed as internal/test-only measurement work.
+- Current step is awaiting approved roadmap planning.
 - BLOCK 11 must remain internal/test-only.
 - No upload/API integration has started.
 - No production recognition accuracy claim has been made.

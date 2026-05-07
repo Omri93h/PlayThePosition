@@ -23,8 +23,8 @@
 - BLOCK 08 is completed as foundation/measurement-gated only.
 - BLOCK 09 is completed as fixture-intake and measurement-only work.
 - BLOCK 10 is completed as approved real-ish fixture-intake and measurement-only work.
-- BLOCK 11 is the current planned internal/test-only piece-recognition measurement block.
-- Current step is 11.5 Measurement comparison, blockers, and next-step decision.
+- BLOCK 11 is completed as internal/test-only piece-recognition measurement work.
+- Current step is awaiting approved roadmap planning.
 
 ## Rules
 - Work block-by-block.
