@@ -162,7 +162,7 @@
 - 15.1 API contract for uploaded image recognition — planned
 - 15.2 Backend endpoint behind dev/internal flag — planned
 - 15.3 Frontend upload flow uses backend result — planned
-- 15.4 Failure fallback: manual board/edit mode — planned
+- 15.4 Failure fallback through existing Edit mode / position workspace — planned
 - 15.5 Debug inspection view showing detected board bounds, detected pieces, confidence/failure reasons, and generated FEN — planned
 - 15.6 Internal QA report — planned
 

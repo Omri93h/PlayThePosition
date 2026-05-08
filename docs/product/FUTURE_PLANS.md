@@ -1,6 +1,10 @@
 # Future Plans — Post-MVP
 
-These remain outside the currently active BLOCK 13 / 13.1 planning step unless explicitly moved into scope.
+These remain outside the currently active BLOCK 13 track unless explicitly moved into scope.
+
+Product positioning: “Play any chess position you find online.”
+
+Image recognition is a means to reach the product goal: a live, editable chess position the user can review, correct, play from, copy, share, or open in an analyzer. Detection work should continue to support that positioning without treating recognition itself as the product.
 
 ## Future — Detection Accuracy
 
@@ -69,7 +73,7 @@ Goal: connect uploaded image → recognition result behind an internal/dev gate.
 - 15.1 API contract for uploaded image recognition.
 - 15.2 Backend endpoint behind dev/internal flag.
 - 15.3 Frontend upload flow uses backend result.
-- 15.4 Failure fallback: manual board/edit mode.
+- 15.4 Failure fallback: use the existing Edit mode / position workspace for manual correction; do not build a second editor.
 - 15.5 Debug inspection view showing detected board bounds, detected pieces, confidence/failure reasons, and generated FEN.
 - 15.6 Internal QA report.
 
@@ -79,7 +83,7 @@ Gate: if real uploaded screenshots fail badly, keep it internal and improve dete
 
 Purpose: create an internal/admin-only tool for reviewing recognition results and collecting corrected labeled examples.
 
-This is not ML training at first. The initial goal is review, correction, labeling, QA data collection, and clearer failure analysis. Actual training or model improvement may come later only after enough labeled samples exist and data/privacy rules are defined.
+This is not ML training at first and is not immediate active work. The initial goal is review, correction, labeling, QA data collection, and clearer failure analysis. Actual training or model improvement may come later only after enough labeled samples exist and data/privacy rules are defined.
 
 Future capabilities:
 
@@ -107,6 +111,7 @@ Placement and guardrails:
 - Does not interrupt BLOCK 13.
 - Should come after an internal recognition/FEN pipeline exists and is worth reviewing.
 - Should come before public upload launch.
+- Should complement the existing Edit mode / position workspace, not replace it with a second editor.
 - Must remain internal/admin-only until privacy, storage, retention, consent, and dataset rules are defined.
 - Must not claim production accuracy or public recognition readiness.
 

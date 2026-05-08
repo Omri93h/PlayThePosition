@@ -4,6 +4,7 @@
 - TXT/FEN upload is not part of current scope.
 - Detection remains placeholder-only until BLOCK 05.
 - Edit Mode is for correcting board positions after upload/detection.
+- Manual correction fallback means using the existing Edit Mode / position workspace, not building a second editor.
 - Analysis Mode with legal move dots is future work.
 - Manual validation after BLOCK 03 created BLOCK 03.5 UX Cleanup before BLOCK 04.
 - External analyzer link-out to Chess.com and Lichess is planned and may be premium-gated.

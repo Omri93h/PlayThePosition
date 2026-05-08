@@ -152,7 +152,7 @@ These are internal orchestrator outcomes only. They do not change current `/uplo
 
 ## Rollback And Fallback
 
-- Keep Edit Board as the primary recovery path.
+- Keep the existing Edit Mode / Edit Board position workspace as the primary recovery path.
 - Never block upload solely because detection fails.
 - Keep a feature/config gate around any real detection path.
 - For low-confidence results, use "Needs review" and keep correction obvious.

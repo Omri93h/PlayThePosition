@@ -21,6 +21,8 @@
 ## Current
 
 - Current focus: BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier, Feature 13.3 implemented / ready for review.
+- Product positioning: “Play any chess position you find online.”
+- Existing Edit mode is the manual correction path after detection; future fallback wording should refer to that workspace rather than a second editor.
 - BLOCK 07 is completed as discovery/experiment-only.
 - BLOCK 08 is completed as foundation/measurement-gated only.
 - BLOCK 09 is completed as fixture intake and measurement-only work.

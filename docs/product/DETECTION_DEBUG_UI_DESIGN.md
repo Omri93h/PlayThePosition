@@ -79,7 +79,7 @@ Avoid:
 ### Failed
 - Show the failed stage and friendly suggestion.
 - Keep technical detail secondary.
-- Do not block manual correction if a board can still be opened.
+- Do not block correction in the existing Edit Board / Edit mode if a board can still be opened.
 
 ## Future Backend Response Shape
 

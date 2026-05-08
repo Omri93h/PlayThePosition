@@ -69,6 +69,8 @@ git status
 
 ## Current Continuation Point
 
+- Product positioning: “Play any chess position you find online.”
+- Existing Edit mode / position workspace is the manual correction path after detection; future fallback wording should not imply a second editor.
 - Project has completed BLOCK 12 — Internal Role/Color Classifier Experiment.
 - Project is now in BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.

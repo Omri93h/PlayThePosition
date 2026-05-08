@@ -1,17 +1,19 @@
 # Product Vision — Play The Position
 
 ## One-liner
-Take any chess position screenshot and instantly turn it into a live, editable board.
+Play any chess position you find online.
 
 ## Core value
 Users often see chess positions in screenshots, social posts, videos, chats, puzzle pages, and streams. They should be able to upload that image and immediately interact with the position instead of manually rebuilding it.
+
+Image recognition is the fastest path into the experience, but it is not the product by itself. The product goal is a live, editable chess position that the user can review, correct, play from, copy, share, or open in an analyzer.
 
 ## Primary user flow
 1. User uploads a chess screenshot.
 2. The app detects the board and pieces.
 3. The app generates a FEN.
 4. The app opens a live board immediately.
-5. User corrects mistakes in edit mode if needed.
+5. User corrects mistakes in the existing Edit mode if needed.
 6. User copies FEN, opens chess.com analyzer, or shares the position.
 
 ## UX principles

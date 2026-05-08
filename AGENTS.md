@@ -5,6 +5,9 @@ This repository is for **Play The Position**.
 Product:
 A web app that converts a chess position screenshot into a live, editable chessboard position.
 
+Positioning:
+Play any chess position you find online.
+
 Core flow:
 Screenshot upload → position detection → FEN → live board → edit/correct → copy/share/open in chess.com analyzer.
 
