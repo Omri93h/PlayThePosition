@@ -20,7 +20,7 @@
 
 ## Current
 
-- Current focus: BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier, Feature 13.4 implemented / ready for review.
+- Current focus: BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier, Feature 13.5 implemented / ready for review.
 - Product name: Play That Position.
 - Future domain/brand asset: `playthatposition.com`.
 - Current development/runtime: localhost only.
@@ -37,6 +37,7 @@
 - Feature 13.2 is implemented / ready for review as approved fixture role-signal design rules.
 - Feature 13.3 is implemented / ready for review as owned/generated role-signal fixture intake.
 - Feature 13.4 is implemented / ready for review as fixture signal audit v2 for role separability.
+- Feature 13.5 is implemented / ready for review as a revised test-only role classifier experiment.
 - Feature 12.1 is complete as the role/color classifier contract.
 - Feature 12.2 is complete as fixture signal audit for role/color feasibility.
 - Feature 12.3 is complete as test-only color classifier experiment.
@@ -99,10 +100,10 @@
 
 ## Next
 
-- Review Feature 13.4 — Fixture signal audit v2 for role separability.
-- Next planned feature is 13.5 — Revised test-only role classifier experiment.
+- Review Feature 13.5 — Revised test-only role classifier experiment.
+- Next planned feature is 13.6 — Role classifier measurement report and next-step decision.
 - Keep BLOCK 13 internal/test-only and approved-fixture-only.
-- Do not implement role classifier code, FEN reconstruction, or upload/API integration until explicitly approved.
+- Do not implement FEN reconstruction or upload/API integration until explicitly approved.
 - Do not rename UI/header/logo/web metadata, package names, routes, manifests, deploy config, or runtime identifiers until a separate approved rename task.
 - Approved roadmap after BLOCK 13 currently runs through BLOCK 17, but FEN reconstruction is now deferred to BLOCK 14 and remains blocked until role identity is measurable.
 - Keep BLOCK 11 internal/test-only.
@@ -140,7 +141,7 @@
 - 13.2 Approved fixture role-signal design rules — implemented / ready for review.
 - 13.3 Add owned role-signal fixture set — implemented / ready for review.
 - 13.4 Fixture signal audit v2 for role separability — implemented / ready for review.
-- 13.5 Revised test-only role classifier experiment — planned.
+- 13.5 Revised test-only role classifier experiment — implemented / ready for review.
 - 13.6 Role classifier measurement report and next-step decision — planned.
 - 13.7 BLOCK 13 closeout review — planned.
 
@@ -200,7 +201,7 @@
 - BLOCK 12 measurement comparison is complete: occupancy works on approved fixtures, color partially works with 159 correct and 8 ambiguous rows, role remains blocked/deferred, piece identity is not recognized, and FEN/upload integration remain blocked.
 - Recommended next technical direction after BLOCK 12 is BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
 - FEN reconstruction is deferred to BLOCK 14 and remains blocked until role identity is measurable from approved fixture image signal.
-- BLOCK 13 owned/generated role-signal fixtures are added and audit v2 finds their role signals separable on approved fixtures, but role classifier code is not implemented and role identity is not recognized in product behavior yet.
+- BLOCK 13 owned/generated role-signal fixtures are added, audit v2 finds their role signals separable on approved fixtures, and the test-only role classifier measures 36 / 36 correct role classifications on those controlled fixtures. Role identity is still not recognized in product behavior, and FEN/upload remain deferred.
 
 ## Later / Deferred
 

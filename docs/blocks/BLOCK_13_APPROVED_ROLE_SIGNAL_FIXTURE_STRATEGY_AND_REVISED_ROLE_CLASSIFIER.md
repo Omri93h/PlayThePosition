@@ -61,10 +61,13 @@ BLOCK 12 proved that occupancy works on approved fixtures and color classificati
 - Does not implement role classifier code, infer role from forbidden shortcuts, start FEN reconstruction, start upload/API integration, or claim production recognition.
 
 ### 13.5 Revised test-only role classifier experiment
-- Status: planned.
-- Implement a role classifier only if audit v2 proves role separability from sampled image signal.
-- Return `unsupported`, `ambiguous`, or `not_measured` instead of guessing.
-- Keep the existing color classifier separate unless a focused compatibility change is approved.
+- Status: implemented / ready for review.
+- Adds the internal/test-only classifier in `services/api/app/detection/role_classifier.py`.
+- Classifies only occupied squares in approved role-signal fixtures using sampled image signatures from audit v2.
+- Keeps expected metadata scoring-only; focused tests tamper with expected role metadata and confirm `detected_role` still follows the sampled marker shape.
+- Documents results in `docs/product/DETECTION_ROLE_CLASSIFIER_EXPERIMENT.md`: 3 fixtures, 36 occupied squares, 36 detected role rows, 36 correct role classifications, 0 wrong, 0 ambiguous, 0 unsupported, and 0 not measured.
+- Keeps the color classifier separate and unchanged.
+- Does not change fixtures, start FEN reconstruction, start upload/API integration, expose UI behavior, or claim production/general screenshot recognition.
 
 ### 13.6 Role classifier measurement report and next-step decision
 - Status: planned.

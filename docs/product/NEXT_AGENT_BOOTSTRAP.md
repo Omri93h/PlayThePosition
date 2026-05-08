@@ -78,7 +78,7 @@ git status
 - Project is now in BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only measurement work.
-- Current feature is 13.4 — Fixture signal audit v2 for role separability.
+- Current feature is 13.5 — Revised test-only role classifier experiment.
 - Current step is implemented / ready for review.
 - BLOCK 12 stayed internal/test-only and approved-fixture-only.
 - No upload/API integration has started.
@@ -100,8 +100,11 @@ git status
 - Three role-signal fixtures were added under `services/api/tests/fixtures/detection/approved/` with additive metadata in `cases.json`.
 - The 13.4 fixture signal audit v2 is implemented in `services/api/app/detection/role_signal_audit_v2.py` and documented in `docs/product/DETECTION_ROLE_SIGNAL_AUDIT_V2.md`.
 - Audit v2 gates only the three owned `role-signal` fixtures and reports aggregate status feasible: 3 fixtures, 36 occupied squares, 36 measured role-signal samples, all six roles observed, minimum separation margin 0.1406, and no ambiguous role pairs.
-- No role classifier code, FEN reconstruction, upload/API integration, public UI behavior, or production recognition claim has been added in 13.4.
-- Next planned feature is 13.5 — Revised test-only role classifier experiment.
+- The 13.5 revised test-only role classifier experiment is implemented in `services/api/app/detection/role_classifier.py` and documented in `docs/product/DETECTION_ROLE_CLASSIFIER_EXPERIMENT.md`.
+- The role classifier measures only the three owned role-signal fixtures and reports 36 / 36 correct role classifications, 0 wrong, 0 ambiguous, 0 unsupported, and 0 not measured.
+- Expected metadata remains scoring-only; a focused test tampers with expected role metadata and confirms `detected_role` follows sampled marker shape.
+- No FEN reconstruction, upload/API integration, public UI behavior, or production/general screenshot recognition claim has been added in 13.5.
+- Next planned feature is 13.6 — Role classifier measurement report and next-step decision.
 - Approved roadmap after BLOCK 12:
   - BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
   - BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
