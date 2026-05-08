@@ -1,6 +1,6 @@
 # Codex Prompt Templates
 
-Reusable prompt shapes for Play The Position. Keep prompts short, replace placeholders, and do not execute before a PLAN is approved.
+Reusable prompt shapes for Play That Position. Keep prompts short, replace placeholders, and do not execute before a PLAN is approved.
 
 ## Prompt Length Rule
 

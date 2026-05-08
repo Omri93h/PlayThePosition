@@ -1,5 +1,7 @@
 # Decisions
 
+- Product name is Play That Position.
+- Future domain/brand asset is `playthatposition.com`; current development/runtime remains localhost only until deploy/domain work is separately approved.
 - Product input is image upload only for MVP.
 - TXT/FEN upload is not part of current scope.
 - Detection remains placeholder-only until BLOCK 05.

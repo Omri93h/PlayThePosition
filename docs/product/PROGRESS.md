@@ -21,6 +21,9 @@
 ## Current
 
 - Current focus: BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier, Feature 13.3 implemented / ready for review.
+- Product name: Play That Position.
+- Future domain/brand asset: `playthatposition.com`.
+- Current development/runtime: localhost only.
 - Product positioning: “Play any chess position you find online.”
 - Existing Edit mode is the manual correction path after detection; future fallback wording should refer to that workspace rather than a second editor.
 - BLOCK 07 is completed as discovery/experiment-only.
@@ -99,6 +102,7 @@
 - Next planned feature is 13.4 — Fixture signal audit v2 for role separability.
 - Keep BLOCK 13 internal/test-only and approved-fixture-only.
 - Do not implement audit v2, role classifier code, FEN reconstruction, or upload/API integration until explicitly approved.
+- Do not rename UI/header/logo/web metadata, package names, routes, manifests, deploy config, or runtime identifiers until a separate approved rename task.
 - Approved roadmap after BLOCK 13 currently runs through BLOCK 17, but FEN reconstruction is now deferred to BLOCK 14 and remains blocked until role identity is measurable.
 - Keep BLOCK 11 internal/test-only.
 - Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.

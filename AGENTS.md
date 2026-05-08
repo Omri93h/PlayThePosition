@@ -1,9 +1,14 @@
-# Agent Instructions — Play The Position
+# Agent Instructions — Play That Position
 
-This repository is for **Play The Position**.
+This repository is for **Play That Position**.
 
 Product:
 A web app that converts a chess position screenshot into a live, editable chessboard position.
+
+Brand/domain:
+- Product name: Play That Position.
+- Future domain/brand asset: `playthatposition.com`.
+- Current development/runtime: localhost only.
 
 Positioning:
 Play any chess position you find online.

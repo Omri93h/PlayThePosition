@@ -1,6 +1,6 @@
 # Design Direction
 
-Play The Position should feel like a modern, premium, clean web app with its own identity. It should be chess-inspired, but not a copy of chess.com, lichess, or other chess products.
+Play That Position should feel like a modern, premium, clean web app with its own identity. It should be chess-inspired, but not a copy of chess.com, lichess, or other chess products.
 
 ## Principles
 - Dark-first interface.

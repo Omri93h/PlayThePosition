@@ -1,5 +1,11 @@
 # MVP Scope
 
+Product name: Play That Position.
+
+Future domain/brand asset: `playthatposition.com`.
+
+Current development/runtime: localhost only.
+
 ## Included in MVP
 - Upload chess position screenshot.
 - Backend upload endpoint.

@@ -1,6 +1,6 @@
 # Next Agent Bootstrap
 
-Use this handoff when a future ChatGPT session continues Play The Position.
+Use this handoff when a future ChatGPT session continues Play That Position.
 
 ## Files To Read First
 
@@ -69,6 +69,9 @@ git status
 
 ## Current Continuation Point
 
+- Product name: Play That Position.
+- Future domain/brand asset: `playthatposition.com`.
+- Current development/runtime: localhost only.
 - Product positioning: “Play any chess position you find online.”
 - Existing Edit mode / position workspace is the manual correction path after detection; future fallback wording should not imply a second editor.
 - Project has completed BLOCK 12 — Internal Role/Color Classifier Experiment.

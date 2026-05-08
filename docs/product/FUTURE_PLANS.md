@@ -2,6 +2,12 @@
 
 These remain outside the currently active BLOCK 13 track unless explicitly moved into scope.
 
+Product name: Play That Position.
+
+Future domain/brand asset: `playthatposition.com`.
+
+Current development/runtime: localhost only.
+
 Product positioning: “Play any chess position you find online.”
 
 Image recognition is a means to reach the product goal: a live, editable chess position the user can review, correct, play from, copy, share, or open in an analyzer. Detection work should continue to support that positioning without treating recognition itself as the product.
@@ -175,6 +181,9 @@ Gate: user can upload, fix mistakes, move pieces, analyze, and share.
 ## Future — UI Polish Backlog
 
 - Side-to-move, Flip, and Reset must be visually aligned in the same row in Play mode.
+- Rename UI/header/logo/web metadata from Play The Position to Play That Position in a later approved branding/UI task.
+- Update favicon/app icon/social preview assets only in a later approved asset task.
+- Keep package names, repo paths, routes, manifests, and runtime/deploy config unchanged until a separate approved technical rename/deploy task.
 
 ## Phase 4 — SEO and Growth
 

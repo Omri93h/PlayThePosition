@@ -1,4 +1,9 @@
-# Product Vision — Play The Position
+# Product Vision — Play That Position
+
+## Brand
+- Product name: Play That Position.
+- Future domain/brand asset: `playthatposition.com`.
+- Current development/runtime: localhost only.
 
 ## One-liner
 Play any chess position you find online.

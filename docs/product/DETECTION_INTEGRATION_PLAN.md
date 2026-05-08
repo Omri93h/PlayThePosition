@@ -1,6 +1,6 @@
 # Detection Integration Plan
 
-This plan defines how Play The Position should replace scaffolded detection with real screenshot recognition later. It is planning only: no API contract change, upload behavior change, CV/ML dependency, screenshot fixture, or accuracy claim is approved by this document.
+This plan defines how Play That Position should replace scaffolded detection with real screenshot recognition later. It is planning only: no API contract change, upload behavior change, CV/ML dependency, screenshot fixture, or accuracy claim is approved by this document.
 
 ## Current Scaffolded Flow
 
