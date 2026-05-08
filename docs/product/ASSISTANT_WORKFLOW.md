@@ -17,6 +17,21 @@ For new chat/session handoff, read `docs/product/NEXT_AGENT_BOOTSTRAP.md` after 
 - Do not include parallel, optional, backup, or later prompts for unrelated tasks.
 - For PLAN-only Codex responses with no file changes, do not provide Git commands.
 
+## Token-Efficient Codex Prompts
+
+Future Codex prompts should be shorter by default. The repository docs are the source of truth, so prompts should not repeat the full project history, full roadmap, or old blocker details when those are already documented.
+
+Include only:
+
+- required read-first files
+- current feature/block goal
+- scope boundaries
+- feature-specific requirements
+- relevant validation commands
+- exact output format
+
+Longer prompts are allowed only when the work is risky enough to need extra guardrails, such as fixture generation, classifier logic, upload/API integration, routing/navigation, or broad state/doc repair.
+
 ## Roles
 
 - ChatGPT is the orchestrator and reviewer, not the direct coder.
@@ -89,6 +104,20 @@ Git commands must always match the latest Codex response and the exact changed f
 Omri does not need to paste successful commit output every time. If commit, push, or checks fail, Omri will paste the error and ChatGPT gives a fix prompt.
 
 Do not require Omri to paste successful Git output before moving to the next safe prompt; he will paste errors if something fails.
+
+## Block-End Validation
+
+At the end of every block, before marking the block complete, Codex must run:
+
+- automated tests/checks relevant to the specific block
+- broader project sanity tests where practical
+- lint/checks required by the repo workflow
+
+Block closeout must also produce a manual validation checklist for Omri. The checklist should be mostly yes/no questions specific to the block that just finished and should avoid repeating low-level sanity checks already covered by automated tests.
+
+Omri may return the checklist with yes/no answers and notes. A block can be marked implementation/docs ready for review before manual validation, but it should not be considered fully accepted by Omri until the manual validation response is reviewed.
+
+Use the reusable manual validation checklist template in `docs/product/CODEX_PROMPT_TEMPLATES.md`.
 
 ## Stop Rules
 

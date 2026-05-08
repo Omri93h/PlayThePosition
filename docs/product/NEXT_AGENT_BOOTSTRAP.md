@@ -57,7 +57,11 @@ git status
 - Do not require Omri to paste successful Git output every time; he will paste errors if needed.
 - If checks fail, scope expands, docs overclaim, or unrelated files changed: do not commit; give a narrow fix prompt.
 - Do not start next features or blocks until source-of-truth docs are correct.
+- Keep Codex prompts token-efficient by default. Do not repeat the full project history, full roadmap, or old blocker details when repo docs already contain them.
+- Include only read-first files, current goal, scope boundaries, feature-specific requirements, validation commands, and exact output format unless risky work needs more guardrails.
 - Manual validation is needed only when UI/product judgment matters.
+- At block closeout, manual validation is required before final Omri acceptance even when implementation/docs are ready for review.
+- Block closeout prompts must include relevant automated checks plus a block-specific manual validation checklist using the template in `docs/product/CODEX_PROMPT_TEMPLATES.md`.
 - Branding/logo/UI polish belongs in backlog or a future block unless it is the active approved task.
 - If a non-active issue is raised during a block, capture it as backlog/future work or mention it briefly; do not provide a separate Codex prompt.
 - Do not generate, create, or edit images unless Omri explicitly asks for image generation, creation, or editing.

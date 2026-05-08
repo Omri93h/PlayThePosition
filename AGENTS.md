@@ -36,6 +36,8 @@ Always work in this sequence:
 7. Review the implementation
 8. Suggest the next smallest feature
 
+Keep Codex prompts token-efficient by default: rely on repository docs as source of truth and include only the current goal, scope, feature-specific requirements, validation commands, and exact output format unless risky work needs more detail.
+
 ## Current-feature rule
 Only work on the feature listed in `current_focus.md`.
 
@@ -90,6 +92,8 @@ After every executed feature, provide:
 Before returning, perform a strict self-review for scope violations, unnecessary files, repo hygiene issues, deleted or risky changes, missing or weak tests, accessibility basics when UI changed, and whether the work is safe to commit.
 
 Do not commit automatically. Do not delete files without explicit approval. Do not move to the next feature automatically.
+
+At block closeout, run relevant automated checks and provide a block-specific manual validation checklist for Omri. A block can be ready for review before manual validation, but final Omri acceptance is separate.
 
 ## Output rules
 Be concise. Do not print full files, long logs, or repeated summaries. Return only changed files, check results, blockers, self-review, git status, suggested commit message, and next step. When commands produce long output, summarize only failures or final status. Do not paste full command logs unless there is a failure that needs debugging.
