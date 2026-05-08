@@ -53,10 +53,12 @@ BLOCK 12 proved that occupancy works on approved fixtures and color classificati
 - Does not alter existing approved fixture images, implement audit v2, implement role classifier code, start FEN reconstruction, or start upload/API integration.
 
 ### 13.4 Fixture signal audit v2 for role separability
-- Status: planned.
-- Audit the role-signal fixture set using sampled image signal only.
-- Decide whether role signals are feasible, ambiguous, or unsupported before classifier work.
-- Do not infer role from expected metadata, FEN, square identity, starting position, filename, style, or chess rules.
+- Status: implemented / ready for review.
+- Adds audit v2 in `services/api/app/detection/role_signal_audit_v2.py`.
+- Audits only the three owned `role-signal` fixtures for the 13.5 gate.
+- Measures sampled image shape signatures only; expected metadata is used for grouping/scoring, not classifier decisions.
+- Documents results in `docs/product/DETECTION_ROLE_SIGNAL_AUDIT_V2.md`: 3 fixtures, 36 occupied squares, 36 measured role-signal samples, all six roles observed, aggregate status feasible, minimum separation margin 0.1406, and no ambiguous role pairs.
+- Does not implement role classifier code, infer role from forbidden shortcuts, start FEN reconstruction, start upload/API integration, or claim production recognition.
 
 ### 13.5 Revised test-only role classifier experiment
 - Status: planned.

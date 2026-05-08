@@ -78,7 +78,7 @@ git status
 - Project is now in BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only measurement work.
-- Current feature is 13.3 — Add owned role-signal fixture set.
+- Current feature is 13.4 — Fixture signal audit v2 for role separability.
 - Current step is implemented / ready for review.
 - BLOCK 12 stayed internal/test-only and approved-fixture-only.
 - No upload/API integration has started.
@@ -98,8 +98,10 @@ git status
 - The 13.2 approved fixture role-signal design rules are documented in `docs/product/DETECTION_ROLE_SIGNAL_FIXTURE_DESIGN_RULES.md`.
 - The 13.3 owned role-signal fixture set is added with deterministic tooling in `tooling/scripts/generate_role_signal_detection_fixtures.py`.
 - Three role-signal fixtures were added under `services/api/tests/fixtures/detection/approved/` with additive metadata in `cases.json`.
-- No audit v2 implementation, role classifier code, FEN reconstruction, upload/API integration, public UI behavior, or production recognition claim has been added in 13.3.
-- Next planned feature is 13.4 — Fixture signal audit v2 for role separability.
+- The 13.4 fixture signal audit v2 is implemented in `services/api/app/detection/role_signal_audit_v2.py` and documented in `docs/product/DETECTION_ROLE_SIGNAL_AUDIT_V2.md`.
+- Audit v2 gates only the three owned `role-signal` fixtures and reports aggregate status feasible: 3 fixtures, 36 occupied squares, 36 measured role-signal samples, all six roles observed, minimum separation margin 0.1406, and no ambiguous role pairs.
+- No role classifier code, FEN reconstruction, upload/API integration, public UI behavior, or production recognition claim has been added in 13.4.
+- Next planned feature is 13.5 — Revised test-only role classifier experiment.
 - Approved roadmap after BLOCK 12:
   - BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
   - BLOCK 14 — Recognition Orchestration + FEN Reconstruction.

@@ -141,7 +141,7 @@
 - 13.1 BLOCK 13 definition and role-signal strategy contract — implemented / ready for review
 - 13.2 Approved fixture role-signal design rules — implemented / ready for review
 - 13.3 Add owned role-signal fixture set — implemented / ready for review
-- 13.4 Fixture signal audit v2 for role separability — planned
+- 13.4 Fixture signal audit v2 for role separability — implemented / ready for review
 - 13.5 Revised test-only role classifier experiment — planned
 - 13.6 Role classifier measurement report and next-step decision — planned
 - 13.7 BLOCK 13 closeout review — planned
