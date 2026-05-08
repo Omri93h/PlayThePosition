@@ -13,6 +13,7 @@ These remain outside the currently active BLOCK 13 / 13.1 planning step unless e
 - BLOCK 13 covers the planned approved role-signal fixture strategy and revised role-classifier work before FEN reconstruction.
 - BLOCK 14 is deferred for recognition orchestration and FEN reconstruction: board bounds → squares → occupancy → role/color → FEN. It remains blocked until role identity is measurable from approved fixture image signal.
 - BLOCK 15 is planned for upload/API integration behind an internal/dev gate only after approved-fixture FEN reconstruction works.
+- A future internal Recognition Review Studio / Detection Training Console should come after there is an internal recognition/FEN pipeline worth reviewing and before public upload launch.
 - BLOCK 16 is planned for board interaction and game mode fixes.
 - BLOCK 17 is planned for user-facing analyze flow polish.
 - Production-grade real-world screenshot recognition accuracy remains future work until measured and explicitly approved.
@@ -73,6 +74,41 @@ Goal: connect uploaded image → recognition result behind an internal/dev gate.
 - 15.6 Internal QA report.
 
 Gate: if real uploaded screenshots fail badly, keep it internal and improve detection.
+
+### Future Internal Tooling — Recognition Review Studio / Detection Training Console
+
+Purpose: create an internal/admin-only tool for reviewing recognition results and collecting corrected labeled examples.
+
+This is not ML training at first. The initial goal is review, correction, labeling, QA data collection, and clearer failure analysis. Actual training or model improvement may come later only after enough labeled samples exist and data/privacy rules are defined.
+
+Future capabilities:
+
+- Upload chess screenshots and non-chess screenshots.
+- Show detection result:
+  - board found / not found
+  - detected board bounds
+  - detected pieces
+  - generated FEN if available
+  - confidence/failure reasons
+- Allow Omri to mark:
+  - correct result
+  - wrong board crop
+  - wrong piece
+  - wrong color
+  - missing piece
+  - extra piece
+  - not a chessboard
+  - unusable screenshot
+- Save corrected labels as internal dataset samples.
+
+Placement and guardrails:
+
+- Future internal tooling block only.
+- Does not interrupt BLOCK 13.
+- Should come after an internal recognition/FEN pipeline exists and is worth reviewing.
+- Should come before public upload launch.
+- Must remain internal/admin-only until privacy, storage, retention, consent, and dataset rules are defined.
+- Must not claim production accuracy or public recognition readiness.
 
 ### BLOCK 16 — Board Interaction / Game Mode Fixes
 
