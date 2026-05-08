@@ -30,7 +30,11 @@ def test_realish_fixture_decode_measurements_match_expected_metadata() -> None:
     assert validation.valid is True
     assert validation.issues == ()
 
-    realish_cases = [case for case in manifest["cases"] if case["source"] == "owned"]
+    realish_cases = [
+        case
+        for case in manifest["cases"]
+        if case["source"] == "owned" and case["style"] != "role-signal"
+    ]
 
     assert {case["filename"] for case in realish_cases} == REALISH_FIXTURE_FILENAMES
 

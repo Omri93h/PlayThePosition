@@ -36,7 +36,7 @@
 - BLOCK 15 is planned for upload/API integration behind an internal gate after approved-fixture FEN reconstruction works.
 - BLOCK 16 is planned for board interaction and game-mode fixes.
 - BLOCK 17 is planned for user-facing analyze flow polish.
-- Current step is 13.2 Approved fixture role-signal design rules, implemented / ready for review.
+- Current step is 13.3 Add owned role-signal fixture set, implemented / ready for review.
 
 ## Rules
 - Work block-by-block.

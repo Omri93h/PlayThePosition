@@ -20,10 +20,11 @@ REALISH_FIXTURE_IDS = {
 
 def test_approved_fixture_signal_audit_measures_all_expected_pieces() -> None:
     manifest = _load_valid_manifest()
+    block_12_cases = _block_12_cases(manifest)
 
     audits = tuple(
         audit_fixture_role_color_signals(case, _decode_case_image(case))
-        for case in manifest["cases"]
+        for case in block_12_cases
     )
 
     assert len(audits) == 8
@@ -101,6 +102,14 @@ def _load_valid_manifest() -> dict:
     assert validation.issues == ()
 
     return manifest
+
+
+def _block_12_cases(manifest: dict) -> tuple[dict, ...]:
+    return tuple(
+        case
+        for case in manifest["cases"]
+        if not case["expected_metrics"].get("role_signal_fixture")
+    )
 
 
 def _decode_case_image(case: dict) -> DecodedImage:

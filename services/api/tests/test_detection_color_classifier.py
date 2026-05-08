@@ -23,7 +23,7 @@ APPROVED_MANIFEST_PATH = APPROVED_DIR / "cases.json"
 
 def test_approved_fixture_colors_classify_without_role_classification() -> None:
     manifest = _load_valid_manifest()
-    results = tuple(_classify_case(case) for case in manifest["cases"])
+    results = tuple(_classify_case(case) for case in _block_12_cases(manifest))
     summaries = tuple(result.summary for result in results)
 
     assert len(results) == 8
@@ -49,7 +49,7 @@ def test_approved_fixture_colors_classify_without_role_classification() -> None:
 def test_detected_colors_match_expected_fixture_metadata() -> None:
     manifest = _load_valid_manifest()
 
-    for case in manifest["cases"]:
+    for case in _block_12_cases(manifest):
         result = _classify_case(case)
         expected_by_square = {
             piece["square"]: piece["color"] for piece in case["expected_pieces"]
@@ -181,6 +181,14 @@ def _load_valid_manifest() -> dict:
     assert validation.issues == ()
 
     return manifest
+
+
+def _block_12_cases(manifest: dict) -> tuple[dict, ...]:
+    return tuple(
+        case
+        for case in manifest["cases"]
+        if not case["expected_metrics"].get("role_signal_fixture")
+    )
 
 
 def _decode_case_image(case: dict) -> DecodedImage:

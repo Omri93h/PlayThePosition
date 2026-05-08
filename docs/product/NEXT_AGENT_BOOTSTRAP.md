@@ -69,7 +69,7 @@ git status
 - Project is now in BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only measurement work.
-- Current feature is 13.2 — Approved fixture role-signal design rules.
+- Current feature is 13.3 — Add owned role-signal fixture set.
 - Current step is implemented / ready for review.
 - BLOCK 12 stayed internal/test-only and approved-fixture-only.
 - No upload/API integration has started.
@@ -87,8 +87,10 @@ git status
 - BLOCK 13 is the intermediate approved role-signal strategy and revised role-classifier block before current FEN reconstruction work.
 - The 13.1 role-signal strategy contract is documented in `docs/product/DETECTION_ROLE_SIGNAL_STRATEGY_CONTRACT.md`.
 - The 13.2 approved fixture role-signal design rules are documented in `docs/product/DETECTION_ROLE_SIGNAL_FIXTURE_DESIGN_RULES.md`.
-- No role-signal fixture images, manifest entries, generator tooling, or classifier code have been added in 13.2.
-- Next planned feature is 13.3 — Add owned role-signal fixture set.
+- The 13.3 owned role-signal fixture set is added with deterministic tooling in `tooling/scripts/generate_role_signal_detection_fixtures.py`.
+- Three role-signal fixtures were added under `services/api/tests/fixtures/detection/approved/` with additive metadata in `cases.json`.
+- No audit v2 implementation, role classifier code, FEN reconstruction, upload/API integration, public UI behavior, or production recognition claim has been added in 13.3.
+- Next planned feature is 13.4 — Fixture signal audit v2 for role separability.
 - Approved roadmap after BLOCK 12:
   - BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
   - BLOCK 14 — Recognition Orchestration + FEN Reconstruction.

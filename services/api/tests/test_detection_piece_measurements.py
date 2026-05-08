@@ -21,7 +21,7 @@ def test_approved_fixture_samples_convert_to_measurement_rows() -> None:
     manifest = _load_valid_manifest()
     measurements = []
 
-    for case in manifest["cases"]:
+    for case in _block_12_cases(manifest):
         measurement = measure_fixture_piece_samples(
             case,
             _sample_case(case),
@@ -114,6 +114,14 @@ def _load_valid_manifest() -> dict:
     assert validation.issues == ()
 
     return manifest
+
+
+def _block_12_cases(manifest: dict) -> tuple[dict, ...]:
+    return tuple(
+        case
+        for case in manifest["cases"]
+        if not case["expected_metrics"].get("role_signal_fixture")
+    )
 
 
 def _sample_case(case: dict) -> tuple[SquareSample, ...]:

@@ -21,8 +21,9 @@ def test_combined_role_color_measurement_report_totals_are_current() -> None:
     occupancy_summaries = []
     color_summaries = []
     color_rows = []
+    block_12_cases = _block_12_cases(manifest)
 
-    for case in manifest["cases"]:
+    for case in block_12_cases:
         decoded = _decode_case_image(case)
         samples = _sample_case(case, decoded)
         audit = audit_fixture_role_color_signals(case, decoded)
@@ -34,7 +35,7 @@ def test_combined_role_color_measurement_report_totals_are_current() -> None:
         color_summaries.append(color_measurement.summary)
         color_rows.extend(color_measurement.rows)
 
-    assert len(manifest["cases"]) == 8
+    assert len(block_12_cases) == 8
 
     assert sum(summary.total_squares for summary in occupancy_summaries) == 512
     assert (
@@ -91,6 +92,14 @@ def _load_valid_manifest() -> dict:
     assert validation.issues == ()
 
     return manifest
+
+
+def _block_12_cases(manifest: dict) -> tuple[dict, ...]:
+    return tuple(
+        case
+        for case in manifest["cases"]
+        if not case["expected_metrics"].get("role_signal_fixture")
+    )
 
 
 def _decode_case_image(case: dict) -> DecodedImage:

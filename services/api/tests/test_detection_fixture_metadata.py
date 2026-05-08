@@ -31,6 +31,9 @@ def test_approved_manifest_with_committed_images_is_valid() -> None:
         "owned_web_black-bottom_start-01.png",
         "owned_chesscom-like_white-bottom_kings-rook-01.png",
         "owned_lichess-like_white-bottom_middlegame-01.png",
+        "owned_role-signal_white-bottom_dense-01.png",
+        "owned_role-signal_black-bottom_dense-01.png",
+        "owned_role-signal_white-bottom_shifted-01.png",
     }
     assert result.valid is True
     assert result.issues == ()

@@ -46,10 +46,11 @@ BLOCK 12 proved that occupancy works on approved fixtures and color classificati
 - Keep fixture additions out of scope until explicitly approved.
 
 ### 13.3 Add owned role-signal fixture set
-- Status: planned.
-- Add a small owned/generated approved fixture set only after explicit approval.
-- Use deterministic fixture generation or owned assets only.
-- Do not use raw user uploads, copied Chess.com/Lichess screenshots, unclear-license assets, or large datasets.
+- Status: implemented / ready for review.
+- Adds three owned/generated role-signal fixtures under `services/api/tests/fixtures/detection/approved/`.
+- Adds deterministic fixture tooling in `tooling/scripts/generate_role_signal_detection_fixtures.py`.
+- Updates `cases.json` additively with role-signal fixture metadata, owned license notes, expected pieces, expected FEN, and role-signal audit metrics.
+- Does not alter existing approved fixture images, implement audit v2, implement role classifier code, start FEN reconstruction, or start upload/API integration.
 
 ### 13.4 Fixture signal audit v2 for role separability
 - Status: planned.
