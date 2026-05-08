@@ -39,9 +39,10 @@ BLOCK 12 proved that occupancy works on approved fixtures and color classificati
 - Keep FEN reconstruction and upload/API integration deferred.
 
 ### 13.2 Approved fixture role-signal design rules
-- Status: planned.
-- Define owned fixture design rules that encode role-specific visual signal without copying external site assets.
-- Require all six roles, both colors, clear licensing/ownership notes, and metadata validation.
+- Status: implemented / ready for review.
+- Defines owned fixture design rules in `docs/product/DETECTION_ROLE_SIGNAL_FIXTURE_DESIGN_RULES.md`.
+- Requires role-specific visual signal for all six roles, both colors, clear licensing/ownership notes, and metadata validation.
+- Keeps fixture images, manifest updates, generator tooling, and classifier code out of scope until explicitly approved.
 - Keep fixture additions out of scope until explicitly approved.
 
 ### 13.3 Add owned role-signal fixture set

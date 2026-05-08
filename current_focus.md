@@ -4,7 +4,7 @@ Current Block/Area:
 BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier
 
 Current Feature:
-13.1 BLOCK 13 definition and role-signal strategy contract
+13.2 Approved fixture role-signal design rules
 
 Current Step:
 Implemented / ready for review

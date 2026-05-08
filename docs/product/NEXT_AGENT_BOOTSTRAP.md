@@ -69,7 +69,7 @@ git status
 - Project is now in BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only measurement work.
-- Current feature is 13.1 — BLOCK 13 definition and role-signal strategy contract.
+- Current feature is 13.2 — Approved fixture role-signal design rules.
 - Current step is implemented / ready for review.
 - BLOCK 12 stayed internal/test-only and approved-fixture-only.
 - No upload/API integration has started.
@@ -86,7 +86,9 @@ git status
 - BLOCK 12 closeout is complete.
 - BLOCK 13 is the intermediate approved role-signal strategy and revised role-classifier block before current FEN reconstruction work.
 - The 13.1 role-signal strategy contract is documented in `docs/product/DETECTION_ROLE_SIGNAL_STRATEGY_CONTRACT.md`.
-- Next planned feature is 13.2 — Approved fixture role-signal design rules.
+- The 13.2 approved fixture role-signal design rules are documented in `docs/product/DETECTION_ROLE_SIGNAL_FIXTURE_DESIGN_RULES.md`.
+- No role-signal fixture images, manifest entries, generator tooling, or classifier code have been added in 13.2.
+- Next planned feature is 13.3 — Add owned role-signal fixture set.
 - Approved roadmap after BLOCK 12:
   - BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
   - BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
