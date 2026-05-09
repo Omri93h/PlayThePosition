@@ -4,7 +4,7 @@ Current Block/Area:
 BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier
 
 Current Feature:
-13.5 Revised test-only role classifier experiment
+13.6 Role classifier measurement report and next-step decision
 
 Current Step:
 Implemented / ready for review
@@ -12,7 +12,7 @@ Implemented / ready for review
 Rules:
 - Work only on the current feature.
 - Do not jump ahead.
-- Do not start Feature 13.6 without approval.
+- Do not start Feature 13.7 without approval.
 - Do not broaden the color classifier beyond approved-fixture test measurement.
 - Do not add CV/ML dependencies yet.
 - Do not claim real-world screenshot detection accuracy.

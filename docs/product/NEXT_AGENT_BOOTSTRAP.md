@@ -78,7 +78,7 @@ git status
 - Project is now in BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only measurement work.
-- Current feature is 13.5 — Revised test-only role classifier experiment.
+- Current feature is 13.6 — Role classifier measurement report and next-step decision.
 - Current step is implemented / ready for review.
 - BLOCK 12 stayed internal/test-only and approved-fixture-only.
 - No upload/API integration has started.
@@ -104,7 +104,9 @@ git status
 - The role classifier measures only the three owned role-signal fixtures and reports 36 / 36 correct role classifications, 0 wrong, 0 ambiguous, 0 unsupported, and 0 not measured.
 - Expected metadata remains scoring-only; a focused test tampers with expected role metadata and confirms `detected_role` follows sampled marker shape.
 - No FEN reconstruction, upload/API integration, public UI behavior, or production/general screenshot recognition claim has been added in 13.5.
-- Next planned feature is 13.6 — Role classifier measurement report and next-step decision.
+- The 13.6 role classifier measurement report is documented in `docs/product/DETECTION_BLOCK_13_ROLE_CLASSIFIER_MEASUREMENT_REPORT.md`.
+- The 13.6 decision keeps results limited to owned/generated role-signal fixtures only, keeps the color classifier separate and unchanged, keeps FEN reconstruction out of 13.6, and keeps upload/API integration deferred.
+- Next planned feature is 13.7 — BLOCK 13 closeout review.
 - Approved roadmap after BLOCK 12:
   - BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
   - BLOCK 14 — Recognition Orchestration + FEN Reconstruction.

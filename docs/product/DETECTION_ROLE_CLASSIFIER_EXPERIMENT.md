@@ -85,7 +85,7 @@ Legacy non-role-signal fixtures are unsupported for this classifier experiment. 
 
 Feature 13.5 supports moving to 13.6 for a role classifier measurement report and next-step decision.
 
-FEN reconstruction remains deferred until 13.6 reports combined role/color status and explicitly decides whether the BLOCK 13 gates are satisfied.
+FEN reconstruction remains deferred until the BLOCK 13 closeout review confirms the BLOCK 13 gates and source-of-truth docs are clean.
 
 ## Limitations
 
@@ -99,4 +99,4 @@ FEN reconstruction remains deferred until 13.6 reports combined role/color statu
 
 Feature 13.5 is implemented / ready for review.
 
-BLOCK 13 remains in progress. Feature 13.6 is still unimplemented and requires a separate approved plan.
+BLOCK 13 remains in progress. Feature 13.6 is implemented / ready for review in `docs/product/DETECTION_BLOCK_13_ROLE_CLASSIFIER_MEASUREMENT_REPORT.md`, and Feature 13.7 closeout review still requires a separate approved plan.

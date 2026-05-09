@@ -143,7 +143,7 @@
 - 13.3 Add owned role-signal fixture set — implemented / ready for review
 - 13.4 Fixture signal audit v2 for role separability — implemented / ready for review
 - 13.5 Revised test-only role classifier experiment — implemented / ready for review
-- 13.6 Role classifier measurement report and next-step decision — planned
+- 13.6 Role classifier measurement report and next-step decision — implemented / ready for review
 - 13.7 BLOCK 13 closeout review — planned
 
 ## BLOCK 14 — Recognition Orchestration + FEN Reconstruction

@@ -10,7 +10,7 @@ BLOCK 13 must remain internal/test-only, approved-fixture-only, and measurement-
 
 Create an internal/test-only path to make role identity measurable on approved fixtures without cheating from FEN, square identity, expected metadata, filenames, starting positions, or chess rules.
 
-BLOCK 12 proved that occupancy works on approved fixtures and color classification partially works, but role identity is not measurable yet. FEN reconstruction remains blocked because FEN needs piece roles, not only occupancy and color.
+BLOCK 12 proved that occupancy works on approved fixtures and color classification partially works, but role identity was not measurable yet. FEN reconstruction remained blocked because FEN needs piece roles, not only occupancy and color. BLOCK 13 measures role identity on owned role-signal fixtures only before any FEN reconstruction work can be reconsidered.
 
 ## Non-goals
 
@@ -70,9 +70,14 @@ BLOCK 12 proved that occupancy works on approved fixtures and color classificati
 - Does not change fixtures, start FEN reconstruction, start upload/API integration, expose UI behavior, or claim production/general screenshot recognition.
 
 ### 13.6 Role classifier measurement report and next-step decision
-- Status: planned.
-- Report role measurement results, combined role/color status, blockers, and whether FEN reconstruction can resume later.
-- Frame results as fixture measurements, not production accuracy.
+- Status: implemented / ready for review.
+- Documents the BLOCK 13 measurement decision in `docs/product/DETECTION_BLOCK_13_ROLE_CLASSIFIER_MEASUREMENT_REPORT.md`.
+- Reports the 13.4 audit v2 result: 3 owned role-signal fixtures, 36 measured role-signal samples, all six roles observed, aggregate status feasible, minimum separation margin 0.1406, and no ambiguous role pairs.
+- Reports the 13.5 role classifier result: 3 role-signal fixtures, 36 occupied role-signal squares, 36 correct role classifications, 0 wrong, 0 ambiguous, 0 unsupported, and 0 not measured.
+- Keeps results limited to owned/generated role-signal fixtures only.
+- Keeps the color classifier separate and unchanged.
+- Records that FEN reconstruction should not start inside 13.6 and can be reconsidered only after BLOCK 13 closeout confirms the gates and docs are clean.
+- Keeps upload/API integration deferred.
 
 ### 13.7 BLOCK 13 closeout review
 - Status: planned.
