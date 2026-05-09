@@ -1,6 +1,6 @@
 # Future Plans — Post-MVP
 
-These remain outside the currently active BLOCK 13 track unless explicitly moved into scope.
+These remain outside the currently active BLOCK 14 planning track unless explicitly moved into scope.
 
 Product name: Play That Position.
 
@@ -20,8 +20,8 @@ Image recognition is a means to reach the product goal: a live, editable chess p
 - BLOCK 10 covers the approved real-ish fixture measurement slice only: fixture source approval, a tiny approved non-user real-ish fixture set, decode/preprocess measurements, board-bounds measurements, and comparison against BLOCK 09 synthetic-only measurements.
 - BLOCK 11 covers internal/test-only occupancy measurement against expected fixture pieces. Role/color piece recognition remains unsupported.
 - BLOCK 12 covers the completed internal/test-only role/color classifier experiment using approved fixtures only. Current results show occupancy works on approved fixtures, color partially works, role remains blocked/deferred, and upload/API integration remains deferred.
-- BLOCK 13 covers the current approved role-signal fixture strategy and revised role-classifier work before FEN reconstruction.
-- BLOCK 14 is deferred for recognition orchestration and FEN reconstruction: board bounds → squares → occupancy → role/color → FEN. It remains blocked until BLOCK 13 closeout confirms role identity is measurable from approved fixture image signal and docs are clean.
+- BLOCK 13 is complete as approved role-signal fixture strategy and revised role-classifier measurement work before FEN reconstruction.
+- BLOCK 14 is next for recognition orchestration and FEN reconstruction planning: board bounds → squares → occupancy → role/color → FEN. It should remain internal/test-only and approved-fixture-only until explicitly approved otherwise.
 - BLOCK 15 is planned for upload/API integration behind an internal/dev gate only after approved-fixture FEN reconstruction works.
 - A future internal Recognition Review Studio / Detection Training Console should come after there is an internal recognition/FEN pipeline worth reviewing and before public upload launch.
 - BLOCK 16 is planned for board interaction and game mode fixes.
@@ -57,7 +57,7 @@ Goal: make role identity measurable on approved fixtures before FEN reconstructi
 - 13.6 Role classifier measurement report and next-step decision.
 - 13.7 BLOCK 13 closeout review.
 
-Gate: FEN reconstruction remains blocked unless BLOCK 13 closeout confirms role identity is measurable from approved fixture image signal without forbidden shortcuts.
+Gate: BLOCK 13 is complete as internal/test-only measurement work. FEN reconstruction may be planned next, but implementation must stay approved-fixture-only and internal/test-only until explicitly approved.
 
 ### BLOCK 14 — Recognition Orchestration + FEN Reconstruction
 
@@ -70,7 +70,7 @@ Goal: turn detection outputs into internal board state and FEN.
 - 14.5 Internal tests against approved fixtures.
 - 14.6 Report: FEN reconstruction readiness.
 
-Gate: must generate correct FEN from approved fixtures before upload integration. This work remains deferred until BLOCK 13 closeout confirms role identity is measurable on approved fixtures without forbidden shortcuts.
+Gate: must generate correct FEN from approved fixtures before upload integration. Upload/API integration remains deferred until internal FEN reconstruction is explicitly approved and measured.
 
 ### BLOCK 15 — Upload/API Integration Behind Internal Gate
 
@@ -114,7 +114,7 @@ Future capabilities:
 Placement and guardrails:
 
 - Future internal tooling block only.
-- Does not interrupt BLOCK 13.
+- Does not interrupt the active roadmap block.
 - Should come after an internal recognition/FEN pipeline exists and is worth reviewing.
 - Should come before public upload launch.
 - Should complement the existing Edit mode / position workspace, not replace it with a second editor.

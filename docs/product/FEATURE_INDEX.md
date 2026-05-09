@@ -137,18 +137,18 @@
 
 ## BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier
 
-- Status: current / planned.
-- 13.1 BLOCK 13 definition and role-signal strategy contract — implemented / ready for review
-- 13.2 Approved fixture role-signal design rules — implemented / ready for review
-- 13.3 Add owned role-signal fixture set — implemented / ready for review
-- 13.4 Fixture signal audit v2 for role separability — implemented / ready for review
-- 13.5 Revised test-only role classifier experiment — implemented / ready for review
-- 13.6 Role classifier measurement report and next-step decision — implemented / ready for review
-- 13.7 BLOCK 13 closeout review — planned
+- Status: complete.
+- 13.1 BLOCK 13 definition and role-signal strategy contract — complete
+- 13.2 Approved fixture role-signal design rules — complete
+- 13.3 Add owned role-signal fixture set — complete
+- 13.4 Fixture signal audit v2 for role separability — complete
+- 13.5 Revised test-only role classifier experiment — complete
+- 13.6 Role classifier measurement report and next-step decision — complete
+- 13.7 BLOCK 13 closeout review — complete
 
 ## BLOCK 14 — Recognition Orchestration + FEN Reconstruction
 
-- Status: deferred pending BLOCK 13 gates.
+- Status: next / planning only.
 - 14.1 Recognition pipeline contract: board bounds → squares → occupancy → role/color → FEN — planned
 - 14.2 Internal FEN builder from measured pieces — planned
 - 14.3 Side-to-move integration — planned

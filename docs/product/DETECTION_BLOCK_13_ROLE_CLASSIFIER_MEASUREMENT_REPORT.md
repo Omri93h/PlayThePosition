@@ -91,7 +91,7 @@ FEN reconstruction should not start inside Feature 13.6. It can be reconsidered 
 
 ## Decision
 
-Feature 13.6 supports moving to BLOCK 13 closeout review.
+Feature 13.6 supported moving to BLOCK 13 closeout review.
 
 After closeout, the next technical direction may reconsider BLOCK 14 — Recognition Orchestration + FEN Reconstruction as an internal/test-only approved-fixture step. That future work must still avoid upload/API integration until internal FEN reconstruction is explicitly approved and measured.
 
@@ -101,4 +101,4 @@ Upload/API integration remains deferred.
 
 Feature 13.6 is implemented / ready for review.
 
-BLOCK 13 remains in progress. Feature 13.7 closeout review is still unimplemented and requires a separate approved plan.
+BLOCK 13 closeout review is complete. BLOCK 13 is closed as internal/test-only, approved-fixture-only measurement work.

@@ -99,4 +99,4 @@ FEN reconstruction remains deferred until the BLOCK 13 closeout review confirms 
 
 Feature 13.5 is implemented / ready for review.
 
-BLOCK 13 remains in progress. Feature 13.6 is implemented / ready for review in `docs/product/DETECTION_BLOCK_13_ROLE_CLASSIFIER_MEASUREMENT_REPORT.md`, and Feature 13.7 closeout review still requires a separate approved plan.
+BLOCK 13 closeout review is complete. Feature 13.6 is implemented in `docs/product/DETECTION_BLOCK_13_ROLE_CLASSIFIER_MEASUREMENT_REPORT.md`, and BLOCK 13 is closed as internal/test-only, approved-fixture-only measurement work.

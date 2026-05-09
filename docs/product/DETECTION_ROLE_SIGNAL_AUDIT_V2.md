@@ -106,4 +106,4 @@ Feature 13.5 may proceed only within the approved BLOCK 13 boundaries:
 
 Feature 13.4 is implemented / ready for review.
 
-BLOCK 13 remains in progress. Feature 13.5 is still unimplemented and requires a separate approved plan.
+BLOCK 13 closeout review is complete. Feature 13.5 is implemented in `docs/product/DETECTION_ROLE_CLASSIFIER_EXPERIMENT.md`, and BLOCK 13 is closed as internal/test-only, approved-fixture-only measurement work.

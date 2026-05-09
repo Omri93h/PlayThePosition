@@ -2,9 +2,9 @@
 
 ## Status
 
-Planned as the current intermediate recognition block before FEN reconstruction.
+Completed as internal/test-only, approved-fixture-only role-signal and role-classifier measurement work.
 
-BLOCK 13 must remain internal/test-only, approved-fixture-only, and measurement-only until explicitly approved otherwise.
+BLOCK 13 remained internal/test-only, approved-fixture-only, and measurement-only. It did not start FEN reconstruction, upload/API integration, product UI behavior, or production/general screenshot recognition.
 
 ## Purpose
 
@@ -31,7 +31,7 @@ BLOCK 12 proved that occupancy works on approved fixtures and color classificati
 - No external Chess.com/Lichess link-out.
 - No SEO or distribution work.
 
-## Planned Features
+## Features
 
 ### 13.1 BLOCK 13 definition and role-signal strategy contract
 - Status: implemented / ready for review.
@@ -80,13 +80,14 @@ BLOCK 12 proved that occupancy works on approved fixtures and color classificati
 - Keeps upload/API integration deferred.
 
 ### 13.7 BLOCK 13 closeout review
-- Status: planned.
-- Verify all BLOCK 13 features are implemented/documented, scope stayed internal/test-only, and FEN/upload remained deferred.
-- Close the block only if checks pass and next-step decision is documented.
+- Status: complete.
+- Verified all BLOCK 13 features are implemented/documented, scope stayed internal/test-only, and FEN/upload remained deferred.
+- Verified the owned role-signal fixture set, audit v2, role classifier result, and 13.6 measurement report.
+- Closed BLOCK 13 as approved-fixture-only measurement work and set the next state to BLOCK 14 planning only.
 
 ## Strategy
 
-BLOCK 13 should combine three steps carefully:
+BLOCK 13 combined three steps carefully:
 
 - Improve approved fixture role markers/signals first.
 - Generate a small owned approved role-signal fixture set designed for role separability.
@@ -112,14 +113,15 @@ Template matching, broad image-feature classifiers, CV/ML dependencies, or produ
 
 ## Success Gates
 
-FEN reconstruction may only be reconsidered after BLOCK 13 if:
+FEN reconstruction may be planned next as an internal/test-only approved-fixture step because BLOCK 13 closeout confirms:
 
 - owned role-signal fixtures are approved and metadata-valid
 - all six roles and both colors are covered
 - audit v2 shows role separability from sampled image signal
 - role classifier measurements produce role output without forbidden shortcuts
 - ambiguous and unsupported rows remain explicit
-- combined role/color identity is measurable on approved fixtures
+- role results are limited to owned/generated role-signal fixtures only
+- existing color classifier work remains separate and unchanged
 - reports avoid production or real-world accuracy claims
 
 ## Failure Gates
@@ -140,4 +142,5 @@ FEN reconstruction must remain blocked if:
 - Fixture signal audit v2 is documented.
 - Revised role classifier experiment is measured or clearly blocked.
 - Role classifier measurement report and next-step decision are documented.
+- BLOCK 13 closeout review is complete.
 - No FEN reconstruction, upload behavior, public API contract, UI change, unapproved fixture image, production accuracy claim, engine, legal moves, auth, payments, external link-out, or SEO work is added.

@@ -152,4 +152,4 @@ Upload/API integration remains blocked until FEN reconstruction is proven intern
 
 Feature 13.1 is implemented / ready for review.
 
-BLOCK 13 remains in progress. No fixture images, fixture metadata changes, classifier code, FEN reconstruction, upload/API integration, product UI changes, or production accuracy claims were added.
+BLOCK 13 closeout review is complete. Feature 13.1 did not add fixture images, fixture metadata changes, classifier code, FEN reconstruction, upload/API integration, product UI changes, or production accuracy claims.

@@ -75,11 +75,12 @@ git status
 - Product positioning: “Play any chess position you find online.”
 - Existing Edit mode / position workspace is the manual correction path after detection; future fallback wording should not imply a second editor.
 - Project has completed BLOCK 12 — Internal Role/Color Classifier Experiment.
-- Project is now in BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
+- Project has completed BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
+- Project is now awaiting BLOCK 14 planning — Recognition Orchestration + FEN Reconstruction.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only measurement work.
-- Current feature is 13.6 — Role classifier measurement report and next-step decision.
-- Current step is implemented / ready for review.
+- Current feature is BLOCK 14 planning.
+- Current step is not started / awaiting approved plan.
 - BLOCK 12 stayed internal/test-only and approved-fixture-only.
 - No upload/API integration has started.
 - No production recognition accuracy claim has been made.
@@ -93,7 +94,7 @@ git status
 - The 12.5 role/color measurement report is documented and implemented: occupancy and color are measured on approved fixtures, role remains blocked/deferred, combined role/color success is unavailable, and FEN/upload integration remain blocked.
 - The 12.6 BLOCK 12 measurement comparison is documented and implemented: occupancy works on approved fixtures, color partially works with 159 correct and 8 ambiguous rows, role remains blocked/deferred, piece identity is not recognized, and FEN/upload integration remain blocked.
 - BLOCK 12 closeout is complete.
-- BLOCK 13 is the intermediate approved role-signal strategy and revised role-classifier block before current FEN reconstruction work.
+- BLOCK 13 was the intermediate approved role-signal strategy and revised role-classifier block before current FEN reconstruction planning.
 - The 13.1 role-signal strategy contract is documented in `docs/product/DETECTION_ROLE_SIGNAL_STRATEGY_CONTRACT.md`.
 - The 13.2 approved fixture role-signal design rules are documented in `docs/product/DETECTION_ROLE_SIGNAL_FIXTURE_DESIGN_RULES.md`.
 - The 13.3 owned role-signal fixture set is added with deterministic tooling in `tooling/scripts/generate_role_signal_detection_fixtures.py`.
@@ -106,7 +107,8 @@ git status
 - No FEN reconstruction, upload/API integration, public UI behavior, or production/general screenshot recognition claim has been added in 13.5.
 - The 13.6 role classifier measurement report is documented in `docs/product/DETECTION_BLOCK_13_ROLE_CLASSIFIER_MEASUREMENT_REPORT.md`.
 - The 13.6 decision keeps results limited to owned/generated role-signal fixtures only, keeps the color classifier separate and unchanged, keeps FEN reconstruction out of 13.6, and keeps upload/API integration deferred.
-- Next planned feature is 13.7 — BLOCK 13 closeout review.
+- The 13.7 closeout review is complete. BLOCK 13 is closed as internal/test-only, approved-fixture-only measurement work.
+- Next planned work is BLOCK 14 planning only.
 - Approved roadmap after BLOCK 12:
   - BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
   - BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
@@ -114,7 +116,7 @@ git status
   - BLOCK 16 — Board Interaction / Game Mode Fixes.
   - BLOCK 17 — User-Facing Analyze Flow Polish.
 - Upload/API integration remains deferred.
-- BLOCK 14 FEN reconstruction should not start until BLOCK 13 proves role identity is measurable or the roadmap is explicitly replanned around the current blocker.
+- BLOCK 14 FEN reconstruction should start with planning only and remain internal/test-only and approved-fixture-only until explicitly approved.
 
 ## Important Future Notes
 
