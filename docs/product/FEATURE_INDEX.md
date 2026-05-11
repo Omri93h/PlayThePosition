@@ -148,13 +148,14 @@
 
 ## BLOCK 14 — Recognition Orchestration + FEN Reconstruction
 
-- Status: next / planning only.
-- 14.1 Recognition pipeline contract: board bounds → squares → occupancy → role/color → FEN — planned
-- 14.2 Internal FEN builder from measured pieces — planned
-- 14.3 Side-to-move integration — planned
-- 14.4 Error states: missing king, duplicate kings, invalid board, unknown pieces — planned
-- 14.5 Internal tests against approved fixtures — planned
-- 14.6 Report: FEN reconstruction readiness — planned
+- Status: current / planned.
+- 14.1 BLOCK 14 definition and recognition orchestration contract — planned
+- 14.2 Internal measured-piece model: combine square, occupancy, color, and role rows — planned
+- 14.3 FEN builder from measured pieces — planned
+- 14.4 Side-to-move and orientation handling — planned
+- 14.5 Invalid-board and failure-state handling — planned
+- 14.6 Approved-fixture FEN reconstruction tests and readiness report — planned
+- 14.7 BLOCK 14 closeout review with manual validation checklist — planned
 
 ## BLOCK 15 — Upload/API Integration Behind Internal Gate
 

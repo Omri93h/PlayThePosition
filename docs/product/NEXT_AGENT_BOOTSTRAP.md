@@ -76,11 +76,11 @@ git status
 - Existing Edit mode / position workspace is the manual correction path after detection; future fallback wording should not imply a second editor.
 - Project has completed BLOCK 12 — Internal Role/Color Classifier Experiment.
 - Project has completed BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
-- Project is now awaiting BLOCK 14 planning — Recognition Orchestration + FEN Reconstruction.
+- Project is now in BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only measurement work.
-- Current feature is BLOCK 14 planning.
-- Current step is not started / awaiting approved plan.
+- Current feature is 14.1 — BLOCK 14 definition and recognition orchestration contract.
+- Current step is planned / not implemented.
 - BLOCK 12 stayed internal/test-only and approved-fixture-only.
 - No upload/API integration has started.
 - No production recognition accuracy claim has been made.
@@ -108,7 +108,8 @@ git status
 - The 13.6 role classifier measurement report is documented in `docs/product/DETECTION_BLOCK_13_ROLE_CLASSIFIER_MEASUREMENT_REPORT.md`.
 - The 13.6 decision keeps results limited to owned/generated role-signal fixtures only, keeps the color classifier separate and unchanged, keeps FEN reconstruction out of 13.6, and keeps upload/API integration deferred.
 - The 13.7 closeout review is complete. BLOCK 13 is closed as internal/test-only, approved-fixture-only measurement work.
-- Next planned work is BLOCK 14 planning only.
+- BLOCK 14 planning docs are created in `docs/blocks/BLOCK_14_RECOGNITION_ORCHESTRATION_AND_FEN_RECONSTRUCTION.md`.
+- Next planned work is Feature 14.1 planning/execution.
 - Approved roadmap after BLOCK 12:
   - BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
   - BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
@@ -116,7 +117,10 @@ git status
   - BLOCK 16 — Board Interaction / Game Mode Fixes.
   - BLOCK 17 — User-Facing Analyze Flow Polish.
 - Upload/API integration remains deferred.
-- BLOCK 14 FEN reconstruction should start with planning only and remain internal/test-only and approved-fixture-only until explicitly approved.
+- BLOCK 14 FEN reconstruction must remain internal/test-only and approved-fixture-only until explicitly approved.
+- FEN must be built from measured outputs, not fixture `expected_fen`; `expected_fen` is comparison-only.
+- Invalid measured data must return clear failure states, not fake FEN.
+- Upload/API integration and public UI behavior remain deferred.
 
 ## Important Future Notes
 

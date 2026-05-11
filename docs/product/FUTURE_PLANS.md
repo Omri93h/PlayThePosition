@@ -21,7 +21,7 @@ Image recognition is a means to reach the product goal: a live, editable chess p
 - BLOCK 11 covers internal/test-only occupancy measurement against expected fixture pieces. Role/color piece recognition remains unsupported.
 - BLOCK 12 covers the completed internal/test-only role/color classifier experiment using approved fixtures only. Current results show occupancy works on approved fixtures, color partially works, role remains blocked/deferred, and upload/API integration remains deferred.
 - BLOCK 13 is complete as approved role-signal fixture strategy and revised role-classifier measurement work before FEN reconstruction.
-- BLOCK 14 is next for recognition orchestration and FEN reconstruction planning: board bounds → squares → occupancy → role/color → FEN. It should remain internal/test-only and approved-fixture-only until explicitly approved otherwise.
+- BLOCK 14 is current/planned for recognition orchestration and FEN reconstruction: board bounds → squares → occupancy → role/color → FEN. It should remain internal/test-only and approved-fixture-only until explicitly approved otherwise.
 - BLOCK 15 is planned for upload/API integration behind an internal/dev gate only after approved-fixture FEN reconstruction works.
 - A future internal Recognition Review Studio / Detection Training Console should come after there is an internal recognition/FEN pipeline worth reviewing and before public upload launch.
 - BLOCK 16 is planned for board interaction and game mode fixes.
@@ -61,16 +61,17 @@ Gate: BLOCK 13 is complete as internal/test-only measurement work. FEN reconstru
 
 ### BLOCK 14 — Recognition Orchestration + FEN Reconstruction
 
-Goal: turn detection outputs into internal board state and FEN.
+Goal: turn measured detection outputs into internal board state and FEN on approved fixtures first.
 
 - 14.1 Recognition pipeline contract: board bounds → squares → occupancy → role/color → FEN.
-- 14.2 Internal FEN builder from measured pieces.
-- 14.3 Side-to-move integration.
-- 14.4 Error states: missing king, duplicate kings, invalid board, unknown pieces.
-- 14.5 Internal tests against approved fixtures.
-- 14.6 Report: FEN reconstruction readiness.
+- 14.2 Internal measured-piece model: combine square, occupancy, color, and role rows.
+- 14.3 FEN builder from measured pieces.
+- 14.4 Side-to-move and orientation handling.
+- 14.5 Invalid-board and failure-state handling.
+- 14.6 Approved-fixture FEN reconstruction tests and readiness report.
+- 14.7 BLOCK 14 closeout review with manual validation checklist.
 
-Gate: must generate correct FEN from approved fixtures before upload integration. Upload/API integration remains deferred until internal FEN reconstruction is explicitly approved and measured.
+Gate: must generate correct FEN from measured outputs on approved fixtures before upload integration. FEN must be built from measured outputs, not fixture `expected_fen`; `expected_fen` is comparison-only. Invalid measured data must return clear failure states, not fake FEN. Upload/API integration and public UI behavior remain deferred until internal FEN reconstruction is explicitly approved and measured.
 
 ### BLOCK 15 — Upload/API Integration Behind Internal Gate
 

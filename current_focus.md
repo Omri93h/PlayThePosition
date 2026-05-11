@@ -4,14 +4,14 @@ Current Block/Area:
 BLOCK 14 — Recognition Orchestration + FEN Reconstruction
 
 Current Feature:
-BLOCK 14 planning
+14.1 BLOCK 14 definition and recognition orchestration contract
 
 Current Step:
-Not started / awaiting approved plan
+Planned / not implemented
 
 Rules:
-- Plan BLOCK 14 before implementation.
-- Do not start BLOCK 14 implementation without approval.
+- Work only on Feature 14.1 until approved otherwise.
+- Do not start Feature 14.1 implementation without approval.
 - Keep BLOCK 14 internal/test-only and approved-fixture-only until explicitly approved otherwise.
 - Do not add CV/ML dependencies yet.
 - Do not claim real-world screenshot detection accuracy.

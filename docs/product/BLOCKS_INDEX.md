@@ -17,7 +17,7 @@
 13. BLOCK 11 — Internal Piece-Recognition Measurement Experiments
 14. BLOCK 12 — Internal Role/Color Classifier Experiment
 15. BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier
-16. BLOCK 14 — Recognition Orchestration + FEN Reconstruction (next / planning only)
+16. BLOCK 14 — Recognition Orchestration + FEN Reconstruction
 17. BLOCK 15 — Upload/API Integration Behind Internal Gate
 18. BLOCK 16 — Board Interaction / Game Mode Fixes
 19. BLOCK 17 — User-Facing Analyze Flow Polish
@@ -32,11 +32,12 @@
 - BLOCK 11 is completed as internal/test-only piece-recognition measurement work.
 - BLOCK 12 is completed as internal/test-only role/color classifier experiment work.
 - BLOCK 13 is completed as internal/test-only role-signal strategy and revised role-classifier measurement work.
-- BLOCK 14 is the next planning-only block for internal recognition orchestration and FEN reconstruction.
+- BLOCK 14 is current/planned for internal recognition orchestration and FEN reconstruction.
 - BLOCK 15 is planned for upload/API integration behind an internal gate after approved-fixture FEN reconstruction works.
 - BLOCK 16 is planned for board interaction and game-mode fixes.
 - BLOCK 17 is planned for user-facing analyze flow polish.
-- Current step is BLOCK 14 planning only / not started.
+- Current step is 14.1 BLOCK 14 definition and recognition orchestration contract, planned / not implemented.
+- BLOCK 14 must build FEN from measured outputs, not `expected_fen`; invalid measured data must return clear failure states.
 
 ## Rules
 - Work block-by-block.

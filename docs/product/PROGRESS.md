@@ -21,7 +21,7 @@
 
 ## Current
 
-- Current focus: BLOCK 14 — Recognition Orchestration + FEN Reconstruction, planning only / not started.
+- Current focus: BLOCK 14 — Recognition Orchestration + FEN Reconstruction, Feature 14.1 planning / not implemented.
 - Product name: Play That Position.
 - Future domain/brand asset: `playthatposition.com`.
 - Current development/runtime: localhost only.
@@ -41,6 +41,8 @@
 - Feature 13.5 is complete as a revised test-only role classifier experiment.
 - Feature 13.6 is complete as the role classifier measurement report and next-step decision.
 - Feature 13.7 is complete as BLOCK 13 closeout review.
+- BLOCK 14 is planned as internal/test-only, approved-fixture-only recognition orchestration and FEN reconstruction work.
+- Feature 14.1 is planned as BLOCK 14 definition and recognition orchestration contract.
 - Feature 12.1 is complete as the role/color classifier contract.
 - Feature 12.2 is complete as fixture signal audit for role/color feasibility.
 - Feature 12.3 is complete as test-only color classifier experiment.
@@ -103,8 +105,8 @@
 
 ## Next
 
-- Plan BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
-- Keep BLOCK 14 planning-only until explicitly approved.
+- Plan Feature 14.1 — BLOCK 14 definition and recognition orchestration contract.
+- Keep BLOCK 14 implementation unstarted until explicitly approved.
 - Keep BLOCK 14 internal/test-only and approved-fixture-only at first.
 - Do not implement FEN reconstruction or upload/API integration until explicitly approved.
 - Do not rename UI/header/logo/web metadata, package names, routes, manifests, deploy config, or runtime identifiers until a separate approved rename task.
@@ -147,6 +149,16 @@
 - 13.5 Revised test-only role classifier experiment.
 - 13.6 Role classifier measurement report and next-step decision.
 - 13.7 BLOCK 13 closeout review.
+
+## Planned In BLOCK 14
+
+- 14.1 BLOCK 14 definition and recognition orchestration contract — planned.
+- 14.2 Internal measured-piece model: combine square, occupancy, color, and role rows — planned.
+- 14.3 FEN builder from measured pieces — planned.
+- 14.4 Side-to-move and orientation handling — planned.
+- 14.5 Invalid-board and failure-state handling — planned.
+- 14.6 Approved-fixture FEN reconstruction tests and readiness report — planned.
+- 14.7 BLOCK 14 closeout review with manual validation checklist — planned.
 
 ## Completed In BLOCK 10
 
@@ -205,6 +217,7 @@
 - Recommended next technical direction after BLOCK 12 is BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
 - FEN reconstruction is deferred to BLOCK 14 planning and remains internal/test-only until explicitly approved.
 - BLOCK 13 owned/generated role-signal fixtures are added, audit v2 finds their role signals separable on approved fixtures, and the test-only role classifier measures 36 / 36 correct role classifications on those controlled fixtures. BLOCK 13 is complete as internal/test-only, approved-fixture-only measurement work. Role identity is still not recognized in product behavior, and FEN/upload remain deferred.
+- BLOCK 14 is planned to build FEN from measured outputs only. Fixture `expected_fen` is comparison-only, invalid data must return clear failures, and upload/API integration remains deferred.
 
 ## Later / Deferred
 
