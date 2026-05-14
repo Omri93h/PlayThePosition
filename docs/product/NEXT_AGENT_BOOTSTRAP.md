@@ -79,8 +79,8 @@ git status
 - Project is now in BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only measurement work.
-- Current feature is 14.2.5 — BLOCK 14 failure and FEN evaluation contract.
-- Current step is 14.2.5 implemented / ready for review.
+- Current feature is 14.3 — FEN builder from measured pieces.
+- Current step is 14.3 implemented / ready for review.
 - BLOCK 12 stayed internal/test-only and approved-fixture-only.
 - No upload/API integration has started.
 - No production recognition accuracy claim has been made.
@@ -112,7 +112,9 @@ git status
 - Feature 14.1 recognition orchestration contract is documented in `docs/product/DETECTION_RECOGNITION_ORCHESTRATION_CONTRACT.md`.
 - Feature 14.2 internal measured-piece model is implemented in `services/api/app/detection/measured_pieces.py`.
 - Feature 14.2.5 failure and FEN evaluation contract is documented in `docs/product/DETECTION_FEN_RECONSTRUCTION_EVALUATION_CONTRACT.md`.
-- Next planned work after 14.2.5 review/commit is Feature 14.3 — FEN builder from measured pieces.
+- Feature 14.3 placement-only FEN builder is implemented in `services/api/app/detection/fen_reconstruction.py`.
+- Current approved role-signal fixture placement result: two placements are generated but do not match expected placement because measured color has wrong rows; one fixture blocks with `ambiguous_color`.
+- Next planned work after 14.3 review/commit is Feature 14.4 — Side-to-move and orientation handling.
 - Approved roadmap after BLOCK 12:
   - BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
   - BLOCK 14 — Recognition Orchestration + FEN Reconstruction.

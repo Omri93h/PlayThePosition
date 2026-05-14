@@ -59,10 +59,14 @@ The FEN must be built from measured outputs. Fixture `expected_fen` is allowed o
 - Allows 14.3 to build/compare placement-only FEN if approved.
 
 ### 14.3 FEN builder from measured pieces
-- Status: planned.
-- Build a FEN placement field from measured square/color/role rows.
-- Emit piece letters from measured role and measured color only.
-- Return structured failure instead of fake or partial FEN when required data is missing.
+- Status: implemented / ready for review.
+- Implements a placement-only builder in `services/api/app/detection/fen_reconstruction.py`.
+- Builds the FEN placement field from measured-piece rows only.
+- Emits piece letters from measured role and measured color only.
+- Returns structured failure instead of fake or partial placement when required data is missing.
+- Does not emit full six-field FEN and does not add side-to-move support.
+- Current approved role-signal fixture measurement result: two placements are generated but do not match expected placement because measured color has wrong rows; one fixture blocks with `ambiguous_color`.
+- This preserves the measured truth and leaves full FEN readiness for later BLOCK 14 features.
 
 ### 14.4 Side-to-move and orientation handling
 - Status: planned.
