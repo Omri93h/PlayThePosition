@@ -31,7 +31,7 @@ Use the repository docs as source of truth. Do not rely on stale chat memory.
 - Current development/runtime: localhost/internal only.
 - Product direction: fast chess position intake, editable reconstructed board, confidence-aware detection, user correction through existing Edit mode, and later analysis/training workflows.
 - Current active block: BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
-- Current active feature: 14.4 — Side-to-move and orientation handling, implemented / ready for review.
+- Current active feature: 14.5 — Invalid-board validation boundary, implemented / ready for review.
 
 BLOCK 14 status:
 
@@ -42,7 +42,8 @@ BLOCK 14 status:
 - 14.3 historical caveat: placement builder worked technically, but role-signal fixture placement mismatched because measured color classifier had wrong/ambiguous rows.
 - 14.3.1 repairs the role-signal color classifier in the current repo state: all three owned role-signal fixtures classify 36 / 36 occupied-square colors correctly, and all three placement strings match `expected_fen.split()[0]`.
 - 14.4 adds explicit `side_to_move` fixture metadata outside `expected_fen`, guarded full-FEN reconstruction, and orientation tests proving measured algebraic rows should not be transformed again.
-- Next safe step after 14.4 review/commit: plan 14.5 — Invalid-board and failure-state handling.
+- 14.5 blocks placement-only and full-FEN reconstruction when measured rows have missing or duplicate white/black kings.
+- Next safe step after 14.5 review/commit: plan 14.6 — Approved-fixture FEN reconstruction tests and readiness report.
 
 ## Hard Boundaries
 
@@ -62,6 +63,12 @@ BLOCK 14 status:
 - FEN placement may compare against `expected_fen.split()[0]` in tests/reports.
 - Full FEN may compare against `expected_fen` only after using explicit `side_to_move` metadata as the source.
 - Unsupported or incomplete measured data must return structured failure, not fake or partial FEN.
+- Missing or duplicate white/black kings block placement-only and full-FEN reconstruction.
+- 14.5 does not add broad chess legality validation.
+
+## Prompt Hygiene
+
+- Codex prompts do not need to repeat “You are the implementation agent...” every time inside the same Codex thread. Use that sentence only for a new Codex session, a new agent, or a role-reset situation.
 
 ## Handling Codex Outputs
 
@@ -88,4 +95,5 @@ When a blocker appears:
 
 Current known BLOCK 14 blocker to watch:
 
-- Invalid-board validation is still blocked until 14.5, including missing kings, duplicate kings, invalid board states, and legality validation.
+- Approved-fixture reconstruction reporting is still blocked until 14.6.
+- Broad legality validation remains out of scope: check/checkmate, impossible move history, castling-rights detection, en-passant detection, halfmove/fullmove truth, and engine analysis.

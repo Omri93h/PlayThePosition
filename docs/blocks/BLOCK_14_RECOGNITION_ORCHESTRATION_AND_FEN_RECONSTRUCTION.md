@@ -85,9 +85,12 @@ The FEN must be built from measured outputs. Fixture `expected_fen` is allowed o
 - Confirms black-bottom fixtures require no different FEN behavior after upstream orientation-aware square mapping.
 
 ### 14.5 Invalid-board and failure-state handling
-- Status: planned.
-- Block FEN reconstruction for missing king, duplicate kings, unknown piece, missing role/color, unsupported fixture, ambiguous data, or not-measured required squares.
-- Return clear failure reasons rather than generated FEN.
+- Status: implemented / ready for review.
+- Blocks placement-only and full six-field FEN reconstruction for missing white king, missing black king, duplicate white kings, and duplicate black kings.
+- Preserves existing row/data failures for missing role/color, unsupported role/color, unsupported fixture, ambiguous data, not-measured rows, and missing/duplicate square rows.
+- Keeps side-to-move validation from 14.4 separate and first for full-FEN requests.
+- Does not add check/checkmate, impossible-history, castling-rights, en-passant, halfmove/fullmove, engine, or broader legality validation.
+- Returns clear failure reasons rather than generated FEN.
 
 ### 14.6 Approved-fixture FEN reconstruction tests and readiness report
 - Status: planned.

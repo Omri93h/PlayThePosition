@@ -25,6 +25,10 @@ FailureCode = Literal[
     "ambiguous_role",
     "unsupported_color",
     "unsupported_role",
+    "missing_white_king",
+    "missing_black_king",
+    "duplicate_white_king",
+    "duplicate_black_king",
     "missing_side_to_move",
     "invalid_side_to_move",
     "invalid_orientation",
@@ -121,6 +125,10 @@ def build_fen_placement_from_measured_rows(
 
         pieces_by_square[square] = fen_letter
 
+    board_state = _validate_board_state(row_index)
+    if isinstance(board_state, FenPlacementFailure):
+        return board_state
+
     return FenPlacementSuccess(_render_placement(pieces_by_square))
 
 
@@ -205,6 +213,49 @@ def _validate_side_to_move(
     return _failure(
         "invalid_side_to_move",
         "Side-to-move metadata must be w or b.",
+    )
+
+
+def _validate_board_state(
+    row_index: dict[str, MeasuredPieceRow],
+) -> None | FenPlacementFailure:
+    white_king_count = _king_count(row_index, "white")
+    black_king_count = _king_count(row_index, "black")
+
+    if white_king_count == 0:
+        return _failure(
+            "missing_white_king",
+            "FEN reconstruction requires exactly one measured white king.",
+        )
+
+    if black_king_count == 0:
+        return _failure(
+            "missing_black_king",
+            "FEN reconstruction requires exactly one measured black king.",
+        )
+
+    if white_king_count > 1:
+        return _failure(
+            "duplicate_white_king",
+            "FEN reconstruction found multiple measured white kings.",
+        )
+
+    if black_king_count > 1:
+        return _failure(
+            "duplicate_black_king",
+            "FEN reconstruction found multiple measured black kings.",
+        )
+
+    return None
+
+
+def _king_count(row_index: dict[str, MeasuredPieceRow], color: str) -> int:
+    return sum(
+        1
+        for row in row_index.values()
+        if row.row_category == "measured_piece"
+        and row.detected_role == "king"
+        and row.detected_color == color
     )
 
 

@@ -141,10 +141,10 @@ Failure is required when:
 - orientation is invalid
 - side to move is invalid
 - side to move is missing and full FEN is requested
-- white king is missing once invalid-board validation is in scope
-- black king is missing once invalid-board validation is in scope
-- duplicate white kings exist once invalid-board validation is in scope
-- duplicate black kings exist once invalid-board validation is in scope
+- white king is missing
+- black king is missing
+- duplicate white kings exist
+- duplicate black kings exist
 
 The builder/evaluator must not emit fake FEN, partial FEN, or inferred FEN for these cases.
 
@@ -163,9 +163,9 @@ If 14.3 proceeds before 14.4 side-to-move handling, it should:
 
 Feature 14.4 defines explicit side-to-move and orientation handling. It keeps orientation handling upstream: once measured rows use canonical algebraic squares, FEN reconstruction must not apply a second board transform.
 
-Feature 14.5 should implement invalid-board failure states, including missing and duplicate kings.
+Feature 14.5 implements invalid-board failure states for missing and duplicate kings. It intentionally does not add check/checkmate, move-history, castling-rights, en-passant, halfmove/fullmove, engine, or broader legality validation.
 
-Until those features are implemented, this contract is the reporting guardrail that prevents 14.3 from pretending full FEN reconstruction is complete.
+Until BLOCK 14 closeout, this contract remains the reporting guardrail that prevents fixture-only FEN reconstruction from being framed as upload/API behavior or production recognition accuracy.
 
 ## Scope Guardrails
 

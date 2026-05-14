@@ -116,6 +116,71 @@ def test_duplicate_square_blocks_placement() -> None:
     assert result.code == "duplicate_square_sample"
 
 
+def test_missing_white_king_blocks_placement() -> None:
+    result = build_fen_placement_from_measured_rows(
+        _rows(
+            _piece_row("e8", "black", "king"),
+        )
+    )
+
+    _assert_failure(result, "missing_white_king")
+
+
+def test_missing_black_king_blocks_placement() -> None:
+    result = build_fen_placement_from_measured_rows(
+        _rows(
+            _piece_row("e1", "white", "king"),
+        )
+    )
+
+    _assert_failure(result, "missing_black_king")
+
+
+def test_duplicate_white_kings_block_placement() -> None:
+    result = build_fen_placement_from_measured_rows(
+        _rows(
+            _piece_row("e1", "white", "king"),
+            _piece_row("a1", "white", "king"),
+            _piece_row("e8", "black", "king"),
+        )
+    )
+
+    _assert_failure(result, "duplicate_white_king")
+
+
+def test_duplicate_black_kings_block_placement() -> None:
+    result = build_fen_placement_from_measured_rows(
+        _rows(
+            _piece_row("e1", "white", "king"),
+            _piece_row("e8", "black", "king"),
+            _piece_row("a8", "black", "king"),
+        )
+    )
+
+    _assert_failure(result, "duplicate_black_king")
+
+
+def test_full_fen_inherits_invalid_board_failures() -> None:
+    result = build_full_fen_from_measured_rows(
+        _rows(
+            _piece_row("e8", "black", "king"),
+        ),
+        side_to_move="w",
+    )
+
+    _assert_failure(result, "missing_white_king")
+
+
+def test_row_level_failures_take_precedence_over_invalid_board_failures() -> None:
+    result = build_fen_placement_from_measured_rows(
+        _rows(
+            _unsupported_row("e4", "ambiguous_color"),
+        )
+    )
+
+    _assert_failure(result, "ambiguous_color")
+
+
 def test_builds_full_fen_only_with_explicit_side_to_move() -> None:
     result = build_full_fen_from_measured_rows(
         _rows(
@@ -387,6 +452,12 @@ def _unsupported_row(square: str, failure_reason: str) -> MeasuredPieceRow:
         failure_reason=failure_reason,
         source_stages=("square_sampling", "color_classifier", "role_classifier"),
     )
+
+
+def _assert_failure(result: object, code: str) -> None:
+    assert isinstance(result, FenPlacementFailure)
+    assert result.code == code
+    assert result.failure_reasons == (code,)
 
 
 def _double_transformed_rows(
