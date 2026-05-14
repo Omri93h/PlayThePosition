@@ -21,7 +21,7 @@
 
 ## Current
 
-- Current focus: BLOCK 14 — Recognition Orchestration + FEN Reconstruction, Feature 14.1 implemented / ready for review.
+- Current focus: BLOCK 14 — Recognition Orchestration + FEN Reconstruction, Feature 14.2 implemented / ready for review.
 - Product name: Play That Position.
 - Future domain/brand asset: `playthatposition.com`.
 - Current development/runtime: localhost only.
@@ -43,6 +43,7 @@
 - Feature 13.7 is complete as BLOCK 13 closeout review.
 - BLOCK 14 is planned as internal/test-only, approved-fixture-only recognition orchestration and FEN reconstruction work.
 - Feature 14.1 is implemented / ready for review as BLOCK 14 definition and recognition orchestration contract.
+- Feature 14.2 is implemented / ready for review as the internal measured-piece model.
 - Feature 12.1 is complete as the role/color classifier contract.
 - Feature 12.2 is complete as fixture signal audit for role/color feasibility.
 - Feature 12.3 is complete as test-only color classifier experiment.
@@ -105,8 +106,8 @@
 
 ## Next
 
-- Review Feature 14.1 — BLOCK 14 definition and recognition orchestration contract.
-- Plan Feature 14.2 — Internal measured-piece model after 14.1 review/commit.
+- Review Feature 14.2 — Internal measured-piece model.
+- Plan Feature 14.3 — FEN builder from measured pieces after 14.2 review/commit.
 - Keep BLOCK 14 internal/test-only and approved-fixture-only at first.
 - Do not implement FEN reconstruction or upload/API integration until explicitly approved.
 - Do not rename UI/header/logo/web metadata, package names, routes, manifests, deploy config, or runtime identifiers until a separate approved rename task.
@@ -153,7 +154,7 @@
 ## Planned In BLOCK 14
 
 - 14.1 BLOCK 14 definition and recognition orchestration contract — implemented / ready for review.
-- 14.2 Internal measured-piece model: combine square, occupancy, color, and role rows — planned.
+- 14.2 Internal measured-piece model: combine square, occupancy, color, and role rows — implemented / ready for review.
 - 14.3 FEN builder from measured pieces — planned.
 - 14.4 Side-to-move and orientation handling — planned.
 - 14.5 Invalid-board and failure-state handling — planned.

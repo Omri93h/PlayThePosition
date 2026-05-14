@@ -42,11 +42,12 @@ The FEN must be built from measured outputs. Fixture `expected_fen` is allowed o
 - Documents the side-to-move source as an explicit 14.4 gap when it is not available outside `expected_fen`.
 
 ### 14.2 Internal measured-piece model: combine square, occupancy, color, and role rows
-- Status: planned.
-- Define and implement an internal measured-piece representation.
-- Combine square sampling, color classifier rows, and role classifier rows by fixture and square.
-- Preserve source stages, confidence metadata, and failure reasons.
-- Keep unsupported, ambiguous, and not-measured states explicit.
+- Status: implemented / ready for review.
+- Defines and implements an internal measured-piece representation in `services/api/app/detection/measured_pieces.py`.
+- Combines square sampling, color classifier rows, and role classifier rows by fixture and square.
+- Preserves source stages, confidence metadata, and failure reasons.
+- Keeps unsupported, ambiguous, and not-measured states explicit.
+- Does not build FEN.
 
 ### 14.3 FEN builder from measured pieces
 - Status: planned.

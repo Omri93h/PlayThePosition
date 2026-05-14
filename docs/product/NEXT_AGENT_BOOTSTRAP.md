@@ -79,8 +79,8 @@ git status
 - Project is now in BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only measurement work.
-- Current feature is 14.1 — BLOCK 14 definition and recognition orchestration contract.
-- Current step is 14.1 implemented / ready for review.
+- Current feature is 14.2 — Internal measured-piece model.
+- Current step is 14.2 implemented / ready for review.
 - BLOCK 12 stayed internal/test-only and approved-fixture-only.
 - No upload/API integration has started.
 - No production recognition accuracy claim has been made.
@@ -110,7 +110,8 @@ git status
 - The 13.7 closeout review is complete. BLOCK 13 is closed as internal/test-only, approved-fixture-only measurement work.
 - BLOCK 14 planning docs are created in `docs/blocks/BLOCK_14_RECOGNITION_ORCHESTRATION_AND_FEN_RECONSTRUCTION.md`.
 - Feature 14.1 recognition orchestration contract is documented in `docs/product/DETECTION_RECOGNITION_ORCHESTRATION_CONTRACT.md`.
-- Next planned work after 14.1 review/commit is Feature 14.2 — Internal measured-piece model.
+- Feature 14.2 internal measured-piece model is implemented in `services/api/app/detection/measured_pieces.py`.
+- Next planned work after 14.2 review/commit is Feature 14.3 — FEN builder from measured pieces.
 - Approved roadmap after BLOCK 12:
   - BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
   - BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
