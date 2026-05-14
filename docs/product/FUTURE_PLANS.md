@@ -1,6 +1,6 @@
 # Future Plans — Post-MVP
 
-These remain outside the currently active BLOCK 14 planning track unless explicitly moved into scope.
+These remain outside the currently active BLOCK 15 track unless explicitly moved into scope.
 
 Product name: Play That Position.
 
@@ -22,12 +22,12 @@ Image recognition is a means to reach the product goal: a live, editable chess p
 - BLOCK 12 covers the completed internal/test-only role/color classifier experiment using approved fixtures only. Current results show occupancy works on approved fixtures, color partially works, role remains blocked/deferred, and upload/API integration remains deferred.
 - BLOCK 13 is complete as approved role-signal fixture strategy and revised role-classifier measurement work before FEN reconstruction.
 - BLOCK 14 is complete/accepted for recognition orchestration and FEN reconstruction: board bounds → squares → occupancy → role/color → FEN. It remains internal/test-only and approved-fixture-only until explicitly approved otherwise.
-- BLOCK 15 is planned for upload/API integration behind an internal/dev gate only after explicit BLOCK 15 planning.
+- BLOCK 15 is active for upload/API integration behind an internal/dev gate. Feature 15.1 defines the docs-only upload recognition API contract; runtime upload/API integration remains unstarted until Feature 15.2+ approval.
 - A future internal Recognition Review Studio / Detection Training Console should come after there is an internal recognition/FEN pipeline worth reviewing and before public upload launch.
 - BLOCK 16 is planned for board interaction and game mode fixes.
 - BLOCK 17 is planned for user-facing analyze flow polish.
 - Production-grade real-world screenshot recognition accuracy remains future work until measured and explicitly approved.
-- Upload integration for real recognition remains future work until explicitly approved.
+- Runtime upload integration for real recognition remains future work until explicitly approved.
 - Detection debug/inspection view implementation remains unstarted until approved.
 
 ## Approved Roadmap — BLOCKS 12–17
@@ -77,14 +77,14 @@ Gate: must generate correct FEN from measured outputs on approved fixtures befor
 
 Goal: connect uploaded image → recognition result behind an internal/dev gate.
 
-- 15.1 API contract for uploaded image recognition.
+- 15.1 Uploaded image recognition API contract behind internal gate — implemented as docs-only contract work.
 - 15.2 Backend endpoint behind dev/internal flag.
 - 15.3 Frontend upload flow uses backend result.
 - 15.4 Failure fallback: use the existing Edit mode / position workspace for manual correction; do not build a second editor.
 - 15.5 Debug inspection view showing detected board bounds, detected pieces, confidence/failure reasons, and generated FEN.
 - 15.6 Internal QA report.
 
-Gate: if real uploaded screenshots fail badly, keep it internal and improve detection.
+Gate: `/upload` must preserve safe placeholder/default behavior unless a later approved implementation enables an explicit internal/dev recognition gate. If real uploaded screenshots fail badly, keep it internal and improve detection.
 
 ### Future Internal Tooling — Recognition Review Studio / Detection Training Console
 

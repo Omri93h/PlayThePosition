@@ -1,0 +1,313 @@
+# Upload Recognition API Contract
+
+## Status
+
+Feature 15.1 contract. Docs/state only. No runtime API, frontend, shared contract, test, or product behavior changes are made by this document.
+
+This contract defines how uploaded image recognition should be exposed later behind an internal/dev gate. The current default `/upload` behavior remains the existing placeholder response until a later approved feature implements gated wiring.
+
+## Purpose
+
+Define a safe upload recognition API boundary before implementation.
+
+The contract must let Play That Position eventually connect uploaded images to the internal recognition/FEN pipeline without claiming production recognition accuracy, real screenshot support, or public upload readiness before those claims are measured and approved.
+
+## Current Runtime Baseline
+
+Current `/upload` behavior remains unchanged:
+
+- accepts PNG/JPEG uploads after existing validation
+- rejects unsupported, oversized, or corrupted payloads with structured errors
+- returns a placeholder FEN response on valid uploads
+- logs privacy-safe upload metadata only
+- does not run real recognition
+- does not expose BLOCK 14 FEN reconstruction
+- does not claim real screenshot support
+
+Current success shape:
+
+```json
+{
+  "fen": "8/8/8/8/8/8/8/8 w - - 0 1",
+  "source": "placeholder",
+  "confidence": null,
+  "message": "Received position.png; detection is not implemented yet."
+}
+```
+
+Current validation error shape:
+
+```json
+{
+  "ok": false,
+  "error": {
+    "code": "unsupported_file_type",
+    "message": "Only PNG and JPEG images are supported."
+  }
+}
+```
+
+## Gate Requirement
+
+Recognition output must not be exposed unless a later implementation provides an explicit internal/dev gate.
+
+Required gate behavior:
+
+- disabled by default
+- configurable only for internal/dev use
+- preserves the existing placeholder response while disabled
+- keeps fallback behavior available when enabled
+- never treats approved-fixture results as production screenshot accuracy
+
+Feature 15.1 does not choose the final environment variable or config name. Feature 15.2 should define it in code and tests.
+
+## Response Compatibility Strategy
+
+The existing top-level fields remain the compatibility baseline:
+
+- `fen`
+- `source`
+- `confidence`
+- `message`
+
+Later implementation should add detection metadata additively. Existing clients must be able to keep reading the top-level fields.
+
+The shared TypeScript contract currently contains an `ok/result` upload shape, while the runtime API and frontend upload client currently use the flat placeholder shape above. Feature 15.2 or 15.3 must reconcile shared contract code with the implemented API shape intentionally; this docs-only feature does not change either runtime shape.
+
+## Gated Success Shape
+
+When the gate is enabled and all required recognition stages complete safely, `/upload` may return detected FEN in the top-level `fen` field with additive detection metadata.
+
+Example future shape:
+
+```json
+{
+  "fen": "8/1b5r/2p2k2/1N1q1P2/4Q1n1/2K5/R5B1/8 b - - 0 1",
+  "source": "gated_detection_orchestrator",
+  "confidence": 0.91,
+  "message": "Detection completed. Review the board before using it.",
+  "detection": {
+    "status": "success",
+    "source": "gated_detection_orchestrator",
+    "confidence": 0.91,
+    "fen": "8/1b5r/2p2k2/1N1q1P2/4Q1n1/2K5/R5B1/8 b - - 0 1",
+    "orientation": "black-bottom",
+    "stages": [
+      {
+        "stage": "preprocess",
+        "status": "success",
+        "confidence": 1.0
+      },
+      {
+        "stage": "grid",
+        "status": "success",
+        "confidence": 0.95
+      },
+      {
+        "stage": "pieces",
+        "status": "success",
+        "confidence": 0.91
+      },
+      {
+        "stage": "orientation",
+        "status": "success",
+        "confidence": 0.9
+      },
+      {
+        "stage": "fen",
+        "status": "success",
+        "confidence": 0.91
+      }
+    ],
+    "failure": null
+  }
+}
+```
+
+Detected FEN is allowed only when the gated path produces a safe measured result. Full-FEN fields for castling, en passant, halfmove, and fullmove may still be conservative placeholders unless later work detects them explicitly.
+
+## Gated Fallback Shape
+
+When the gate is enabled but recognition is disabled, incomplete, failed, unsafe, or below the success threshold, `/upload` must preserve safe fallback behavior.
+
+Example future partial/failure shape:
+
+```json
+{
+  "fen": "8/8/8/8/8/8/8/8 w - - 0 1",
+  "source": "placeholder",
+  "confidence": null,
+  "message": "Detection needs review. Open the editable board and correct the position manually.",
+  "detection": {
+    "status": "partial",
+    "source": "gated_detection_orchestrator",
+    "confidence": 0.42,
+    "fen": null,
+    "orientation": "unknown",
+    "stages": [
+      {
+        "stage": "preprocess",
+        "status": "success",
+        "confidence": 1.0
+      },
+      {
+        "stage": "grid",
+        "status": "success",
+        "confidence": 0.7
+      },
+      {
+        "stage": "pieces",
+        "status": "partial",
+        "confidence": 0.42
+      }
+    ],
+    "failure": {
+      "code": "low_confidence",
+      "message": "Detection result confidence is below the configured threshold.",
+      "stage": "pieces",
+      "retryable": true,
+      "suggestion": "Review and correct the board manually in the existing position workspace."
+    }
+  }
+}
+```
+
+Fallback rules:
+
+- upload validation failures still return HTTP errors
+- recognition failures should not imply the uploaded image is invalid
+- failed recognition must not emit fake detected FEN
+- low-confidence results must not replace the board without review semantics
+- the existing Edit mode / position workspace is the correction path
+
+## Status Values
+
+Detection metadata should use the existing internal status vocabulary unless a later feature changes it deliberately:
+
+- `placeholder`
+- `success`
+- `partial`
+- `failed`
+
+The top-level `source` should remain `placeholder` for fallback responses and use an internal gated source such as `gated_detection_orchestrator` only for safe gated success.
+
+## Failure Semantics
+
+Future implementation should preserve structured failures with:
+
+- `code`
+- `message`
+- `stage`
+- `retryable`
+- `suggestion`
+- optional `failure_reason`
+
+Required recognition failure families include:
+
+- disabled gate / placeholder path
+- decode or preprocess failure
+- board/grid not found
+- missing stage configuration
+- piece recognition failure or low confidence
+- orientation failure or unknown orientation
+- FEN generation failure
+- invalid-board failures inherited from BLOCK 14
+
+Invalid board state, missing required measured data, missing side-to-move, invalid side-to-move, and duplicate/missing kings must block detected FEN output.
+
+## Privacy-Safe Logging
+
+Allowed upload/recognition log fields:
+
+- event name
+- content type
+- file size
+- source
+- status
+- stage
+- failure code
+- retryable flag
+- confidence summary
+- FEN length
+
+Forbidden log fields:
+
+- raw image bytes
+- base64 image data
+- full file contents
+- screenshots or crops
+- user-provided filenames when not needed for debugging
+- fixture `expected_fen` or `expected_pieces` as runtime source data
+
+## BLOCK 14 Consumption Boundary
+
+Later BLOCK 15 implementation may consume BLOCK 14 output only as measured recognition output.
+
+Allowed:
+
+- use measured rows and FEN reconstruction results produced by the internal pipeline
+- use explicit side-to-move only when supplied by an approved runtime/test source
+- return structured failure when required measured data is unsafe
+- compare generated FEN to expectations only in tests/reports
+
+Forbidden:
+
+- parse `expected_fen` as runtime source truth
+- use `expected_pieces` as classifier or builder input
+- infer side to move from fixture expected FEN
+- bypass missing/duplicate king failures
+- claim full-FEN placeholder fields are detected truth
+- claim approved role-signal fixture readiness is production screenshot accuracy
+
+## Frontend Compatibility Expectations
+
+Later frontend work should:
+
+- keep accepting the current placeholder response while the gate is disabled
+- treat detected results as needing user review
+- open the existing editable position workspace with the returned safe FEN
+- show fallback/review language when detection is partial or failed
+- keep debug details secondary and internal until explicitly approved
+- avoid claims that real screenshots are supported or production accurate
+
+The frontend should not depend on raw uploaded image bytes, screenshots, crops, or fixture expectations.
+
+## Tests Expected For Later Implementation
+
+Feature 15.2 backend tests should cover:
+
+- gate disabled returns the current placeholder response
+- gate enabled safe success returns detected FEN and additive metadata
+- gate enabled partial/failure returns placeholder fallback and structured metadata
+- upload validation errors remain unchanged
+- privacy-safe logs do not include raw image data
+- invalid-board and unsafe FEN failures do not produce detected FEN
+
+Feature 15.3 frontend tests should cover:
+
+- current placeholder response still opens the editable board
+- gated success response opens the editable board with detected FEN
+- partial/failure metadata keeps manual correction available
+- analytics/logging payloads stay privacy-safe
+- UI wording avoids production or real screenshot accuracy claims
+
+## Non-Production Caveats
+
+- This contract does not implement upload recognition.
+- Current recognition/FEN readiness is approved-fixture/internal/test-only.
+- Real screenshots are not supported by this contract.
+- Production recognition accuracy is not claimed.
+- Public upload/API/UI readiness is not claimed.
+- Broad chess legality validation is not included.
+- Engine analysis is out of scope.
+- Auth, payments, SEO, saved collections, and public launch work are out of scope.
+
+## 15.1 Done Definition
+
+- BLOCK 15 block plan exists.
+- Upload recognition API contract exists.
+- Gated behavior and default disabled/placeholder behavior are documented.
+- BLOCK 14 consumption boundaries are documented.
+- Future backend/frontend test expectations are documented.
+- Source-of-truth docs point to Feature 15.2 planning next.
+- No runtime API, frontend, shared contract, tests, fixtures, or product behavior are changed.

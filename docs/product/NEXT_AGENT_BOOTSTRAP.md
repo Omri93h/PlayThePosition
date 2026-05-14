@@ -77,12 +77,12 @@ git status
 - Existing Edit mode / position workspace is the manual correction path after detection; future fallback wording should not imply a second editor.
 - Project has completed BLOCK 12 — Internal Role/Color Classifier Experiment.
 - Project has completed BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
-- Project is awaiting approved BLOCK 15 / Feature 15.1 planning.
+- Project is in BLOCK 15 — Upload/API Integration Behind Internal Gate.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only measurement work.
-- Current step is awaiting approved BLOCK 15 / Feature 15.1 planning.
+- Current step is awaiting approved Feature 15.2 planning.
 - BLOCK 12 stayed internal/test-only and approved-fixture-only.
-- No upload/API integration has started.
+- No runtime upload/API integration has started.
 - No production recognition accuracy claim has been made.
 - Current BLOCK 11 measurement compares occupancy only; role/color piece recognition remains unsupported and not implemented.
 - BLOCK 12 explored role/color classification with fixture-specific marker/color sampling over approved fixtures only.
@@ -126,21 +126,23 @@ git status
 - Feature 14.6 readiness reporting is implemented in `docs/product/DETECTION_BLOCK_14_FEN_RECONSTRUCTION_READINESS_REPORT.md` with a test-only readiness summary in `services/api/tests/test_detection_fen_reconstruction.py`.
 - Feature 14.7 closeout review is documented in `docs/product/DETECTION_BLOCK_14_CLOSEOUT_REVIEW.md`.
 - BLOCK 14 is complete/accepted after Omri manual validation.
-- Next planned work is approved planning for BLOCK 15 / Feature 15.1.
+- Feature 15.1 uploaded image recognition API contract is implemented as docs-only planning/contract work in `docs/product/UPLOAD_RECOGNITION_API_CONTRACT.md`.
+- BLOCK 15 block plan is created in `docs/blocks/BLOCK_15_UPLOAD_API_INTEGRATION_BEHIND_INTERNAL_GATE.md`.
+- Next planned work is PLAN ONLY for Feature 15.2 — Backend endpoint behind dev/internal flag.
 - Approved roadmap after BLOCK 12:
   - BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
   - BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
   - BLOCK 15 — Upload/API Integration Behind Internal Gate.
   - BLOCK 16 — Board Interaction / Game Mode Fixes.
   - BLOCK 17 — User-Facing Analyze Flow Polish.
-- Upload/API integration remains deferred.
-- BLOCK 14 FEN reconstruction must remain internal/test-only and approved-fixture-only until explicitly approved.
+- Runtime upload/API integration remains deferred until Feature 15.2+ is explicitly planned and approved.
+- BLOCK 14 FEN reconstruction must remain internal/test-only and approved-fixture-only until explicitly approved for gated integration.
 - FEN must be built from measured outputs, not fixture `expected_fen`; `expected_fen` is comparison-only.
 - Invalid measured data must return clear failure states, not fake FEN.
 - Current `cases.json` has standalone `side_to_move` metadata; full six-field FEN generation is allowed only with that explicit source.
 - Missing/duplicate king validation is implemented; broad chess legality validation remains out of scope.
-- Upload/API integration and public UI behavior remain deferred.
-- New agents must inspect `git status --short` before acting. If BLOCK 14 closeout approval changes are uncommitted, treat them as active docs/state work and do not start BLOCK 15 planning until they are reviewed/committed or explicitly accepted as a blocker.
+- Upload/API runtime wiring and public UI behavior remain deferred.
+- New agents must inspect `git status --short` before acting. If Feature 15.1 docs/state changes are uncommitted, treat them as active docs/state work and do not start Feature 15.2 planning until they are reviewed/committed or explicitly accepted as a blocker.
 
 ## Prompt Hygiene
 

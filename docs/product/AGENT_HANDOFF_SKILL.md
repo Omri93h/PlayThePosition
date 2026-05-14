@@ -30,7 +30,7 @@ Use the repository docs as source of truth. Do not rely on stale chat memory.
 - Future domain/brand asset: `playthatposition.com`.
 - Current development/runtime: localhost/internal only.
 - Product direction: fast chess position intake, editable reconstructed board, confidence-aware detection, user correction through existing Edit mode, and later analysis/training workflows.
-- Current active state: awaiting approved BLOCK 15 / Feature 15.1 planning.
+- Current active state: BLOCK 15 is active; Feature 15.1 contract docs are implemented and the next safe step is approved Feature 15.2 planning.
 
 BLOCK 14 status:
 
@@ -45,14 +45,15 @@ BLOCK 14 status:
 - 14.6 adds the BLOCK 14 readiness report and test-only readiness summary for the approved role-signal fixture path.
 - 14.7 adds BLOCK 14 closeout review and manual validation checklist.
 - BLOCK 14 is complete/accepted after Omri manual validation.
-- Next safe step: approved planning for BLOCK 15 / Feature 15.1.
+- Feature 15.1 creates the BLOCK 15 plan and upload recognition API contract as docs-only work.
+- Next safe step: PLAN ONLY for Feature 15.2 — Backend endpoint behind dev/internal flag.
 
 ## Hard Boundaries
 
 - Do not claim production recognition accuracy.
 - Do not say real screenshots work.
-- Do not say upload/API integration exists.
-- Do not start upload/API, public UI behavior, engine, legal moves, auth, payments, link-out, or SEO unless explicitly in scope.
+- Do not say runtime upload/API integration exists.
+- Do not start runtime upload/API wiring, public UI behavior, engine, legal moves, auth, payments, link-out, or SEO unless explicitly in scope.
 - Keep BLOCK 14 internal/test-only and approved-fixture-only until explicitly approved otherwise.
 
 ## FEN And Truth Rules
@@ -97,5 +98,5 @@ When a blocker appears:
 
 Current known blocker to watch:
 
-- BLOCK 15 has no block file yet; it needs explicit planning/doc creation before implementation scope.
+- Feature 15.2 still needs explicit planning approval before runtime backend upload wiring begins.
 - Broad legality validation remains out of scope: check/checkmate, impossible move history, castling-rights detection, en-passant detection, halfmove/fullmove truth, and engine analysis.

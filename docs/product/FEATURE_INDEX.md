@@ -161,8 +161,8 @@
 
 ## BLOCK 15 — Upload/API Integration Behind Internal Gate
 
-- Status: planned.
-- 15.1 API contract for uploaded image recognition — planned
+- Status: active.
+- 15.1 Uploaded image recognition API contract behind internal gate — implemented / ready for review as docs-only contract work
 - 15.2 Backend endpoint behind dev/internal flag — planned
 - 15.3 Frontend upload flow uses backend result — planned
 - 15.4 Failure fallback through existing Edit mode / position workspace — planned

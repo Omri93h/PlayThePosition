@@ -33,11 +33,12 @@
 - BLOCK 12 is completed as internal/test-only role/color classifier experiment work.
 - BLOCK 13 is completed as internal/test-only role-signal strategy and revised role-classifier measurement work.
 - BLOCK 14 is completed/accepted as internal/test-only recognition orchestration and FEN reconstruction work.
-- BLOCK 15 is planned for upload/API integration behind an internal gate after explicit BLOCK 15 planning.
+- BLOCK 15 is active for upload/API integration behind an internal gate. Feature 15.1 is implemented as docs-only contract work; runtime implementation has not started.
 - BLOCK 16 is planned for board interaction and game-mode fixes.
 - BLOCK 17 is planned for user-facing analyze flow polish.
-- Current step is awaiting approved BLOCK 15 / Feature 15.1 planning.
+- Current step is awaiting approved Feature 15.2 planning.
 - BLOCK 14 must build FEN from measured outputs, not `expected_fen`; invalid measured data must return clear failure states.
+- BLOCK 15 must preserve placeholder/default upload behavior unless an explicit internal/dev gate is enabled by later approved implementation.
 
 ## Rules
 - Work block-by-block.
