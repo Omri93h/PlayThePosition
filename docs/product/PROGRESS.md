@@ -21,7 +21,7 @@
 
 ## Current
 
-- Current focus: BLOCK 14 — Recognition Orchestration + FEN Reconstruction, Feature 14.6 implemented / ready for review.
+- Current focus: BLOCK 14 — Recognition Orchestration + FEN Reconstruction, Feature 14.7 closeout-ready / awaiting Omri manual validation.
 - Product name: Play That Position.
 - Future domain/brand asset: `playthatposition.com`.
 - Current development/runtime: localhost only.
@@ -41,7 +41,7 @@
 - Feature 13.5 is complete as a revised test-only role classifier experiment.
 - Feature 13.6 is complete as the role classifier measurement report and next-step decision.
 - Feature 13.7 is complete as BLOCK 13 closeout review.
-- BLOCK 14 is planned as internal/test-only, approved-fixture-only recognition orchestration and FEN reconstruction work.
+- BLOCK 14 is closeout-ready as internal/test-only, approved-fixture-only recognition orchestration and FEN reconstruction work.
 - Feature 14.1 is implemented / ready for review as BLOCK 14 definition and recognition orchestration contract.
 - Feature 14.2 is implemented / ready for review as the internal measured-piece model.
 - Feature 14.2.5 is implemented / ready for review as the BLOCK 14 failure and FEN evaluation contract.
@@ -50,6 +50,7 @@
 - Feature 14.4 is implemented / ready for review as side-to-move and orientation handling.
 - Feature 14.5 is implemented / ready for review as an invalid-board validation boundary.
 - Feature 14.6 is implemented / ready for review as the recognition/FEN readiness report.
+- Feature 14.7 is closeout-ready / awaiting Omri manual validation as the BLOCK 14 closeout review.
 - Feature 12.1 is complete as the role/color classifier contract.
 - Feature 12.2 is complete as fixture signal audit for role/color feasibility.
 - Feature 12.3 is complete as test-only color classifier experiment.
@@ -112,12 +113,12 @@
 
 ## Next
 
-- Review Feature 14.6 — Approved-fixture FEN reconstruction tests and readiness report.
-- Plan Feature 14.7 — BLOCK 14 closeout review with manual validation checklist after 14.6 review/commit.
-- Keep BLOCK 14 internal/test-only and approved-fixture-only at first.
-- Do not implement BLOCK 14 closeout or upload/API integration until explicitly approved.
+- Review Feature 14.7 — BLOCK 14 closeout review and manual validation checklist.
+- After Omri manual validation, plan BLOCK 15 / Feature 15.1 only if explicitly approved.
+- Keep BLOCK 14 internal/test-only and approved-fixture-only until Omri accepts closeout and later work is approved.
+- Do not implement BLOCK 15 upload/API integration until explicitly approved.
 - Do not rename UI/header/logo/web metadata, package names, routes, manifests, deploy config, or runtime identifiers until a separate approved rename task.
-- Approved roadmap after BLOCK 13 currently runs through BLOCK 17. FEN reconstruction is next as BLOCK 14 planning only and remains internal/test-only until explicitly approved.
+- Approved roadmap after BLOCK 13 currently runs through BLOCK 17. BLOCK 14 is closeout-ready and remains internal/test-only until Omri manual validation is reviewed.
 - Keep BLOCK 11 internal/test-only.
 - Keep production-grade recognition, engine, legal moves, accounts, payments, external link-out, and SEO deferred unless explicitly moved into scope.
 - Keep upload integration and production-grade recognition deferred until explicitly approved.
@@ -157,7 +158,7 @@
 - 13.6 Role classifier measurement report and next-step decision.
 - 13.7 BLOCK 13 closeout review.
 
-## Planned In BLOCK 14
+## Completed / Closeout-Ready In BLOCK 14
 
 - 14.1 BLOCK 14 definition and recognition orchestration contract — implemented / ready for review.
 - 14.2 Internal measured-piece model: combine square, occupancy, color, and role rows — implemented / ready for review.
@@ -167,7 +168,7 @@
 - 14.4 Side-to-move and orientation handling — implemented / ready for review.
 - 14.5 Invalid-board and failure-state handling — implemented / ready for review.
 - 14.6 Approved-fixture FEN reconstruction tests and readiness report — implemented / ready for review.
-- 14.7 BLOCK 14 closeout review with manual validation checklist — planned.
+- 14.7 BLOCK 14 closeout review with manual validation checklist — closeout-ready / awaiting Omri manual validation.
 
 ## Completed In BLOCK 10
 
@@ -224,10 +225,10 @@
 - BLOCK 12 role/color measurement report is complete: occupancy and color are measured on approved fixtures, role remains blocked/deferred, combined role/color success is unavailable, and FEN/upload integration remain blocked.
 - BLOCK 12 measurement comparison is complete: occupancy works on approved fixtures, color partially works with 159 correct and 8 ambiguous rows, role remains blocked/deferred, piece identity is not recognized, and FEN/upload integration remain blocked.
 - Recommended next technical direction after BLOCK 12 is BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
-- FEN reconstruction is deferred to BLOCK 14 planning and remains internal/test-only until explicitly approved.
+- FEN reconstruction remains internal/test-only until explicitly approved.
 - BLOCK 13 owned/generated role-signal fixtures are added, audit v2 finds their role signals separable on approved fixtures, and the test-only role classifier measures 36 / 36 correct role classifications on those controlled fixtures. BLOCK 13 is complete as internal/test-only, approved-fixture-only measurement work. Role identity is still not recognized in product behavior, and FEN/upload remain deferred.
-- BLOCK 14 is planned to build FEN from measured outputs only. Fixture `expected_fen` is comparison-only, invalid data must return clear failures, and upload/API integration remains deferred.
-- BLOCK 14 placement-only FEN builder is implemented. After the 14.3.1 role-signal color repair, all three owned role-signal fixtures classify 36 / 36 occupied-square colors correctly and all three generated placements match `expected_fen.split()[0]`. Feature 14.4 adds explicit `side_to_move` fixture metadata and guarded full-FEN reconstruction with conservative placeholder fields for approved fixture tests only. Feature 14.5 blocks placement and full FEN for missing or duplicate white/black kings without adding broad legality validation. Feature 14.6 adds the BLOCK 14 recognition/FEN readiness report and a test-only readiness summary for the approved role-signal path. This remains approved-fixture-only internal measurement, not a product accuracy claim.
+- BLOCK 14 builds FEN from measured outputs only. Fixture `expected_fen` is comparison-only, invalid data returns clear failures, and upload/API integration remains deferred.
+- BLOCK 14 placement-only FEN builder is implemented. After the 14.3.1 role-signal color repair, all three owned role-signal fixtures classify 36 / 36 occupied-square colors correctly and all three generated placements match `expected_fen.split()[0]`. Feature 14.4 adds explicit `side_to_move` fixture metadata and guarded full-FEN reconstruction with conservative placeholder fields for approved fixture tests only. Feature 14.5 blocks placement and full FEN for missing or duplicate white/black kings without adding broad legality validation. Feature 14.6 adds the BLOCK 14 recognition/FEN readiness report and a test-only readiness summary for the approved role-signal path. Feature 14.7 adds BLOCK 14 closeout review and manual validation checklist. This remains approved-fixture-only internal measurement, not a product accuracy claim, and final BLOCK 14 acceptance is pending Omri manual validation.
 
 ## Later / Deferred
 

@@ -21,8 +21,8 @@ Image recognition is a means to reach the product goal: a live, editable chess p
 - BLOCK 11 covers internal/test-only occupancy measurement against expected fixture pieces. Role/color piece recognition remains unsupported.
 - BLOCK 12 covers the completed internal/test-only role/color classifier experiment using approved fixtures only. Current results show occupancy works on approved fixtures, color partially works, role remains blocked/deferred, and upload/API integration remains deferred.
 - BLOCK 13 is complete as approved role-signal fixture strategy and revised role-classifier measurement work before FEN reconstruction.
-- BLOCK 14 is current/planned for recognition orchestration and FEN reconstruction: board bounds → squares → occupancy → role/color → FEN. It should remain internal/test-only and approved-fixture-only until explicitly approved otherwise.
-- BLOCK 15 is planned for upload/API integration behind an internal/dev gate only after approved-fixture FEN reconstruction works.
+- BLOCK 14 is closeout-ready / awaiting Omri manual validation for recognition orchestration and FEN reconstruction: board bounds → squares → occupancy → role/color → FEN. It should remain internal/test-only and approved-fixture-only until explicitly approved otherwise.
+- BLOCK 15 is planned for upload/API integration behind an internal/dev gate only after BLOCK 14 closeout is manually reviewed and explicitly approved.
 - A future internal Recognition Review Studio / Detection Training Console should come after there is an internal recognition/FEN pipeline worth reviewing and before public upload launch.
 - BLOCK 16 is planned for board interaction and game mode fixes.
 - BLOCK 17 is planned for user-facing analyze flow polish.
@@ -71,7 +71,7 @@ Goal: turn measured detection outputs into internal board state and FEN on appro
 - 14.6 Approved-fixture FEN reconstruction tests and readiness report.
 - 14.7 BLOCK 14 closeout review with manual validation checklist.
 
-Gate: must generate correct FEN from measured outputs on approved fixtures before upload integration. FEN must be built from measured outputs, not fixture `expected_fen`; `expected_fen` is comparison-only. Invalid measured data must return clear failure states, not fake FEN. Upload/API integration and public UI behavior remain deferred until internal FEN reconstruction is explicitly approved and measured.
+Gate: must generate correct FEN from measured outputs on approved fixtures before upload integration. FEN must be built from measured outputs, not fixture `expected_fen`; `expected_fen` is comparison-only. Invalid measured data must return clear failure states, not fake FEN. Upload/API integration and public UI behavior remain deferred until BLOCK 14 closeout is manually reviewed and explicitly approved.
 
 ### BLOCK 15 — Upload/API Integration Behind Internal Gate
 

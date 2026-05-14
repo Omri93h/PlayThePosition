@@ -157,7 +157,7 @@
 - 14.4 Side-to-move and orientation handling — implemented / ready for review
 - 14.5 Invalid-board and failure-state handling — implemented / ready for review
 - 14.6 Approved-fixture FEN reconstruction tests and readiness report — implemented / ready for review
-- 14.7 BLOCK 14 closeout review with manual validation checklist — planned
+- 14.7 BLOCK 14 closeout review with manual validation checklist — closeout-ready / awaiting Omri manual validation
 
 ## BLOCK 15 — Upload/API Integration Behind Internal Gate
 

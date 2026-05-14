@@ -31,7 +31,7 @@ Use the repository docs as source of truth. Do not rely on stale chat memory.
 - Current development/runtime: localhost/internal only.
 - Product direction: fast chess position intake, editable reconstructed board, confidence-aware detection, user correction through existing Edit mode, and later analysis/training workflows.
 - Current active block: BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
-- Current active feature: 14.6 — Approved-fixture FEN reconstruction tests and readiness report, implemented / ready for review.
+- Current active feature: 14.7 — BLOCK 14 closeout review with manual validation checklist, closeout-ready / awaiting Omri manual validation.
 
 BLOCK 14 status:
 
@@ -44,7 +44,8 @@ BLOCK 14 status:
 - 14.4 adds explicit `side_to_move` fixture metadata outside `expected_fen`, guarded full-FEN reconstruction, and orientation tests proving measured algebraic rows should not be transformed again.
 - 14.5 blocks placement-only and full-FEN reconstruction when measured rows have missing or duplicate white/black kings.
 - 14.6 adds the BLOCK 14 readiness report and test-only readiness summary for the approved role-signal fixture path.
-- Next safe step after 14.6 review/commit: plan 14.7 — BLOCK 14 closeout review with manual validation checklist.
+- 14.7 adds BLOCK 14 closeout review and manual validation checklist.
+- Next safe step after Omri manual validation: approved planning for BLOCK 15 / Feature 15.1.
 
 ## Hard Boundaries
 
@@ -94,7 +95,8 @@ When a blocker appears:
 - Keep the next step narrow.
 - Do not proceed to the next feature if the blocker invalidates the current feature gate.
 
-Current known BLOCK 14 blocker to watch:
+Current known blocker to watch:
 
-- BLOCK 14 closeout review and manual validation checklist are still blocked until 14.7.
+- BLOCK 14 final acceptance is pending Omri manual validation.
+- BLOCK 15 has no block file yet; it needs explicit planning/doc creation before implementation scope.
 - Broad legality validation remains out of scope: check/checkmate, impossible move history, castling-rights detection, en-passant detection, halfmove/fullmove truth, and engine analysis.

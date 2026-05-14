@@ -80,8 +80,8 @@ git status
 - Project is now in BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only measurement work.
-- Current feature is 14.6 — Approved-fixture FEN reconstruction tests and readiness report.
-- Current step is 14.6 implemented / ready for review.
+- Current feature is 14.7 — BLOCK 14 closeout review with manual validation checklist.
+- Current step is closeout-ready / awaiting Omri manual validation.
 - BLOCK 12 stayed internal/test-only and approved-fixture-only.
 - No upload/API integration has started.
 - No production recognition accuracy claim has been made.
@@ -125,7 +125,8 @@ git status
 - Current invalid-board validation blocks placement-only and full-FEN reconstruction for missing white king, missing black king, duplicate white kings, and duplicate black kings.
 - 14.5 does not add broad chess legality validation: no check/checkmate, impossible move-history, castling-rights detection, en-passant detection, halfmove/fullmove truth, or engine analysis.
 - Feature 14.6 readiness reporting is implemented in `docs/product/DETECTION_BLOCK_14_FEN_RECONSTRUCTION_READINESS_REPORT.md` with a test-only readiness summary in `services/api/tests/test_detection_fen_reconstruction.py`.
-- Next planned work after 14.6 review/commit is Feature 14.7 — BLOCK 14 closeout review with manual validation checklist.
+- Feature 14.7 closeout review is documented in `docs/product/DETECTION_BLOCK_14_CLOSEOUT_REVIEW.md`.
+- Next planned work after Omri manual validation is approved planning for BLOCK 15 / Feature 15.1.
 - Approved roadmap after BLOCK 12:
   - BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
   - BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
@@ -139,7 +140,7 @@ git status
 - Current `cases.json` has standalone `side_to_move` metadata; full six-field FEN generation is allowed only with that explicit source.
 - Missing/duplicate king validation is implemented; broad chess legality validation remains out of scope.
 - Upload/API integration and public UI behavior remain deferred.
-- New agents must inspect `git status --short` before acting. If 14.6 changes are uncommitted, treat them as active current-feature work and do not start 14.7 until they are reviewed/committed or explicitly accepted as a blocker.
+- New agents must inspect `git status --short` before acting. If 14.7 changes are uncommitted, treat them as active current-feature work and do not start BLOCK 15 planning until they are reviewed/committed or explicitly accepted as a blocker.
 
 ## Prompt Hygiene
 

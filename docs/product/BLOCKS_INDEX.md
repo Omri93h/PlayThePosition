@@ -32,11 +32,11 @@
 - BLOCK 11 is completed as internal/test-only piece-recognition measurement work.
 - BLOCK 12 is completed as internal/test-only role/color classifier experiment work.
 - BLOCK 13 is completed as internal/test-only role-signal strategy and revised role-classifier measurement work.
-- BLOCK 14 is current/planned for internal recognition orchestration and FEN reconstruction.
-- BLOCK 15 is planned for upload/API integration behind an internal gate after approved-fixture FEN reconstruction works.
+- BLOCK 14 is closeout-ready / awaiting Omri manual validation for internal recognition orchestration and FEN reconstruction.
+- BLOCK 15 is planned for upload/API integration behind an internal gate after BLOCK 14 closeout is manually reviewed and explicitly approved.
 - BLOCK 16 is planned for board interaction and game-mode fixes.
 - BLOCK 17 is planned for user-facing analyze flow polish.
-- Current step is 14.6 Approved-fixture FEN reconstruction tests and readiness report, implemented / ready for review.
+- Current step is 14.7 BLOCK 14 closeout review with manual validation checklist, closeout-ready / awaiting Omri manual validation.
 - BLOCK 14 must build FEN from measured outputs, not `expected_fen`; invalid measured data must return clear failure states.
 
 ## Rules
