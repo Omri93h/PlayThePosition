@@ -27,6 +27,7 @@ Before coding, read these files:
 - `docs/product/ASSISTANT_WORKFLOW.md`
 - `docs/product/CODEX_PROMPT_TEMPLATES.md`
 - `docs/product/NEXT_AGENT_BOOTSTRAP.md`
+- `docs/product/AGENT_HANDOFF_SKILL.md`
 - `docs/product/BLOCKS_INDEX.md`
 - `docs/product/FEATURE_INDEX.md`
 - `docs/product/FUTURE_PLANS.md`

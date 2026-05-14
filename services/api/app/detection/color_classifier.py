@@ -19,6 +19,8 @@ ColorResult = Literal[
 SOURCE_STAGE = "color_classifier"
 MIN_MODEL_SEPARATION = 80.0
 MIN_CLASSIFICATION_MARGIN = 10.0
+MIN_OWNED_MARKER_RATIO = 0.1
+MIN_OWNED_MARKER_MARGIN = 0.1
 
 
 @dataclass(frozen=True)
@@ -138,6 +140,17 @@ def _classify_signal_color(
     if signal.signature is None:
         return _row(signal, None, "not_measured", None, "sample_unavailable")
 
+    marker_color = _classify_owned_marker_color(signal)
+    if marker_color is not None:
+        detected_color, result, confidence, failure_reason = marker_color
+        if result != "correct":
+            return _row(signal, detected_color, result, confidence, failure_reason)
+
+        result: ColorResult = (
+            "correct" if detected_color == signal.expected_color else "wrong"
+        )
+        return _row(signal, detected_color, result, confidence, None)
+
     if isinstance(model, ColorClassificationRow):
         return _row(
             signal,
@@ -168,6 +181,27 @@ def _classify_signal_color(
         _confidence(margin, model.separation),
         None,
     )
+
+
+def _classify_owned_marker_color(
+    signal: SquareSignal,
+) -> tuple[ColorLabel | None, ColorResult, float | None, str | None] | None:
+    white_ratio = signal.owned_white_marker_ratio
+    black_ratio = signal.owned_black_marker_ratio
+    if white_ratio is None or black_ratio is None:
+        return None
+
+    strongest = max(white_ratio, black_ratio)
+    margin = abs(white_ratio - black_ratio)
+    if strongest < MIN_OWNED_MARKER_RATIO:
+        return None
+
+    if margin < MIN_OWNED_MARKER_MARGIN:
+        return None, "ambiguous", None, "ambiguous_color"
+
+    detected_color: ColorLabel = "white" if white_ratio > black_ratio else "black"
+    confidence = round(min(1.0, max(0.5, margin / strongest)), 2)
+    return detected_color, "correct", confidence, None
 
 
 def _summarize(

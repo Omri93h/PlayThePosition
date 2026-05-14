@@ -3,6 +3,7 @@
 This document captures how Omri works with ChatGPT and Codex on Play That Position.
 
 For new chat/session handoff, read `docs/product/NEXT_AGENT_BOOTSTRAP.md` after this workflow doc.
+For repo-native handoff rules, also read `docs/product/AGENT_HANDOFF_SKILL.md`.
 
 ## Response Style
 

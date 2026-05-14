@@ -129,16 +129,15 @@ def test_approved_role_signal_fixture_placements_compare_to_expected() -> None:
         result for _, result in results if isinstance(result, FenPlacementFailure)
     )
 
-    assert len(successes) == 2
-    assert len(failures) == 1
-    assert {failure.code for failure in failures} == {"ambiguous_color"}
+    assert len(successes) == 3
+    assert failures == ()
 
     placement_matches = tuple(
         result.placement == expected_placement
         for expected_placement, result in results
         if isinstance(result, FenPlacementSuccess)
     )
-    assert placement_matches == (False, False)
+    assert placement_matches == (True, True, True)
 
 
 def _build_case_rows(case: dict) -> tuple[MeasuredPieceRow, ...]:

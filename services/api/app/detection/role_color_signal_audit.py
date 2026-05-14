@@ -21,6 +21,8 @@ COLOR_FEASIBLE_DISTANCE = 80.0
 COLOR_AMBIGUOUS_DISTANCE = 30.0
 ROLE_FEASIBLE_DISTANCE = 30.0
 REQUIRED_ROLE_COUNT = 6
+OWNED_WHITE_MARKER_PIXELS = ((248, 247, 235), (42, 52, 47))
+OWNED_BLACK_MARKER_PIXELS = ((27, 32, 30), (222, 226, 214))
 
 
 @dataclass(frozen=True)
@@ -34,6 +36,8 @@ class SquareSignal:
     foreground_ratio: float | None
     max_distance: float | None
     failure_reason: str | None
+    owned_white_marker_ratio: float | None = None
+    owned_black_marker_ratio: float | None = None
     source_stage: str = "role_color_signal_audit"
 
     @property
@@ -178,6 +182,14 @@ def _sample_expected_piece_signal(
         foreground_ratio=round(len(foreground_pixels) / len(inner_pixels), 4),
         max_distance=round(max(distances), 2),
         failure_reason=None,
+        owned_white_marker_ratio=_marker_ratio(
+            inner_pixels,
+            OWNED_WHITE_MARKER_PIXELS,
+        ),
+        owned_black_marker_ratio=_marker_ratio(
+            inner_pixels,
+            OWNED_BLACK_MARKER_PIXELS,
+        ),
     )
 
 
@@ -360,6 +372,16 @@ def _inner_region_pixels(
 def _average_pixel(pixels: tuple[tuple[int, int, int], ...]) -> tuple[int, int, int]:
     return tuple(
         sum(pixel[index] for pixel in pixels) // len(pixels) for index in range(3)
+    )
+
+
+def _marker_ratio(
+    pixels: tuple[tuple[int, int, int], ...],
+    marker_pixels: tuple[tuple[int, int, int], ...],
+) -> float:
+    return round(
+        sum(pixel in marker_pixels for pixel in pixels) / len(pixels),
+        4,
     )
 
 

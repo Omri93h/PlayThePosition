@@ -205,15 +205,15 @@ def test_approved_role_signal_fixtures_join_without_building_fen() -> None:
     )
 
     assert len(all_rows) == 64 * len(ROLE_SIGNAL_FILENAMES)
-    assert sum(row.row_category == "measured_piece" for row in all_rows) == 35
+    assert sum(row.row_category == "measured_piece" for row in all_rows) == 36
     assert sum(row.row_category == "empty_square" for row in all_rows) == 156
-    assert sum(row.row_category == "unsupported" for row in all_rows) == 1
+    assert sum(row.row_category == "unsupported" for row in all_rows) == 0
     assert sum(row.occupancy_state == "occupied" for row in all_rows) == 36
     assert {
         row.failure_reason
         for row in all_rows
         if row.row_category == "unsupported"
-    } == {"ambiguous_color"}
+    } == set()
 
 
 def _build_case_rows(case: dict):

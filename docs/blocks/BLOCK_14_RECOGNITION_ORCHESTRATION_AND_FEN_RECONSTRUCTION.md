@@ -65,8 +65,16 @@ The FEN must be built from measured outputs. Fixture `expected_fen` is allowed o
 - Emits piece letters from measured role and measured color only.
 - Returns structured failure instead of fake or partial placement when required data is missing.
 - Does not emit full six-field FEN and does not add side-to-move support.
-- Current approved role-signal fixture measurement result: two placements are generated but do not match expected placement because measured color has wrong rows; one fixture blocks with `ambiguous_color`.
-- This preserves the measured truth and leaves full FEN readiness for later BLOCK 14 features.
+- After 14.3.1 repair, all three owned role-signal fixtures generate placement and match `expected_fen.split()[0]`.
+- Full six-field FEN remains blocked until 14.4 defines explicit side-to-move truth.
+
+### 14.3.1 Role-signal color classifier repair
+- Status: implemented / ready for review.
+- Repairs owned role-signal color classification by measuring owned marker palette pixels from sampled image data.
+- Keeps non-role-signal color classifier behavior unchanged.
+- Does not use `expected_fen`, `expected_pieces`, square, fixture id, filename, or style to choose detected colors.
+- Result: all three role-signal fixtures classify 36 / 36 occupied-square colors correctly, with 0 wrong and 0 ambiguous.
+- Result: all three role-signal fixture placements generate and match `expected_fen.split()[0]`.
 
 ### 14.4 Side-to-move and orientation handling
 - Status: planned.

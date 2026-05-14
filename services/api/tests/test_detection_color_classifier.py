@@ -71,6 +71,34 @@ def test_detected_colors_match_expected_fixture_metadata() -> None:
                 assert row.failure_reason == "ambiguous_color"
 
 
+def test_role_signal_fixture_colors_classify_from_owned_marker_pixels() -> None:
+    manifest = _load_valid_manifest()
+    results = tuple(_classify_case(case) for case in _role_signal_cases(manifest))
+    summaries = tuple(result.summary for result in results)
+
+    assert len(results) == 3
+    assert sum(summary.occupied_square_count for summary in summaries) == 36
+    assert sum(summary.measured_color_count for summary in summaries) == 36
+    assert sum(summary.correct_count for summary in summaries) == 36
+    assert sum(summary.wrong_count for summary in summaries) == 0
+    assert sum(summary.missing_count for summary in summaries) == 0
+    assert sum(summary.extra_count for summary in summaries) == 0
+    assert sum(summary.not_measured_count for summary in summaries) == 0
+    assert sum(summary.unsupported_count for summary in summaries) == 0
+    assert sum(summary.ambiguous_count for summary in summaries) == 0
+
+    for case, result in zip(_role_signal_cases(manifest), results, strict=True):
+        expected_by_square = {
+            piece["square"]: piece["color"] for piece in case["expected_pieces"]
+        }
+
+        assert len(result.rows) == len(expected_by_square)
+        for row in result.rows:
+            assert row.detected_color == expected_by_square[row.square]
+            assert row.color_result == "correct"
+            assert row.failure_reason is None
+
+
 def test_empty_or_missing_occupancy_samples_do_not_guess_color() -> None:
     manifest = _load_valid_manifest()
     case = manifest["cases"][0]
@@ -188,6 +216,14 @@ def _block_12_cases(manifest: dict) -> tuple[dict, ...]:
         case
         for case in manifest["cases"]
         if not case["expected_metrics"].get("role_signal_fixture")
+    )
+
+
+def _role_signal_cases(manifest: dict) -> tuple[dict, ...]:
+    return tuple(
+        case
+        for case in manifest["cases"]
+        if case["expected_metrics"].get("role_signal_fixture")
     )
 
 
