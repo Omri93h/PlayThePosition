@@ -4,13 +4,13 @@ Current Block/Area:
 BLOCK 14 — Recognition Orchestration + FEN Reconstruction
 
 Current Feature:
-14.2 Internal measured-piece model
+14.2.5 BLOCK 14 failure and FEN evaluation contract
 
 Current Step:
 Implemented / ready for review
 
 Rules:
-- Work only on Feature 14.2 until approved otherwise.
+- Work only on Feature 14.2.5 until approved otherwise.
 - Do not start Feature 14.3 implementation without approval.
 - Keep BLOCK 14 internal/test-only and approved-fixture-only until explicitly approved otherwise.
 - Do not add CV/ML dependencies yet.

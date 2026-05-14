@@ -49,6 +49,15 @@ The FEN must be built from measured outputs. Fixture `expected_fen` is allowed o
 - Keeps unsupported, ambiguous, and not-measured states explicit.
 - Does not build FEN.
 
+### 14.2.5 BLOCK 14 failure and FEN evaluation contract
+- Status: implemented / ready for review.
+- Contract location: `docs/product/DETECTION_FEN_RECONSTRUCTION_EVALUATION_CONTRACT.md`.
+- Defines canonical BLOCK 14 failure codes before FEN builder work.
+- Defines FEN evaluation/report shape.
+- Confirms side to move must come from explicit fixture/test metadata, not `expected_fen`.
+- Documents that full six-field FEN comparison is blocked until 14.4 defines side-to-move truth.
+- Allows 14.3 to build/compare placement-only FEN if approved.
+
 ### 14.3 FEN builder from measured pieces
 - Status: planned.
 - Build a FEN placement field from measured square/color/role rows.
