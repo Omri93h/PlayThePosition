@@ -31,7 +31,7 @@ Use the repository docs as source of truth. Do not rely on stale chat memory.
 - Current development/runtime: localhost/internal only.
 - Product direction: fast chess position intake, editable reconstructed board, confidence-aware detection, user correction through existing Edit mode, and later analysis/training workflows.
 - Current active block: BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
-- Current active feature: 14.5 — Invalid-board validation boundary, implemented / ready for review.
+- Current active feature: 14.6 — Approved-fixture FEN reconstruction tests and readiness report, implemented / ready for review.
 
 BLOCK 14 status:
 
@@ -43,7 +43,8 @@ BLOCK 14 status:
 - 14.3.1 repairs the role-signal color classifier in the current repo state: all three owned role-signal fixtures classify 36 / 36 occupied-square colors correctly, and all three placement strings match `expected_fen.split()[0]`.
 - 14.4 adds explicit `side_to_move` fixture metadata outside `expected_fen`, guarded full-FEN reconstruction, and orientation tests proving measured algebraic rows should not be transformed again.
 - 14.5 blocks placement-only and full-FEN reconstruction when measured rows have missing or duplicate white/black kings.
-- Next safe step after 14.5 review/commit: plan 14.6 — Approved-fixture FEN reconstruction tests and readiness report.
+- 14.6 adds the BLOCK 14 readiness report and test-only readiness summary for the approved role-signal fixture path.
+- Next safe step after 14.6 review/commit: plan 14.7 — BLOCK 14 closeout review with manual validation checklist.
 
 ## Hard Boundaries
 
@@ -95,5 +96,5 @@ When a blocker appears:
 
 Current known BLOCK 14 blocker to watch:
 
-- Approved-fixture reconstruction reporting is still blocked until 14.6.
+- BLOCK 14 closeout review and manual validation checklist are still blocked until 14.7.
 - Broad legality validation remains out of scope: check/checkmate, impossible move history, castling-rights detection, en-passant detection, halfmove/fullmove truth, and engine analysis.

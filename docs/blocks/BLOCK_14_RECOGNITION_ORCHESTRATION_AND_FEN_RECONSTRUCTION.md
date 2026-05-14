@@ -93,9 +93,11 @@ The FEN must be built from measured outputs. Fixture `expected_fen` is allowed o
 - Returns clear failure reasons rather than generated FEN.
 
 ### 14.6 Approved-fixture FEN reconstruction tests and readiness report
-- Status: planned.
-- Run internal approved-fixture tests that compare generated FEN against fixture `expected_fen`.
-- Create a concise readiness report that frames results as approved-fixture internal measurements only.
+- Status: implemented / ready for review.
+- Adds a durable readiness report at `docs/product/DETECTION_BLOCK_14_FEN_RECONSTRUCTION_READINESS_REPORT.md`.
+- Adds a test-only readiness summary assertion for the approved role-signal fixture path.
+- Confirms approved role-signal fixtures generate placement and guarded full FEN from measured rows plus explicit `side_to_move` metadata.
+- Frames results as approved-fixture internal measurements only.
 - Keep upload/API integration and public behavior deferred.
 
 ### 14.7 BLOCK 14 closeout review with manual validation checklist

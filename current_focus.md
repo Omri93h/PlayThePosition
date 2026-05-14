@@ -4,14 +4,14 @@ Current Block/Area:
 BLOCK 14 — Recognition Orchestration + FEN Reconstruction
 
 Current Feature:
-14.5 Invalid-board validation boundary
+14.6 Recognition/FEN readiness reporting
 
 Current Step:
 Implemented / ready for review
 
 Rules:
-- Work only on Feature 14.5 until approved otherwise.
-- Do not start Feature 14.6 implementation without approval.
+- Work only on Feature 14.6 until approved otherwise.
+- Do not start Feature 14.7 implementation without approval.
 - Keep BLOCK 14 internal/test-only and approved-fixture-only until explicitly approved otherwise.
 - Do not add CV/ML dependencies yet.
 - Do not claim real-world screenshot detection accuracy.

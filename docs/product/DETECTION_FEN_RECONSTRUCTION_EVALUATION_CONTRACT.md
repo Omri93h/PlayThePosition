@@ -159,11 +159,13 @@ If 14.3 proceeds before 14.4 side-to-move handling, it should:
 - leave full six-field FEN generation blocked with `missing_side_to_move`
 - preserve unsupported measured rows as failures
 
-## Relationship To 14.4 And 14.5
+## Relationship To 14.4, 14.5, And 14.6
 
 Feature 14.4 defines explicit side-to-move and orientation handling. It keeps orientation handling upstream: once measured rows use canonical algebraic squares, FEN reconstruction must not apply a second board transform.
 
 Feature 14.5 implements invalid-board failure states for missing and duplicate kings. It intentionally does not add check/checkmate, move-history, castling-rights, en-passant, halfmove/fullmove, engine, or broader legality validation.
+
+Feature 14.6 records the approved-fixture readiness result in `docs/product/DETECTION_BLOCK_14_FEN_RECONSTRUCTION_READINESS_REPORT.md`. That report is a docs/test-only summary. It does not add production runtime reporting, CLI output, API behavior, upload integration, or UI behavior.
 
 Until BLOCK 14 closeout, this contract remains the reporting guardrail that prevents fixture-only FEN reconstruction from being framed as upload/API behavior or production recognition accuracy.
 

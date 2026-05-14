@@ -322,6 +322,40 @@ def test_black_bottom_measured_rows_do_not_get_transformed_again_for_fen() -> No
     assert result.placement != double_transform_result.placement
 
 
+def test_block_14_readiness_summary_covers_role_signal_fixtures() -> None:
+    manifest = _load_valid_manifest()
+    summaries = tuple(
+        _readiness_summary(case) for case in _role_signal_cases(manifest)
+    )
+
+    assert len(summaries) == 3
+    assert {summary["orientation"] for summary in summaries} == {
+        "black-bottom",
+        "white-bottom",
+    }
+    assert all(
+        summary["side_to_move_source"] == "fixture_metadata"
+        for summary in summaries
+    )
+    assert sum(summary["measured_row_count"] for summary in summaries) == 192
+    assert sum(summary["measured_piece_count"] for summary in summaries) == 36
+    assert sum(summary["empty_square_count"] for summary in summaries) == 156
+    assert sum(summary["unsupported_row_count"] for summary in summaries) == 0
+    assert all(summary["placement_generated"] for summary in summaries)
+    assert all(summary["placement_match"] for summary in summaries)
+    assert all(summary["full_fen_generated"] for summary in summaries)
+    assert all(summary["full_fen_match"] for summary in summaries)
+    assert all(summary["failure_code"] is None for summary in summaries)
+    assert all(
+        summary["source_stages"]
+        == ("color_classifier", "role_classifier", "square_sampling")
+        for summary in summaries
+    )
+    assert all(
+        summary["full_fen_placeholders"] == "- - 0 1" for summary in summaries
+    )
+
+
 def _build_case_rows(case: dict) -> tuple[MeasuredPieceRow, ...]:
     decoded = _decode_case_image(case)
     samples = _sample_case(case, decoded)
@@ -339,6 +373,60 @@ def _build_case_rows(case: dict) -> tuple[MeasuredPieceRow, ...]:
         color_rows=color_classification.rows,
         role_rows=role_classification.rows,
     )
+
+
+def _readiness_summary(case: dict) -> dict:
+    rows = _build_case_rows(case)
+    placement_result = build_fen_placement_from_measured_rows(rows)
+    full_fen_result = build_full_fen_from_measured_rows(
+        rows,
+        side_to_move=case.get("side_to_move"),
+    )
+    source_stages = tuple(
+        sorted({stage for row in rows for stage in row.source_stages})
+    )
+    failure_code = None
+    if isinstance(placement_result, FenPlacementFailure):
+        failure_code = placement_result.code
+    elif isinstance(full_fen_result, FenPlacementFailure):
+        failure_code = full_fen_result.code
+
+    return {
+        "fixture_id": case["id"],
+        "filename": case["filename"],
+        "orientation": case["orientation"],
+        "side_to_move_source": (
+            "fixture_metadata" if case.get("side_to_move") in {"w", "b"} else None
+        ),
+        "measured_row_count": len(rows),
+        "measured_piece_count": sum(
+            row.row_category == "measured_piece" for row in rows
+        ),
+        "empty_square_count": sum(row.row_category == "empty_square" for row in rows),
+        "unsupported_row_count": sum(
+            row.row_category == "unsupported" for row in rows
+        ),
+        "placement_generated": isinstance(placement_result, FenPlacementSuccess),
+        "placement_match": (
+            placement_result.placement == _expected_placement(case)
+            if isinstance(placement_result, FenPlacementSuccess)
+            else False
+        ),
+        "full_fen_generated": isinstance(full_fen_result, FenReconstructionSuccess),
+        "full_fen_match": (
+            full_fen_result.fen == case["expected_fen"]
+            if isinstance(full_fen_result, FenReconstructionSuccess)
+            else False
+        ),
+        "full_fen_placeholders": (
+            f"{full_fen_result.castling} {full_fen_result.en_passant} "
+            f"{full_fen_result.halfmove} {full_fen_result.fullmove}"
+            if isinstance(full_fen_result, FenReconstructionSuccess)
+            else None
+        ),
+        "failure_code": failure_code,
+        "source_stages": source_stages,
+    }
 
 
 def _load_valid_manifest() -> dict:

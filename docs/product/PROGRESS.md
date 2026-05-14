@@ -21,7 +21,7 @@
 
 ## Current
 
-- Current focus: BLOCK 14 — Recognition Orchestration + FEN Reconstruction, Feature 14.5 implemented / ready for review.
+- Current focus: BLOCK 14 — Recognition Orchestration + FEN Reconstruction, Feature 14.6 implemented / ready for review.
 - Product name: Play That Position.
 - Future domain/brand asset: `playthatposition.com`.
 - Current development/runtime: localhost only.
@@ -49,6 +49,7 @@
 - Feature 14.3.1 is implemented / ready for review as a role-signal color classifier repair.
 - Feature 14.4 is implemented / ready for review as side-to-move and orientation handling.
 - Feature 14.5 is implemented / ready for review as an invalid-board validation boundary.
+- Feature 14.6 is implemented / ready for review as the recognition/FEN readiness report.
 - Feature 12.1 is complete as the role/color classifier contract.
 - Feature 12.2 is complete as fixture signal audit for role/color feasibility.
 - Feature 12.3 is complete as test-only color classifier experiment.
@@ -111,10 +112,10 @@
 
 ## Next
 
-- Review Feature 14.5 — Invalid-board validation boundary.
-- Plan Feature 14.6 — Approved-fixture FEN reconstruction tests and readiness report after 14.5 review/commit.
+- Review Feature 14.6 — Approved-fixture FEN reconstruction tests and readiness report.
+- Plan Feature 14.7 — BLOCK 14 closeout review with manual validation checklist after 14.6 review/commit.
 - Keep BLOCK 14 internal/test-only and approved-fixture-only at first.
-- Do not implement approved-fixture readiness reporting or upload/API integration until explicitly approved.
+- Do not implement BLOCK 14 closeout or upload/API integration until explicitly approved.
 - Do not rename UI/header/logo/web metadata, package names, routes, manifests, deploy config, or runtime identifiers until a separate approved rename task.
 - Approved roadmap after BLOCK 13 currently runs through BLOCK 17. FEN reconstruction is next as BLOCK 14 planning only and remains internal/test-only until explicitly approved.
 - Keep BLOCK 11 internal/test-only.
@@ -165,7 +166,7 @@
 - 14.3.1 Role-signal color classifier repair — implemented / ready for review.
 - 14.4 Side-to-move and orientation handling — implemented / ready for review.
 - 14.5 Invalid-board and failure-state handling — implemented / ready for review.
-- 14.6 Approved-fixture FEN reconstruction tests and readiness report — planned.
+- 14.6 Approved-fixture FEN reconstruction tests and readiness report — implemented / ready for review.
 - 14.7 BLOCK 14 closeout review with manual validation checklist — planned.
 
 ## Completed In BLOCK 10
@@ -226,7 +227,7 @@
 - FEN reconstruction is deferred to BLOCK 14 planning and remains internal/test-only until explicitly approved.
 - BLOCK 13 owned/generated role-signal fixtures are added, audit v2 finds their role signals separable on approved fixtures, and the test-only role classifier measures 36 / 36 correct role classifications on those controlled fixtures. BLOCK 13 is complete as internal/test-only, approved-fixture-only measurement work. Role identity is still not recognized in product behavior, and FEN/upload remain deferred.
 - BLOCK 14 is planned to build FEN from measured outputs only. Fixture `expected_fen` is comparison-only, invalid data must return clear failures, and upload/API integration remains deferred.
-- BLOCK 14 placement-only FEN builder is implemented. After the 14.3.1 role-signal color repair, all three owned role-signal fixtures classify 36 / 36 occupied-square colors correctly and all three generated placements match `expected_fen.split()[0]`. Feature 14.4 adds explicit `side_to_move` fixture metadata and guarded full-FEN reconstruction with conservative placeholder fields for approved fixture tests only. Feature 14.5 blocks placement and full FEN for missing or duplicate white/black kings without adding broad legality validation. This remains approved-fixture-only internal measurement, not a product accuracy claim.
+- BLOCK 14 placement-only FEN builder is implemented. After the 14.3.1 role-signal color repair, all three owned role-signal fixtures classify 36 / 36 occupied-square colors correctly and all three generated placements match `expected_fen.split()[0]`. Feature 14.4 adds explicit `side_to_move` fixture metadata and guarded full-FEN reconstruction with conservative placeholder fields for approved fixture tests only. Feature 14.5 blocks placement and full FEN for missing or duplicate white/black kings without adding broad legality validation. Feature 14.6 adds the BLOCK 14 recognition/FEN readiness report and a test-only readiness summary for the approved role-signal path. This remains approved-fixture-only internal measurement, not a product accuracy claim.
 
 ## Later / Deferred
 
