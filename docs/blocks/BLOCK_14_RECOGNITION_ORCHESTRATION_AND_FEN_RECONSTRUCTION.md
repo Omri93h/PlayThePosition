@@ -2,7 +2,7 @@
 
 ## Status
 
-Closeout-ready / awaiting Omri manual validation.
+Complete / accepted after Omri manual validation.
 
 BLOCK 14 must remain approved-fixture-only and internal/test-only until explicitly approved otherwise. It does not start upload/API integration, public UI behavior, real screenshot support, or production accuracy claims.
 
@@ -101,7 +101,7 @@ The FEN must be built from measured outputs. Fixture `expected_fen` is allowed o
 - Keep upload/API integration and public behavior deferred.
 
 ### 14.7 BLOCK 14 closeout review with manual validation checklist
-- Status: closeout-ready / awaiting Omri manual validation.
+- Status: complete / accepted after Omri manual validation.
 - Closeout review location: `docs/product/DETECTION_BLOCK_14_CLOSEOUT_REVIEW.md`.
 - Verify all BLOCK 14 features are implemented/documented, checks pass, and scope stayed internal/test-only.
 - Include a block-specific manual validation checklist for Omri before final acceptance.

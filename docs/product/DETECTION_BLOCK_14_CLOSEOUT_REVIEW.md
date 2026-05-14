@@ -1,12 +1,14 @@
 # Detection BLOCK 14 Closeout Review
 
-Feature 14.7 closes BLOCK 14 as implementation/docs ready for Omri manual validation.
+Feature 14.7 closes BLOCK 14 as accepted by Omri after manual validation.
 
-This closeout is internal/test-only and approved-fixture-only. It does not mark BLOCK 14 finally accepted by Omri, start BLOCK 15, add upload/API/UI behavior, claim real screenshot support, claim production recognition accuracy, or add broad chess legality validation.
+This closeout is internal/test-only and approved-fixture-only. It does not start BLOCK 15, add upload/API/UI behavior, claim real screenshot support, claim production recognition accuracy, or add broad chess legality validation.
 
 ## Closeout State
 
-BLOCK 14 is closeout-ready / awaiting Omri manual validation.
+BLOCK 14 is accepted after Omri manual validation.
+
+Omri manual validation decision: Approve. No notes or blockers were recorded.
 
 Next repo-driven work after Omri review is approved planning for BLOCK 15 / Feature 15.1. There is no BLOCK 15 block file yet, so BLOCK 15 should begin with explicit planning/doc creation before any implementation scope.
 
@@ -22,7 +24,7 @@ Next repo-driven work after Omri review is approved planning for BLOCK 15 / Feat
 | 14.4 Side-to-move and orientation handling | implemented / ready for review | Full FEN requires explicit `side_to_move`; measured algebraic rows are not transformed again. |
 | 14.5 Invalid-board validation boundary | implemented / ready for review | Missing/duplicate white/black kings block placement and full-FEN reconstruction. |
 | 14.6 Recognition/FEN readiness reporting | implemented / ready for review | Readiness report and test-only summary cover the approved role-signal path. |
-| 14.7 BLOCK 14 closeout review | closeout-ready / awaiting Omri manual validation | This document records checks, caveats, manual validation, and the next-state boundary. |
+| 14.7 BLOCK 14 closeout review | accepted after Omri manual validation | This document records checks, caveats, manual validation, and the next-state boundary. |
 
 ## Automated Checks
 
@@ -107,11 +109,11 @@ Regression concerns:
 
 Omri notes:
 
-- Notes:
+- Notes: none.
 
 Final Omri decision:
 
-- [ ] Approve
+- [x] Approve
 - [ ] Approve with notes
 - [ ] Reject
 

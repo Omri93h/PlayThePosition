@@ -1,18 +1,18 @@
 # Current Focus
 
 Current Block/Area:
-BLOCK 14 — Recognition Orchestration + FEN Reconstruction
+Awaiting approved BLOCK 15 planning
 
 Current Feature:
-14.7 BLOCK 14 closeout review with manual validation checklist
+BLOCK 14 closeout accepted; next planned work is BLOCK 15 / Feature 15.1 planning
 
 Current Step:
-Closeout-ready / awaiting Omri manual validation
+Awaiting approved BLOCK 15 planning
 
 Rules:
-- Work only on Feature 14.7 until Omri manual validation is reviewed.
 - Do not start BLOCK 15 planning or implementation without approval.
-- Keep BLOCK 14 internal/test-only and approved-fixture-only until explicitly approved otherwise.
+- Do not start BLOCK 15 implementation without an approved BLOCK 15 plan.
+- Keep BLOCK 14 results internal/test-only and approved-fixture-only until explicitly approved otherwise.
 - Do not add CV/ML dependencies yet.
 - Do not claim real-world screenshot detection accuracy.
 - Do not wire FEN reconstruction into upload/API behavior.

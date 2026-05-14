@@ -30,8 +30,7 @@ Use the repository docs as source of truth. Do not rely on stale chat memory.
 - Future domain/brand asset: `playthatposition.com`.
 - Current development/runtime: localhost/internal only.
 - Product direction: fast chess position intake, editable reconstructed board, confidence-aware detection, user correction through existing Edit mode, and later analysis/training workflows.
-- Current active block: BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
-- Current active feature: 14.7 — BLOCK 14 closeout review with manual validation checklist, closeout-ready / awaiting Omri manual validation.
+- Current active state: awaiting approved BLOCK 15 / Feature 15.1 planning.
 
 BLOCK 14 status:
 
@@ -45,7 +44,8 @@ BLOCK 14 status:
 - 14.5 blocks placement-only and full-FEN reconstruction when measured rows have missing or duplicate white/black kings.
 - 14.6 adds the BLOCK 14 readiness report and test-only readiness summary for the approved role-signal fixture path.
 - 14.7 adds BLOCK 14 closeout review and manual validation checklist.
-- Next safe step after Omri manual validation: approved planning for BLOCK 15 / Feature 15.1.
+- BLOCK 14 is complete/accepted after Omri manual validation.
+- Next safe step: approved planning for BLOCK 15 / Feature 15.1.
 
 ## Hard Boundaries
 
@@ -97,6 +97,5 @@ When a blocker appears:
 
 Current known blocker to watch:
 
-- BLOCK 14 final acceptance is pending Omri manual validation.
 - BLOCK 15 has no block file yet; it needs explicit planning/doc creation before implementation scope.
 - Broad legality validation remains out of scope: check/checkmate, impossible move history, castling-rights detection, en-passant detection, halfmove/fullmove truth, and engine analysis.
