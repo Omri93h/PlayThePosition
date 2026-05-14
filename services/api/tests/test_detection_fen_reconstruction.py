@@ -1,11 +1,15 @@
 import json
+from copy import deepcopy
+from dataclasses import replace
 from pathlib import Path
 
 from app.detection.color_classifier import classify_fixture_colors
 from app.detection.fen_reconstruction import (
     FenPlacementFailure,
     FenPlacementSuccess,
+    FenReconstructionSuccess,
     build_fen_placement_from_measured_rows,
+    build_full_fen_from_measured_rows,
 )
 from app.detection.fixture_metadata import (
     IMAGE_CONTENT_TYPES,
@@ -112,6 +116,67 @@ def test_duplicate_square_blocks_placement() -> None:
     assert result.code == "duplicate_square_sample"
 
 
+def test_builds_full_fen_only_with_explicit_side_to_move() -> None:
+    result = build_full_fen_from_measured_rows(
+        _rows(
+            _piece_row("e8", "black", "king"),
+            _piece_row("e1", "white", "king"),
+        ),
+        side_to_move="b",
+    )
+
+    assert isinstance(result, FenReconstructionSuccess)
+    assert result.fen == "4k3/8/8/8/8/8/8/4K3 b - - 0 1"
+    assert result.placement == "4k3/8/8/8/8/8/8/4K3"
+    assert result.side_to_move == "b"
+    assert result.castling == "-"
+    assert result.en_passant == "-"
+    assert result.halfmove == 0
+    assert result.fullmove == 1
+
+
+def test_missing_side_to_move_blocks_full_fen() -> None:
+    result = build_full_fen_from_measured_rows(_rows(), side_to_move=None)
+
+    assert isinstance(result, FenPlacementFailure)
+    assert result.code == "missing_side_to_move"
+
+
+def test_invalid_side_to_move_blocks_full_fen() -> None:
+    result = build_full_fen_from_measured_rows(_rows(), side_to_move="white")
+
+    assert isinstance(result, FenPlacementFailure)
+    assert result.code == "invalid_side_to_move"
+
+
+def test_manifest_validation_requires_explicit_side_to_move() -> None:
+    manifest = _load_manifest()
+    manifest["cases"][0].pop("side_to_move")
+
+    validation = validate_approved_fixture_manifest(
+        manifest,
+        approved_dir=APPROVED_DIR,
+        require_existing_images=True,
+    )
+
+    assert validation.valid is False
+    assert any(issue.code == "missing_side_to_move" for issue in validation.issues)
+
+
+def test_manifest_validation_rejects_invalid_side_to_move() -> None:
+    manifest = _load_manifest()
+    manifest["cases"][0]["side_to_move"] = "white"
+
+    validation = validate_approved_fixture_manifest(
+        manifest,
+        approved_dir=APPROVED_DIR,
+        require_existing_images=True,
+    )
+
+    assert validation.valid is False
+    assert any(issue.code == "invalid_side_to_move" for issue in validation.issues)
+
+
 def test_approved_role_signal_fixture_placements_compare_to_expected() -> None:
     manifest = _load_valid_manifest()
     results = tuple(
@@ -140,6 +205,58 @@ def test_approved_role_signal_fixture_placements_compare_to_expected() -> None:
     assert placement_matches == (True, True, True)
 
 
+def test_approved_role_signal_fixtures_build_full_fen_from_side_to_move() -> None:
+    manifest = _load_valid_manifest()
+    results = tuple(
+        (
+            case["expected_fen"],
+            build_full_fen_from_measured_rows(
+                _build_case_rows(case),
+                side_to_move=case["side_to_move"],
+            ),
+        )
+        for case in _role_signal_cases(manifest)
+    )
+
+    successes = tuple(
+        result for _, result in results if isinstance(result, FenReconstructionSuccess)
+    )
+    failures = tuple(
+        result for _, result in results if isinstance(result, FenPlacementFailure)
+    )
+
+    assert len(successes) == 3
+    assert failures == ()
+    assert tuple(result.fen == expected_fen for expected_fen, result in results) == (
+        True,
+        True,
+        True,
+    )
+
+
+def test_black_bottom_measured_rows_do_not_get_transformed_again_for_fen() -> None:
+    manifest = _load_valid_manifest()
+    case = next(
+        case
+        for case in _role_signal_cases(manifest)
+        if case["orientation"] == "black-bottom"
+    )
+    rows = _build_case_rows(case)
+
+    result = build_full_fen_from_measured_rows(
+        rows,
+        side_to_move=case["side_to_move"],
+    )
+    double_transform_result = build_fen_placement_from_measured_rows(
+        _double_transformed_rows(rows)
+    )
+
+    assert isinstance(result, FenReconstructionSuccess)
+    assert result.placement == _expected_placement(case)
+    assert isinstance(double_transform_result, FenPlacementSuccess)
+    assert result.placement != double_transform_result.placement
+
+
 def _build_case_rows(case: dict) -> tuple[MeasuredPieceRow, ...]:
     decoded = _decode_case_image(case)
     samples = _sample_case(case, decoded)
@@ -160,7 +277,7 @@ def _build_case_rows(case: dict) -> tuple[MeasuredPieceRow, ...]:
 
 
 def _load_valid_manifest() -> dict:
-    manifest = json.loads(APPROVED_MANIFEST_PATH.read_text(encoding="utf-8"))
+    manifest = _load_manifest()
     validation = validate_approved_fixture_manifest(
         manifest,
         approved_dir=APPROVED_DIR,
@@ -171,6 +288,10 @@ def _load_valid_manifest() -> dict:
     assert validation.issues == ()
 
     return manifest
+
+
+def _load_manifest() -> dict:
+    return deepcopy(json.loads(APPROVED_MANIFEST_PATH.read_text(encoding="utf-8")))
 
 
 def _role_signal_cases(manifest: dict) -> tuple[dict, ...]:
@@ -266,6 +387,18 @@ def _unsupported_row(square: str, failure_reason: str) -> MeasuredPieceRow:
         failure_reason=failure_reason,
         source_stages=("square_sampling", "color_classifier", "role_classifier"),
     )
+
+
+def _double_transformed_rows(
+    rows: tuple[MeasuredPieceRow, ...],
+) -> tuple[MeasuredPieceRow, ...]:
+    return tuple(replace(row, square=_flipped_square(row.square)) for row in rows)
+
+
+def _flipped_square(square: str) -> str:
+    file_index = "abcdefgh".index(square[0])
+    rank_index = "12345678".index(square[1])
+    return f"{'abcdefgh'[7 - file_index]}{'12345678'[7 - rank_index]}"
 
 
 def _all_squares() -> tuple[str, ...]:

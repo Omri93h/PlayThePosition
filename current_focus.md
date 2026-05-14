@@ -4,14 +4,14 @@ Current Block/Area:
 BLOCK 14 — Recognition Orchestration + FEN Reconstruction
 
 Current Feature:
-14.3.1 Role-signal color classifier repair
+14.4 Side-to-move and orientation handling
 
 Current Step:
 Implemented / ready for review
 
 Rules:
-- Work only on Feature 14.3.1 until approved otherwise.
-- Do not start Feature 14.4 implementation without approval.
+- Work only on Feature 14.4 until approved otherwise.
+- Do not start Feature 14.5 implementation without approval.
 - Keep BLOCK 14 internal/test-only and approved-fixture-only until explicitly approved otherwise.
 - Do not add CV/ML dependencies yet.
 - Do not claim real-world screenshot detection accuracy.

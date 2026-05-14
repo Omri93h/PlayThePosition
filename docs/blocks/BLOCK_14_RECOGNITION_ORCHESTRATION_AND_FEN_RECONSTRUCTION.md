@@ -64,9 +64,8 @@ The FEN must be built from measured outputs. Fixture `expected_fen` is allowed o
 - Builds the FEN placement field from measured-piece rows only.
 - Emits piece letters from measured role and measured color only.
 - Returns structured failure instead of fake or partial placement when required data is missing.
-- Does not emit full six-field FEN and does not add side-to-move support.
 - After 14.3.1 repair, all three owned role-signal fixtures generate placement and match `expected_fen.split()[0]`.
-- Full six-field FEN remains blocked until 14.4 defines explicit side-to-move truth.
+- Full six-field FEN is handled separately in 14.4 and requires explicit side-to-move truth.
 
 ### 14.3.1 Role-signal color classifier repair
 - Status: implemented / ready for review.
@@ -77,10 +76,13 @@ The FEN must be built from measured outputs. Fixture `expected_fen` is allowed o
 - Result: all three role-signal fixture placements generate and match `expected_fen.split()[0]`.
 
 ### 14.4 Side-to-move and orientation handling
-- Status: planned.
-- Use approved fixture metadata or a test-only input contract for side-to-move.
-- Use existing orientation-aware square mapping for white-bottom and black-bottom fixtures.
-- Keep castling, en passant, halfmove, and fullmove values conservative and explicitly documented.
+- Status: implemented / ready for review.
+- Adds explicit `side_to_move` metadata to approved success fixtures outside `expected_fen`.
+- Keeps placement-only reconstruction available.
+- Adds guarded full six-field FEN reconstruction only when explicit side-to-move is supplied.
+- Uses conservative non-detected FEN placeholders: castling `-`, en passant `-`, halfmove `0`, and fullmove `1`.
+- Documents and tests that measured rows already use canonical algebraic squares, so FEN reconstruction must not apply a second orientation transform.
+- Confirms black-bottom fixtures require no different FEN behavior after upstream orientation-aware square mapping.
 
 ### 14.5 Invalid-board and failure-state handling
 - Status: planned.
@@ -134,6 +136,7 @@ FEN placement must be generated from measured rows only:
 - ranks are emitted from rank 8 to rank 1
 - files are emitted from file `a` to file `h`
 - side-to-move is explicit
+- castling, en passant, halfmove, and fullmove are conservative placeholders in 14.4, not detected game-state truth
 
 `expected_fen` may be used only to assert expected test output. It must not be read by the FEN builder or recognition orchestrator as source data for detected pieces.
 

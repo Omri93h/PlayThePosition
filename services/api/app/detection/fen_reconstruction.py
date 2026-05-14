@@ -6,6 +6,12 @@ from app.detection.measured_pieces import ALL_SQUARES, MeasuredPieceRow
 
 FEN_FILES = "abcdefgh"
 FEN_RANKS = "87654321"
+CONSERVATIVE_CASTLING = "-"
+CONSERVATIVE_EN_PASSANT = "-"
+CONSERVATIVE_HALFMOVE = 0
+CONSERVATIVE_FULLMOVE = 1
+
+ActiveColor = Literal["w", "b"]
 
 FailureCode = Literal[
     "unsupported_fixture",
@@ -19,6 +25,8 @@ FailureCode = Literal[
     "ambiguous_role",
     "unsupported_color",
     "unsupported_role",
+    "missing_side_to_move",
+    "invalid_side_to_move",
     "invalid_orientation",
     "fen_not_generated",
 ]
@@ -69,6 +77,21 @@ class FenPlacementFailure:
 FenPlacementResult = FenPlacementSuccess | FenPlacementFailure
 
 
+@dataclass(frozen=True)
+class FenReconstructionSuccess:
+    fen: str
+    placement: str
+    side_to_move: ActiveColor
+    castling: str = CONSERVATIVE_CASTLING
+    en_passant: str = CONSERVATIVE_EN_PASSANT
+    halfmove: int = CONSERVATIVE_HALFMOVE
+    fullmove: int = CONSERVATIVE_FULLMOVE
+    source: str = "measured_pieces"
+
+
+FenReconstructionResult = FenReconstructionSuccess | FenPlacementFailure
+
+
 def build_fen_placement_from_measured_rows(
     rows: Sequence[MeasuredPieceRow],
 ) -> FenPlacementResult:
@@ -99,6 +122,30 @@ def build_fen_placement_from_measured_rows(
         pieces_by_square[square] = fen_letter
 
     return FenPlacementSuccess(_render_placement(pieces_by_square))
+
+
+def build_full_fen_from_measured_rows(
+    rows: Sequence[MeasuredPieceRow],
+    *,
+    side_to_move: str | None,
+) -> FenReconstructionResult:
+    active_color = _validate_side_to_move(side_to_move)
+    if isinstance(active_color, FenPlacementFailure):
+        return active_color
+
+    placement_result = build_fen_placement_from_measured_rows(rows)
+    if isinstance(placement_result, FenPlacementFailure):
+        return placement_result
+
+    return FenReconstructionSuccess(
+        fen=(
+            f"{placement_result.placement} {active_color} {CONSERVATIVE_CASTLING} "
+            f"{CONSERVATIVE_EN_PASSANT} {CONSERVATIVE_HALFMOVE} "
+            f"{CONSERVATIVE_FULLMOVE}"
+        ),
+        placement=placement_result.placement,
+        side_to_move=active_color,
+    )
 
 
 def _index_rows(
@@ -141,6 +188,24 @@ def _index_rows(
         )
 
     return indexed
+
+
+def _validate_side_to_move(
+    side_to_move: str | None,
+) -> ActiveColor | FenPlacementFailure:
+    if side_to_move is None:
+        return _failure(
+            "missing_side_to_move",
+            "Full FEN reconstruction requires explicit side-to-move metadata.",
+        )
+
+    if side_to_move in ("w", "b"):
+        return side_to_move
+
+    return _failure(
+        "invalid_side_to_move",
+        "Side-to-move metadata must be w or b.",
+    )
 
 
 def _fen_letter(row: MeasuredPieceRow) -> str | FenPlacementFailure:

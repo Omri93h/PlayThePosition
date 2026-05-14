@@ -80,8 +80,8 @@ git status
 - Project is now in BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only measurement work.
-- Current feature is 14.3.1 — Role-signal color classifier repair.
-- Current step is 14.3.1 implemented / ready for review.
+- Current feature is 14.4 — Side-to-move and orientation handling.
+- Current step is 14.4 implemented / ready for review.
 - BLOCK 12 stayed internal/test-only and approved-fixture-only.
 - No upload/API integration has started.
 - No production recognition accuracy claim has been made.
@@ -118,7 +118,10 @@ git status
 - Feature 14.3.1 role-signal color classifier repair is implemented in `services/api/app/detection/color_classifier.py` and `services/api/app/detection/role_color_signal_audit.py`.
 - Current approved role-signal fixture color result: all three owned role-signal fixtures classify 36 / 36 occupied-square colors correctly, with 0 wrong and 0 ambiguous.
 - Current approved role-signal fixture placement result: all three placements generate and match `expected_fen.split()[0]`.
-- Next planned work after 14.3.1 review/commit is Feature 14.4 — Side-to-move and orientation handling.
+- Feature 14.4 side-to-move and orientation handling is implemented in `services/api/app/detection/fen_reconstruction.py`, `services/api/app/detection/fixture_metadata.py`, and `services/api/tests/fixtures/detection/approved/cases.json`.
+- Current approved fixture side-to-move truth lives in explicit top-level `side_to_move` metadata outside `expected_fen`.
+- Current full-FEN reconstruction requires explicit `side_to_move`, uses conservative placeholders `- - 0 1`, and does not apply any second orientation transform after measured rows are already algebraic.
+- Next planned work after 14.4 review/commit is Feature 14.5 — Invalid-board and failure-state handling.
 - Approved roadmap after BLOCK 12:
   - BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
   - BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
@@ -129,9 +132,10 @@ git status
 - BLOCK 14 FEN reconstruction must remain internal/test-only and approved-fixture-only until explicitly approved.
 - FEN must be built from measured outputs, not fixture `expected_fen`; `expected_fen` is comparison-only.
 - Invalid measured data must return clear failure states, not fake FEN.
-- Current `cases.json` has no standalone side-to-move field; full six-field FEN comparison remains blocked until 14.4 defines explicit side-to-move truth.
+- Current `cases.json` has standalone `side_to_move` metadata; full six-field FEN generation is allowed only with that explicit source.
+- Invalid-board validation remains blocked until 14.5, including missing kings, duplicate kings, invalid board states, and legality validation.
 - Upload/API integration and public UI behavior remain deferred.
-- New agents must inspect `git status --short` before acting. If 14.3.1 changes are uncommitted, treat them as active current-feature work and do not start 14.4 until they are reviewed/committed or explicitly accepted as a blocker.
+- New agents must inspect `git status --short` before acting. If 14.4 changes are uncommitted, treat them as active current-feature work and do not start 14.5 until they are reviewed/committed or explicitly accepted as a blocker.
 
 ## Important Future Notes
 

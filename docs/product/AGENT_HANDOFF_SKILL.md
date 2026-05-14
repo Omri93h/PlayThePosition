@@ -31,7 +31,7 @@ Use the repository docs as source of truth. Do not rely on stale chat memory.
 - Current development/runtime: localhost/internal only.
 - Product direction: fast chess position intake, editable reconstructed board, confidence-aware detection, user correction through existing Edit mode, and later analysis/training workflows.
 - Current active block: BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
-- Current active feature: 14.3.1 — Role-signal color classifier repair, implemented / ready for review.
+- Current active feature: 14.4 — Side-to-move and orientation handling, implemented / ready for review.
 
 BLOCK 14 status:
 
@@ -41,7 +41,8 @@ BLOCK 14 status:
 - 14.3 placement-only FEN builder is implemented.
 - 14.3 historical caveat: placement builder worked technically, but role-signal fixture placement mismatched because measured color classifier had wrong/ambiguous rows.
 - 14.3.1 repairs the role-signal color classifier in the current repo state: all three owned role-signal fixtures classify 36 / 36 occupied-square colors correctly, and all three placement strings match `expected_fen.split()[0]`.
-- Next safe step after 14.3.1 review/commit: plan 14.4 — Side-to-move and orientation handling.
+- 14.4 adds explicit `side_to_move` fixture metadata outside `expected_fen`, guarded full-FEN reconstruction, and orientation tests proving measured algebraic rows should not be transformed again.
+- Next safe step after 14.4 review/commit: plan 14.5 — Invalid-board and failure-state handling.
 
 ## Hard Boundaries
 
@@ -56,9 +57,10 @@ BLOCK 14 status:
 - `expected_fen` is comparison-only.
 - `expected_pieces` is test/scoring truth only.
 - Classifiers and builders must not use `expected_fen` or `expected_pieces` as detection/build inputs.
-- Side to move is missing outside `expected_fen`.
-- Full six-field FEN remains blocked until explicit side-to-move truth is added.
+- Side to move exists as explicit `side_to_move` fixture metadata outside `expected_fen`.
+- Full six-field FEN requires explicit `side_to_move`; do not default it to white.
 - FEN placement may compare against `expected_fen.split()[0]` in tests/reports.
+- Full FEN may compare against `expected_fen` only after using explicit `side_to_move` metadata as the source.
 - Unsupported or incomplete measured data must return structured failure, not fake or partial FEN.
 
 ## Handling Codex Outputs
@@ -86,4 +88,4 @@ When a blocker appears:
 
 Current known BLOCK 14 blocker to watch:
 
-- Full six-field FEN is blocked until 14.4 defines explicit side-to-move truth outside `expected_fen`.
+- Invalid-board validation is still blocked until 14.5, including missing kings, duplicate kings, invalid board states, and legality validation.

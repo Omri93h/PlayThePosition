@@ -36,7 +36,7 @@
 - BLOCK 15 is planned for upload/API integration behind an internal gate after approved-fixture FEN reconstruction works.
 - BLOCK 16 is planned for board interaction and game-mode fixes.
 - BLOCK 17 is planned for user-facing analyze flow polish.
-- Current step is 14.3.1 Role-signal color classifier repair, implemented / ready for review.
+- Current step is 14.4 Side-to-move and orientation handling, implemented / ready for review.
 - BLOCK 14 must build FEN from measured outputs, not `expected_fen`; invalid measured data must return clear failure states.
 
 ## Rules

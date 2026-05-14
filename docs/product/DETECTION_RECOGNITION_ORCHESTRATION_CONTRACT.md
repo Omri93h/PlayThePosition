@@ -26,7 +26,7 @@ The orchestration contract uses these inputs:
 - role classifier rows from `role_classifier.py`
 - explicit side-to-move source
 
-The side-to-move source must be explicit. Current fixture `expected_fen` includes side to move, but `expected_fen` is comparison-only and must not be used as the source for reconstruction. If side to move is missing outside `expected_fen`, that remains a 14.4 gap.
+The side-to-move source must be explicit. Feature 14.4 stores it in approved fixture `side_to_move` metadata. Fixture `expected_fen` includes side to move too, but `expected_fen` is comparison-only and must not be used as the source for reconstruction.
 
 ## Join Rule
 
@@ -137,9 +137,9 @@ Hard rules:
 
 ## Side-To-Move Boundary
 
-Side to move must be supplied by an explicit internal/test-only source before FEN generation.
+Side to move must be supplied by an explicit internal/test-only source before full FEN generation.
 
-Until 14.4 defines that source, the orchestrator contract should treat side to move as required-but-not-yet-finalized metadata. It must not parse side to move from `expected_fen` for reconstruction.
+Feature 14.4 uses approved fixture `side_to_move` metadata as that source. The orchestrator must not parse side to move from `expected_fen` for reconstruction.
 
 ## Scope Guardrails
 

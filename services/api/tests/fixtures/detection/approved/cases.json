@@ -8,6 +8,7 @@
       "source": "synthetic",
       "style": "default",
       "orientation": "white-bottom",
+      "side_to_move": "w",
       "board_bounds": {
         "x": 0,
         "y": 0,
@@ -79,6 +80,7 @@
       "source": "synthetic",
       "style": "default",
       "orientation": "black-bottom",
+      "side_to_move": "w",
       "board_bounds": {
         "x": 0,
         "y": 0,
@@ -150,6 +152,7 @@
       "source": "synthetic",
       "style": "default",
       "orientation": "white-bottom",
+      "side_to_move": "w",
       "board_bounds": {
         "x": 0,
         "y": 0,
@@ -192,6 +195,7 @@
       "source": "synthetic",
       "style": "default",
       "orientation": "black-bottom",
+      "side_to_move": "w",
       "board_bounds": {
         "x": 0,
         "y": 0,
@@ -234,6 +238,7 @@
       "source": "owned",
       "style": "web-default",
       "orientation": "white-bottom",
+      "side_to_move": "w",
       "board_bounds": {
         "x": 0,
         "y": 0,
@@ -305,6 +310,7 @@
       "source": "owned",
       "style": "web-default",
       "orientation": "black-bottom",
+      "side_to_move": "w",
       "board_bounds": {
         "x": 0,
         "y": 0,
@@ -376,6 +382,7 @@
       "source": "owned",
       "style": "chesscom-like",
       "orientation": "white-bottom",
+      "side_to_move": "w",
       "board_bounds": {
         "x": 0,
         "y": 0,
@@ -418,6 +425,7 @@
       "source": "owned",
       "style": "lichess-like",
       "orientation": "white-bottom",
+      "side_to_move": "w",
       "board_bounds": {
         "x": 0,
         "y": 0,
@@ -487,6 +495,7 @@
       "source": "owned",
       "style": "role-signal",
       "orientation": "white-bottom",
+      "side_to_move": "w",
       "board_bounds": {
         "x": 0,
         "y": 0,
@@ -602,6 +611,7 @@
       "source": "owned",
       "style": "role-signal",
       "orientation": "black-bottom",
+      "side_to_move": "w",
       "board_bounds": {
         "x": 0,
         "y": 0,
@@ -717,6 +727,7 @@
       "source": "owned",
       "style": "role-signal",
       "orientation": "white-bottom",
+      "side_to_move": "w",
       "board_bounds": {
         "x": 0,
         "y": 0,

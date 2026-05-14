@@ -11,6 +11,7 @@ from app.detection.image import (
 )
 
 ORIENTATIONS = {"white-bottom", "black-bottom", "unknown"}
+SIDE_TO_MOVE_VALUES = {"w", "b"}
 SUCCESS_KINDS = {"approved_manual_fixture", "hand_created", "synthetic"}
 BASE_REQUIRED_CASE_FIELDS = {
     "board_bounds",
@@ -154,6 +155,8 @@ def _validate_case(
 
     kind = case.get("kind")
     if kind in SUCCESS_KINDS:
+        issues.extend(_validate_side_to_move(case, case_id))
+
         expected_fen = case.get("expected_fen")
         if not isinstance(expected_fen, str) or not expected_fen.strip():
             issues.append(
@@ -194,6 +197,33 @@ def _validate_case(
             )
 
     return issues
+
+
+def _validate_side_to_move(
+    case: dict[str, Any],
+    case_id: str | None,
+) -> list[FixtureMetadataIssue]:
+    side_to_move = case.get("side_to_move")
+
+    if side_to_move is None:
+        return [
+            _issue(
+                "missing_side_to_move",
+                "Approved success fixtures require explicit side_to_move metadata.",
+                case_id,
+            )
+        ]
+
+    if side_to_move not in SIDE_TO_MOVE_VALUES:
+        return [
+            _issue(
+                "invalid_side_to_move",
+                "Fixture side_to_move must be w or b.",
+                case_id,
+            )
+        ]
+
+    return []
 
 
 def _validate_expected_pieces(

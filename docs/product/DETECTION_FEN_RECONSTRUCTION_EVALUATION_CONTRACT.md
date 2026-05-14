@@ -98,12 +98,13 @@ Example shape:
 
 Side to move must come from explicit fixture or test metadata.
 
-Current approved `cases.json` has no standalone side-to-move field. The side-to-move value exists only inside fixture `expected_fen`, and `expected_fen` is comparison-only. Therefore:
+Feature 14.4 adds standalone `side_to_move` metadata to approved success fixtures in `cases.json`. The side-to-move value also appears inside fixture `expected_fen`, but `expected_fen` is comparison-only and must not be used as the source for reconstruction. Therefore:
 
 - the FEN builder must not parse side to move from `expected_fen`
-- full six-field FEN generation/comparison is blocked until 14.4 defines explicit side-to-move truth
+- full six-field FEN generation requires explicit `side_to_move` metadata
 - 14.3 may build and compare piece placement only if approved
-- 14.3 must report `missing_side_to_move` when full FEN output is requested without explicit side-to-move truth
+- 14.4 must report `missing_side_to_move` or `invalid_side_to_move` when full FEN output is requested without valid explicit side-to-move truth
+- castling, en passant, halfmove, and fullmove fields may use conservative placeholders in 14.4; they are not detected game-state truth
 
 ## Generated FEN Comparison Rules
 
@@ -160,7 +161,7 @@ If 14.3 proceeds before 14.4 side-to-move handling, it should:
 
 ## Relationship To 14.4 And 14.5
 
-Feature 14.4 should define explicit side-to-move and orientation handling.
+Feature 14.4 defines explicit side-to-move and orientation handling. It keeps orientation handling upstream: once measured rows use canonical algebraic squares, FEN reconstruction must not apply a second board transform.
 
 Feature 14.5 should implement invalid-board failure states, including missing and duplicate kings.
 

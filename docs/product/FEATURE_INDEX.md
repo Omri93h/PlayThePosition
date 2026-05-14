@@ -154,7 +154,7 @@
 - 14.2.5 BLOCK 14 failure and FEN evaluation contract — implemented / ready for review
 - 14.3 FEN builder from measured pieces — implemented / ready for review
 - 14.3.1 Role-signal color classifier repair — implemented / ready for review
-- 14.4 Side-to-move and orientation handling — planned
+- 14.4 Side-to-move and orientation handling — implemented / ready for review
 - 14.5 Invalid-board and failure-state handling — planned
 - 14.6 Approved-fixture FEN reconstruction tests and readiness report — planned
 - 14.7 BLOCK 14 closeout review with manual validation checklist — planned
