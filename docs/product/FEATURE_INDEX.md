@@ -149,7 +149,7 @@
 ## BLOCK 14 — Recognition Orchestration + FEN Reconstruction
 
 - Status: current / planned.
-- 14.1 BLOCK 14 definition and recognition orchestration contract — planned
+- 14.1 BLOCK 14 definition and recognition orchestration contract — implemented / ready for review
 - 14.2 Internal measured-piece model: combine square, occupancy, color, and role rows — planned
 - 14.3 FEN builder from measured pieces — planned
 - 14.4 Side-to-move and orientation handling — planned

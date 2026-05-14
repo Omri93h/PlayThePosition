@@ -34,10 +34,12 @@ The FEN must be built from measured outputs. Fixture `expected_fen` is allowed o
 ## Planned Features
 
 ### 14.1 BLOCK 14 definition and recognition orchestration contract
-- Status: planned.
-- Define the internal recognition pipeline contract: board bounds -> squares -> occupancy -> color -> role -> measured board state -> FEN.
-- Define which upstream outputs are required and which failure states block FEN.
-- Confirm `expected_fen` is comparison-only.
+- Status: implemented / ready for review.
+- Contract location: `docs/product/DETECTION_RECOGNITION_ORCHESTRATION_CONTRACT.md`.
+- Defines the internal recognition pipeline contract: board bounds -> squares -> occupancy -> color -> role -> measured board state -> FEN.
+- Defines which upstream outputs are required and which failure states block FEN.
+- Confirms `expected_fen` is comparison-only and must not be used to reconstruct FEN.
+- Documents the side-to-move source as an explicit 14.4 gap when it is not available outside `expected_fen`.
 
 ### 14.2 Internal measured-piece model: combine square, occupancy, color, and role rows
 - Status: planned.
@@ -75,6 +77,8 @@ The FEN must be built from measured outputs. Fixture `expected_fen` is allowed o
 - Include a block-specific manual validation checklist for Omri before final acceptance.
 
 ## Orchestration Contract
+
+Feature 14.1 is documented in `docs/product/DETECTION_RECOGNITION_ORCHESTRATION_CONTRACT.md`.
 
 BLOCK 14 should combine:
 
