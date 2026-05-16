@@ -2,9 +2,9 @@
 
 ## Status
 
-Feature 15.1 contract. Docs/state only. No runtime API, frontend, shared contract, test, or product behavior changes are made by this document.
+Feature 15.1 contract, updated after Feature 15.2 backend wiring.
 
-This contract defines how uploaded image recognition should be exposed later behind an internal/dev gate. The current default `/upload` behavior remains the existing placeholder response until a later approved feature implements gated wiring.
+This contract defines how uploaded image recognition is exposed behind an internal/dev gate. The default `/upload` behavior remains the existing placeholder response when the gate is absent or disabled.
 
 ## Purpose
 
@@ -14,14 +14,14 @@ The contract must let Play That Position eventually connect uploaded images to t
 
 ## Current Runtime Baseline
 
-Current `/upload` behavior remains unchanged:
+Current `/upload` behavior remains unchanged by default:
 
 - accepts PNG/JPEG uploads after existing validation
 - rejects unsupported, oversized, or corrupted payloads with structured errors
 - returns a placeholder FEN response on valid uploads
 - logs privacy-safe upload metadata only
-- does not run real recognition
-- does not expose BLOCK 14 FEN reconstruction
+- does not run recognition unless `PLAYTHATPOSITION_INTERNAL_RECOGNITION_ENABLED` is explicitly enabled
+- does not expose recognition output without the internal/dev gate
 - does not claim real screenshot support
 
 Current success shape:
@@ -59,7 +59,14 @@ Required gate behavior:
 - keeps fallback behavior available when enabled
 - never treats approved-fixture results as production screenshot accuracy
 
-Feature 15.1 does not choose the final environment variable or config name. Feature 15.2 should define it in code and tests.
+Feature 15.2 implements this gate as `PLAYTHATPOSITION_INTERNAL_RECOGNITION_ENABLED`.
+
+Only these values enable the gated path:
+
+- `1`
+- `true`
+- `yes`
+- `on`
 
 ## Response Compatibility Strategy
 
@@ -70,13 +77,13 @@ The existing top-level fields remain the compatibility baseline:
 - `confidence`
 - `message`
 
-Later implementation should add detection metadata additively. Existing clients must be able to keep reading the top-level fields.
+Feature 15.2 adds detection metadata additively only when the internal/dev gate is enabled. Existing clients can keep reading the top-level fields.
 
-The shared TypeScript contract currently contains an `ok/result` upload shape, while the runtime API and frontend upload client currently use the flat placeholder shape above. Feature 15.2 or 15.3 must reconcile shared contract code with the implemented API shape intentionally; this docs-only feature does not change either runtime shape.
+The shared TypeScript contract currently contains an `ok/result` upload shape, while the runtime API and frontend upload client currently use the flat top-level shape above. Feature 15.3 should reconcile shared contract code and frontend expectations with the implemented backend response shape intentionally.
 
 ## Gated Success Shape
 
-When the gate is enabled and all required recognition stages complete safely, `/upload` may return detected FEN in the top-level `fen` field with additive detection metadata.
+When the gate is enabled and all required recognition stages complete safely, `/upload` returns detected FEN in the top-level `fen` field with additive detection metadata.
 
 Example future shape:
 
@@ -128,7 +135,7 @@ Detected FEN is allowed only when the gated path produces a safe measured result
 
 ## Gated Fallback Shape
 
-When the gate is enabled but recognition is disabled, incomplete, failed, unsafe, or below the success threshold, `/upload` must preserve safe fallback behavior.
+When the gate is enabled but recognition is disabled, incomplete, failed, unsafe, or below the success threshold, `/upload` preserves safe fallback behavior.
 
 Example future partial/failure shape:
 
@@ -274,14 +281,15 @@ The frontend should not depend on raw uploaded image bytes, screenshots, crops, 
 
 ## Tests Expected For Later Implementation
 
-Feature 15.2 backend tests should cover:
+Feature 15.2 backend tests cover:
 
 - gate disabled returns the current placeholder response
 - gate enabled safe success returns detected FEN and additive metadata
 - gate enabled partial/failure returns placeholder fallback and structured metadata
 - upload validation errors remain unchanged
 - privacy-safe logs do not include raw image data
-- invalid-board and unsafe FEN failures do not produce detected FEN
+
+Invalid-board and unsafe FEN failures should continue to be covered through BLOCK 14 and future integrated recognition tests as the runtime recognition stages become more complete.
 
 Feature 15.3 frontend tests should cover:
 
@@ -293,7 +301,7 @@ Feature 15.3 frontend tests should cover:
 
 ## Non-Production Caveats
 
-- This contract does not implement upload recognition.
+- Runtime recognition exposure is internal/dev gated and disabled by default.
 - Current recognition/FEN readiness is approved-fixture/internal/test-only.
 - Real screenshots are not supported by this contract.
 - Production recognition accuracy is not claimed.
@@ -309,5 +317,15 @@ Feature 15.3 frontend tests should cover:
 - Gated behavior and default disabled/placeholder behavior are documented.
 - BLOCK 14 consumption boundaries are documented.
 - Future backend/frontend test expectations are documented.
-- Source-of-truth docs point to Feature 15.2 planning next.
+- Source-of-truth docs pointed to Feature 15.2 planning next before 15.2 implementation began.
 - No runtime API, frontend, shared contract, tests, fixtures, or product behavior are changed.
+
+## 15.2 Done Definition
+
+- `/upload` preserves exact placeholder behavior when the gate is absent or disabled.
+- `PLAYTHATPOSITION_INTERNAL_RECOGNITION_ENABLED` gates backend recognition wiring.
+- Gated success can return detected top-level FEN through a backend test-controlled runner.
+- Gated partial/failure returns placeholder fallback plus additive detection metadata.
+- Recognition failure does not turn a valid upload into an HTTP error.
+- Privacy-safe upload logging is preserved.
+- Frontend and shared contract code remain unchanged.

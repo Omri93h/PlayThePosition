@@ -30,7 +30,7 @@ Use the repository docs as source of truth. Do not rely on stale chat memory.
 - Future domain/brand asset: `playthatposition.com`.
 - Current development/runtime: localhost/internal only.
 - Product direction: fast chess position intake, editable reconstructed board, confidence-aware detection, user correction through existing Edit mode, and later analysis/training workflows.
-- Current active state: BLOCK 15 is active; Feature 15.1 contract docs are implemented and the next safe step is approved Feature 15.2 planning.
+- Current active state: BLOCK 15 is active; Features 15.1 and 15.2 are implemented / ready for review and the next safe step is approved Feature 15.3 planning.
 
 BLOCK 14 status:
 
@@ -46,13 +46,14 @@ BLOCK 14 status:
 - 14.7 adds BLOCK 14 closeout review and manual validation checklist.
 - BLOCK 14 is complete/accepted after Omri manual validation.
 - Feature 15.1 creates the BLOCK 15 plan and upload recognition API contract as docs-only work.
-- Next safe step: PLAN ONLY for Feature 15.2 — Backend endpoint behind dev/internal flag.
+- Feature 15.2 adds backend-only gated `/upload` recognition wiring behind `PLAYTHATPOSITION_INTERNAL_RECOGNITION_ENABLED`.
+- Next safe step: PLAN ONLY for Feature 15.3 — Frontend upload flow uses backend result.
 
 ## Hard Boundaries
 
 - Do not claim production recognition accuracy.
 - Do not say real screenshots work.
-- Do not say runtime upload/API integration exists.
+- Do not say frontend/shared contract upload integration exists.
 - Do not start runtime upload/API wiring, public UI behavior, engine, legal moves, auth, payments, link-out, or SEO unless explicitly in scope.
 - Keep BLOCK 14 internal/test-only and approved-fixture-only until explicitly approved otherwise.
 
@@ -98,5 +99,5 @@ When a blocker appears:
 
 Current known blocker to watch:
 
-- Feature 15.2 still needs explicit planning approval before runtime backend upload wiring begins.
+- Feature 15.3 still needs explicit planning approval before frontend upload flow or shared contract alignment begins.
 - Broad legality validation remains out of scope: check/checkmate, impossible move history, castling-rights detection, en-passant detection, halfmove/fullmove truth, and engine analysis.

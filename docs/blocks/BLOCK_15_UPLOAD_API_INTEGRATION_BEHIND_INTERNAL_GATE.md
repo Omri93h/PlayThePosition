@@ -2,7 +2,7 @@
 
 ## Status
 
-Active planning / contract definition. Feature 15.1 is implemented as docs-only contract work.
+Active. Features 15.1 and 15.2 are implemented / ready for review.
 
 BLOCK 15 must keep recognition behavior behind an explicit internal/dev gate until later features approve and implement runtime wiring. The current default upload behavior remains the existing placeholder response.
 
@@ -37,16 +37,18 @@ BLOCK 14 produced an internal/test-only FEN reconstruction path for approved rol
 - Does not edit runtime API, frontend code, shared contract code, tests, or product behavior.
 
 ### 15.2 Backend endpoint behind dev/internal flag
-- Status: planned.
+- Status: implemented / ready for review.
 - Wire `/upload` to the internal detection orchestrator only when an explicit internal/dev gate is enabled.
 - Preserve current placeholder response when the gate is disabled.
 - Preserve upload validation behavior and privacy-safe logging.
 - Return detected FEN only on gated safe success.
-- Return placeholder fallback plus structured detection metadata for failed, partial, disabled, or low-confidence gated results only after the contract is implemented in code.
+- Return placeholder fallback plus structured detection metadata for failed, partial, disabled, or low-confidence gated results.
+- Uses `PLAYTHATPOSITION_INTERNAL_RECOGNITION_ENABLED`, disabled by default, with only explicit truthy values enabling the path.
 
 ### 15.3 Frontend upload flow uses backend result
 - Status: planned.
 - Teach the frontend upload client to handle the approved upload recognition contract.
+- Align shared upload contract code with the backend response shape where appropriate.
 - Preserve current upload UX when detection is disabled or falls back.
 - Open the existing editable position workspace with the returned safe FEN.
 - Keep detection metadata secondary and review-oriented.

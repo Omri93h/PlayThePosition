@@ -1,3 +1,5 @@
+import os
+from collections.abc import Mapping
 from typing import Annotated
 from uuid import uuid4
 
@@ -7,6 +9,13 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 from app.detection import PLACEHOLDER_FEN
+from app.detection.orchestrator import (
+    DetectionOrchestratorConfig,
+    DetectionOrchestratorResult,
+    DetectionStageOutput,
+    run_detection_orchestrator,
+)
+from app.detection.results import DetectionFailure, detection_failure_payload
 from app.logging import get_logger, log_event
 
 app = FastAPI(title="Play The Position API")
@@ -21,6 +30,8 @@ app.add_middleware(
 
 ALLOWED_UPLOAD_TYPES = {"image/jpeg", "image/png"}
 MAX_UPLOAD_BYTES = 5 * 1024 * 1024
+INTERNAL_RECOGNITION_ENABLED_ENV = "PLAYTHATPOSITION_INTERNAL_RECOGNITION_ENABLED"
+TRUTHY_ENV_VALUES = {"1", "true", "yes", "on"}
 SHARED_POSITIONS: dict[str, "SharedPosition"] = {}
 
 
@@ -57,23 +68,168 @@ async def upload_position(
     if validation_error is not None:
         return validation_error
 
-    log_event(
-        logger,
-        "upload.succeeded",
+    if not internal_recognition_enabled():
+        log_placeholder_upload_success(
+            content_type=file.content_type or "application/octet-stream",
+            file_size=file_size,
+        )
+        return placeholder_upload_response(file.filename)
+
+    recognition_result = run_upload_recognition(
+        file_bytes,
+        file.content_type or "application/octet-stream",
+    )
+    response = upload_response_for_recognition_result(recognition_result)
+    log_recognition_upload_success(
         content_type=file.content_type or "application/octet-stream",
         file_size=file_size,
-        source="placeholder",
-        fen_length=len(PLACEHOLDER_FEN),
+        response=response,
+        recognition_result=recognition_result,
     )
+
+    return response
+
+
+def placeholder_upload_response(filename: str | None) -> dict[str, object]:
+    return {
+        "fen": PLACEHOLDER_FEN,
+        "source": "placeholder",
+        "confidence": None,
+        "message": (
+            f"Received {filename or 'uploaded file'}; detection is not "
+            "implemented yet."
+        ),
+    }
+
+
+def internal_recognition_enabled() -> bool:
+    value = os.getenv(INTERNAL_RECOGNITION_ENABLED_ENV, "")
+    return value.strip().lower() in TRUTHY_ENV_VALUES
+
+
+def run_upload_recognition(
+    file_bytes: bytes,
+    content_type: str,
+) -> DetectionOrchestratorResult:
+    return run_detection_orchestrator(
+        file_bytes,
+        content_type,
+        config=DetectionOrchestratorConfig(enabled=True),
+    )
+
+
+def upload_response_for_recognition_result(
+    result: DetectionOrchestratorResult,
+) -> dict[str, object]:
+    if result.status == "success":
+        return {
+            "fen": result.fen,
+            "source": result.source,
+            "confidence": result.confidence,
+            "message": "Detection completed. Review the board before using it.",
+            "detection": detection_result_payload(result, detected_fen=result.fen),
+        }
 
     return {
         "fen": PLACEHOLDER_FEN,
         "source": "placeholder",
         "confidence": None,
         "message": (
-            f"Received {file.filename or 'uploaded file'}; detection is not "
-            "implemented yet."
+            "Detection needs review. Open the editable board and correct the "
+            "position manually."
         ),
+        "detection": detection_result_payload(result, detected_fen=None),
+    }
+
+
+def detection_result_payload(
+    result: DetectionOrchestratorResult,
+    *,
+    detected_fen: str | None,
+) -> dict[str, object]:
+    return {
+        "status": result.status,
+        "source": result.source,
+        "confidence": result.confidence,
+        "fen": detected_fen,
+        "orientation": orientation_from_stages(result.stages),
+        "stages": [detection_stage_payload(stage) for stage in result.stages],
+        "failure": (
+            detection_failure_payload(result.failure)
+            if result.failure is not None
+            else None
+        ),
+    }
+
+
+def orientation_from_stages(stages: tuple[DetectionStageOutput, ...]) -> str:
+    for stage in stages:
+        if stage.stage != "orientation":
+            continue
+
+        orientation = stage.payload.get("orientation")
+        if isinstance(orientation, str) and orientation:
+            return orientation
+
+    return "unknown"
+
+
+def detection_stage_payload(stage: DetectionStageOutput) -> dict[str, object]:
+    return {
+        "stage": stage.stage,
+        "status": stage.status,
+        "source": stage.source,
+        "confidence": stage.confidence,
+        "failure": (
+            detection_failure_payload(stage.failure)
+            if stage.failure is not None
+            else None
+        ),
+    }
+
+
+def log_placeholder_upload_success(
+    *,
+    content_type: str,
+    file_size: int,
+) -> None:
+    log_event(
+        logger,
+        "upload.succeeded",
+        content_type=content_type,
+        file_size=file_size,
+        source="placeholder",
+        fen_length=len(PLACEHOLDER_FEN),
+    )
+
+
+def log_recognition_upload_success(
+    *,
+    content_type: str,
+    file_size: int,
+    response: Mapping[str, object],
+    recognition_result: DetectionOrchestratorResult,
+) -> None:
+    fields: dict[str, object] = {
+        "content_type": content_type,
+        "file_size": file_size,
+        "source": response["source"],
+        "recognition_status": recognition_result.status,
+        "fen_length": len(str(response["fen"])),
+        "confidence": response["confidence"],
+    }
+
+    if recognition_result.failure is not None:
+        fields.update(failure_log_fields(recognition_result.failure))
+
+    log_event(logger, "upload.succeeded", **fields)
+
+
+def failure_log_fields(failure: DetectionFailure) -> dict[str, object]:
+    return {
+        "stage": failure.stage,
+        "failure_code": failure.code,
+        "retryable": failure.retryable,
     }
 
 

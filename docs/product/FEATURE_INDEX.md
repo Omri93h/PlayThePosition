@@ -163,7 +163,7 @@
 
 - Status: active.
 - 15.1 Uploaded image recognition API contract behind internal gate — implemented / ready for review as docs-only contract work
-- 15.2 Backend endpoint behind dev/internal flag — planned
+- 15.2 Backend endpoint behind dev/internal flag — implemented / ready for review
 - 15.3 Frontend upload flow uses backend result — planned
 - 15.4 Failure fallback through existing Edit mode / position workspace — planned
 - 15.5 Debug inspection view showing detected board bounds, detected pieces, confidence/failure reasons, and generated FEN — planned
