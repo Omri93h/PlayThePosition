@@ -338,9 +338,7 @@ function DropzoneContent({
   if (state === "success" && uploadResult) {
     return (
       <>
-        <span className="mt-6 text-xl font-semibold text-white">
-          Placeholder FEN ready
-        </span>
+        <span className="mt-6 text-xl font-semibold text-white">Position ready</span>
         <span className="mt-2 text-sm leading-6 text-neutral-300">
           {uploadResult.message}
         </span>

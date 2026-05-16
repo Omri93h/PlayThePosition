@@ -2,7 +2,7 @@
 
 ## Status
 
-Active. Features 15.1 and 15.2 are implemented / ready for review.
+Active. Features 15.1, 15.2, and 15.3 are implemented / ready for review.
 
 BLOCK 15 must keep recognition behavior behind an explicit internal/dev gate until later features approve and implement runtime wiring. The current default upload behavior remains the existing placeholder response.
 
@@ -46,12 +46,13 @@ BLOCK 14 produced an internal/test-only FEN reconstruction path for approved rol
 - Uses `PLAYTHATPOSITION_INTERNAL_RECOGNITION_ENABLED`, disabled by default, with only explicit truthy values enabling the path.
 
 ### 15.3 Frontend upload flow uses backend result
-- Status: planned.
+- Status: implemented / ready for review.
 - Teach the frontend upload client to handle the approved upload recognition contract.
 - Align shared upload contract code with the backend response shape where appropriate.
 - Preserve current upload UX when detection is disabled or falls back.
 - Open the existing editable position workspace with the returned safe FEN.
 - Keep detection metadata secondary and review-oriented.
+- Does not add debug/inspection UI or public recognition claims.
 
 ### 15.4 Failure fallback through existing Edit mode / position workspace
 - Status: planned.

@@ -2,7 +2,7 @@
 
 ## Status
 
-Feature 15.1 contract, updated after Feature 15.2 backend wiring.
+Feature 15.1 contract, updated after Feature 15.3 shared/frontend alignment.
 
 This contract defines how uploaded image recognition is exposed behind an internal/dev gate. The default `/upload` behavior remains the existing placeholder response when the gate is absent or disabled.
 
@@ -79,7 +79,7 @@ The existing top-level fields remain the compatibility baseline:
 
 Feature 15.2 adds detection metadata additively only when the internal/dev gate is enabled. Existing clients can keep reading the top-level fields.
 
-The shared TypeScript contract currently contains an `ok/result` upload shape, while the runtime API and frontend upload client currently use the flat top-level shape above. Feature 15.3 should reconcile shared contract code and frontend expectations with the implemented backend response shape intentionally.
+Feature 15.3 aligns the shared TypeScript upload contract and frontend upload client with this flat top-level response shape. The frontend tolerates optional `detection` metadata but still opens the board from top-level `fen`.
 
 ## Gated Success Shape
 
@@ -291,7 +291,7 @@ Feature 15.2 backend tests cover:
 
 Invalid-board and unsafe FEN failures should continue to be covered through BLOCK 14 and future integrated recognition tests as the runtime recognition stages become more complete.
 
-Feature 15.3 frontend tests should cover:
+Feature 15.3 frontend tests cover:
 
 - current placeholder response still opens the editable board
 - gated success response opens the editable board with detected FEN
@@ -329,3 +329,13 @@ Feature 15.3 frontend tests should cover:
 - Recognition failure does not turn a valid upload into an HTTP error.
 - Privacy-safe upload logging is preserved.
 - Frontend and shared contract code remain unchanged.
+
+## 15.3 Done Definition
+
+- Shared TypeScript upload contract represents the backend flat response shape.
+- Shared contract includes optional additive detection metadata.
+- Frontend upload client uses the shared response type.
+- Placeholder responses without `detection` still open the editable position workspace.
+- Gated success responses with `detection` still open from top-level `fen`.
+- Existing safe analytics remain limited to source, FEN length, and confidence availability.
+- No debug/inspection UI, public recognition claim, real screenshot support claim, or production accuracy claim is added.

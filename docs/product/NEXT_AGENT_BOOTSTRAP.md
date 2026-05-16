@@ -80,9 +80,9 @@ git status
 - Project is in BLOCK 15 — Upload/API Integration Behind Internal Gate.
 - BLOCK 10 is completed as fixture-intake and measurement-only work.
 - BLOCK 11 is completed as internal/test-only measurement work.
-- Current step is awaiting approved Feature 15.3 planning.
+- Current step is awaiting approved Feature 15.4 planning.
 - BLOCK 12 stayed internal/test-only and approved-fixture-only.
-- Backend-only gated upload/API integration has started in Feature 15.2; frontend/shared contract integration has not started.
+- Backend-only gated upload/API integration and frontend/shared contract alignment have started in BLOCK 15. Failure fallback UX work has not started.
 - No production recognition accuracy claim has been made.
 - Current BLOCK 11 measurement compares occupancy only; role/color piece recognition remains unsupported and not implemented.
 - BLOCK 12 explored role/color classification with fixture-specific marker/color sampling over approved fixtures only.
@@ -131,22 +131,24 @@ git status
 - Feature 15.2 backend endpoint behind dev/internal flag is implemented / ready for review.
 - `/upload` preserves placeholder behavior unless `PLAYTHATPOSITION_INTERNAL_RECOGNITION_ENABLED` is explicitly enabled with `1`, `true`, `yes`, or `on`.
 - When enabled, backend recognition wiring can return additive `detection` metadata and detected top-level FEN only on orchestrator success.
-- Frontend and shared contract code are unchanged after 15.2.
-- Next planned work is PLAN ONLY for Feature 15.3 — Frontend upload flow uses backend result.
+- Feature 15.3 shared contract and frontend upload result alignment is implemented / ready for review.
+- Shared contract now matches the backend flat response shape and optional `detection` metadata.
+- Frontend upload handling accepts optional `detection`, continues opening the board from top-level `fen`, and does not add debug/inspection UI.
+- Next planned work is PLAN ONLY for Feature 15.4 — Failure fallback through existing Edit mode / position workspace.
 - Approved roadmap after BLOCK 12:
   - BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
   - BLOCK 14 — Recognition Orchestration + FEN Reconstruction.
   - BLOCK 15 — Upload/API Integration Behind Internal Gate.
   - BLOCK 16 — Board Interaction / Game Mode Fixes.
   - BLOCK 17 — User-Facing Analyze Flow Polish.
-- Frontend upload/API integration remains deferred until Feature 15.3+ is explicitly planned and approved.
+- Failure fallback UX remains deferred until Feature 15.4+ is explicitly planned and approved.
 - BLOCK 14 FEN reconstruction must remain internal/test-only and approved-fixture-only until explicitly approved for gated integration.
 - FEN must be built from measured outputs, not fixture `expected_fen`; `expected_fen` is comparison-only.
 - Invalid measured data must return clear failure states, not fake FEN.
 - Current `cases.json` has standalone `side_to_move` metadata; full six-field FEN generation is allowed only with that explicit source.
 - Missing/duplicate king validation is implemented; broad chess legality validation remains out of scope.
-- Upload/API runtime wiring and public UI behavior remain deferred.
-- New agents must inspect `git status --short` before acting. If Feature 15.2 changes are uncommitted, treat them as active work and do not start Feature 15.3 planning until they are reviewed/committed or explicitly accepted as a blocker.
+- Failure fallback UX, debug inspection UI, and public recognition claims remain deferred.
+- New agents must inspect `git status --short` before acting. If Feature 15.3 changes are uncommitted, treat them as active work and do not start Feature 15.4 planning until they are reviewed/committed or explicitly accepted as a blocker.
 
 ## Prompt Hygiene
 

@@ -1230,6 +1230,89 @@ describe("App", () => {
     );
   });
 
+  it("accepts gated detection metadata and opens the returned FEN", async () => {
+    vi.useFakeTimers();
+    const analytics = captureAnalytics();
+    try {
+      const uploadedFen = "4k3/8/8/8/8/8/8/4K3 b - - 0 1";
+      const fetchMock = vi.fn().mockResolvedValue(
+        new Response(
+          JSON.stringify({
+            fen: uploadedFen,
+            source: "gated_detection_orchestrator",
+            confidence: 0.91,
+            message: "Detection completed. Review the board before using it.",
+            detection: {
+              status: "success",
+              source: "gated_detection_orchestrator",
+              confidence: 0.91,
+              fen: uploadedFen,
+              orientation: "black-bottom",
+              stages: [
+                {
+                  stage: "fen",
+                  status: "success",
+                  source: "test_fen",
+                  confidence: 0.91,
+                  failure: null,
+                },
+              ],
+              failure: null,
+            },
+          }),
+          { status: 200, headers: { "Content-Type": "application/json" } },
+        ),
+      );
+      vi.stubGlobal("fetch", fetchMock);
+
+      render(<App />);
+
+      const input = screen.getByLabelText("Choose chess screenshot");
+      const file = new File(["fake image"], "position.png", { type: "image/png" });
+
+      fireEvent.change(input, { target: { files: [file] } });
+
+      await flushPromises();
+
+      expect(screen.getByText("Analyzing position")).toBeInTheDocument();
+
+      await advanceNextUploadStage();
+
+      expect(screen.getByText("Opening board")).toBeInTheDocument();
+
+      await advanceNextUploadStage();
+
+      expect(screen.getByTestId("static-board")).toBeInTheDocument();
+      expect(screen.getByTestId("static-board")).toHaveAttribute(
+        "data-fen",
+        uploadedFen,
+      );
+      expect(analytics.events).toEqual(
+        expect.arrayContaining([
+          {
+            name: "upload_success",
+            payload: {
+              source: "gated_detection_orchestrator",
+              fen_length: uploadedFen.length,
+              confidence_available: true,
+            },
+          },
+          {
+            name: "analysis_opened",
+            payload: {
+              source: "gated_detection_orchestrator",
+              fen_length: uploadedFen.length,
+            },
+          },
+        ]),
+      );
+      expectAnalyticsEventsAreSafe(analytics.events, uploadedFen);
+    } finally {
+      vi.useRealTimers();
+      analytics.unsubscribe();
+    }
+  });
+
   it("displays structured API errors", async () => {
     const analytics = captureAnalytics();
     vi.stubGlobal(

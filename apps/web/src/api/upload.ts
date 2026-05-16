@@ -1,9 +1,6 @@
-export type UploadSuccessResponse = {
-  fen: string;
-  source: "placeholder";
-  confidence: number | null;
-  message: string;
-};
+import type { UploadSuccessResponse } from "contracts";
+
+export type { UploadSuccessResponse } from "contracts";
 
 type ApiErrorResponse = {
   error?: {
