@@ -2,7 +2,7 @@
 
 ## Status
 
-Active. Features 15.1, 15.2, 15.3, 15.4, and 15.4.1 are implemented / ready for review.
+Active. Features 15.1, 15.2, 15.3, 15.4, 15.4.1, and 15.5 are implemented / ready for review.
 
 BLOCK 15 must keep recognition behavior behind an explicit internal/dev gate until later features approve and implement runtime wiring. The current default upload behavior remains the existing placeholder response.
 
@@ -70,9 +70,12 @@ BLOCK 14 produced an internal/test-only FEN reconstruction path for approved rol
 - Keeps Play mode selected-piece rings, legal moves, play undo/redo, and move history deferred to BLOCK 16.
 
 ### 15.5 Debug inspection view
-- Status: planned.
-- Add an internal/debug-only inspection view for detected board bounds, detected pieces, confidence, failure reasons, stages, and generated FEN.
-- Keep it internal until explicitly approved otherwise.
+- Status: implemented / ready for review.
+- Adds a frontend-only internal/debug inspection panel for upload-derived gated detection metadata.
+- Renders only when `VITE_INTERNAL_RECOGNITION_DEBUG` is explicitly enabled.
+- Shows safe metadata such as detection status, source, confidence, orientation, stages, failure summary, and FEN lengths.
+- Keeps top-level `fen` as the board source and never uses `detection.fen` as UI source of truth.
+- Keeps it internal until explicitly approved otherwise.
 - Do not expose raw uploaded image storage or public QA tooling.
 
 ### 15.6 Internal QA report
@@ -137,6 +140,6 @@ BLOCK 15 must not move to public/user-facing recognition claims if:
 - Backend gated upload wiring is implemented and tested in a later approved feature.
 - Frontend upload handling is updated and tested in a later approved feature.
 - Fallback through the existing editable position workspace is implemented and tested.
-- Internal/debug inspection remains gated.
+- Internal/debug inspection is implemented and remains gated by an explicit frontend dev flag.
 - Internal QA report and closeout checklist are complete.
 - No public production recognition, real screenshot support, engine, legal moves, auth, payments, saved collections, or SEO work is added.

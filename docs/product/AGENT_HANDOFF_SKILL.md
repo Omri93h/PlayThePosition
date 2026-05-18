@@ -30,7 +30,7 @@ Use the repository docs as source of truth. Do not rely on stale chat memory.
 - Future domain/brand asset: `playthatposition.com`.
 - Current development/runtime: localhost/internal only.
 - Product direction: fast chess position intake, editable reconstructed board, confidence-aware detection, user correction through existing Edit mode, and later analysis/training workflows.
-- Current active state: BLOCK 15 is active; Features 15.1, 15.2, 15.3, 15.4, and 15.4.1 are implemented / ready for review and the next safe step is approved Feature 15.5 planning.
+- Current active state: BLOCK 15 is active; Features 15.1, 15.2, 15.3, 15.4, 15.4.1, and 15.5 are implemented / ready for review and the next safe step is approved Feature 15.6 planning.
 
 BLOCK 14 status:
 
@@ -50,13 +50,14 @@ BLOCK 14 status:
 - Feature 15.3 aligns the shared upload contract and frontend upload result handling with the backend flat response shape plus optional `detection`.
 - Feature 15.4 opens placeholder, partial, failed, or absent-detection upload results in the existing Edit Board workspace using top-level `fen`.
 - Feature 15.4.1 keeps Edit mode correction-focused with active placement piece wording and leaves Play mode selected-piece/legal-move behavior to BLOCK 16.
-- Next safe step: PLAN ONLY for Feature 15.5 — Debug inspection view.
+- Feature 15.5 adds frontend-only internal debug inspection for upload-derived gated detection metadata behind `VITE_INTERNAL_RECOGNITION_DEBUG`.
+- Next safe step: PLAN ONLY for Feature 15.6 — Internal QA report.
 
 ## Hard Boundaries
 
 - Do not claim production recognition accuracy.
 - Do not say real screenshots work.
-- Do not say debug inspection UI exists.
+- Do not say debug inspection is public-facing or enabled by default.
 - Do not start runtime upload/API wiring, public UI behavior, engine, legal moves, auth, payments, link-out, or SEO unless explicitly in scope.
 - Keep BLOCK 14 internal/test-only and approved-fixture-only until explicitly approved otherwise.
 
@@ -102,5 +103,5 @@ When a blocker appears:
 
 Current known blocker to watch:
 
-- Feature 15.5 still needs explicit planning approval before debug inspection view work begins.
+- Feature 15.6 still needs explicit planning approval before internal QA report work begins.
 - Broad legality validation remains out of scope: check/checkmate, impossible move history, castling-rights detection, en-passant detection, halfmove/fullmove truth, and engine analysis.

@@ -167,7 +167,7 @@
 - 15.3 Shared contract and frontend upload result alignment — implemented / ready for review
 - 15.4 Failure fallback through existing Edit mode / position workspace — implemented / ready for review
 - 15.4.1 Edit correction interaction cleanup — implemented / ready for review
-- 15.5 Debug inspection view showing detected board bounds, detected pieces, confidence/failure reasons, and generated FEN — planned
+- 15.5 Internal debug inspection view for gated upload recognition metadata — implemented / ready for review
 - 15.6 Internal QA report — planned
 
 ## BLOCK 16 — Board Interaction / Game Mode Fixes

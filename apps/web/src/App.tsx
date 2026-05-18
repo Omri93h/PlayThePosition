@@ -21,6 +21,7 @@ type UploadedPosition = {
   fen: string;
   initialMode: AnalysisInitialMode;
   notice?: string;
+  detection?: UploadSuccessResponse["detection"];
 };
 
 type SharedPositionState =
@@ -92,6 +93,7 @@ export function App() {
       fen: result.fen,
       initialMode: isFallback ? "edit" : "play",
       notice: isFallback ? fallbackUploadNotice : undefined,
+      detection: result.detection,
     });
     setUploadLoadingStage(null);
     setHeaderUploadError("");
@@ -220,6 +222,14 @@ export function App() {
               fen={uploadedPosition.fen}
               initialMode={uploadedPosition.initialMode}
               initialNotice={uploadedPosition.notice}
+              recognitionDebug={
+                internalRecognitionDebugEnabled()
+                  ? {
+                      detection: uploadedPosition.detection,
+                      topLevelFenLength: uploadedPosition.fen.length,
+                    }
+                  : undefined
+              }
             />
           </AnalysisExperienceFallback>
         ) : (
@@ -249,6 +259,17 @@ function isFallbackUploadResult(result: UploadSuccessResponse) {
   }
 
   return result.detection.status !== "success";
+}
+
+function internalRecognitionDebugEnabled() {
+  return isTruthyEnv(import.meta.env.VITE_INTERNAL_RECOGNITION_DEBUG);
+}
+
+function isTruthyEnv(value: unknown) {
+  return (
+    typeof value === "string" &&
+    ["1", "true", "yes", "on"].includes(value.trim().toLowerCase())
+  );
 }
 
 function SharedPositionView({ state }: { state: SharedPositionState }) {

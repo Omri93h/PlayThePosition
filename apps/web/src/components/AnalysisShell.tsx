@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import { trackEvent } from "../analytics";
 import { createSharedPosition } from "../api/share";
+import type { UploadSuccessResponse } from "../api/upload";
 import {
   getFenActiveColor,
   movePieceInFen,
@@ -49,6 +50,12 @@ type ActionIconName =
 type CopyStatus = "idle" | "success" | "error";
 type ShareStatus = "idle" | "loading" | "success" | "error";
 type AnalysisInitialMode = "play" | "edit";
+type UploadDetectionMetadata = NonNullable<UploadSuccessResponse["detection"]>;
+type UploadDetectionFailure = NonNullable<UploadDetectionMetadata["failure"]>;
+type RecognitionDebugInfo = {
+  detection?: UploadDetectionMetadata;
+  topLevelFenLength: number;
+};
 
 const actionButtonBase =
   "inline-flex h-11 w-11 items-center justify-center rounded-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50 sm:h-14 sm:w-14";
@@ -163,10 +170,12 @@ export function AnalysisShell({
   fen,
   initialMode = "play",
   initialNotice,
+  recognitionDebug,
 }: {
   fen?: string;
   initialMode?: AnalysisInitialMode;
   initialNotice?: string;
+  recognitionDebug?: RecognitionDebugInfo;
 }) {
   const initialFen = fen ?? STATIC_ANALYSIS_FEN;
   const startsInEditMode = initialMode === "edit";
@@ -792,6 +801,10 @@ export function AnalysisShell({
         </div>
       </div>
 
+      {recognitionDebug ? (
+        <RecognitionInspectionPanel recognitionDebug={recognitionDebug} />
+      ) : null}
+
       {isShareDialogOpen && shareUrl ? (
         <div
           aria-modal="true"
@@ -842,6 +855,132 @@ export function AnalysisShell({
       ) : null}
     </section>
   );
+}
+
+function RecognitionInspectionPanel({
+  recognitionDebug,
+}: {
+  recognitionDebug: RecognitionDebugInfo;
+}) {
+  const detection = recognitionDebug.detection;
+
+  return (
+    <section
+      aria-label="Internal recognition inspection"
+      className="rounded-lg border border-amber-300/30 bg-amber-950/15 p-4 text-sm text-neutral-200"
+      data-testid="recognition-debug-panel"
+    >
+      <div className="flex flex-col gap-1">
+        <h2 className="text-sm font-semibold text-amber-100">
+          Internal recognition inspection
+        </h2>
+        <p className="text-xs leading-5 text-neutral-400">
+          Debug metadata from gated upload recognition. Detection metadata is for
+          internal review only.
+        </p>
+      </div>
+
+      {detection ? (
+        <div className="mt-4 space-y-4">
+          <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <DebugField label="Status" value={detection.status} />
+            <DebugField label="Source" value={detection.source} />
+            <DebugField
+              label="Confidence"
+              value={formatDebugConfidence(detection.confidence)}
+            />
+            <DebugField label="Orientation" value={detection.orientation} />
+            <DebugField
+              label="Top-level FEN length"
+              value={`${recognitionDebug.topLevelFenLength} chars`}
+            />
+            <DebugField
+              label="Detection FEN"
+              value={
+                detection.fen ? `present (${detection.fen.length} chars)` : "absent"
+              }
+            />
+          </dl>
+
+          <div>
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
+              Stages
+            </h3>
+            {detection.stages.length > 0 ? (
+              <ol className="mt-2 space-y-2">
+                {detection.stages.map((stage, index) => (
+                  <li
+                    key={`${stage.stage}-${index}`}
+                    className="rounded-lg border border-neutral-800 bg-neutral-950/40 p-3"
+                  >
+                    <p className="font-semibold text-neutral-100">
+                      {stage.stage}: {stage.status}
+                    </p>
+                    <p className="mt-1 text-xs leading-5 text-neutral-400">
+                      Source: {stage.source}; confidence:{" "}
+                      {formatDebugConfidence(stage.confidence)}
+                    </p>
+                    {stage.failure ? <FailureSummary failure={stage.failure} /> : null}
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p className="mt-2 text-xs text-neutral-400">No stages returned.</p>
+            )}
+          </div>
+
+          {detection.failure ? (
+            <div>
+              <h3 className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
+                Failure
+              </h3>
+              <FailureSummary failure={detection.failure} />
+            </div>
+          ) : null}
+        </div>
+      ) : (
+        <div className="mt-4 space-y-3">
+          <p className="text-sm text-neutral-300">
+            No gated detection metadata returned.
+          </p>
+          <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <DebugField
+              label="Top-level FEN length"
+              value={`${recognitionDebug.topLevelFenLength} chars`}
+            />
+          </dl>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function DebugField({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg border border-neutral-800 bg-neutral-950/40 p-3">
+      <dt className="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+        {label}
+      </dt>
+      <dd className="mt-1 break-words font-medium text-neutral-100">{value}</dd>
+    </div>
+  );
+}
+
+function FailureSummary({ failure }: { failure: UploadDetectionFailure }) {
+  return (
+    <div className="mt-2 rounded-lg border border-rose-300/30 bg-rose-950/20 p-3 text-xs leading-5 text-rose-100">
+      <p>
+        Code: {failure.code}; stage: {failure.stage}; retryable:{" "}
+        {failure.retryable ? "yes" : "no"}
+      </p>
+      <p className="mt-1">{failure.message}</p>
+      <p className="mt-1 text-rose-100/80">{failure.suggestion}</p>
+    </div>
+  );
+}
+
+function formatDebugConfidence(confidence: number | null) {
+  return confidence === null ? "not returned" : String(confidence);
 }
 
 function ReadonlyCopyField({

@@ -127,6 +127,7 @@ describe("App", () => {
     cleanup();
     vi.useRealTimers();
     vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
     setPath("/");
   });
 
@@ -1327,6 +1328,143 @@ describe("App", () => {
     },
   );
 
+  it("shows an internal absent-metadata debug state only when the frontend debug flag is enabled", async () => {
+    vi.stubEnv("VITE_INTERNAL_RECOGNITION_DEBUG", "1");
+    vi.useFakeTimers();
+    const topLevelFen = "8/8/8/8/8/8/8/8 w - - 0 1";
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          fen: topLevelFen,
+          source: "placeholder",
+          confidence: null,
+          message: "Received position.png; detection is not implemented yet.",
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      ),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    try {
+      render(<App />);
+
+      await uploadSelectedFile();
+
+      expect(screen.getByTestId("static-board")).toHaveAttribute(
+        "data-fen",
+        topLevelFen,
+      );
+      expect(screen.getByTestId("static-board")).toHaveAttribute(
+        "data-edit-mode",
+        "true",
+      );
+      expect(screen.getByTestId("recognition-debug-panel")).toBeInTheDocument();
+      expect(screen.getByText("Internal recognition inspection")).toBeInTheDocument();
+      expect(
+        screen.getByText("No gated detection metadata returned."),
+      ).toBeInTheDocument();
+      expect(screen.getByText("Top-level FEN length")).toBeInTheDocument();
+      expect(screen.getByText(`${topLevelFen.length} chars`)).toBeInTheDocument();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("shows safe gated detection metadata in the internal debug panel", async () => {
+    vi.stubEnv("VITE_INTERNAL_RECOGNITION_DEBUG", "yes");
+    vi.useFakeTimers();
+    const analytics = captureAnalytics();
+    const topLevelFen = "8/8/8/8/8/8/8/8 w - - 0 1";
+    const metadataFen = "4k3/8/8/8/8/8/8/4K3 b - - 0 1";
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          fen: topLevelFen,
+          source: "placeholder",
+          confidence: null,
+          message:
+            "Detection needs review. Open the editable board and correct the position manually.",
+          detection: {
+            status: "partial",
+            source: "gated_detection_orchestrator",
+            confidence: 0.42,
+            fen: metadataFen,
+            orientation: "black-bottom",
+            stages: [
+              {
+                stage: "preprocess",
+                status: "success",
+                source: "test_preprocess",
+                confidence: 1,
+                failure: null,
+              },
+              {
+                stage: "fen",
+                status: "failed",
+                source: "test_fen",
+                confidence: 0.42,
+                failure: {
+                  code: "low_confidence",
+                  message: "Detection result confidence is below threshold.",
+                  stage: "fen",
+                  retryable: true,
+                  suggestion: "Review and correct the board manually.",
+                },
+              },
+            ],
+            failure: {
+              code: "low_confidence",
+              message: "Detection result confidence is below threshold.",
+              stage: "fen",
+              retryable: true,
+              suggestion: "Review and correct the board manually.",
+            },
+          },
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      ),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    try {
+      render(<App />);
+
+      await uploadSelectedFile();
+
+      const panel = screen.getByTestId("recognition-debug-panel");
+
+      expect(panel).toHaveTextContent("Internal recognition inspection");
+      expect(panel).toHaveTextContent("Debug metadata from gated upload recognition");
+      expect(panel).toHaveTextContent("Detection metadata is for internal review only");
+      expect(panel).toHaveTextContent("Status");
+      expect(panel).toHaveTextContent("partial");
+      expect(panel).toHaveTextContent("Source");
+      expect(panel).toHaveTextContent("gated_detection_orchestrator");
+      expect(panel).toHaveTextContent("Confidence");
+      expect(panel).toHaveTextContent("0.42");
+      expect(panel).toHaveTextContent("Orientation");
+      expect(panel).toHaveTextContent("black-bottom");
+      expect(panel).toHaveTextContent("Top-level FEN length");
+      expect(panel).toHaveTextContent(`${topLevelFen.length} chars`);
+      expect(panel).toHaveTextContent(`present (${metadataFen.length} chars)`);
+      expect(panel).toHaveTextContent("preprocess: success");
+      expect(panel).toHaveTextContent("fen: failed");
+      expect(panel).toHaveTextContent(
+        "Code: low_confidence; stage: fen; retryable: yes",
+      );
+      expect(screen.getByTestId("static-board")).toHaveAttribute(
+        "data-fen",
+        topLevelFen,
+      );
+      expect(screen.queryByText(metadataFen)).not.toBeInTheDocument();
+      expect(screen.queryByText(/raw/i)).not.toBeInTheDocument();
+      expectAnalyticsEventsAreSafe(analytics.events, metadataFen);
+    } finally {
+      vi.useRealTimers();
+      analytics.unsubscribe();
+    }
+  });
+
   it("accepts gated detection metadata and opens the returned FEN", async () => {
     vi.useFakeTimers();
     const analytics = captureAnalytics();
@@ -1392,6 +1530,7 @@ describe("App", () => {
         "aria-pressed",
         "true",
       );
+      expect(screen.queryByTestId("recognition-debug-panel")).not.toBeInTheDocument();
       expect(screen.queryByText(/Position needs review/)).not.toBeInTheDocument();
       expect(analytics.events).toEqual(
         expect.arrayContaining([
@@ -1555,6 +1694,7 @@ function expectAnalyticsEventsAreSafe(events: AnalyticsEvent[], forbiddenFen = "
     expect(event.payload).not.toHaveProperty("file");
     expect(event.payload).not.toHaveProperty("image");
     expect(event.payload).not.toHaveProperty("fen");
+    expect(event.payload).not.toHaveProperty("detection");
     expect(Object.values(event.payload)).not.toContain(forbiddenFen);
   });
 }

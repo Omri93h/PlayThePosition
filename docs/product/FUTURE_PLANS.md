@@ -22,13 +22,13 @@ Image recognition is a means to reach the product goal: a live, editable chess p
 - BLOCK 12 covers the completed internal/test-only role/color classifier experiment using approved fixtures only. Current results show occupancy works on approved fixtures, color partially works, role remains blocked/deferred, and upload/API integration remains deferred.
 - BLOCK 13 is complete as approved role-signal fixture strategy and revised role-classifier measurement work before FEN reconstruction.
 - BLOCK 14 is complete/accepted for recognition orchestration and FEN reconstruction: board bounds → squares → occupancy → role/color → FEN. It remains internal/test-only and approved-fixture-only until explicitly approved otherwise.
-- BLOCK 15 is active for upload/API integration behind an internal/dev gate. Feature 15.1 defines the docs-only upload recognition API contract; Feature 15.2 adds backend-only gated `/upload` recognition wiring; Feature 15.3 aligns the shared contract and frontend upload result handling; Feature 15.4 adds fallback-to-Edit-mode behavior; Feature 15.4.1 cleans up Edit mode correction semantics. Debug inspection remains unstarted until Feature 15.5+ approval.
+- BLOCK 15 is active for upload/API integration behind an internal/dev gate. Feature 15.1 defines the docs-only upload recognition API contract; Feature 15.2 adds backend-only gated `/upload` recognition wiring; Feature 15.3 aligns the shared contract and frontend upload result handling; Feature 15.4 adds fallback-to-Edit-mode behavior; Feature 15.4.1 cleans up Edit mode correction semantics; Feature 15.5 adds frontend-only internal debug inspection behind `VITE_INTERNAL_RECOGNITION_DEBUG`.
 - A future internal Recognition Review Studio / Detection Training Console should come after there is an internal recognition/FEN pipeline worth reviewing and before public upload launch.
 - BLOCK 16 is planned for board interaction and game mode fixes.
 - BLOCK 17 is planned for user-facing analyze flow polish.
 - Production-grade real-world screenshot recognition accuracy remains future work until measured and explicitly approved.
 - Frontend/shared contract upload integration for real recognition remains future work until explicitly approved.
-- Detection debug/inspection view implementation remains unstarted until approved.
+- Detection debug/inspection view implementation is internal-only, upload-derived, and hidden by default behind `VITE_INTERNAL_RECOGNITION_DEBUG`.
 
 ## Approved Roadmap — BLOCKS 12–17
 
@@ -82,7 +82,7 @@ Goal: connect uploaded image → recognition result behind an internal/dev gate.
 - 15.3 Shared contract and frontend upload result alignment — implemented / ready for review.
 - 15.4 Failure fallback: use the existing Edit mode / position workspace for manual correction; do not build a second editor.
 - 15.4.1 Edit correction interaction cleanup: keep Edit mode correction-focused and leave Play mode selected-piece/legal-move behavior to BLOCK 16.
-- 15.5 Debug inspection view showing detected board bounds, detected pieces, confidence/failure reasons, and generated FEN.
+- 15.5 Internal debug inspection view for gated upload recognition metadata — implemented / ready for review.
 - 15.6 Internal QA report.
 
 Gate: `/upload` must preserve safe placeholder/default behavior unless `PLAYTHATPOSITION_INTERNAL_RECOGNITION_ENABLED` is explicitly enabled. If real uploaded screenshots fail badly, keep it internal and improve detection.

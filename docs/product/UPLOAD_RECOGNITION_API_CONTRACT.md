@@ -2,7 +2,7 @@
 
 ## Status
 
-Feature 15.1 contract, updated after Feature 15.3 shared/frontend alignment.
+Feature 15.1 contract, updated after Feature 15.5 internal debug inspection view.
 
 This contract defines how uploaded image recognition is exposed behind an internal/dev gate. The default `/upload` behavior remains the existing placeholder response when the gate is absent or disabled.
 
@@ -82,6 +82,8 @@ Feature 15.2 adds detection metadata additively only when the internal/dev gate 
 Feature 15.3 aligns the shared TypeScript upload contract and frontend upload client with this flat top-level response shape. The frontend tolerates optional `detection` metadata but still opens the board from top-level `fen`.
 
 Feature 15.4 adds frontend fallback handling: placeholder, partial, failed, or absent-detection upload results open the existing Edit Board workspace from top-level `fen` with manual-correction wording. Gated success results continue to open normally from top-level detected `fen`.
+
+Feature 15.5 adds frontend-only debug inspection behind `VITE_INTERNAL_RECOGNITION_DEBUG`. This flag controls inspection visibility only. It does not enable backend recognition, change `/upload`, or make `detection` required.
 
 ## Gated Success Shape
 
@@ -271,13 +273,15 @@ Forbidden:
 
 ## Frontend Compatibility Expectations
 
-Later frontend work should:
+Frontend work should:
 
 - keep accepting the current placeholder response while the gate is disabled
 - treat detected results as needing user review
 - open the existing editable position workspace with the returned safe FEN
 - show fallback/review language when detection is partial or failed
 - keep debug details secondary and internal until explicitly approved
+- render debug inspection only for upload-derived views when `VITE_INTERNAL_RECOGNITION_DEBUG` is explicitly enabled
+- show FEN lengths in debug inspection instead of raw FEN dumps or raw metadata blobs
 - avoid claims that real screenshots are supported or production accurate
 
 The frontend should not depend on raw uploaded image bytes, screenshots, crops, or fixture expectations.
@@ -301,6 +305,14 @@ Feature 15.3 frontend tests cover:
 - partial/failure metadata keeps manual correction available
 - analytics/logging payloads stay privacy-safe
 - UI wording avoids production or real screenshot accuracy claims
+
+Feature 15.5 frontend tests cover:
+
+- debug inspection is hidden when `VITE_INTERNAL_RECOGNITION_DEBUG` is absent or disabled
+- debug inspection appears for upload-derived views when the flag is explicitly enabled
+- absent detection metadata shows a terse internal debug message only behind the flag
+- safe detection metadata fields are shown without raw image, crop, base64, file, or metadata blob exposure
+- fallback and success upload behavior continue to use top-level `fen`
 
 ## Non-Production Caveats
 
@@ -342,3 +354,25 @@ Feature 15.3 frontend tests cover:
 - Gated success responses with `detection` still open from top-level `fen`.
 - Existing safe analytics remain limited to source, FEN length, and confidence availability.
 - No debug/inspection UI, public recognition claim, real screenshot support claim, or production accuracy claim is added.
+
+## 15.4 Done Definition
+
+- Placeholder, partial, failed, or absent-detection upload results open the existing Edit Board workspace.
+- Gated success upload results open normally without being forced into Edit mode.
+- Frontend board state uses top-level `fen`, not `detection.fen`.
+- Manual-correction wording avoids production or real screenshot recognition claims.
+
+## 15.4.1 Done Definition
+
+- Edit mode reads as a correction workspace with active placement piece wording.
+- Existing click/tap placement, delete mode, edit undo/redo, and correction drag remain intact.
+- Play mode selected-piece rings, legal moves, play undo/redo, and move history remain deferred.
+
+## 15.5 Done Definition
+
+- Frontend-only internal debug inspection is controlled by `VITE_INTERNAL_RECOGNITION_DEBUG`.
+- Only explicit truthy values `1`, `true`, `yes`, and `on` enable the panel.
+- The panel renders only for upload-derived views.
+- The panel shows safe metadata: status, source, confidence, orientation, stages, failure summary, top-level FEN length, and detection FEN presence/length.
+- The panel does not show raw image bytes, base64, screenshots, crops, full uploaded file data, raw metadata blobs, or production-style recognition claims.
+- Upload fallback and success behavior remain unchanged.
