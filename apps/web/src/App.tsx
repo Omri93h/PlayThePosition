@@ -15,6 +15,13 @@ const AnalysisShell = lazy(() =>
 );
 
 type UploadLoadingStage = "uploading" | "analyzing" | "opening";
+type AnalysisInitialMode = "play" | "edit";
+
+type UploadedPosition = {
+  fen: string;
+  initialMode: AnalysisInitialMode;
+  notice?: string;
+};
 
 type SharedPositionState =
   | { status: "idle"; fen: null; error: "" }
@@ -26,7 +33,9 @@ export function App() {
   const headerUploadInputRef = useRef<HTMLInputElement>(null);
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
   const shareId = getShareId(currentPath);
-  const [uploadedFen, setUploadedFen] = useState<string | null>(null);
+  const [uploadedPosition, setUploadedPosition] = useState<UploadedPosition | null>(
+    null,
+  );
   const [uploadLoadingStage, setUploadLoadingStage] =
     useState<UploadLoadingStage | null>(null);
   const [headerUploadError, setHeaderUploadError] = useState("");
@@ -36,7 +45,7 @@ export function App() {
     error: "",
   });
   const showHeaderUploadAction = Boolean(
-    uploadedFen || (shareId && sharedPosition.status === "loaded"),
+    uploadedPosition || (shareId && sharedPosition.status === "loaded"),
   );
 
   useEffect(() => {
@@ -73,11 +82,17 @@ export function App() {
   }, [shareId]);
 
   function handleUploadSuccess(result: UploadSuccessResponse) {
+    const isFallback = isFallbackUploadResult(result);
+
     trackEvent("analysis_opened", {
       source: result.source,
       fen_length: result.fen.length,
     });
-    setUploadedFen(result.fen);
+    setUploadedPosition({
+      fen: result.fen,
+      initialMode: isFallback ? "edit" : "play",
+      notice: isFallback ? fallbackUploadNotice : undefined,
+    });
     setUploadLoadingStage(null);
     setHeaderUploadError("");
   }
@@ -199,9 +214,13 @@ export function App() {
 
         {shareId ? (
           <SharedPositionView state={sharedPosition} />
-        ) : uploadedFen ? (
+        ) : uploadedPosition ? (
           <AnalysisExperienceFallback>
-            <AnalysisShell fen={uploadedFen} />
+            <AnalysisShell
+              fen={uploadedPosition.fen}
+              initialMode={uploadedPosition.initialMode}
+              initialNotice={uploadedPosition.notice}
+            />
           </AnalysisExperienceFallback>
         ) : (
           <UploadScreen
@@ -219,6 +238,17 @@ export function App() {
 function getShareId(pathname: string) {
   const match = pathname.match(/^\/share\/([^/]+)\/?$/);
   return match?.[1] ? decodeURIComponent(match[1]) : null;
+}
+
+const fallbackUploadNotice =
+  "Position needs review. We opened a safe fallback board. Correct the pieces in Edit Board.";
+
+function isFallbackUploadResult(result: UploadSuccessResponse) {
+  if (result.source === "placeholder" || !result.detection) {
+    return true;
+  }
+
+  return result.detection.status !== "success";
 }
 
 function SharedPositionView({ state }: { state: SharedPositionState }) {

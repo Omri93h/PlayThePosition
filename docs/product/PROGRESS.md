@@ -22,7 +22,7 @@
 
 ## Current
 
-- Current focus: BLOCK 15 / Feature 15.3 shared contract and frontend upload result alignment is implemented / ready for review; next work is PLAN ONLY for Feature 15.4.
+- Current focus: BLOCK 15 / Feature 15.4 failure fallback through the existing Edit mode / position workspace is implemented / ready for review; next work is PLAN ONLY for Feature 15.5.
 - Product name: Play That Position.
 - Future domain/brand asset: `playthatposition.com`.
 - Current development/runtime: localhost only.
@@ -56,6 +56,7 @@
 - Feature 15.1 is implemented / ready for review as docs-only uploaded image recognition API contract definition.
 - Feature 15.2 is implemented / ready for review as backend-only gated `/upload` recognition wiring.
 - Feature 15.3 is implemented / ready for review as shared contract and frontend upload result alignment.
+- Feature 15.4 is implemented / ready for review as failure fallback through the existing Edit mode / position workspace.
 - Feature 12.1 is complete as the role/color classifier contract.
 - Feature 12.2 is complete as fixture signal audit for role/color feasibility.
 - Feature 12.3 is complete as test-only color classifier experiment.
@@ -118,9 +119,9 @@
 
 ## Next
 
-- Plan Feature 15.4 — Failure fallback through existing Edit mode / position workspace — only if explicitly approved.
+- Plan Feature 15.5 — Debug inspection view — only if explicitly approved.
 - Keep BLOCK 14 results internal/test-only and approved-fixture-only until later work is approved.
-- Do not implement failure fallback UX changes until Feature 15.4 planning is approved.
+- Do not implement debug inspection UI until Feature 15.5 planning is approved.
 - Do not rename UI/header/logo/web metadata, package names, routes, manifests, deploy config, or runtime identifiers until a separate approved rename task.
 - Approved roadmap after BLOCK 13 currently runs through BLOCK 17. BLOCK 14 is complete/accepted and remains internal/test-only until later work is approved.
 - Keep BLOCK 11 internal/test-only.
@@ -179,7 +180,7 @@
 - 15.1 Uploaded image recognition API contract behind internal gate — implemented / ready for review as docs-only contract work.
 - 15.2 Backend endpoint behind dev/internal flag — implemented / ready for review.
 - 15.3 Shared contract and frontend upload result alignment — implemented / ready for review.
-- 15.4 Failure fallback through existing Edit mode / position workspace — planned.
+- 15.4 Failure fallback through existing Edit mode / position workspace — implemented / ready for review.
 - 15.5 Debug inspection view — planned.
 - 15.6 Internal QA report — planned.
 
@@ -203,7 +204,7 @@
 
 - Detection is scaffolded/synthetic and is not real-world screenshot accurate yet.
 - Real recognition implementation is not started.
-- Upload integration for real recognition is not started.
+- Public upload integration for real recognition is not started; internal/dev-gated upload recognition wiring exists behind `PLAYTHATPOSITION_INTERNAL_RECOGNITION_ENABLED`.
 - PNG/JPEG decode/preprocess exists internally but is not wired into upload.
 - Decode/preprocess measurements are complete for the approved synthetic fixture set.
 - Fixture-gated board-bounds measurements are complete for the approved synthetic fixture set.
@@ -211,12 +212,12 @@
 - BLOCK 10 has added a tiny owned/generated real-ish fixture set for future measurement.
 - Decode/preprocess measurements are complete for the approved real-ish fixture set.
 - Fixture-gated board-bounds measurements are complete for the approved real-ish fixture set.
-- Detection orchestrator exists internally behind an explicit disabled-by-default gate and is not wired into upload.
+- Detection orchestrator exists internally behind an explicit disabled-by-default gate and is wired into upload only when `PLAYTHATPOSITION_INTERNAL_RECOGNITION_ENABLED` is explicitly enabled.
 - Fixture-gated board bounds detection exists internally for generated test images and is not wired into upload.
 - Optional detection metadata is implemented behind the internal/dev upload recognition gate and remains absent from default placeholder responses.
 - Approved synthetic non-user fixture images and owned/generated real-ish fixture images have been added; approved real screenshot fixtures have not been added.
 - Production-grade recognition accuracy work remains deferred.
-- Public/product-facing upload recognition remains deferred.
+- Public/product-facing upload recognition claims remain deferred.
 - Public API changes for real recognition remain deferred.
 - No engine or Stockfish analysis.
 - No legal move validation.
@@ -240,9 +241,9 @@
 - Recommended next technical direction after BLOCK 12 is BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
 - FEN reconstruction remains internal/test-only until explicitly approved.
 - BLOCK 13 owned/generated role-signal fixtures are added, audit v2 finds their role signals separable on approved fixtures, and the test-only role classifier measures 36 / 36 correct role classifications on those controlled fixtures. BLOCK 13 is complete as internal/test-only, approved-fixture-only measurement work. Role identity is still not recognized in product behavior, and FEN/upload remain deferred.
-- BLOCK 14 builds FEN from measured outputs only. Fixture `expected_fen` is comparison-only, invalid data returns clear failures, and product-facing fallback/inspection UI remains deferred until Feature 15.4+ approval.
+- BLOCK 14 builds FEN from measured outputs only. Fixture `expected_fen` is comparison-only, invalid data returns clear failures, Feature 15.4 adds fallback-to-Edit-mode handling, and debug inspection UI remains deferred until Feature 15.5+ approval.
 - BLOCK 14 placement-only FEN builder is implemented. After the 14.3.1 role-signal color repair, all three owned role-signal fixtures classify 36 / 36 occupied-square colors correctly and all three generated placements match `expected_fen.split()[0]`. Feature 14.4 adds explicit `side_to_move` fixture metadata and guarded full-FEN reconstruction with conservative placeholder fields for approved fixture tests only. Feature 14.5 blocks placement and full FEN for missing or duplicate white/black kings without adding broad legality validation. Feature 14.6 adds the BLOCK 14 recognition/FEN readiness report and a test-only readiness summary for the approved role-signal path. Feature 14.7 adds BLOCK 14 closeout review and manual validation checklist. BLOCK 14 is complete/accepted as approved-fixture-only internal measurement, not a product accuracy claim.
-- BLOCK 15 has backend gated upload recognition wiring and aligned frontend/shared upload result types. Feature 15.1 defines the upload recognition API contract behind an internal/dev gate. Feature 15.2 preserves current `/upload` placeholder/default behavior when `PLAYTHATPOSITION_INTERNAL_RECOGNITION_ENABLED` is absent or disabled, and adds additive backend detection metadata only for the enabled internal/dev path. Feature 15.3 aligns shared contract and frontend upload result handling without adding debug UI or production recognition claims.
+- BLOCK 15 has backend gated upload recognition wiring and aligned frontend/shared upload result types. Feature 15.1 defines the upload recognition API contract behind an internal/dev gate. Feature 15.2 preserves current `/upload` placeholder/default behavior when `PLAYTHATPOSITION_INTERNAL_RECOGNITION_ENABLED` is absent or disabled, and adds additive backend detection metadata only for the enabled internal/dev path. Feature 15.3 aligns shared contract and frontend upload result handling without adding debug UI or production recognition claims. Feature 15.4 sends placeholder, partial, failed, or absent-detection upload results into the existing Edit Board workspace using top-level `fen` only.
 
 ## Later / Deferred
 

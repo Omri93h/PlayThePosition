@@ -30,7 +30,7 @@ Use the repository docs as source of truth. Do not rely on stale chat memory.
 - Future domain/brand asset: `playthatposition.com`.
 - Current development/runtime: localhost/internal only.
 - Product direction: fast chess position intake, editable reconstructed board, confidence-aware detection, user correction through existing Edit mode, and later analysis/training workflows.
-- Current active state: BLOCK 15 is active; Features 15.1, 15.2, and 15.3 are implemented / ready for review and the next safe step is approved Feature 15.4 planning.
+- Current active state: BLOCK 15 is active; Features 15.1, 15.2, 15.3, and 15.4 are implemented / ready for review and the next safe step is approved Feature 15.5 planning.
 
 BLOCK 14 status:
 
@@ -48,7 +48,8 @@ BLOCK 14 status:
 - Feature 15.1 creates the BLOCK 15 plan and upload recognition API contract as docs-only work.
 - Feature 15.2 adds backend-only gated `/upload` recognition wiring behind `PLAYTHATPOSITION_INTERNAL_RECOGNITION_ENABLED`.
 - Feature 15.3 aligns the shared upload contract and frontend upload result handling with the backend flat response shape plus optional `detection`.
-- Next safe step: PLAN ONLY for Feature 15.4 — Failure fallback through existing Edit mode / position workspace.
+- Feature 15.4 opens placeholder, partial, failed, or absent-detection upload results in the existing Edit Board workspace using top-level `fen`.
+- Next safe step: PLAN ONLY for Feature 15.5 — Debug inspection view.
 
 ## Hard Boundaries
 
@@ -100,5 +101,5 @@ When a blocker appears:
 
 Current known blocker to watch:
 
-- Feature 15.4 still needs explicit planning approval before failure fallback UX work begins.
+- Feature 15.5 still needs explicit planning approval before debug inspection view work begins.
 - Broad legality validation remains out of scope: check/checkmate, impossible move history, castling-rights detection, en-passant detection, halfmove/fullmove truth, and engine analysis.

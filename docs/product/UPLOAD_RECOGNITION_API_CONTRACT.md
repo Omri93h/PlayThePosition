@@ -81,6 +81,8 @@ Feature 15.2 adds detection metadata additively only when the internal/dev gate 
 
 Feature 15.3 aligns the shared TypeScript upload contract and frontend upload client with this flat top-level response shape. The frontend tolerates optional `detection` metadata but still opens the board from top-level `fen`.
 
+Feature 15.4 adds frontend fallback handling: placeholder, partial, failed, or absent-detection upload results open the existing Edit Board workspace from top-level `fen` with manual-correction wording. Gated success results continue to open normally from top-level detected `fen`.
+
 ## Gated Success Shape
 
 When the gate is enabled and all required recognition stages complete safely, `/upload` returns detected FEN in the top-level `fen` field with additive detection metadata.
@@ -186,6 +188,7 @@ Fallback rules:
 - failed recognition must not emit fake detected FEN
 - low-confidence results must not replace the board without review semantics
 - the existing Edit mode / position workspace is the correction path
+- the frontend must not use `detection.fen` as the board source for fallback states
 
 ## Status Values
 

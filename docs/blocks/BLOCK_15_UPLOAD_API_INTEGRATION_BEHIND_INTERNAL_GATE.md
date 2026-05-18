@@ -2,7 +2,7 @@
 
 ## Status
 
-Active. Features 15.1, 15.2, and 15.3 are implemented / ready for review.
+Active. Features 15.1, 15.2, 15.3, and 15.4 are implemented / ready for review.
 
 BLOCK 15 must keep recognition behavior behind an explicit internal/dev gate until later features approve and implement runtime wiring. The current default upload behavior remains the existing placeholder response.
 
@@ -55,10 +55,12 @@ BLOCK 14 produced an internal/test-only FEN reconstruction path for approved rol
 - Does not add debug/inspection UI or public recognition claims.
 
 ### 15.4 Failure fallback through existing Edit mode / position workspace
-- Status: planned.
+- Status: implemented / ready for review.
 - Make recognition failures and low-confidence results recoverable through the existing Edit mode / position workspace.
 - Do not build a second editor.
 - Use honest wording such as needs review, detection unavailable, or manual correction.
+- Frontend fallback classification opens placeholder, partial, failed, or absent-detection upload results in Edit Board from the top-level `fen`.
+- Gated success results still open normally from the top-level detected `fen`.
 
 ### 15.5 Debug inspection view
 - Status: planned.

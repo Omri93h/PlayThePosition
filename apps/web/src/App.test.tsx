@@ -1093,6 +1093,16 @@ describe("App", () => {
         uploadedFen,
       );
       expect(screen.getByTestId("static-board")).toHaveAttribute(
+        "data-edit-mode",
+        "true",
+      );
+      expect(screen.getByRole("button", { name: "Edit Board" })).toHaveAttribute(
+        "aria-pressed",
+        "true",
+      );
+      expect(screen.getByText(/Position needs review/)).toBeInTheDocument();
+      expect(screen.getByText(/Correct the pieces in Edit Board/)).toBeInTheDocument();
+      expect(screen.getByTestId("static-board")).toHaveAttribute(
         "data-orientation",
         "white",
       );
@@ -1172,6 +1182,10 @@ describe("App", () => {
         "data-fen",
         replacementFen,
       );
+      expect(screen.getByTestId("static-board")).toHaveAttribute(
+        "data-edit-mode",
+        "true",
+      );
     } finally {
       vi.useRealTimers();
       analytics.unsubscribe();
@@ -1224,11 +1238,88 @@ describe("App", () => {
 
     expect(screen.getByTestId("static-board")).toBeInTheDocument();
     expect(screen.getByTestId("static-board")).toHaveAttribute("data-fen", uploadedFen);
+    expect(screen.getByTestId("static-board")).toHaveAttribute(
+      "data-edit-mode",
+      "true",
+    );
     expect(fetchMock).toHaveBeenCalledWith(
       "http://127.0.0.1:8000/upload",
       expect.objectContaining({ method: "POST", body: expect.any(FormData) }),
     );
   });
+
+  it.each([
+    ["placeholder", "placeholder"],
+    ["partial", "gated_detection_orchestrator"],
+    ["failed", "gated_detection_orchestrator"],
+  ])(
+    "opens %s upload detection results in Edit Board fallback mode",
+    async (status, source) => {
+      vi.useFakeTimers();
+      const topLevelFen = "8/8/8/8/8/8/8/8 w - - 0 1";
+      const metadataFen = "4k3/8/8/8/8/8/8/4K3 b - - 0 1";
+      const fetchMock = vi.fn().mockResolvedValue(
+        new Response(
+          JSON.stringify({
+            fen: topLevelFen,
+            source,
+            confidence: null,
+            message:
+              "Detection needs review. Open the editable board and correct the position manually.",
+            detection: {
+              status,
+              source: "gated_detection_orchestrator",
+              confidence: null,
+              fen: metadataFen,
+              orientation: "unknown",
+              stages: [],
+              failure:
+                status === "placeholder"
+                  ? null
+                  : {
+                      code: "low_confidence",
+                      message: "Detection result confidence is below threshold.",
+                      stage: "fen",
+                      retryable: true,
+                      suggestion: "Review and correct the board manually.",
+                    },
+            },
+          }),
+          { status: 200, headers: { "Content-Type": "application/json" } },
+        ),
+      );
+      vi.stubGlobal("fetch", fetchMock);
+
+      try {
+        render(<App />);
+
+        await uploadSelectedFile();
+
+        expect(screen.getByTestId("static-board")).toHaveAttribute(
+          "data-fen",
+          topLevelFen,
+        );
+        expect(screen.getByTestId("static-board")).not.toHaveAttribute(
+          "data-fen",
+          metadataFen,
+        );
+        expect(screen.getByTestId("static-board")).toHaveAttribute(
+          "data-edit-mode",
+          "true",
+        );
+        expect(screen.getByRole("button", { name: "Edit Board" })).toHaveAttribute(
+          "aria-pressed",
+          "true",
+        );
+        expect(screen.getByText(/Position needs review/)).toBeInTheDocument();
+        expect(screen.getByText(/We opened a safe fallback board/)).toBeInTheDocument();
+        expect(screen.queryByText(/recognized/i)).not.toBeInTheDocument();
+        expect(screen.queryByText(/detected successfully/i)).not.toBeInTheDocument();
+      } finally {
+        vi.useRealTimers();
+      }
+    },
+  );
 
   it("accepts gated detection metadata and opens the returned FEN", async () => {
     vi.useFakeTimers();
@@ -1287,6 +1378,15 @@ describe("App", () => {
         "data-fen",
         uploadedFen,
       );
+      expect(screen.getByTestId("static-board")).toHaveAttribute(
+        "data-edit-mode",
+        "false",
+      );
+      expect(screen.getByRole("button", { name: "Play" })).toHaveAttribute(
+        "aria-pressed",
+        "true",
+      );
+      expect(screen.queryByText(/Position needs review/)).not.toBeInTheDocument();
       expect(analytics.events).toEqual(
         expect.arrayContaining([
           {
@@ -1418,6 +1518,23 @@ async function advanceNextUploadStage() {
     await vi.advanceTimersToNextTimerAsync();
   });
   await flushPromises();
+}
+
+async function uploadSelectedFile() {
+  const input = screen.getByLabelText("Choose chess screenshot");
+  const file = new File(["fake image"], "position.png", { type: "image/png" });
+
+  fireEvent.change(input, { target: { files: [file] } });
+
+  await flushPromises();
+
+  expect(screen.getByText("Analyzing position")).toBeInTheDocument();
+
+  await advanceNextUploadStage();
+
+  expect(screen.getByText("Opening board")).toBeInTheDocument();
+
+  await advanceNextUploadStage();
 }
 
 function captureAnalytics() {

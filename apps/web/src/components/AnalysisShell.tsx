@@ -48,6 +48,7 @@ type ActionIconName =
 
 type CopyStatus = "idle" | "success" | "error";
 type ShareStatus = "idle" | "loading" | "success" | "error";
+type AnalysisInitialMode = "play" | "edit";
 
 const actionButtonBase =
   "inline-flex h-11 w-11 items-center justify-center rounded-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-50 sm:h-14 sm:w-14";
@@ -158,17 +159,29 @@ function ActionControl({
   );
 }
 
-export function AnalysisShell({ fen }: { fen?: string }) {
+export function AnalysisShell({
+  fen,
+  initialMode = "play",
+  initialNotice,
+}: {
+  fen?: string;
+  initialMode?: AnalysisInitialMode;
+  initialNotice?: string;
+}) {
   const initialFen = fen ?? STATIC_ANALYSIS_FEN;
+  const startsInEditMode = initialMode === "edit";
   const [currentFen, setCurrentFen] = useState(initialFen);
   const [undoStack, setUndoStack] = useState<string[]>([]);
   const [redoStack, setRedoStack] = useState<string[]>([]);
   const [orientation, setOrientation] = useState<BoardOrientation>("white");
-  const [isEditMode, setIsEditMode] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(startsInEditMode);
   const [isRemoveMode, setIsRemoveMode] = useState(false);
   const [selectedPiece, setSelectedPiece] = useState<string | null>(null);
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [lastInteraction, setLastInteraction] = useState<string | null>(null);
+  const [workspaceNotice, setWorkspaceNotice] = useState<string | null>(
+    initialNotice ?? null,
+  );
   const [shareStatus, setShareStatus] = useState<ShareStatus>("idle");
   const [shareUrl, setShareUrl] = useState("");
   const [shareMessage, setShareMessage] = useState("");
@@ -183,10 +196,12 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setUndoStack([]);
     setRedoStack([]);
     setOrientation("white");
+    setIsEditMode(startsInEditMode);
     setIsRemoveMode(false);
     setSelectedPiece(null);
     setSelectedSquare(null);
     setLastInteraction(null);
+    setWorkspaceNotice(initialNotice ?? null);
     setShareStatus("idle");
     setShareUrl("");
     setShareMessage("");
@@ -194,7 +209,7 @@ export function AnalysisShell({ fen }: { fen?: string }) {
     setIsShareDialogOpen(false);
     setShareLinkCopyStatus("idle");
     setShareFenCopyStatus("idle");
-  }, [initialFen]);
+  }, [initialFen, initialNotice, startsInEditMode]);
 
   function clearShareResult() {
     setShareStatus("idle");
@@ -438,7 +453,9 @@ export function AnalysisShell({ fen }: { fen?: string }) {
   const editFeedback = isEditMode
     ? lastInteraction
       ? `Last interaction: ${lastInteraction}.`
-      : "Board interaction ready."
+      : workspaceNotice
+        ? workspaceNotice
+        : "Board interaction ready."
     : "";
   const feedbackMessage =
     shareStatus === "loading"
