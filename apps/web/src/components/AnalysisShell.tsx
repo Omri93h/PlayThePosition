@@ -16,7 +16,7 @@ import type {
   BoardMoveAttempt,
   BoardOrientation,
   BoardRemoveAttempt,
-  BoardSquareSelection,
+  BoardSquarePress,
 } from "./StaticBoard";
 
 const pieceOptions = [
@@ -38,7 +38,7 @@ type ActionIconName =
   | "copy"
   | "edit"
   | "play"
-  | "select"
+  | "place"
   | "remove"
   | "undo"
   | "redo"
@@ -73,7 +73,7 @@ function ActionIcon({ name }: { name: ActionIconName }) {
       </>
     ),
     play: <path d="m8 5 11 7-11 7V5Z" />,
-    select: (
+    place: (
       <>
         <path d="m5 4 8 17 1.8-7.2L22 12 5 4Z" />
         <path d="m13 13 5 5" />
@@ -176,8 +176,8 @@ export function AnalysisShell({
   const [orientation, setOrientation] = useState<BoardOrientation>("white");
   const [isEditMode, setIsEditMode] = useState(startsInEditMode);
   const [isRemoveMode, setIsRemoveMode] = useState(false);
-  const [selectedPiece, setSelectedPiece] = useState<string | null>(null);
-  const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
+  const [activePlacementPiece, setActivePlacementPiece] = useState<string | null>(null);
+  const [lastEditedSquare, setLastEditedSquare] = useState<string | null>(null);
   const [lastInteraction, setLastInteraction] = useState<string | null>(null);
   const [workspaceNotice, setWorkspaceNotice] = useState<string | null>(
     initialNotice ?? null,
@@ -198,8 +198,8 @@ export function AnalysisShell({
     setOrientation("white");
     setIsEditMode(startsInEditMode);
     setIsRemoveMode(false);
-    setSelectedPiece(null);
-    setSelectedSquare(null);
+    setActivePlacementPiece(null);
+    setLastEditedSquare(null);
     setLastInteraction(null);
     setWorkspaceNotice(initialNotice ?? null);
     setShareStatus("idle");
@@ -235,15 +235,14 @@ export function AnalysisShell({
   }
 
   function handleMoveAttempt(move: BoardMoveAttempt) {
-    setLastInteraction(formatMoveAttempt(move));
-
     const targetSquare = move.targetSquare;
 
     if (!isEditMode || isRemoveMode || !targetSquare) {
       return false;
     }
 
-    setSelectedSquare(targetSquare);
+    setLastInteraction(formatMoveAttempt(move));
+    setLastEditedSquare(targetSquare);
 
     return applyFenEdit(
       movePieceInFen({
@@ -256,26 +255,19 @@ export function AnalysisShell({
   }
 
   function handleRemoveAttempt({ piece, square }: BoardRemoveAttempt) {
-    if (!isEditMode) {
-      return;
-    }
-
-    setSelectedSquare(square);
-
-    if (!isRemoveMode) {
+    if (!isEditMode || !isRemoveMode) {
       return;
     }
 
     setLastInteraction(`Deleted ${piece} from ${square}`);
+    setLastEditedSquare(square);
     applyFenEdit(removePieceFromFen({ fen: currentFen, square }));
   }
 
-  function handleSquareSelect({ piece, square }: BoardSquareSelection) {
+  function handleSquarePress({ piece, square }: BoardSquarePress) {
     if (!isEditMode) {
       return;
     }
-
-    setSelectedSquare(square);
 
     if (isRemoveMode) {
       if (!piece) {
@@ -283,16 +275,20 @@ export function AnalysisShell({
       }
 
       setLastInteraction(`Deleted ${piece} from ${square}`);
+      setLastEditedSquare(square);
       applyFenEdit(removePieceFromFen({ fen: currentFen, square }));
       return;
     }
 
-    if (!selectedPiece) {
+    if (!activePlacementPiece) {
       return;
     }
 
-    setLastInteraction(`Place ${selectedPiece} on ${square}`);
-    applyFenEdit(placePieceInFen({ fen: currentFen, piece: selectedPiece, square }));
+    setLastInteraction(`Place ${activePlacementPiece} on ${square}`);
+    setLastEditedSquare(square);
+    applyFenEdit(
+      placePieceInFen({ fen: currentFen, piece: activePlacementPiece, square }),
+    );
   }
 
   function handleReset() {
@@ -301,8 +297,8 @@ export function AnalysisShell({
     setRedoStack([]);
     setOrientation("white");
     setIsRemoveMode(false);
-    setSelectedPiece(null);
-    setSelectedSquare(null);
+    setActivePlacementPiece(null);
+    setLastEditedSquare(null);
     setLastInteraction(null);
     clearShareResult();
   }
@@ -356,12 +352,12 @@ export function AnalysisShell({
 
     if (!nextMode) {
       setIsRemoveMode(false);
-      setSelectedPiece(null);
-      setSelectedSquare(null);
+      setActivePlacementPiece(null);
+      setLastEditedSquare(null);
     }
   }
 
-  function handleSelectTool() {
+  function handlePlaceTool() {
     if (isEditMode) {
       setIsRemoveMode(false);
     }
@@ -370,17 +366,17 @@ export function AnalysisShell({
   function handleDeleteTool() {
     if (isEditMode) {
       setIsRemoveMode(true);
-      setSelectedPiece(null);
+      setActivePlacementPiece(null);
     }
   }
 
-  function handlePieceSelection(piece: string) {
+  function handleActivePieceChange(piece: string) {
     if (!isEditMode) {
       return;
     }
 
     setIsRemoveMode(false);
-    setSelectedPiece((currentPiece) => (currentPiece === piece ? null : piece));
+    setActivePlacementPiece((currentPiece) => (currentPiece === piece ? null : piece));
   }
 
   function handleActiveColorChange(activeColor: FenActiveColor) {
@@ -534,10 +530,10 @@ export function AnalysisShell({
             isEditMode={isEditMode}
             isInteractive
             isRemoveMode={isRemoveMode}
-            selectedSquare={isEditMode ? selectedSquare : null}
+            lastEditedSquare={isEditMode ? lastEditedSquare : null}
             onMoveAttempt={handleMoveAttempt}
             onRemoveAttempt={handleRemoveAttempt}
-            onSquareSelect={handleSquareSelect}
+            onSquarePress={handleSquarePress}
           />
         </div>
 
@@ -557,20 +553,20 @@ export function AnalysisShell({
                 data-testid="edit-tool-mode-controls"
               >
                 <div className="flex justify-center gap-2">
-                  <ActionControl label="Select" title="Select/place pieces">
+                  <ActionControl label="Place" title="Place pieces">
                     <button
                       type="button"
-                      aria-label="Select or place pieces"
+                      aria-label="Place pieces"
                       aria-pressed={!isRemoveMode}
-                      title="Select or place pieces"
-                      onClick={handleSelectTool}
+                      title="Place pieces"
+                      onClick={handlePlaceTool}
                       className={`${actionButtonBase} ${
                         !isRemoveMode
                           ? "border border-emerald-300/70 text-emerald-100 ring-2 ring-emerald-300/50"
                           : "bg-neutral-800 text-neutral-200 hover:text-white"
                       }`}
                     >
-                      <ActionIcon name="select" />
+                      <ActionIcon name="place" />
                     </button>
                   </ActionControl>
                   <ActionControl label="Delete" title="Delete pieces">
@@ -592,9 +588,12 @@ export function AnalysisShell({
                 </div>
                 <div
                   className="w-full max-w-md"
-                  aria-label="Piece palette"
+                  aria-label="Active piece palette"
                   data-testid="piece-palette"
                 >
+                  <p className="mb-2 text-center text-xs font-semibold uppercase tracking-wide text-neutral-500">
+                    Active piece
+                  </p>
                   <div
                     className="grid grid-cols-6 gap-2"
                     data-testid="piece-palette-grid"
@@ -605,11 +604,11 @@ export function AnalysisShell({
                           key={piece.code}
                           type="button"
                           aria-label={piece.label}
-                          aria-pressed={selectedPiece === piece.code}
-                          onClick={() => handlePieceSelection(piece.code)}
+                          aria-pressed={activePlacementPiece === piece.code}
+                          onClick={() => handleActivePieceChange(piece.code)}
                           data-piece-color={piece.color}
                           className={`min-h-12 rounded-lg bg-white px-2 py-1 text-4xl leading-none text-neutral-950 transition hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-emerald-300 sm:min-h-14 ${
-                            selectedPiece === piece.code
+                            activePlacementPiece === piece.code
                               ? "ring-2 ring-emerald-300 ring-offset-2 ring-offset-neutral-900"
                               : ""
                           }`}

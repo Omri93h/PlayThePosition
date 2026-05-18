@@ -22,7 +22,7 @@ Image recognition is a means to reach the product goal: a live, editable chess p
 - BLOCK 12 covers the completed internal/test-only role/color classifier experiment using approved fixtures only. Current results show occupancy works on approved fixtures, color partially works, role remains blocked/deferred, and upload/API integration remains deferred.
 - BLOCK 13 is complete as approved role-signal fixture strategy and revised role-classifier measurement work before FEN reconstruction.
 - BLOCK 14 is complete/accepted for recognition orchestration and FEN reconstruction: board bounds → squares → occupancy → role/color → FEN. It remains internal/test-only and approved-fixture-only until explicitly approved otherwise.
-- BLOCK 15 is active for upload/API integration behind an internal/dev gate. Feature 15.1 defines the docs-only upload recognition API contract; Feature 15.2 adds backend-only gated `/upload` recognition wiring; Feature 15.3 aligns the shared contract and frontend upload result handling. Failure fallback UX remains unstarted until Feature 15.4+ approval.
+- BLOCK 15 is active for upload/API integration behind an internal/dev gate. Feature 15.1 defines the docs-only upload recognition API contract; Feature 15.2 adds backend-only gated `/upload` recognition wiring; Feature 15.3 aligns the shared contract and frontend upload result handling; Feature 15.4 adds fallback-to-Edit-mode behavior; Feature 15.4.1 cleans up Edit mode correction semantics. Debug inspection remains unstarted until Feature 15.5+ approval.
 - A future internal Recognition Review Studio / Detection Training Console should come after there is an internal recognition/FEN pipeline worth reviewing and before public upload launch.
 - BLOCK 16 is planned for board interaction and game mode fixes.
 - BLOCK 17 is planned for user-facing analyze flow polish.
@@ -81,6 +81,7 @@ Goal: connect uploaded image → recognition result behind an internal/dev gate.
 - 15.2 Backend endpoint behind dev/internal flag — implemented / ready for review.
 - 15.3 Shared contract and frontend upload result alignment — implemented / ready for review.
 - 15.4 Failure fallback: use the existing Edit mode / position workspace for manual correction; do not build a second editor.
+- 15.4.1 Edit correction interaction cleanup: keep Edit mode correction-focused and leave Play mode selected-piece/legal-move behavior to BLOCK 16.
 - 15.5 Debug inspection view showing detected board bounds, detected pieces, confidence/failure reasons, and generated FEN.
 - 15.6 Internal QA report.
 
@@ -182,7 +183,8 @@ Gate: user can upload, fix mistakes, move pieces, analyze, and share.
 ## Future — UI Polish Backlog
 
 - Side-to-move, Flip, and Reset must be visually aligned in the same row in Play mode.
-- Future Play Board / UI polish items, not part of BLOCK 15.3: logo background polish, selected-piece stroke/ring, legal move indication, play-mode undo/redo, move-history navigation strip/table, and desktop controls beside the board.
+- Future Play Board / UI polish items, not part of BLOCK 15.4.1: logo background polish, selected-piece stroke/ring, legal move indication, play-mode undo/redo, move-history navigation strip/table, and desktop controls beside the board.
+- Future correction UX polish: drag an active palette piece onto the board only if it can be added without custom drag infrastructure; click/tap placement remains the primary mobile-accessible correction path.
 - Rename UI/header/logo/web metadata from Play The Position to Play That Position in a later approved branding/UI task.
 - Update favicon/app icon/social preview assets only in a later approved asset task.
 - Keep package names, repo paths, routes, manifests, and runtime/deploy config unchanged until a separate approved technical rename/deploy task.

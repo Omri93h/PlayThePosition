@@ -166,6 +166,7 @@
 - 15.2 Backend endpoint behind dev/internal flag — implemented / ready for review
 - 15.3 Shared contract and frontend upload result alignment — implemented / ready for review
 - 15.4 Failure fallback through existing Edit mode / position workspace — implemented / ready for review
+- 15.4.1 Edit correction interaction cleanup — implemented / ready for review
 - 15.5 Debug inspection view showing detected board bounds, detected pieces, confidence/failure reasons, and generated FEN — planned
 - 15.6 Internal QA report — planned
 

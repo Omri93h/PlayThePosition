@@ -2,7 +2,7 @@
 
 ## Status
 
-Active. Features 15.1, 15.2, 15.3, and 15.4 are implemented / ready for review.
+Active. Features 15.1, 15.2, 15.3, 15.4, and 15.4.1 are implemented / ready for review.
 
 BLOCK 15 must keep recognition behavior behind an explicit internal/dev gate until later features approve and implement runtime wiring. The current default upload behavior remains the existing placeholder response.
 
@@ -61,6 +61,13 @@ BLOCK 14 produced an internal/test-only FEN reconstruction path for approved rol
 - Use honest wording such as needs review, detection unavailable, or manual correction.
 - Frontend fallback classification opens placeholder, partial, failed, or absent-detection upload results in Edit Board from the top-level `fen`.
 - Gated success results still open normally from the top-level detected `fen`.
+
+### 15.4.1 Edit correction interaction cleanup
+- Status: implemented / ready for review.
+- Keeps Edit mode framed as correction/editing only, not Play-style selected-piece interaction.
+- Uses active placement piece wording for palette-driven correction.
+- Keeps existing board-piece drag as free correction drag in Edit mode.
+- Keeps Play mode selected-piece rings, legal moves, play undo/redo, and move history deferred to BLOCK 16.
 
 ### 15.5 Debug inspection view
 - Status: planned.

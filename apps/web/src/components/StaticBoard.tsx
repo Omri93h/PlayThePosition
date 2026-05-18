@@ -21,7 +21,7 @@ export type BoardRemoveAttempt = {
   square: string;
 };
 
-export type BoardSquareSelection = {
+export type BoardSquarePress = {
   piece: string | null;
   square: string;
 };
@@ -34,20 +34,20 @@ export function StaticBoard({
   isEditMode = false,
   isInteractive = false,
   isRemoveMode = false,
-  selectedSquare = null,
+  lastEditedSquare = null,
   onMoveAttempt,
   onRemoveAttempt,
-  onSquareSelect,
+  onSquarePress,
 }: {
   fen?: string;
   orientation?: BoardOrientation;
   isEditMode?: boolean;
   isInteractive?: boolean;
   isRemoveMode?: boolean;
-  selectedSquare?: string | null;
+  lastEditedSquare?: string | null;
   onMoveAttempt?: (move: BoardMoveAttempt) => boolean | void;
   onRemoveAttempt?: (attempt: BoardRemoveAttempt) => void;
-  onSquareSelect?: (selection: BoardSquareSelection) => void;
+  onSquarePress?: (press: BoardSquarePress) => void;
 }) {
   const darkSquareStyle = useMemo<CSSProperties>(
     () => ({
@@ -62,18 +62,18 @@ export function StaticBoard({
     [isEditMode],
   );
   const squareStyles = useMemo<Record<string, CSSProperties>>(() => {
-    if (!isEditMode || !selectedSquare) {
+    if (!isEditMode || !lastEditedSquare) {
       return {};
     }
 
     return {
-      [selectedSquare]: {
+      [lastEditedSquare]: {
         background:
-          "linear-gradient(135deg, rgba(254, 240, 138, 0.65), rgba(250, 204, 21, 0.45))",
-        boxShadow: "inset 0 0 0 3px rgba(254, 249, 195, 0.75)",
+          "linear-gradient(135deg, rgba(254, 240, 138, 0.28), rgba(250, 204, 21, 0.18))",
+        boxShadow: "inset 0 0 0 2px rgba(254, 249, 195, 0.45)",
       },
     };
-  }, [isEditMode, selectedSquare]);
+  }, [isEditMode, lastEditedSquare]);
 
   const handlePieceDrop = useCallback(
     ({ piece, sourceSquare, targetSquare }: PieceDropHandlerArgs) =>
@@ -101,9 +101,9 @@ export function StaticBoard({
 
   const handleSquareClick = useCallback(
     ({ piece, square }: SquareHandlerArgs) => {
-      onSquareSelect?.({ piece: piece?.pieceType ?? null, square });
+      onSquarePress?.({ piece: piece?.pieceType ?? null, square });
     },
-    [onSquareSelect],
+    [onSquarePress],
   );
 
   const boardOptions = useMemo(
@@ -160,7 +160,7 @@ export function StaticBoard({
       data-interactive={isInteractive}
       data-orientation={orientation}
       data-delete-tool-active={isRemoveMode}
-      data-selected-square={selectedSquare ?? ""}
+      data-last-edited-square={lastEditedSquare ?? ""}
       data-testid="static-board"
     >
       <div className="h-full w-full overflow-hidden rounded-lg">

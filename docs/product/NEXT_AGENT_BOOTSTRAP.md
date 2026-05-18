@@ -82,7 +82,7 @@ git status
 - BLOCK 11 is completed as internal/test-only measurement work.
 - Current step is awaiting approved Feature 15.5 planning.
 - BLOCK 12 stayed internal/test-only and approved-fixture-only.
-- Backend-only gated upload/API integration, frontend/shared contract alignment, and fallback-to-Edit-mode handling have started in BLOCK 15. Debug inspection view work has not started.
+- Backend-only gated upload/API integration, frontend/shared contract alignment, fallback-to-Edit-mode handling, and Edit correction interaction cleanup have started in BLOCK 15. Debug inspection view work has not started.
 - No production recognition accuracy claim has been made.
 - Current BLOCK 11 measurement compares occupancy only; role/color piece recognition remains unsupported and not implemented.
 - BLOCK 12 explored role/color classification with fixture-specific marker/color sampling over approved fixtures only.
@@ -135,6 +135,7 @@ git status
 - Shared contract now matches the backend flat response shape and optional `detection` metadata.
 - Frontend upload handling accepts optional `detection`, continues opening the board from top-level `fen`, and does not add debug/inspection UI.
 - Feature 15.4 failure fallback through the existing Edit mode / position workspace is implemented / ready for review.
+- Feature 15.4.1 Edit correction interaction cleanup is implemented / ready for review.
 - Next planned work is PLAN ONLY for Feature 15.5 — Debug inspection view.
 - Approved roadmap after BLOCK 12:
   - BLOCK 13 — Approved Role-Signal Fixture Strategy and Revised Role Classifier.
@@ -149,7 +150,7 @@ git status
 - Current `cases.json` has standalone `side_to_move` metadata; full six-field FEN generation is allowed only with that explicit source.
 - Missing/duplicate king validation is implemented; broad chess legality validation remains out of scope.
 - Debug inspection UI and public recognition claims remain deferred.
-- New agents must inspect `git status --short` before acting. If Feature 15.4 changes are uncommitted, treat them as active work and do not start Feature 15.5 planning until they are reviewed/committed or explicitly accepted as a blocker.
+- New agents must inspect `git status --short` before acting. If Feature 15.4.1 changes are uncommitted, treat them as active work and do not start Feature 15.5 planning until they are reviewed/committed or explicitly accepted as a blocker.
 
 ## Prompt Hygiene
 
